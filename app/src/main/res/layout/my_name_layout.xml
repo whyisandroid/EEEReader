@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/window_bg"
+    android:orientation="vertical" >
+
+    <include layout="@layout/main_top_layout" />
+
+   
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/dimen_xnormal"
+        android:paddingRight="@dimen/dimen_xnormal" 
+        android:paddingTop="15dp"
+        >
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="姓名：" />
+        
+         <EditText
+        android:id="@+id/et_account_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/tv_name"
+        android:textColor="@color/new_color_2"
+        android:textSize="@dimen/new_size_3"
+        android:text="等风来"
+        android:ems="10" >
+
+        <requestFocus />
+    </EditText>
+    </RelativeLayout>
+
+</LinearLayout>

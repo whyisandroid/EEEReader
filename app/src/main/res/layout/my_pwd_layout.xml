@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <include layout="@layout/main_top_layout" />
+
+    <EditText
+        android:id="@+id/editText1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="@dimen/dimen_xnormal"
+        android:layout_marginRight="@dimen/dimen_xnormal"
+        android:textColor="@color/new_color_2"
+        android:textColorHint="@color/new_color_4"
+        android:textSize="@dimen/new_size_3"
+        android:hint="当前密码"
+        android:ems="10" >
+
+        <requestFocus />
+    </EditText>
+    <EditText
+        android:id="@+id/editText5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="@dimen/dimen_xnormal"
+        android:layout_marginRight="@dimen/dimen_xnormal"
+        android:textColor="@color/new_color_2"
+        android:textColorHint="@color/new_color_4"
+        android:textSize="@dimen/new_size_3"
+        android:hint="新密码"
+        android:ems="10" >
+
+    </EditText>
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="@dimen/dimen_xnormal"
+        android:layout_marginRight="@dimen/dimen_xnormal"
+        android:textColor="@color/new_color_2"
+        android:textColorHint="@color/new_color_4"
+        android:textSize="@dimen/new_size_3"
+        android:hint="确认新密码"
+        android:ems="10" >
+
+    </EditText>
+</LinearLayout>

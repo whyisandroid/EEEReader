@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="15dp" >
+
+        <ImageView
+            android:id="@+id/iv_book"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/b1_03" />
+
+        <TextView
+            android:id="@+id/tv_book_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/iv_book"
+            android:textColor="@color/new_color_2"
+            android:textSize="@dimen/new_size_4" />
+
+        <TextView
+            android:id="@+id/tv_book_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_book_name"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/iv_book"
+            android:text="收藏时间：2015-05-06"
+            android:textColor="@color/new_color_3"
+            android:textSize="@dimen/new_size_2" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_book_time"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@+id/iv_book" >
+
+            <TextView
+                android:id="@+id/tv_book_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:maxLines="2"
+                android:text="$2.00"
+                android:textColor="@color/main_bar"
+                android:textSize="@dimen/new_size_2" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_book" >
+
+            <TextView
+                android:id="@+id/tv_order_right"
+                android:layout_width="60dp"
+                android:layout_height="36dp"
+                android:layout_toLeftOf="@+id/tv_collection_buycar"
+                android:gravity="center"
+                android:maxLines="2"
+                android:text="已下架"
+                android:textColor="@color/new_color_3"
+                android:textSize="@dimen/new_size_2" />
+
+            <Button
+                android:id="@+id/tv_collection_buycar"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_toLeftOf="@+id/tv_order_delete"
+                android:background="@drawable/m7_03"
+                android:maxLines="2"
+                android:text="+购物车"
+                android:textColor="@color/main_bar"
+                android:textSize="@dimen/new_size_2" />
+
+            <TextView
+                android:id="@+id/tv_order_delete"
+                android:layout_width="60dp"
+                android:layout_height="36dp"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:maxLines="2"
+                android:text="删除"
+                android:textColor="@color/new_color_2"
+                android:textSize="@dimen/new_size_2" />
+        </RelativeLayout>
+    </RelativeLayout>
+</LinearLayout>

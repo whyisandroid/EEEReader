@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/window_bg"
+    android:orientation="vertical" >
+
+    <include layout="@layout/main_top_layout" />
+
+    <RelativeLayout
+        android:id="@+id/rl_more_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="15dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="版本更新"
+            android:textColor="@color/new_color_2"
+            android:textSize="@dimen/new_size_5" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_more_help"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="15dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="帮助中心"
+            android:textColor="@color/new_color_2"
+            android:textSize="@dimen/new_size_5" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/right" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_more_exit"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="15dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="退出登录"
+            android:textColor="@color/new_color_2"
+            android:textSize="@dimen/new_size_5" />
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,60 @@
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@android:id/tabhost"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerVertical="true" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@android:id/tabs"
+                android:layout_alignParentTop="true" >
+
+                <fragment
+                    android:id="@+id/tab1"
+                    android:name="com.creditwealth.client.ui.fragment.HomeFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                <fragment
+                    android:id="@+id/tab2"
+                    android:name="com.creditwealth.client.ui.fragment.ProductListFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                <fragment
+                    android:id="@+id/tab3"
+                    android:name="com.creditwealth.client.ui.fragment.AccountFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                <fragment
+                    android:id="@+id/tab4"
+                    android:name="com.creditwealth.client.ui.fragment.MoreFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </FrameLayout>
+			<TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_above="@android:id/tabs"
+                    android:background="@color/spilt_line_color" />
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true" >
+            </TabWidget>
+        </RelativeLayout>
+    </LinearLayout>
+
+</TabHost>

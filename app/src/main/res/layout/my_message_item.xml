@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="15dp" >
+
+        <TextView
+            android:id="@+id/tv_book_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="您的好友玥儿给您推荐《永远不要找别人要安全感》，点击书名立即查看"
+            android:textColor="@color/new_color_2"
+            android:textSize="@dimen/new_size_3" />
+
+        <TextView
+            android:id="@+id/tv_book_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_book_name"
+            android:layout_marginLeft="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
+            android:text="2015-6-27 0:25:31"
+            android:textColor="@color/new_color_3"
+            android:textSize="@dimen/new_size_2" />
+    </RelativeLayout>
+
+</LinearLayout>

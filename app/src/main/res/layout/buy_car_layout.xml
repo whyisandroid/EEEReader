@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/window_bg"
+    android:orientation="vertical" >
+
+    <include layout="@layout/main_top_layout"
+        android:id="@+id/title"
+         />
+
+    <RelativeLayout
+        android:id="@+id/rl_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:paddingLeft="@dimen/dimen_xnormal"
+        android:layout_below="@+id/title">
+
+        <RadioButton
+            android:id="@+id/rb_car_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+             android:textColor="@color/new_color_2"
+             android:layout_centerVertical="true"
+            android:textSize="@dimen/new_size_3"
+            android:text="全选" />
+
+        <TextView
+            android:id="@+id/tv_buycar_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/rb_car_all"
+            android:text="删除"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/main_bar"
+            android:textSize="@dimen/new_size_3"
+            android:padding="10dp"
+             />
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/lv_buy_car"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/window_bg"
+        android:layout_below="@+id/rl_select"
+        android:layout_above="@+id/ll_buy_car_total"
+        android:dividerHeight="5dp" >
+    </ListView>
+
+    <LinearLayout
+        android:id="@+id/ll_buy_car_total"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:orientation="horizontal" 
+        android:weightSum="3"
+        >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="总计金额：" 
+            android:paddingLeft="15dp"
+            android:textColor="@color/new_color_2"
+            android:textSize="@dimen/new_size_3"
+            />
+
+        <TextView
+            android:id="@+id/tv_buy_money"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/main_bar"
+            android:textSize="@dimen/new_size_3"
+            android:text="$125.00" />
+
+        <Button
+            android:id="@+id/bt_buy_go"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/main_bar"
+            android:textColor="@color/white"
+            android:textSize="@dimen/new_size_3"
+            android:text="结算" />
+
+    </LinearLayout>
+
+</RelativeLayout>

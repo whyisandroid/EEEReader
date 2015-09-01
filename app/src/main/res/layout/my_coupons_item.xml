@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="15dp" >
+
+        <TextView
+            android:id="@+id/tv_coupons_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="优惠码：aklofhaoi72816464"
+            android:textColor="@color/new_color_2"
+            android:textSize="@dimen/new_size_2" />
+
+        
+        <TextView
+            android:id="@+id/tv_coupons_endtime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_coupons_name"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:text="有效期:2015-6-27 00:00 至 2015-9-13 23:59"
+            android:textColor="@color/new_color_2"
+            android:textSize="@dimen/new_size_2" 
+             />
+        
+        <TextView
+            android:id="@+id/tv_book_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_coupons_endtime"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:text="状态:可用"
+            android:textColor="@color/holo_green_dark"
+            android:textSize="@dimen/new_size_2" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tv_coupons_name"
+            android:layout_alignParentRight="true"
+            android:text="面值：￥20"
+            android:textColor="@color/new_color_2"
+            android:textSize="@dimen/new_size_2" 
+             />
+
+    </RelativeLayout>
+
+</LinearLayout>

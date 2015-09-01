@@ -1,0 +1,34 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/main_top_height"
+    android:background="@color/main_bar"
+    android:gravity="center_vertical" >
+
+    <ImageButton
+        android:id="@+id/main_top_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="2dp"
+         android:background="@drawable/m1_03"
+        android:onClick="goBack"
+        android:padding="5dp"
+        tools:ignore="ContentDescription" />
+
+
+    <EditText
+        android:id="@+id/et_book_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:background="@drawable/b4_03"
+        android:hint="搜索书名/作者"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textSize="@dimen/new_size_4" />
+
+
+</LinearLayout>

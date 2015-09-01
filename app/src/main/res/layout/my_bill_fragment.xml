@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/window_bg"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+       <com.ereader.client.ui.view.PullToRefreshView
+        android:id="@+id/pull_refresh_bill"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+        <ListView
+            android:id="@+id/lv_my_bill"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/main_bg"
+            android:dividerHeight="5dp"
+            android:listSelector="@android:color/transparent"
+             >
+        </ListView>
+    </com.ereader.client.ui.view.PullToRefreshView>
+</LinearLayout>

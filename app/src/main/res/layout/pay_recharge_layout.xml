@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/window_bg"
+    android:orientation="vertical" >
+
+    <include layout="@layout/main_top_layout" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="15dp"
+        android:text="当前余额：￥100"
+        android:textColor="@color/new_color_2"
+        android:textSize="@dimen/new_size_3" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:text="选择支付方式"
+        android:textColor="@color/new_color_2"
+        android:textSize="@dimen/new_size_3" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="10dp" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <RadioButton
+                android:id="@+id/rb_pay_bao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="支付宝"
+                android:checked="true"
+                
+                 />
+
+            <EditText
+                android:id="@+id/editText1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/rb_pay_bao"
+                android:ems="10"
+                android:hint="请输入充值金额"
+                android:inputType="number"
+                android:textSize="@dimen/new_size_3" >
+
+                <requestFocus />
+            </EditText>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+            android:layout_marginTop="10dp"
+            >
+
+            <RadioButton
+                android:id="@+id/rb_pay_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="充值卡" />
+
+            <EditText
+                android:id="@+id/editText1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/rb_pay_card"
+                android:ems="10"
+                android:hint="请输入充值码"
+                android:inputType="number"
+                android:textSize="@dimen/new_size_3" >
+            </EditText>
+        </RelativeLayout>
+        
+           <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="15dp"
+        android:text="本次充值金额：￥100"
+        android:textColor="@color/new_color_2"
+        android:textSize="@dimen/new_size_3" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/bt_recharge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen_xnormal"
+        android:layout_marginRight="@dimen/dimen_xnormal"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/bt12_03"
+        android:text="充值"
+        android:textColor="@color/main_bar"
+        android:textSize="@dimen/new_size_5" />
+
+</LinearLayout>

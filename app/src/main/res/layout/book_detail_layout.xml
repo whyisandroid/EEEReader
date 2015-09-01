@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/com.ereader.client"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <include layout="@layout/main_top_layout" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp" >
+
+        <TextView
+            android:id="@+id/tv_book_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="永远不要找别人要安全感"
+            android:textColor="@color/new_color_2"
+            android:textSize="@dimen/new_size_4" />
+
+        <TextView
+            android:id="@+id/tv_book_collection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="收藏"
+            android:textColor="@color/main_bar"
+            android:textSize="@dimen/new_size_4" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp" >
+
+        <ImageView
+            android:id="@+id/iv_book"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/b1_03" />
+
+        <TextView
+            android:id="@+id/tv_book_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/iv_book"
+            android:text="作者：严歌苓"
+            android:textColor="@color/new_color_2"
+            android:textSize="@dimen/new_size_3" />
+
+        <TextView
+            android:id="@+id/tv_book_publish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_book_author"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/iv_book"
+            android:text="出版社：中国人民大学出版社"
+            android:textColor="@color/new_color_2"
+            android:textSize="@dimen/new_size_3" />
+
+        <RatingBar
+            android:id="@+id/rb_book_star"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_book_publish"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/iv_book" />
+
+        <TextView
+            android:id="@+id/tv_book_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rb_book_star"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@+id/iv_book"
+            android:text="2.00"
+            android:textColor="@color/holo_blue_light"
+            android:textSize="@dimen/new_size_2" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:weightSum="4" >
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/b_14"
+            android:text="购买"
+            android:textSize="@dimen/new_size_2" />
+
+        <Button
+            android:id="@+id/bt_book_add_buy"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/b_16"
+            android:text="购物车"
+            android:textSize="@dimen/new_size_2" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/b_18"
+            android:text="试读"
+            android:textSize="@dimen/new_size_2" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/b_20"
+            android:text="推荐好友"
+            android:textSize="@dimen/new_size_2" />
+    </LinearLayout>
+
+    <com.ereader.client.ui.view.ScrollingTabsView
+        android:id="@+id/st_book_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/window_bg" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_book_store"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+</LinearLayout>

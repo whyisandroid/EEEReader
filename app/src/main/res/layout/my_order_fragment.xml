@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/window_bg"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+       <com.ereader.client.ui.view.PullToRefreshView
+        android:id="@+id/pull_refresh_order"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/dimen_normal"
+        android:orientation="vertical" >
+        <ListView
+            android:id="@+id/lv_order"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/main_bg"
+            android:dividerHeight="@dimen/dimen_xnormal"
+            android:listSelector="@android:color/transparent"
+             >
+        </ListView>
+    </com.ereader.client.ui.view.PullToRefreshView>
+</LinearLayout>

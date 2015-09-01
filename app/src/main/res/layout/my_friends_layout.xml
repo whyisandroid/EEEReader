@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+    <include layout="@layout/main_top_layout" />
+
+    <ListView
+        android:id="@+id/lv_my_friends"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:divider="@color/window_bg"
+        android:dividerHeight="2dp"
+        >
+    </ListView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/window_bg"
+        />
+</LinearLayout>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginLeft="@dimen/dimen_large"
+    android:layout_marginRight="@dimen/dimen_large"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bt_dialog_top"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tv_dialog_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="温馨提示"
+            android:textColor="@color/new_color_2"
+            android:textSize="@dimen/new_size_4"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_dialog_one_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:lineSpacingExtra="5dip"
+            android:paddingBottom="@dimen/dimen_xnormal"
+            android:paddingLeft="@dimen/dimen_large"
+            android:paddingRight="@dimen/dimen_large"
+            android:paddingTop="@dimen/dimen_normal"
+            android:textColor="@color/new_color_3"
+            android:textSize="@dimen/new_size_3" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/bt_dialog_one"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/bt_dialog_one"
+        android:text="确定"
+        android:textColor="@color/new_color_2"
+        android:textSize="@dimen/new_size_4" />
+
+</LinearLayout>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/com.ereader.client"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/window_bg"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <include layout="@layout/main_top_layout" />
+
+    <com.ereader.client.ui.view.ScrollingTabsView
+        android:id="@+id/stabs_coupons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:background="@drawable/tab_unselected_holo"
+        app:dividerDrawable="@android:color/white"
+        />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vpager_coupons"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+</LinearLayout>

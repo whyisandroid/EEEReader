@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/main_top_height"
+    android:background="@color/main_bar" >
+
+    <Button
+        android:id="@+id/main_top_left_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/dimen_small"
+        android:background="@null"
+        android:textSize="@dimen/new_size_4"
+        android:textColor="@drawable/text_top_xml"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/tv_main_top_title"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:text="@string/app_name"
+        android:textColor="@color/new_color_6"
+        android:textSize="@dimen/new_size_6" />
+
+    <Button
+        android:id="@+id/main_top_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/dimen_normal"
+        android:background="@null"
+        android:onClick="goBuy"
+        android:textColor="@drawable/text_top_xml"
+        android:textSize="@dimen/new_size_4"
+         />
+
+</RelativeLayout>

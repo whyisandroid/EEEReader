@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+        android:background="@color/white"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+           	android:paddingRight="15dp" >
+        
+            <RatingBar
+            android:id="@+id/rb_book_star"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/iv_book" />
+
+        <TextView
+            android:id="@+id/tv_mybook_cate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="将会"
+            android:textSize="@dimen/new_size_5"
+            android:textColor="@color/new_color_2"
+             />
+
+
+    </RelativeLayout>
+    
+    
+        <TextView
+            android:id="@+id/tv_mybook_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           	android:paddingLeft="15dp"
+           	android:paddingRight="15dp"
+           	android:layout_marginTop="5dp"
+           	android:maxLines="1"
+            android:text="值得购买的书"
+            android:textSize="@dimen/new_size_5"
+            android:textColor="@color/new_color_2"
+             />
+        
+        <TextView
+            android:id="@+id/tv_book_sp_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           	android:paddingLeft="15dp"
+           	android:paddingRight="15dp"
+           	android:layout_marginTop="5dp"
+           	android:maxLines="5"
+            android:text="这本书真不错 值得购买。这本书真不错 值得购买。这本书真不错 值得购买。这本书真不错 值得购买。这本书真不错 值得购买。这本书真不错 值得购买。"
+            android:textSize="@dimen/new_size_3"
+            android:textColor="@color/new_color_2"
+             />
+        
+        <TextView
+            android:id="@+id/tv_book_sp_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           	android:paddingLeft="15dp"
+           	android:paddingRight="15dp"
+           	android:layout_marginTop="5dp"
+           	android:maxLines="5"
+            android:text="更多"
+            android:layout_gravity="right"
+            android:visibility="gone"
+            android:textSize="@dimen/new_size_3"
+            android:textColor="@color/holo_blue_light"
+             />
+
+</LinearLayout>

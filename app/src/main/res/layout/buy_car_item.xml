@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="15dp" >
+
+        <CheckBox
+            android:id="@+id/cbox_buy_choose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            />
+
+        <ImageView
+            android:id="@+id/iv_book"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/cbox_buy_choose"
+            
+            android:src="@drawable/b1_03" />
+
+        <TextView
+            android:id="@+id/tv_book_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/iv_book"
+            android:layout_marginLeft="10dp"
+            android:text="永远不要找别人要安全感"
+            android:textColor="@color/new_color_2"
+            android:textSize="@dimen/new_size_4" />
+        
+        <TextView
+            android:id="@+id/tv_book_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_book_name"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="18dp"
+            android:layout_toRightOf="@+id/iv_book"
+            android:text="$2.00"
+            android:textColor="@color/holo_blue_light"
+            android:textSize="@dimen/new_size_2" />
+       
+
+    </RelativeLayout>
+
+</LinearLayout>

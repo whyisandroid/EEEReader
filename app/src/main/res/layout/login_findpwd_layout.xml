@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <include layout="@layout/main_top_layout" />
+
+    <EditText
+        android:id="@+id/editText1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="@dimen/dimen_xnormal"
+        android:layout_marginRight="@dimen/dimen_xnormal"
+        android:textColor="@color/new_color_2"
+        android:textColorHint="@color/new_color_4"
+        android:textSize="@dimen/new_size_3"
+        android:hint="手机号"
+        android:ems="10" >
+
+        <requestFocus />
+    </EditText>
+
+    
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="@dimen/dimen_xnormal"
+        android:layout_marginRight="@dimen/dimen_xnormal" >
+
+      <EditText
+        android:id="@+id/et_findpwd_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/new_color_2"
+        android:textColorHint="@color/new_color_4"
+        android:textSize="@dimen/new_size_3"
+        android:hint="验证码"
+        android:ems="10" />
+
+        <TextView
+            android:id="@+id/tv_login_findpwd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/et_register_code"
+            android:textColor="@color/white"
+            android:textSize="@dimen/new_size_3"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/l11_08"
+            android:gravity="center"
+            android:text="获取验证码" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/bt_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="@dimen/dimen_xnormal"
+        android:layout_marginRight="@dimen/dimen_xnormal"
+        android:textColor="@color/main_bar"
+        android:textSize="@dimen/new_size_5"
+        android:background="@drawable/bt12_03"
+        android:text="提交" />
+
+</LinearLayout>

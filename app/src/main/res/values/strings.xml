@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">EReader</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+
+    <string-array name="myBook">
+        <item>我的订单</item>
+        <item>我的收藏</item>
+        <item>我的推荐</item>
+        <item>我的书评</item>
+        <item>电子充值卡</item>
+        <item>我的积分</item>
+        <item>账户设置</item>
+        <item>我的消息</item>
+        <item>我的好友</item>
+    </string-array>
+    <string-array name="store">
+        <item>最新上架</item>
+        <item>推荐阅读</item>
+        <item>经典热销</item>
+        <item>特价专区</item>
+        <item>好评榜</item>
+        <item>热销榜</item>
+        <item>全部分类</item>
+    </string-array>
+    <string-array name="account">
+        <item>姓名</item>
+        <item>手机号</item>
+        <item>邮箱</item>
+        <item>密码</item>
+    </string-array>
+
+    <string name="pull_to_refresh_pull_label">下拉刷新</string>
+    <string name="pull_to_refresh_release_label">释放后刷新</string>
+    <string name="pull_to_refresh_refreshing_label">刷新\u2026</string>
+    <string name="pull_to_refresh_footer_release_label">释放后加载</string>
+    <string name="pull_to_refresh_footer_pull_label">上拉加载更多</string>
+    <string name="pull_to_refresh_footer_refreshing_label">加载中\u2026</string>
+
+    <!-- bookpop.xml -->
+    <string name="bookpop_size">字体</string>
+    <string name="bookpop_light">亮度</string>
+    <string name="bookpop_card">书签</string>
+    <string name="bookpop_send">跳转</string>
+
+    <string-array name="bookid">
+        <item>book0.txt</item>
+    </string-array>
+    <string-array name="bookname">
+        <item>泡MM专用短信</item>
+    </string-array>
+    <string-array name="bookauthor">
+        <item>未知</item>
+    </string-array>
+
+</resources>
