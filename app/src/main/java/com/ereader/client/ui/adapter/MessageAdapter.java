@@ -11,15 +11,16 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 
 import com.ereader.client.R;
+import com.ereader.client.entities.Message;
 import com.ereader.client.ui.my.SPActivity;
 import com.ereader.common.util.IntentUtil;
 
 public class MessageAdapter extends BaseAdapter {
 	private LayoutInflater inflater;
-	private List<String> mList;
+	private List<Message> mList;
 	private Context mContext;
 
-	public MessageAdapter(Context mContext,List<String>  list) {
+	public MessageAdapter(Context mContext,List<Message>  list) {
 		inflater=LayoutInflater.from(mContext);
 		this.mContext = mContext;
 		mList = list;

@@ -80,7 +80,11 @@ public interface AppService {
 	//other
 	/**帮助中心***/
 	public void helpType(String type)throws Exception;
-	/**帮助中心***/
-	public void helpDetail(String id)throws Exception;
-	
+	/**帮助中心详情***/
+	public void helpDetail(String type)throws Exception;
+	/**我的消息***/
+	public void getMessage(String type)throws Exception;
+	/**向好友推荐商品***/
+	public void tellToFriend()throws Exception;
+
 }

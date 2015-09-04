@@ -14,7 +14,7 @@ import com.ereader.client.ui.dialog.DialogUtil;
 import com.ereader.client.ui.login.RegisterActivity;
 import com.ereader.client.ui.more.NoticeActivity;
 import com.ereader.client.ui.more.NoticeDetailActivity;
-import com.ereader.client.ui.my.FriendsActivity;
+import com.ereader.client.ui.my.MessageFriendsFragment;
 import com.ereader.common.exception.BusinessException;
 import com.ereader.common.util.IntentUtil;
 import com.ereader.common.util.LogUtil;
@@ -200,7 +200,7 @@ public class AppController {
 	public void latest(Bundle bundle) {
 		try {
 			service.latest();
-			IntentUtil.intent(currentActivity, bundle,BookTitleActivity.class,false);
+			IntentUtil.intent(currentActivity, bundle, BookTitleActivity.class, false);
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}catch (Exception e) {
@@ -222,7 +222,7 @@ public class AppController {
 
 		try {
 			service.discount();
-			IntentUtil.intent(currentActivity, bundle,BookTitleActivity.class,false);
+			IntentUtil.intent(currentActivity, bundle, BookTitleActivity.class, false);
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}catch (Exception e) {
@@ -382,7 +382,7 @@ public class AppController {
 			service.helpType(id);
 			Bundle bundle = new Bundle();
 			bundle.putString("id", id);
-			IntentUtil.intent(currentActivity, bundle,NoticeActivity.class,false);
+			IntentUtil.intent(currentActivity, bundle, NoticeActivity.class, false);
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}catch (Exception e) {
@@ -390,7 +390,6 @@ public class AppController {
 	}
 
 	public void getArticleDetail(String article_id) {
-
 		try {
 			service.helpDetail(article_id);
 			IntentUtil.intent(currentActivity,NoticeDetailActivity.class);
@@ -398,6 +397,15 @@ public class AppController {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}catch (Exception e) {
 		}
-	
+	}
+
+	public void getMessage(Handler mhandler,String type) {
+		try {
+			service.getMessage(type);
+			mhandler.obtainMessage(MessageFriendsFragment.REFRESH_DOWN_OK).sendToTarget();
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}catch (Exception e) {
+		}
 	}
 }

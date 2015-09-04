@@ -125,7 +125,7 @@
             android:textSize="@dimen/new_size_2" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/bt_book_add_friends"
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_marginLeft="15dp"

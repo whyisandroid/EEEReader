@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 
 import com.ereader.client.R;
+import com.ereader.client.entities.Message;
 import com.ereader.client.ui.my.FriendsActivity;
 import com.ereader.client.ui.my.SPActivity;
 import com.ereader.common.util.IntentUtil;
@@ -18,10 +19,10 @@ import com.ereader.common.util.ToastUtil;
 
 public class MessageFriendsAdapter extends BaseAdapter {
 	private LayoutInflater inflater;
-	private List<String> mList;
+	private List<Message> mList;
 	private Context mContext;
 
-	public MessageFriendsAdapter(Context mContext,List<String>  list) {
+	public MessageFriendsAdapter(Context mContext,List<Message>  list) {
 		inflater=LayoutInflater.from(mContext);
 		this.mContext = mContext;
 		mList = list;

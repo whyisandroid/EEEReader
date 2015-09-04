@@ -1,12 +1,6 @@
 package com.ereader.client.service.impl;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
 import com.ereader.client.EReaderApplication;
 import com.ereader.client.entities.DisCategory;
 import com.ereader.client.entities.json.ArticleDetailResp;
@@ -18,6 +12,7 @@ import com.ereader.client.entities.json.CategoryResp;
 import com.ereader.client.entities.json.CommentResp;
 import com.ereader.client.entities.json.DisCategoryResp;
 import com.ereader.client.entities.json.LoginResp;
+import com.ereader.client.entities.json.MessageResp;
 import com.ereader.client.entities.json.SPResp;
 import com.ereader.client.entities.json.SubCategoryResp;
 import com.ereader.client.service.AppContext;
@@ -26,6 +21,12 @@ import com.ereader.common.exception.BusinessException;
 import com.ereader.common.exception.ErrorMessage;
 import com.ereader.common.net.Request;
 import com.ereader.common.util.Config;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AppServiceImpl implements AppService {
 	private AppContext context;
@@ -485,9 +486,7 @@ public class AppServiceImpl implements AppService {
 		}
 	}
 	
-	@Override
 	public void helpDetail(String id) throws Exception {
-
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		Request<ArticleDetailResp> request = new Request<ArticleDetailResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
@@ -502,5 +501,42 @@ public class AppServiceImpl implements AppService {
 		} else {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
+	}
+
+	@Override
+	public void getMessage(String type) throws Exception {
+			String token = EReaderApplication.getInstance().getLogin().getToken();
+			Request<MessageResp> request = new Request<MessageResp>();
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+			nameValuePairs.add(new BasicNameValuePair("_token_", token));
+			nameValuePairs.add(new BasicNameValuePair("type", type));
+			nameValuePairs.add(new BasicNameValuePair("per_page", "20"));
+			request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+			request.setUrl(Config.HTTP_MY_MESSAGE);
+			request.setR_calzz(MessageResp.class);
+			MessageResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+			if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+				context.addBusinessData("MessageResp", resp.getData());
+			} else {
+				throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+			}
+	}
+
+	@Override
+	public void tellToFriend() throws Exception {
+			String token = EReaderApplication.getInstance().getLogin().getToken();
+			Request<BaseResp> request = new Request<BaseResp>();
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+			nameValuePairs.add(new BasicNameValuePair("_token_", token));
+			nameValuePairs.add(new BasicNameValuePair("friend_id", "20"));
+			nameValuePairs.add(new BasicNameValuePair("product_id", "20"));
+			request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+			request.setUrl(Config.HTTP_MY_TO_FRIEND);
+			request.setR_calzz(BaseResp.class);
+		BaseResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+			if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+			} else {
+				throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+			}
 	}
 }

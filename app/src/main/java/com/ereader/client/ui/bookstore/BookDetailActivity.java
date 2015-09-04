@@ -24,6 +24,7 @@ import com.ereader.client.ui.adapter.BookDetailTabsAdapter;
 import com.ereader.client.ui.buycar.BuyCarActivity;
 import com.ereader.client.ui.login.LoginActivity;
 import com.ereader.client.ui.my.CollectionActivity;
+import com.ereader.client.ui.my.FriendsActivity;
 import com.ereader.client.ui.view.ScrollingTabsView;
 import com.ereader.common.util.IntentUtil;
 import com.ereader.common.util.ProgressDialogUtil;
@@ -35,6 +36,7 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 	private AppController controller;
 	private Button main_top_right;
 	private Button bt_book_add_buy;
+	private Button bt_book_add_friends;
 	private List<String> mListTitle;
 	private TextView tv_book_collection;
 	private TextView tv_book_name;
@@ -79,6 +81,7 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 	private void findView() {
 		main_top_right = (Button)findViewById(R.id.main_top_right);
 		bt_book_add_buy = (Button)findViewById(R.id.bt_book_add_buy);
+		bt_book_add_friends = (Button)findViewById(R.id.bt_book_add_friends);
 		st_book_detail = (ScrollingTabsView)findViewById(R.id.st_book_detail);
 		vp_book_store = (ViewPager)findViewById(R.id.vp_book_store);
 		tv_book_collection = (TextView)findViewById(R.id.tv_book_collection);
@@ -115,6 +118,7 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 		main_top_right.setOnClickListener(this);
 		tv_book_collection.setOnClickListener(this);
 		bt_book_add_buy.setOnClickListener(this);
+		bt_book_add_friends.setOnClickListener(this);
 		mListTitle = new ArrayList<String>();
 		mListTitle.add("目录");
 		mListTitle.add("内容简介");
@@ -154,7 +158,7 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 				IntentUtil.intent(BookDetailActivity.this, LoginActivity.class);
 				return;
 			}
-				ProgressDialogUtil.showProgressDialog(this, "努力加载中…", false);
+				ProgressDialogUtil.showProgressDialog(this, "", false);
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
@@ -171,7 +175,7 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 				IntentUtil.intent(BookDetailActivity.this, LoginActivity.class);
 				return;
 			}
-				ProgressDialogUtil.showProgressDialog(this, "努力加载中…", false);
+				ProgressDialogUtil.showProgressDialog(this, "", false);
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
@@ -180,6 +184,9 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 					}
 				}).start();
 			break;
+			case R.id.bt_book_add_friends:
+				IntentUtil.intent(BookDetailActivity.this, FriendsActivity.class);
+				break;
 		default:
 			break;
 		}

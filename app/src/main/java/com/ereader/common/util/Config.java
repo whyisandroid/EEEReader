@@ -81,6 +81,7 @@ public class Config {
 	// TODO　reader
 	public final static String HTTP_MORE_HELP = MY_SERVICE+ "/api/article/lists"; //  帮助中心
 	public final static String HTTP_MORE_HELP_DETAIL = MY_SERVICE+ "/api/article/detail"; //  帮助中心内容详情
-	
-	
+
+	public final static String HTTP_MY_MESSAGE = MY_SERVICE+ "/api/user/message"; // 我的消息列表
+	public final static String HTTP_MY_TO_FRIEND = MY_SERVICE+ "/api/user/tellToFriend"; // 向好友推荐商品
 }

@@ -25,7 +25,7 @@ public class MessageActivity extends BaseFragmentActivity implements OnClickList
 	private ViewPager vpager_message;
 	private Button main_top_right;
 	private List<Category> mListTitle;
-		
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -61,8 +61,8 @@ public class MessageActivity extends BaseFragmentActivity implements OnClickList
 			mListTitle.add(new Category("好友消息","1"));
 			mListTitle.add(new Category("好友推荐","2"));
 			mListTitle.add(new Category("连载更新","3"));
-			mListTitle.add(new Category("系统消息","4"));
-		MessageFragsAdapter orderAdapter = new MessageFragsAdapter(getSupportFragmentManager(),mListTitle.size());
+			mListTitle.add(new Category("系统消息","0"));
+		MessageFragsAdapter orderAdapter = new MessageFragsAdapter(getSupportFragmentManager(),mListTitle);
 		vpager_message.setAdapter(orderAdapter);
 		
 		// 设置缓存fragment的数量
