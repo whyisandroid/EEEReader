@@ -83,12 +83,11 @@ public class AppServiceImpl implements AppService {
 	
 	
 	@Override
-	public void getCode() throws Exception {
-		String phone = context.getStringData("regisrerPhone");
+	public void getCode(String phone,String  type) throws Exception {
 		Request<BaseResp> request = new Request<BaseResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("phone", phone));
-		nameValuePairs.add(new BasicNameValuePair("type", "reg"));
+		nameValuePairs.add(new BasicNameValuePair("type", type));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 		request.setUrl(Config.HTTP_CODE);
 		request.setR_calzz(BaseResp.class);
@@ -97,10 +96,29 @@ public class AppServiceImpl implements AppService {
 		} else {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
-	
-		
 	}
-	
+
+	@Override
+	public void findCode() throws Exception {
+		String pwd = context.getStringData("pwdCode");
+		String phone = context.getStringData("phone");
+		String vcode = context.getStringData("vcode");
+			Request<BaseResp> request = new Request<BaseResp>();
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+			nameValuePairs.add(new BasicNameValuePair("password", pwd));
+			nameValuePairs.add(new BasicNameValuePair("phone", phone));
+			nameValuePairs.add(new BasicNameValuePair("vcode", vcode));
+			nameValuePairs.add(new BasicNameValuePair("email", ""));
+			request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+			request.setUrl(Config.HTTP_CODE);
+			request.setR_calzz(BaseResp.class);
+			BaseResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+			if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+			} else {
+				throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+			}
+	}
+
 	@Override
 	public void featuredList() throws Exception {
 		Request<BookResp> request = new Request<BookResp>();

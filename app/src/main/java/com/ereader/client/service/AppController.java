@@ -11,6 +11,8 @@ import com.ereader.client.service.impl.AppServiceImpl;
 import com.ereader.client.ui.bookstore.BookActivity;
 import com.ereader.client.ui.bookstore.BookTitleActivity;
 import com.ereader.client.ui.dialog.DialogUtil;
+import com.ereader.client.ui.login.FindPwdActivity;
+import com.ereader.client.ui.login.LoginActivity;
 import com.ereader.client.ui.login.RegisterActivity;
 import com.ereader.client.ui.more.NoticeActivity;
 import com.ereader.client.ui.more.NoticeDetailActivity;
@@ -185,16 +187,14 @@ public class AppController {
 	
 	
 
-	public void getCode(Handler mHandler) {
+	public void getCode(Handler mHandler,String phone) {
 		try {
-			service.getCode();
+			service.getCode(phone, "reg");
 			mHandler.obtainMessage(RegisterActivity.CODE_OK).sendToTarget();
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}catch (Exception e) {
 		}
-	
-	
 	}
 
 	public void latest(Bundle bundle) {
@@ -335,7 +335,7 @@ public class AppController {
 		try {
 			service.addBuyCar(id);
 			appHandler.obtainMessage(HANDLER_TOAST,"已加入购物车").sendToTarget();
-			mHandler.obtainMessage(1).sendToTarget();
+			//mHandler.obtainMessage(1).sendToTarget();
 		} catch (BusinessException e) {
 		}catch (Exception e) {
 		}
@@ -403,6 +403,28 @@ public class AppController {
 		try {
 			service.getMessage(type);
 			mhandler.obtainMessage(MessageFriendsFragment.REFRESH_DOWN_OK).sendToTarget();
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}catch (Exception e) {
+		}
+	}
+
+	public void sendCode(Handler mHandler,String phone) {
+			try {
+				service.getCode(phone, "rest_password");
+				mHandler.obtainMessage(FindPwdActivity.CODE_OK).sendToTarget();
+			} catch (BusinessException e) {
+				appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+			}catch (Exception e) {
+			}
+	}
+
+	public void findCode() {
+		try {
+			service.findCode();
+			ToastUtil.showToast(currentActivity, "密码修改成功", ToastUtil.LENGTH_LONG);
+			IntentUtil.intent(currentActivity, LoginActivity.class);
+			currentActivity.finish();
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}catch (Exception e) {

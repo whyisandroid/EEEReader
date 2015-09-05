@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -15,11 +16,15 @@ import com.ereader.client.service.AppController;
 import com.ereader.client.ui.BaseActivity;
 import com.ereader.client.ui.login.RegisterActivity.RegisterCountDownTimer;
 import com.ereader.common.util.IntentUtil;
+import com.ereader.common.util.ProgressDialogUtil;
+import com.ereader.common.util.StringUtil;
+import com.ereader.common.util.ToastUtil;
 
 public class FindPwdActivity extends BaseActivity implements OnClickListener {
 	private AppController controller;
 	private TextView tv_login_findpwd;
 	private EditText et_findpwd_code;
+	private EditText et_findpwd_phone;
 	private Button bt_register;
 	
 	private RegisterCountDownTimer timer;
@@ -59,6 +64,7 @@ public class FindPwdActivity extends BaseActivity implements OnClickListener {
 	private void findView() {
 		tv_login_findpwd = (TextView)findViewById(R.id.tv_login_findpwd);
 		et_findpwd_code = (EditText)findViewById(R.id.et_findpwd_code);
+		et_findpwd_phone = (EditText)findViewById(R.id.et_findpwd_phone);
 		bt_register = (Button)findViewById(R.id.bt_register);
 	}
 	
@@ -79,10 +85,32 @@ public class FindPwdActivity extends BaseActivity implements OnClickListener {
 
 		switch (v.getId()) {
 		case  R.id.tv_login_findpwd:
-			mHandler.obtainMessage(CODE_OK).sendToTarget();
+			final String phone = et_findpwd_phone.getText().toString();
+			if(!TextUtils.isEmpty(StringUtil.moblie(phone))){
+				ToastUtil.showToast(FindPwdActivity.this,StringUtil.moblie(phone),ToastUtil.LENGTH_LONG);
+				return;
+			}
+			ProgressDialogUtil.showProgressDialog(this, "", false);
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					controller.sendCode(mHandler,phone);
+					ProgressDialogUtil.closeProgressDialog();
+				}
+			}).start();
 			break;
 		case  R.id.bt_register:
-			IntentUtil.intent(this, FindPwd2Activity.class);
+			// 验证 验证码 是否正确
+			if(TextUtils.isEmpty(et_findpwd_code.getText().toString())){
+				ToastUtil.showToast(FindPwdActivity.this,"验证码不能为空",ToastUtil.LENGTH_LONG);
+				return;
+			}
+			controller.getContext().addBusinessData("phone",et_findpwd_phone.getText().toString());
+			controller.getContext().addBusinessData("vcode",et_findpwd_code.getText().toString());
+			Bundle bundle = new Bundle();
+			bundle.putString("phone", et_findpwd_phone.getText().toString());
+			bundle.putString("code",et_findpwd_code.getText().toString());
+			IntentUtil.intent(this,bundle, FindPwd2Activity.class,false);
 			break;
 		default:
 			break;

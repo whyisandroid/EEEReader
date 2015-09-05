@@ -66,7 +66,7 @@ public class CollectionAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 
-				ProgressDialogUtil.showProgressDialog(mContext, "请稍等…", false);
+				ProgressDialogUtil.showProgressDialog(mContext, "", false);
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
@@ -84,7 +84,7 @@ public class CollectionAdapter extends BaseAdapter {
 			public void onClick(View v) {
 
 
-				ProgressDialogUtil.showProgressDialog(mContext, "添加中…", false);
+				ProgressDialogUtil.showProgressDialog(mContext, "", false);
 				new Thread(new Runnable() {
 					@Override
 					public void run() {

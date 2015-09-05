@@ -130,7 +130,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
-					controller.getCode(mHandler);
+					controller.getCode(mHandler,et_register.getText().toString());
 					ProgressDialogUtil.closeProgressDialog();
 				}
 			}).start();

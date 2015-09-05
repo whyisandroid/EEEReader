@@ -33,9 +33,9 @@ public class CollectionActivity extends BaseActivity implements OnClickListener 
 				adapter.notifyDataSetChanged();
 				break;
 			case 1: // 删除
-				mList.remove(mList.get((int)msg.what));
+				mList.remove(mList.get((int)msg.obj));
 				adapter.notifyDataSetChanged();
-				ToastUtil.showToast(CollectionActivity.this, "删除成功", ToastUtil.LENGTH_LONG);
+				//ToastUtil.showToast(CollectionActivity.this, "删除成功", ToastUtil.LENGTH_LONG);
 				break;
 			default:
 				break;
@@ -53,7 +53,7 @@ public class CollectionActivity extends BaseActivity implements OnClickListener 
 	}
 
 	private void getCollection() {
-		ProgressDialogUtil.showProgressDialog(this, "努力加载中…", false);
+		ProgressDialogUtil.showProgressDialog(this, "", false);
 		new Thread(new Runnable() {
 			@Override
 			public void run() {

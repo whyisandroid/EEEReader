@@ -33,7 +33,7 @@ public interface AppService {
 	/**2.2.1搜索列表**/
 	public void search(String value)throws Exception;
 	/**获取验证码**/
-	public void getCode()throws Exception;
+	public void getCode(String phone,String type)throws Exception;
 	/**添加到收藏夹**/
 	public void addCollection(String id)throws Exception;
 	/**添我的书评**/
@@ -87,4 +87,6 @@ public interface AppService {
 	/**向好友推荐商品***/
 	public void tellToFriend()throws Exception;
 
+	/**找回密码***/
+	public void findCode()throws Exception;
 }

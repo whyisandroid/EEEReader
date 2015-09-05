@@ -118,7 +118,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 	  * @time: 2014-10-21 上午11:17:14
 	  */
 	private void login() {
-		ProgressDialogUtil.showProgressDialog(this, "通信中…", false);
+		ProgressDialogUtil.showProgressDialog(this, "", false);
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
