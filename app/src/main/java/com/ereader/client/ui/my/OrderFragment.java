@@ -46,11 +46,6 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 				pull_refresh_order.onHeaderRefreshComplete();
 				break;
 			case REFRESH_UP_OK:
-				mList.add("赢");
-				mList.add("赢");
-				mList.add("赢");
-				mList.add("赢");
-				mList.add("赢");
 				adapter.notifyDataSetChanged();
 				pull_refresh_order.onFooterRefreshComplete();
 				break;
@@ -79,15 +74,6 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	private void initView() {
 		pull_refresh_order.setOnHeaderRefreshListener(this);
 		pull_refresh_order.setOnFooterRefreshListener(this);
-		mList.add("赢");
-		mList.add("赢");
-		mList.add("赢");
-		mList.add("赢");
-		mList.add("赢");
-		mList.add("赢");
-		mList.add("赢");
-		mList.add("赢");
-		mList.add("赢");
 		adapter = new OrderAdapter(mContext, mList);
 		lv_order.setAdapter(adapter);
 		lv_order.setOnItemClickListener(orderItemListener);

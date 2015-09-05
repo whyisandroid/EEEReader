@@ -17,7 +17,7 @@ import com.ereader.client.ui.BaseFragmentActivity;
 import com.ereader.client.ui.adapter.BookTabsAdapter;
 import com.ereader.client.ui.adapter.CouponsFragsAdapter;
 import com.ereader.client.ui.view.ScrollingTabsView;
-// 我的优惠劵
+// 电子充值卡
 public class CouponsActivity extends BaseFragmentActivity implements OnClickListener {
 	private AppController controller;
 	private ScrollingTabsView stabs_coupons;
@@ -59,7 +59,7 @@ public class CouponsActivity extends BaseFragmentActivity implements OnClickList
 			mListTitle.add(new Category("可用","2"));
 			mListTitle.add(new Category("已使用","3"));
 			mListTitle.add(new Category("已过期","4"));
-		CouponsFragsAdapter orderAdapter = new CouponsFragsAdapter(getSupportFragmentManager(),mListTitle.size());
+		CouponsFragsAdapter orderAdapter = new CouponsFragsAdapter(getSupportFragmentManager(),mListTitle);
 		vpager_coupons.setAdapter(orderAdapter);
 		
 		// 设置缓存fragment的数量

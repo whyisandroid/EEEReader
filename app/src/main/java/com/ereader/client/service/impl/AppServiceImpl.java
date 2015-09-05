@@ -11,6 +11,7 @@ import com.ereader.client.entities.json.BookResp;
 import com.ereader.client.entities.json.CategoryResp;
 import com.ereader.client.entities.json.CommentResp;
 import com.ereader.client.entities.json.DisCategoryResp;
+import com.ereader.client.entities.json.GiftResp;
 import com.ereader.client.entities.json.LoginResp;
 import com.ereader.client.entities.json.MessageResp;
 import com.ereader.client.entities.json.SPResp;
@@ -400,7 +401,6 @@ public class AppServiceImpl implements AppService {
 	
 	@Override
 	public void addFriends(String id) throws Exception {
-
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		Request<BaseResp> request = new Request<BaseResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
@@ -414,8 +414,6 @@ public class AppServiceImpl implements AppService {
 		} else {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
-	
-		
 	}
 
 	@Override
@@ -449,9 +447,22 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void gift() throws Exception {
-		// TODO Auto-generated method stub
-		
+	public void gift(String type) throws Exception {
+		String token = EReaderApplication.getInstance().getLogin().getToken();
+		Request<GiftResp> request = new Request<GiftResp>();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("_token_", token));
+		nameValuePairs.add(new BasicNameValuePair("is_use", type));
+		nameValuePairs.add(new BasicNameValuePair("is_expire", type));
+		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+		request.setUrl(Config.HTTP_USER_GIFT);
+		request.setR_calzz(GiftResp.class);
+		GiftResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+			context.addBusinessData("GiftResp", resp);
+		} else {
+			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+		}
 	}
 
 	@Override

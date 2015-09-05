@@ -14,11 +14,13 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.ereader.client.R;
+import com.ereader.client.entities.Category;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.adapter.CouponsAdapter;
 import com.ereader.client.ui.view.PullToRefreshView;
 import com.ereader.client.ui.view.PullToRefreshView.OnFooterRefreshListener;
 import com.ereader.client.ui.view.PullToRefreshView.OnHeaderRefreshListener;
+import com.ereader.common.util.ProgressDialogUtil;
 import com.ereader.common.util.ToastUtil;
 
 public class CouponsFragment extends Fragment implements OnClickListener,
@@ -30,6 +32,7 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	private PullToRefreshView pull_refresh_coupons;
 	private List<String> mList = new ArrayList<String>();
 	private CouponsAdapter adapter;
+	private Category cate;
 	
 	public static final int REFRESH_DOWN_OK = 1; // 向下刷新
 	public static final int REFRESH_UP_OK = 2;  //向上拉
@@ -41,11 +44,6 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 				pull_refresh_coupons.onHeaderRefreshComplete();
 				break;
 			case REFRESH_UP_OK:
-				mList.add("赢");
-				mList.add("赢");
-				mList.add("赢");
-				mList.add("赢");
-				mList.add("赢");
 				adapter.notifyDataSetChanged();
 				pull_refresh_coupons.onFooterRefreshComplete();
 				break;
@@ -55,8 +53,11 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 			}
 		};
 	};
-	
-	
+
+	public CouponsFragment(Category cate) {
+		this.cate = cate;
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -74,15 +75,6 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	private void initView() {
 		pull_refresh_coupons.setOnHeaderRefreshListener(this);
 		pull_refresh_coupons.setOnFooterRefreshListener(this);
-		mList.add("赢");
-		mList.add("赢");
-		mList.add("赢");
-		mList.add("赢");
-		mList.add("赢");
-		mList.add("赢");
-		mList.add("赢");
-		mList.add("赢");
-		mList.add("赢");
 		adapter = new CouponsAdapter(mContext, mList);
 		lv_coupons.setAdapter(adapter);
 	}
@@ -99,5 +91,16 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	@Override
 	public void onHeaderRefresh(PullToRefreshView view) {
 		mhandler.sendEmptyMessageDelayed(REFRESH_DOWN_OK, 3000);
+	}
+
+	private void getCoupons() {
+		ProgressDialogUtil.showProgressDialog(getActivity(), "", false);
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				controller.getCoupons(mhandler,cate.getCategory_id());
+				ProgressDialogUtil.closeProgressDialog();
+			}
+		}).start();
 	}
 }

@@ -430,4 +430,14 @@ public class AppController {
 		}catch (Exception e) {
 		}
 	}
+
+	public void getCoupons(Handler mHandler,String type) {
+		try {
+			service.gift(type);
+			mHandler.obtainMessage(FindPwdActivity.CODE_OK).sendToTarget();
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}catch (Exception e) {
+		}
+	}
 }

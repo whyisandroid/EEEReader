@@ -64,7 +64,7 @@ public interface AppService {
 	/***我的订单列表*/
 	public void order() throws Exception;
 	/***我的充值劵*/
-	public void gift() throws Exception;
+	public void gift(String type) throws Exception;
 	/***使用充值券*/
 	public void giftUse() throws Exception;
 	/***商品评论数据*/

@@ -46,12 +46,6 @@ public class RecommendActivity extends BaseActivity implements OnClickListener {
 	private void initView() {
 		((TextView) findViewById(R.id.tv_main_top_title)).setText("我的推荐");
 		List<String> mList = new ArrayList<String>();
-		mList.add("");
-		mList.add("");
-		mList.add("");
-		mList.add("");
-		mList.add("");
-		mList.add("");
 		RecommendAdapter adapter = new RecommendAdapter(this, mList);
 		lv_my_recommend.setAdapter(adapter);
 	}
