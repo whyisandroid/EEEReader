@@ -63,6 +63,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 		
 		et_login_username.setText("18201017971");
 		et_login_password.setText("111111");
+
+		//test
 	}
 
 	@Override
