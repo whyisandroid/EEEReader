@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ereader.client.R;
+import com.ereader.client.entities.Friend;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.BaseActivity;
 import com.ereader.client.ui.adapter.FriendsAdapter;
@@ -26,13 +27,18 @@ public class FriendsActivity extends BaseActivity implements OnClickListener {
 	private AppController controller;
 	private ListView lv_my_friends;
 	private Button main_top_right;
-	
+	private List<Friend> mList = new ArrayList<Friend>();
+	private FriendsAdapter mAdapter;
 	private Handler mHandler = new Handler() {
 
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
 			case 0:
-
+				mList = (List<Friend>)controller.getContext().getBusinessData("FriendsResp");
+				if(mList != null){
+					mAdapter = new FriendsAdapter(FriendsActivity.this, mList);
+					lv_my_friends.setAdapter(mAdapter);
+				}
 				break;
 
 			default:
@@ -82,9 +88,8 @@ public class FriendsActivity extends BaseActivity implements OnClickListener {
 		((TextView) findViewById(R.id.tv_main_top_title)).setText("我的好友");
 		main_top_right.setText("添加好友");
 		main_top_right.setOnClickListener(this);
-		List<String> mList = new ArrayList<String>();
-		FriendsAdapter adapter = new FriendsAdapter(this, mList);
-		lv_my_friends.setAdapter(adapter);
+		mAdapter = new FriendsAdapter(this, mList);
+		lv_my_friends.setAdapter(mAdapter);
 	}
 
 	@Override

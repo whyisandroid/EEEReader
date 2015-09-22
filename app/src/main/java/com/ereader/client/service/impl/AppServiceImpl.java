@@ -11,6 +11,7 @@ import com.ereader.client.entities.json.BookResp;
 import com.ereader.client.entities.json.CategoryResp;
 import com.ereader.client.entities.json.CommentResp;
 import com.ereader.client.entities.json.DisCategoryResp;
+import com.ereader.client.entities.json.FriendsResp;
 import com.ereader.client.entities.json.GiftResp;
 import com.ereader.client.entities.json.LoginResp;
 import com.ereader.client.entities.json.MessageResp;
@@ -39,8 +40,8 @@ public class AppServiceImpl implements AppService {
 
 	@Override
 	public void login() throws Exception {
-		String account = (String)context.getBusinessData("user.account");
-		String password = (String)context.getBusinessData("user.password");
+		String account = (String) context.getBusinessData("user.account");
+		String password = (String) context.getBusinessData("user.password");
 		Request<LoginResp> request = new Request<LoginResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("password", password));
@@ -53,12 +54,12 @@ public class AppServiceImpl implements AppService {
 			EReaderApplication.getInstance().setLogin(true);
 			resp.getData().setToken(resp.get_token_());
 			EReaderApplication.getInstance().saveLogin(resp.getData());
-			
+
 		} else {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
 	}
-	
+
 	@Override
 	public void register() throws Exception {
 		String phone = context.getStringData("regisrerPhone");
@@ -70,7 +71,7 @@ public class AppServiceImpl implements AppService {
 		nameValuePairs.add(new BasicNameValuePair("phone", phone));
 		nameValuePairs.add(new BasicNameValuePair("password", pwd));
 		nameValuePairs.add(new BasicNameValuePair("email", email));
-		nameValuePairs.add(new BasicNameValuePair("nickname", phone ==null?email:phone));
+		nameValuePairs.add(new BasicNameValuePair("nickname", phone == null ? email : phone));
 		nameValuePairs.add(new BasicNameValuePair("vcode", code));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 		request.setUrl(Config.HTTP_REGISTER);
@@ -81,10 +82,10 @@ public class AppServiceImpl implements AppService {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
 	}
-	
-	
+
+
 	@Override
-	public void getCode(String phone,String  type) throws Exception {
+	public void getCode(String phone, String type) throws Exception {
 		Request<BaseResp> request = new Request<BaseResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("phone", phone));
@@ -104,20 +105,20 @@ public class AppServiceImpl implements AppService {
 		String pwd = context.getStringData("pwdCode");
 		String phone = context.getStringData("phone");
 		String vcode = context.getStringData("vcode");
-			Request<BaseResp> request = new Request<BaseResp>();
-			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-			nameValuePairs.add(new BasicNameValuePair("password", pwd));
-			nameValuePairs.add(new BasicNameValuePair("phone", phone));
-			nameValuePairs.add(new BasicNameValuePair("vcode", vcode));
-			nameValuePairs.add(new BasicNameValuePair("email", ""));
-			request.addParameter(Request.AJAXPARAMS, nameValuePairs);
-			request.setUrl(Config.HTTP_CODE);
-			request.setR_calzz(BaseResp.class);
-			BaseResp resp = EReaderApplication.getAppSocket().shortConnect(request);
-			if (BaseResp.SUCCESS.equals(resp.getStatus())) {
-			} else {
-				throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
-			}
+		Request<BaseResp> request = new Request<BaseResp>();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("password", pwd));
+		nameValuePairs.add(new BasicNameValuePair("phone", phone));
+		nameValuePairs.add(new BasicNameValuePair("vcode", vcode));
+		nameValuePairs.add(new BasicNameValuePair("email", ""));
+		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+		request.setUrl(Config.HTTP_CODE);
+		request.setR_calzz(BaseResp.class);
+		BaseResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+		} else {
+			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+		}
 	}
 
 	@Override
@@ -136,6 +137,7 @@ public class AppServiceImpl implements AppService {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
 	}
+
 	@Override
 	public void latest() throws Exception {
 		Request<CategoryResp> request = new Request<CategoryResp>();
@@ -150,7 +152,7 @@ public class AppServiceImpl implements AppService {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
 	}
-	
+
 	@Override
 	public void latest(String cate_id) throws Exception {
 
@@ -169,6 +171,7 @@ public class AppServiceImpl implements AppService {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
 	}
+
 	@Override
 	public void discount() throws Exception {
 
@@ -183,9 +186,9 @@ public class AppServiceImpl implements AppService {
 		} else {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
-	
+
 	}
-	
+
 	@Override
 	public void discountBook(DisCategory mDisCate) throws Exception {
 		Request<BookResp> request = new Request<BookResp>();
@@ -204,7 +207,7 @@ public class AppServiceImpl implements AppService {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
 	}
-	
+
 	@Override
 	public void getCollection() throws Exception {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
@@ -221,7 +224,7 @@ public class AppServiceImpl implements AppService {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
 	}
-	
+
 	@Override
 	public void deleteCollection(String id) throws Exception {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
@@ -234,13 +237,13 @@ public class AppServiceImpl implements AppService {
 		request.setR_calzz(BookResp.class);
 		BookResp resp = EReaderApplication.getAppSocket().shortConnect(request);
 		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
-			
+
 		} else {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
 	}
-		
-			
+
+
 	public void getCategory() throws Exception {
 		Request<SubCategoryResp> request = new Request<SubCategoryResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
@@ -255,7 +258,7 @@ public class AppServiceImpl implements AppService {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
 	}
-	
+
 	@Override
 	public void search(String value) throws Exception {
 		Request<BookResp> request = new Request<BookResp>();
@@ -271,8 +274,8 @@ public class AppServiceImpl implements AppService {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
 	}
-	
-	
+
+
 	@Override
 	public void addCollection(String id) throws Exception {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
@@ -285,12 +288,12 @@ public class AppServiceImpl implements AppService {
 		request.setR_calzz(BaseResp.class);
 		BaseResp resp = EReaderApplication.getAppSocket().shortConnect(request);
 		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
-			
+
 		} else {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
 	}
-	
+
 	@Override
 	public void getSP() throws Exception {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
@@ -307,7 +310,7 @@ public class AppServiceImpl implements AppService {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
 	}
-	
+
 	@Override
 	public void buyCar() throws Exception {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
@@ -328,7 +331,7 @@ public class AppServiceImpl implements AppService {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
 	}
-	
+
 	@Override
 	public void addBuyCar(String id) throws Exception {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
@@ -345,7 +348,7 @@ public class AppServiceImpl implements AppService {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
 	}
-	
+
 	@Override
 	public void deleteBuyCar(String id) throws Exception {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
@@ -362,7 +365,7 @@ public class AppServiceImpl implements AppService {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
 	}
-	
+
 	@Override
 	public void getComment(String id) throws Exception {
 		Request<CommentResp> request = new Request<CommentResp>();
@@ -381,24 +384,24 @@ public class AppServiceImpl implements AppService {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
 	}
-	
+
 	@Override
 	public void getFriends() throws Exception {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
-		Request<BaseResp> request = new Request<BaseResp>();
+		Request<FriendsResp> request = new Request<FriendsResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("_token_", token));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 		request.setUrl(Config.HTTP_MY_FRIENDS);
-		request.setR_calzz(BaseResp.class);
-		BaseResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		request.setR_calzz(FriendsResp.class);
+		FriendsResp resp = EReaderApplication.getAppSocket().shortConnect(request);
 		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
-			
+			context.addBusinessData("FriendsResp", resp.getData());
 		} else {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
 	}
-	
+
 	@Override
 	public void addFriends(String id) throws Exception {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
@@ -419,31 +422,31 @@ public class AppServiceImpl implements AppService {
 	@Override
 	public void loginExit() throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void user() throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void wallet() throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void bill() throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void order() throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -468,33 +471,33 @@ public class AppServiceImpl implements AppService {
 	@Override
 	public void giftUse() throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void commentCount() throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void createOrder() throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void payType() throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void pay() throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	@Override
 	public void helpType(String type) throws Exception {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
@@ -514,7 +517,7 @@ public class AppServiceImpl implements AppService {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
 	}
-	
+
 	public void helpDetail(String id) throws Exception {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		Request<ArticleDetailResp> request = new Request<ArticleDetailResp>();
@@ -534,38 +537,39 @@ public class AppServiceImpl implements AppService {
 
 	@Override
 	public void getMessage(String type) throws Exception {
-			String token = EReaderApplication.getInstance().getLogin().getToken();
-			Request<MessageResp> request = new Request<MessageResp>();
-			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-			nameValuePairs.add(new BasicNameValuePair("_token_", token));
-			nameValuePairs.add(new BasicNameValuePair("type", type));
-			nameValuePairs.add(new BasicNameValuePair("per_page", "20"));
-			request.addParameter(Request.AJAXPARAMS, nameValuePairs);
-			request.setUrl(Config.HTTP_MY_MESSAGE);
-			request.setR_calzz(MessageResp.class);
-			MessageResp resp = EReaderApplication.getAppSocket().shortConnect(request);
-			if (BaseResp.SUCCESS.equals(resp.getStatus())) {
-				context.addBusinessData("MessageResp", resp.getData());
-			} else {
-				throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
-			}
+		String token = EReaderApplication.getInstance().getLogin().getToken();
+		Request<MessageResp> request = new Request<MessageResp>();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("_token_", token));
+		nameValuePairs.add(new BasicNameValuePair("type", type));
+		nameValuePairs.add(new BasicNameValuePair("per_page", "20"));
+		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+		request.setUrl(Config.HTTP_MY_MESSAGE);
+		request.setR_calzz(MessageResp.class);
+		MessageResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+			context.addBusinessData("MessageResp", resp.getData());
+		} else {
+			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+		}
 	}
 
 	@Override
 	public void tellToFriend() throws Exception {
-			String token = EReaderApplication.getInstance().getLogin().getToken();
-			Request<BaseResp> request = new Request<BaseResp>();
-			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-			nameValuePairs.add(new BasicNameValuePair("_token_", token));
-			nameValuePairs.add(new BasicNameValuePair("friend_id", "20"));
-			nameValuePairs.add(new BasicNameValuePair("product_id", "20"));
-			request.addParameter(Request.AJAXPARAMS, nameValuePairs);
-			request.setUrl(Config.HTTP_MY_TO_FRIEND);
-			request.setR_calzz(BaseResp.class);
+		String token = EReaderApplication.getInstance().getLogin().getToken();
+		Request<BaseResp> request = new Request<BaseResp>();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("_token_", token));
+		nameValuePairs.add(new BasicNameValuePair("friend_id", "20"));
+		nameValuePairs.add(new BasicNameValuePair("product_id", "20"));
+		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+		request.setUrl(Config.HTTP_MY_TO_FRIEND);
+		request.setR_calzz(BaseResp.class);
 		BaseResp resp = EReaderApplication.getAppSocket().shortConnect(request);
-			if (BaseResp.SUCCESS.equals(resp.getStatus())) {
-			} else {
-				throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
-			}
+		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+		} else {
+			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+		}
 	}
 }
+
