@@ -65,8 +65,9 @@ public class Config {
 	public final static String HTTP_USER_BILL = MY_SERVICE+ "/api/user/bill"; //  我的账单列表
 	public final static String HTTP_USER_ORDER = MY_SERVICE+ "/api/user/order"; //  我的订单列表
 	public final static String HTTP_USER_GIFT= MY_SERVICE+ "/api/user/giftcard"; //  我的充值劵
-	public final static String HTTP_LOGIN_GIFT_USE = MY_SERVICE+ "/api/user/inpourFromGiftcard"; //  2.1.10.	使用充值券
-	
+	public final static String HTTP_GIFT_USE = MY_SERVICE+ "/api/user/inpourFromGiftcard"; //  2.1.10.	使用充值券
+	public final static String HTTP_MY_PWD = MY_SERVICE+ "/api/user/updatePassword"; //  修改密码
+
 	
 	//TODO  book
 	public final static String HTTP_BOOK_COMMENT_COUNT = MY_SERVICE+ "/api/product/commentCount"; //  商品评论数据

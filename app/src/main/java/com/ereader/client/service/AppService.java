@@ -89,4 +89,6 @@ public interface AppService {
 
 	/**找回密码***/
 	public void findCode()throws Exception;
+	/**修改我的密码***/
+	public void updatePwd()throws Exception;
 }

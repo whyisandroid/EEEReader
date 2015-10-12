@@ -392,7 +392,7 @@ public class AppController {
 	public void getArticleDetail(String article_id) {
 		try {
 			service.helpDetail(article_id);
-			IntentUtil.intent(currentActivity,NoticeDetailActivity.class);
+			IntentUtil.intent(currentActivity, NoticeDetailActivity.class);
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}catch (Exception e) {
@@ -439,5 +439,16 @@ public class AppController {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}catch (Exception e) {
 		}
+	}
+
+	public void updatePwd() {
+			try {
+				service.updatePwd();
+				appHandler.obtainMessage(HANDLER_TOAST,"密码修改成功").sendToTarget();
+				currentActivity.finish();
+			} catch (BusinessException e) {
+				appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+			}catch (Exception e) {
+			}
 	}
 }
