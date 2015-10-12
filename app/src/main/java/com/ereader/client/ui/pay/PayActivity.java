@@ -22,7 +22,6 @@ import com.ereader.client.ui.pay.alipay.PayResult;
 import com.ereader.client.ui.pay.alipay.SignUtils;
 import com.ereader.common.util.IntentUtil;
 import com.ereader.common.util.ProgressDialogUtil;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -49,19 +48,20 @@ public class PayActivity extends BaseActivity implements OnClickListener {
 	// 商户收款账号
 	public static final String SELLER = "2976417620@qq.com";
 	// 商户私钥，pkcs8格式
-	public static final String RSA_PRIVATE = "MIICXAIBAAKBgQDKybPCTjQH/J/chhCnhYCKBZSj4Hx8S8L+MY+t63CK13joktvD" +
-			"IGKLSi/x3Nj+r0n9yOGbQ9K1lvYz3sMj/J5KsZ+hMODmuHc4XmGoc14kiZOZGmGy" +
-			"GBmSvixXODYFw9QVGUNZXmxIk9RigG/GVoeprqMdQU9a8lYMvdZxh0q1FwIDAQAB" +
-			"AoGBAMUJ7ZdsI1RrW+2Lep07s+TofUAqfOrNNp+FCqWkMgtGSJ47LDvRuM68/A8X" +
-			"VuVI7y0fxk72PMPi9kD6P0Q1TptsaMz2XWEEx5BtEBBjGLUlrtMJFf3oi2wAda7j" +
-			"j7/WKIoX5+eUPTvOX3EhwBpUu9dxg8DOFxy74IhY7bTSmyMZAkEA5P+G7C+t0PGf" +
-			"e9vQYZPnjLvGb4hmQmQ6X6s++FH42JG0od/fM493WhyPUuptKu7imEpE0/45SaoW" +
-			"QE3MjVBUZQJBAOKy//nNpK8wYYdY+ijq6LxLoP6d6hckrGMUmu2TTcrwjrRZsLA1" +
-			"R+Ldjl83mydmJ7LMiVGhYPC4U/YaLvOFlcsCQFwKTEt/+mfBxe09c2rUzLtm+aH4" +
-			"e8lxiXjMVnnuUIuTPLvXRFnv7vO8COs1p/0amN7G8xUV2CbAg0MDQhUGVXUCQAnA" +
-			"T1hsaxAKEbfjsOb/q8Els6ggHMigEDY21a8wbeEz1b+WOA5sTEpK42vfFXJtZ3m+" +
-			"aI21VlkkZKAqYiihb18CQHiGKnlSI/NO2rVyfuds9LPDP8kg9XjI1HYd/HRmxkHi" +
-			"P/dwc8CWaPV3H0o01++iqHso+OWzQygJqG88iqs/TYU=";
+	public static final String RSA_PRIVATE = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAMrJs8JONAf8n9yG" +
+			"EKeFgIoFlKPgfHxLwv4xj63rcIrXeOiS28MgYotKL/Hc2P6vSf3I4ZtD0rWW9jPe" +
+			"wyP8nkqxn6Ew4Oa4dzheYahzXiSJk5kaYbIYGZK+LFc4NgXD1BUZQ1lebEiT1GKA" +
+			"b8ZWh6muox1BT1ryVgy91nGHSrUXAgMBAAECgYEAxQntl2wjVGtb7Yt6nTuz5Oh9" +
+			"QCp86s02n4UKpaQyC0ZInjssO9G4zrz8DxdW5UjvLR/GTvY8w+L2QPo/RDVOm2xo" +
+			"zPZdYQTHkG0QEGMYtSWu0wkV/eiLbAB1ruOPv9Yoihfn55Q9O85fcSHAGlS713GD" +
+			"wM4XHLvgiFjttNKbIxkCQQDk/4bsL63Q8Z9729Bhk+eMu8ZviGZCZDpfqz74UfjY" +
+			"kbSh398zj3daHI9S6m0q7uKYSkTT/jlJqhZATcyNUFRlAkEA4rL/+c2krzBhh1j6" +
+			"KOrovEug/p3qFySsYxSa7ZNNyvCOtFmwsDVH4t2OXzebJ2YnssyJUaFg8LhT9hou" +
+			"84WVywJAXApMS3/6Z8HF7T1zatTMu2b5ofh7yXGJeMxWee5Qi5M8u9dEWe/u87wI" +
+			"6zWn/RqY3sbzFRXYJsCDQwNCFQZVdQJACcBPWGxrEAoRt+Ow5v+rwSWzqCAcyKAQ" +
+			"NjbVrzBt4TPVv5Y4DmxMSkrja98Vcm1neb5ojbVWWSRkoCpiKKFvXwJAeIYqeVIj" +
+			"807atXJ+52z0s8M/ySD1eMjUdh38dGbGQeI/93BzwJZo9XcfSjTX76Koeyj45bND" +
+			"KAmobzyKqz9NhQ==";
 	// 支付宝公钥
 	public static final String RSA_PUBLIC = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDDI6d306Q8fIfCOaTXyiUeJHkrIvYISRcc73s3vF1ZT7XN8RNPwJxo8pWaJMmvyTn9N4HQ632qJBVHf8sxHi/fEsraprwCtzvzQETrNRwVxLO5jVmRGi60j8Ue1efIlzPXV9je9mkjzOmdssymZkh2QhUrCmZYI/FCEa3/cNMW0QIDAQAB";
 
