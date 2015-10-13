@@ -381,7 +381,7 @@ public class AppServiceImpl implements AppService {
 		request.setR_calzz(CommentResp.class);
 		CommentResp resp = EReaderApplication.getAppSocket().shortConnect(request);
 		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
-			context.addBusinessData("CommentResp", resp);
+			context.addBusinessData("CommentResp", resp.getData());
 		} else {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
@@ -482,9 +482,22 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void giftUse() throws Exception {
-		// TODO Auto-generated method stub
+	public void useCard(String card) throws Exception {
+		String token = EReaderApplication.getInstance().getLogin().getToken();
+		Request<BaseResp> request = new Request<BaseResp>();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("_token_", token));
+		nameValuePairs.add(new BasicNameValuePair("code", card));
+		nameValuePairs.add(new BasicNameValuePair("type", "C"));
+		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+		request.setUrl(Config.HTTP_GIFT_USE);
+		request.setR_calzz(BaseResp.class);
+		BaseResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
 
+		} else {
+			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+		}
 	}
 
 	@Override

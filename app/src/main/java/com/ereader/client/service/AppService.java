@@ -66,7 +66,7 @@ public interface AppService {
 	/***我的充值劵*/
 	public void gift(String type) throws Exception;
 	/***使用充值券*/
-	public void giftUse() throws Exception;
+	public void useCard(String card) throws Exception;
 	/***商品评论数据*/
 	public void commentCount() throws Exception;
 	

@@ -17,10 +17,10 @@ public class CouponsFragsAdapter extends FragmentStatePagerAdapter {
 	public CouponsFragsAdapter(FragmentManager fm,List<Category> mList) {
 		super(fm);
 		fragments = new ArrayList<Fragment>();
+		fragments.add(new CouponsFragment(mList.get(0)));
 		fragments.add(new CouponsFragment(mList.get(1)));
 		fragments.add(new CouponsFragment(mList.get(2)));
 		fragments.add(new CouponsFragment(mList.get(3)));
-		fragments.add(new CouponsFragment(mList.get(4)));
 	}
 
 	@Override

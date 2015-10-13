@@ -7,21 +7,13 @@ import com.ereader.client.entities.Page;
 import com.ereader.client.entities.SpComment;
 
 public class SPResp extends BaseResp {
-	private List<SpComment> data;
-	private Page page;
+	private SPdata data;
 
-	public Page getPage() {
-		return page;
-	}
-
-	public void setPage(Page page) {
-		this.page = page;
-	}
 
 	/**
 	 * @return the data
 	 */
-	public List<SpComment> getData() {
+	public SPdata getData() {
 		return data;
 	}
 
@@ -29,7 +21,7 @@ public class SPResp extends BaseResp {
 	 * @param data
 	 *            the data to set
 	 */
-	public void setData(List<SpComment> data) {
+	public void setData(SPdata data) {
 		this.data = data;
 	}
 }

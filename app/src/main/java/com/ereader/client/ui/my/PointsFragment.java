@@ -41,11 +41,6 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 				pull_refresh_points.onHeaderRefreshComplete();
 				break;
 			case REFRESH_UP_OK:
-				mList.add("赢");
-				mList.add("赢");
-				mList.add("赢");
-				mList.add("赢");
-				mList.add("赢");
 				adapter.notifyDataSetChanged();
 				pull_refresh_points.onFooterRefreshComplete();
 				break;
@@ -74,15 +69,6 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	private void initView() {
 		pull_refresh_points.setOnHeaderRefreshListener(this);
 		pull_refresh_points.setOnFooterRefreshListener(this);
-		mList.add("赢");
-		mList.add("赢");
-		mList.add("赢");
-		mList.add("赢");
-		mList.add("赢");
-		mList.add("赢");
-		mList.add("赢");
-		mList.add("赢");
-		mList.add("赢");
 		adapter = new PointsAdapter(mContext, mList);
 		lv_points.setAdapter(adapter);
 	}

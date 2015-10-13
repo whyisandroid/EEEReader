@@ -55,20 +55,20 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 			case BookActivity.BOOK:
 				// 更新页面数据
 				BookResp bookResp =  (BookResp)controller.getContext().getBusinessData("BookFeaturedResp");
-				for (int i = 0; i < bookResp.getData().size(); i++) {
+				for (int i = 0; i < bookResp.getData().getData().size(); i++) {
 					boolean flag = true;
 					
 					for (int j = 0; j < mList.size(); j++) {
-						if(bookResp.getData().get(i).getInfo().getProduct_id().equals(mList.get(j).getInfo().getProduct_id())){
+						if(bookResp.getData().getData().get(i).getInfo().getProduct_id().equals(mList.get(j).getInfo().getProduct_id())){
 							flag = false;
 						}
 					}
 					if(flag){
-						mList.add(bookResp.getData().get(i));
+						mList.add(bookResp.getData().getData().get(i));
 					}
 				}
 				
-				page = bookResp.getPage();
+				page = bookResp.getData().getPage();
 				adapter.notifyDataSetChanged();
 				pull_refresh_book.onHeaderRefreshComplete();
 				pull_refresh_book.onFooterRefreshComplete();

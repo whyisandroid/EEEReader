@@ -41,11 +41,6 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 				pull_refresh_bill.onHeaderRefreshComplete();
 				break;
 			case REFRESH_UP_OK:
-				mList.add("赢");
-				mList.add("赢");
-				mList.add("赢");
-				mList.add("赢");
-				mList.add("赢");
 				adapter.notifyDataSetChanged();
 				pull_refresh_bill.onFooterRefreshComplete();
 				break;
@@ -74,15 +69,6 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	private void initView() {
 		pull_refresh_bill.setOnHeaderRefreshListener(this);
 		pull_refresh_bill.setOnFooterRefreshListener(this);
-		mList.add("赢");
-		mList.add("赢");
-		mList.add("赢");
-		mList.add("赢");
-		mList.add("赢");
-		mList.add("赢");
-		mList.add("赢");
-		mList.add("赢");
-		mList.add("赢");
 		adapter = new BillAdapter(mContext, mList);
 		lv_my_bill.setAdapter(adapter);
 	}

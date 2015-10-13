@@ -56,7 +56,7 @@ public class FriendsActivity extends BaseActivity implements OnClickListener {
 		getFriends();
 	}
 	private void getFriends() {
-		ProgressDialogUtil.showProgressDialog(this, "努力加载中…", false);
+		ProgressDialogUtil.showProgressDialog(this, "", false);
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -117,7 +117,7 @@ public class FriendsActivity extends BaseActivity implements OnClickListener {
 					if(TextUtils.isEmpty(et_add_friends.getText().toString())){
 						ToastUtil.showToast(FriendsActivity.this, "好友不能为空", ToastUtil.LENGTH_LONG);
 					}else{
-						ProgressDialogUtil.showProgressDialog(FriendsActivity.this, "添加中…", false);
+						ProgressDialogUtil.showProgressDialog(FriendsActivity.this, "", false);
 						new Thread(new Runnable() {
 							@Override
 							public void run() {

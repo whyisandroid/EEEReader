@@ -32,8 +32,8 @@ public class MySPActivity extends BaseActivity implements OnClickListener {
 			switch (msg.what) {
 			case 0:
 				SPResp sp = (SPResp)controller.getContext().getBusinessData("SPResp");
-				mList.addAll(sp.getData());
-				page = sp.getPage();
+				mList.addAll(sp.getData().getData());
+				page = sp.getData().getPage();
 				adapter.notifyDataSetChanged();
 				break;
 			default:

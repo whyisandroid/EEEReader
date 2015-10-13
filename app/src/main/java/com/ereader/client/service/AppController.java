@@ -504,4 +504,14 @@ public class AppController {
 		}catch (Exception e) {
 		}
 	}
+
+	public void useCard(String card) {
+		try {
+			service.useCard(card);
+			appHandler.obtainMessage(HANDLER_TOAST,"充值成功").sendToTarget();
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}catch (Exception e) {
+		}
+	}
 }

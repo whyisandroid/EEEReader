@@ -142,6 +142,10 @@ public class MyBookFragment extends Fragment implements OnClickListener {
 			IntentUtil.intent(mContext, LoginActivity.class);
 			break;
 		case R.id.main_top_right:
+			if(!EReaderApplication.getInstance().isLogin()){
+				IntentUtil.intent(mContext, LoginActivity.class);
+				return;
+			}
 			// 充值
 			ProgressDialogUtil.showProgressDialog(mContext, "", false);
 			new Thread(new Runnable() {

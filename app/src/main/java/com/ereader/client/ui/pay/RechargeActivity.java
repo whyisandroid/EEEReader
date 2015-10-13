@@ -1,10 +1,12 @@
 package com.ereader.client.ui.pay;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -13,6 +15,9 @@ import com.ereader.client.entities.json.WalletData;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.BaseActivity;
 import com.ereader.common.util.IntentUtil;
+import com.ereader.common.util.ProgressDialogUtil;
+import com.ereader.common.util.ToastUtil;
+
 // 充值
 public class RechargeActivity extends BaseActivity implements OnClickListener {
 	private AppController controller;
@@ -21,6 +26,8 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 	private Button bt_recharge;
 	private RadioButton mPaybao;
 	private RadioButton mPayCard;
+	private EditText mRechMoney;
+	private EditText mRechCard;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -41,6 +48,8 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 		bt_recharge = (Button)findViewById(R.id.bt_recharge);
 		mPaybao = (RadioButton)findViewById(R.id.rb_pay_bao);
 		mPayCard = (RadioButton)findViewById(R.id.rb_pay_card);
+		mRechMoney = (EditText)findViewById(R.id.recharge_et_bao);
+		mRechCard = (EditText)findViewById(R.id.recharge_et_card);
 	}
 	
 
@@ -83,10 +92,34 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 			IntentUtil.intent(RechargeActivity.this, BillActivity.class);
 			break;
 			case R.id.bt_recharge:
+				if(mPaybao.isChecked()){
 
+					String money = mRechMoney.getText().toString();
+					if(TextUtils.isEmpty(money)){
+						ToastUtil.showToast(RechargeActivity.this,"充值金额不能为空",ToastUtil.LENGTH_LONG);
+						return;
+					}
 
-				Alipay pay = new Alipay(this	);
-				pay.pay();
+					Alipay pay = new Alipay(this);
+					pay.pay();
+				}
+
+				if(mPayCard.isChecked()){
+					final String card = mRechCard.getText().toString();
+					if(TextUtils.isEmpty(card)){
+						ToastUtil.showToast(RechargeActivity.this,"充值卡不能为空",ToastUtil.LENGTH_LONG);
+						return;
+					}
+					ProgressDialogUtil.showProgressDialog(RechargeActivity.this, "", false);
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							controller.useCard(card);
+							ProgressDialogUtil.closeProgressDialog();
+						}
+					}).start();
+
+				}
 				break;
 		default:
 			break;
