@@ -91,4 +91,10 @@ public interface AppService {
 	public void findCode()throws Exception;
 	/**修改我的密码***/
 	public void updatePwd()throws Exception;
+	/**修改我的手机号***/
+	public void updatePhone()throws Exception;
+	/**修改姓名***/
+	public void updateName(String name)throws Exception;
+	/**修改邮箱***/
+	public void updateEmail(String emali,String pwd)throws Exception;
 }

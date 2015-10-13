@@ -24,7 +24,7 @@
         <requestFocus />
     </EditText>
     <EditText
-        android:id="@+id/editText5"
+        android:id="@+id/email_et_new"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -38,7 +38,7 @@
 
     </EditText>
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/email_et_new2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -52,7 +52,7 @@
 
     </EditText>
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/email_et_pwd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"

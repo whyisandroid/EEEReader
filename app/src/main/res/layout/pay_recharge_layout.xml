@@ -3,12 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/window_bg"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <include layout="@layout/main_top_layout" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/recharge_tv_ecoin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -33,20 +33,20 @@
         android:orientation="vertical"
         android:paddingBottom="10dp"
         android:paddingLeft="15dp"
-        android:paddingTop="10dp" >
+        android:paddingTop="10dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content">
 
             <RadioButton
                 android:id="@+id/rb_pay_bao"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="支付宝"
                 android:checked="true"
-                
-                 />
+                android:text="支付宝"
+
+                />
 
             <EditText
                 android:id="@+id/editText1"
@@ -57,7 +57,7 @@
                 android:ems="10"
                 android:hint="请输入充值金额"
                 android:inputType="number"
-                android:textSize="@dimen/new_size_3" >
+                android:textSize="@dimen/new_size_3">
 
                 <requestFocus />
             </EditText>
@@ -65,18 +65,18 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" 
-            android:layout_marginTop="10dp"
-            >
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
 
             <RadioButton
                 android:id="@+id/rb_pay_card"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+
                 android:text="充值卡" />
 
             <EditText
-                android:id="@+id/editText1"
+                android:id="@+id/rb_pay_ca"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -84,19 +84,19 @@
                 android:ems="10"
                 android:hint="请输入充值码"
                 android:inputType="number"
-                android:textSize="@dimen/new_size_3" >
-            </EditText>
+                android:textSize="@dimen/new_size_3"></EditText>
         </RelativeLayout>
-        
-           <TextView
-        android:id="@+id/textView1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:padding="15dp"
-        android:text="本次充值金额：￥100"
-        android:textColor="@color/new_color_2"
-        android:textSize="@dimen/new_size_3" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="15dp"
+            android:text="本次充值金额：￥100"
+            android:textColor="@color/new_color_2"
+            android:textSize="@dimen/new_size_3"
+            android:visibility="gone" />
     </LinearLayout>
 
     <Button

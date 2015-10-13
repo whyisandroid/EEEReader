@@ -94,7 +94,7 @@ public class FindPwdActivity extends BaseActivity implements OnClickListener {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
-					controller.sendCode(mHandler,phone);
+					controller.sendCode(mHandler,phone,"rest_password");
 					ProgressDialogUtil.closeProgressDialog();
 				}
 			}).start();

@@ -6,7 +6,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 
+import com.ereader.client.EReaderApplication;
 import com.ereader.client.entities.DisCategory;
+import com.ereader.client.entities.Login;
 import com.ereader.client.service.impl.AppServiceImpl;
 import com.ereader.client.ui.bookstore.BookActivity;
 import com.ereader.client.ui.bookstore.BookTitleActivity;
@@ -17,6 +19,7 @@ import com.ereader.client.ui.login.RegisterActivity;
 import com.ereader.client.ui.more.NoticeActivity;
 import com.ereader.client.ui.more.NoticeDetailActivity;
 import com.ereader.client.ui.my.MessageFriendsFragment;
+import com.ereader.client.ui.pay.RechargeActivity;
 import com.ereader.common.exception.BusinessException;
 import com.ereader.common.util.IntentUtil;
 import com.ereader.common.util.LogUtil;
@@ -313,6 +316,7 @@ public class AppController {
 			mHandler.obtainMessage(0).sendToTarget();
 		} catch (BusinessException e) {
 			if("1000".equals(e.getErrorMessage().getCode())){
+				mHandler.obtainMessage(-1).sendToTarget();
 				return;
 			}
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
@@ -409,9 +413,9 @@ public class AppController {
 		}
 	}
 
-	public void sendCode(Handler mHandler,String phone) {
+	public void sendCode(Handler mHandler,String phone,String type) {
 			try {
-				service.getCode(phone, "rest_password");
+				service.getCode(phone, type);
 				mHandler.obtainMessage(FindPwdActivity.CODE_OK).sendToTarget();
 			} catch (BusinessException e) {
 				appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
@@ -450,5 +454,54 @@ public class AppController {
 				appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 			}catch (Exception e) {
 			}
+	}
+
+	public void updatePhone() {
+		try {
+			service.updatePhone();
+			appHandler.obtainMessage(HANDLER_TOAST,"手机号修改成功").sendToTarget();
+			currentActivity.finish();
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}catch (Exception e) {
+		}
+	}
+
+
+	public void updateName(String name) {
+		try {
+			service.updateName(name);
+			Login login = EReaderApplication.getInstance().getLogin();
+			login.setNickname(name);
+			EReaderApplication.getInstance().saveLogin(login);
+			appHandler.obtainMessage(HANDLER_TOAST,"姓名修改成功").sendToTarget();
+			currentActivity.finish();
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}catch (Exception e) {
+		}
+	}
+	public void updateEmail(String email,String pwd) {
+		try {
+			service.updateEmail(email, pwd);
+			Login login = EReaderApplication.getInstance().getLogin();
+			login.setEmail(email);
+			EReaderApplication.getInstance().saveLogin(login);
+			appHandler.obtainMessage(HANDLER_TOAST,"邮箱修改成功").sendToTarget();
+			currentActivity.finish();
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}catch (Exception e) {
+		}
+	}
+
+	public void wallet() {
+		try {
+			service.wallet();
+			IntentUtil.intent(currentActivity, RechargeActivity.class);
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}catch (Exception e) {
+		}
 	}
 }

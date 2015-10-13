@@ -32,7 +32,7 @@
         android:layout_toRightOf="@+id/tv_name"
         android:textColor="@color/new_color_2"
         android:textSize="@dimen/new_size_3"
-        android:text="等风来"
+        android:text=""
         android:ems="10" >
 
         <requestFocus />

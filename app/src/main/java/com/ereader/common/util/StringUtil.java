@@ -175,6 +175,21 @@ public class StringUtil {
 		}*/
 		return validation;
 	}
+
+	/**
+	 *  账号验证
+	 * @param s
+	 * @return
+	 */
+	public static String email(String s){
+		String validation = "";
+		if (TextUtils.isEmpty(s)) {
+			validation ="请输入邮箱";
+		} else if (!RegExpUtil.emailValidation(s)) {
+			validation = "请输入正确邮箱";
+		}
+		return validation;
+	}
 	
 	/**
 	 * 验证密码

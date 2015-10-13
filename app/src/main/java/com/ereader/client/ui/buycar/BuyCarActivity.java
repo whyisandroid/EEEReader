@@ -44,6 +44,13 @@ public class BuyCarActivity extends BaseActivity implements OnClickListener {
 	private Handler mHandler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
+				case -1:
+					mList.clear();
+					adapter.notifyDataSetChanged();
+					// 更改金额 和结算数量
+					checkMoney();
+					EReaderApplication.getInstance().saveBuyCar(null);
+					break;
 			case 0:
 				mList.clear();
 				mList.addAll((List<Book>) controller.getContext()

@@ -3,6 +3,7 @@ package com.ereader.client.service.impl;
 
 import com.ereader.client.EReaderApplication;
 import com.ereader.client.entities.DisCategory;
+import com.ereader.client.entities.Login;
 import com.ereader.client.entities.json.ArticleDetailResp;
 import com.ereader.client.entities.json.ArticleResp;
 import com.ereader.client.entities.json.BaseResp;
@@ -17,6 +18,7 @@ import com.ereader.client.entities.json.LoginResp;
 import com.ereader.client.entities.json.MessageResp;
 import com.ereader.client.entities.json.SPResp;
 import com.ereader.client.entities.json.SubCategoryResp;
+import com.ereader.client.entities.json.WalletResp;
 import com.ereader.client.service.AppContext;
 import com.ereader.client.service.AppService;
 import com.ereader.common.exception.BusinessException;
@@ -433,8 +435,19 @@ public class AppServiceImpl implements AppService {
 
 	@Override
 	public void wallet() throws Exception {
-		// TODO Auto-generated method stub
-
+		String token = EReaderApplication.getInstance().getLogin().getToken();
+		Request<WalletResp> request = new Request<WalletResp>();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("_token_", token));
+		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+		request.setUrl(Config.HTTP_USER_WALLET);
+		request.setR_calzz(WalletResp.class);
+		WalletResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+			context.addBusinessData("WalletResp", resp.getData());
+		} else {
+			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+		}
 	}
 
 	@Override
@@ -589,6 +602,67 @@ public class AppServiceImpl implements AppService {
 		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
 		} else {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+		}
+	}
+
+	@Override
+	public void updatePhone() throws Exception {
+			String token = EReaderApplication.getInstance().getLogin().getToken();
+			String mNewPhone = context.getStringData("mNewPhone");
+			String mPhoneCode = context.getStringData("mPhoneCode");
+			Request<BaseResp> request = new Request<BaseResp>();
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+			nameValuePairs.add(new BasicNameValuePair("_token_", token));
+			nameValuePairs.add(new BasicNameValuePair("phone", mNewPhone));
+			nameValuePairs.add(new BasicNameValuePair("vcode", mPhoneCode));
+			request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+			request.setUrl(Config.HTTP_MY_PHONE);
+			request.setR_calzz(BaseResp.class);
+			BaseResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+			if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+				Login login = EReaderApplication.getInstance().getLogin();
+				login.setPhone(mNewPhone);
+				EReaderApplication.getInstance().saveLogin(login);
+			} else {
+				throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+			}
+	}
+
+	@Override
+		 public void updateName(String name) throws Exception {
+		{
+			String token = EReaderApplication.getInstance().getLogin().getToken();
+			Request<BaseResp> request = new Request<BaseResp>();
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+			nameValuePairs.add(new BasicNameValuePair("_token_", token));
+			nameValuePairs.add(new BasicNameValuePair("nickname", name));
+			request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+			request.setUrl(Config.HTTP_MY_NAME);
+			request.setR_calzz(BaseResp.class);
+			BaseResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+			if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+			} else {
+				throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+			}
+		}
+	}
+	@Override
+	public void updateEmail(String email,String pwd) throws Exception {
+		{
+			String token = EReaderApplication.getInstance().getLogin().getToken();
+			Request<BaseResp> request = new Request<BaseResp>();
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+			nameValuePairs.add(new BasicNameValuePair("_token_", token));
+			nameValuePairs.add(new BasicNameValuePair("email", email));
+			nameValuePairs.add(new BasicNameValuePair("password", pwd));
+			request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+			request.setUrl(Config.HTTP_MY_EMAIL);
+			request.setR_calzz(BaseResp.class);
+			BaseResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+			if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+			} else {
+				throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+			}
 		}
 	}
 }

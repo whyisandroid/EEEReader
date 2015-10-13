@@ -1,6 +1,7 @@
 package com.ereader.client.ui.my;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -12,6 +13,8 @@ import com.ereader.client.R;
 import com.ereader.client.entities.Login;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.BaseActivity;
+import com.ereader.common.util.ProgressDialogUtil;
+import com.ereader.common.util.StringUtil;
 import com.ereader.common.util.ToastUtil;
 
 public class NameActivity extends BaseActivity implements OnClickListener {
@@ -48,7 +51,7 @@ public class NameActivity extends BaseActivity implements OnClickListener {
 		((TextView) findViewById(R.id.tv_main_top_title)).setText("姓名");
 		Login login = EReaderApplication.getInstance().getLogin();
 		if(login != null){
-			et_account_name.setText(login.getRealname());
+			et_account_name.setHint(login.getNickname());
 		}
 		main_top_right.setText("保存");
 		main_top_right.setOnClickListener(this);
@@ -59,8 +62,19 @@ public class NameActivity extends BaseActivity implements OnClickListener {
 
 		switch (v.getId()) {
 		case  R.id.main_top_right:
-			ToastUtil.showToast(this, "保存成功", ToastUtil.LENGTH_LONG);
-			this.finish();
+			final String name = et_account_name.getText().toString();
+			if(TextUtils.isEmpty(name)){
+				ToastUtil.showToast(NameActivity.this, "姓名不能为空", ToastUtil.LENGTH_LONG);
+				return;
+			}
+			ProgressDialogUtil.showProgressDialog(this, "", false);
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					controller.updateName(name);
+					ProgressDialogUtil.closeProgressDialog();
+				}
+			}).start();
 			break;
 		default:
 			break;

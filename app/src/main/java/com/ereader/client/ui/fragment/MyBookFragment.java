@@ -30,6 +30,7 @@ import com.ereader.client.ui.my.PointsActivity;
 import com.ereader.client.ui.my.RecommendActivity;
 import com.ereader.client.ui.pay.RechargeActivity;
 import com.ereader.common.util.IntentUtil;
+import com.ereader.common.util.ProgressDialogUtil;
 
 public class MyBookFragment extends Fragment implements OnClickListener {
 	private View view;
@@ -141,7 +142,15 @@ public class MyBookFragment extends Fragment implements OnClickListener {
 			IntentUtil.intent(mContext, LoginActivity.class);
 			break;
 		case R.id.main_top_right:
-			IntentUtil.intent(mContext, RechargeActivity.class);
+			// 充值
+			ProgressDialogUtil.showProgressDialog(mContext, "", false);
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					controller.wallet();
+					ProgressDialogUtil.closeProgressDialog();
+				}
+			}).start();
 			break;
 		default:
 			break;

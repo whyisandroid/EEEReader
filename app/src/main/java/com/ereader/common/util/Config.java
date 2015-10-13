@@ -67,6 +67,9 @@ public class Config {
 	public final static String HTTP_USER_GIFT= MY_SERVICE+ "/api/user/giftcard"; //  我的充值劵
 	public final static String HTTP_GIFT_USE = MY_SERVICE+ "/api/user/inpourFromGiftcard"; //  2.1.10.	使用充值券
 	public final static String HTTP_MY_PWD = MY_SERVICE+ "/api/user/updatePassword"; //  修改密码
+	public final static String HTTP_MY_PHONE = MY_SERVICE+ "/api/user/updatePhone"; //  修改手机号
+	public final static String HTTP_MY_NAME = MY_SERVICE+ "/api/user/updateUserInfo"; //  修改name email
+	public final static String HTTP_MY_EMAIL = MY_SERVICE+ "/api/user/updateEmail"; //  修改email
 
 	
 	//TODO  book
