@@ -1,12 +1,10 @@
 package com.ereader.client.ui.my;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -15,8 +13,12 @@ import com.ereader.client.entities.Book;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.BaseActivity;
 import com.ereader.client.ui.adapter.CollectionAdapter;
+import com.ereader.client.ui.bookstore.BookDetailActivity;
+import com.ereader.common.util.IntentUtil;
 import com.ereader.common.util.ProgressDialogUtil;
-import com.ereader.common.util.ToastUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 // 我的收藏
 public class CollectionActivity extends BaseActivity implements OnClickListener {
@@ -80,7 +82,19 @@ public class CollectionActivity extends BaseActivity implements OnClickListener 
 		((TextView) findViewById(R.id.tv_main_top_title)).setText("我的收藏");
 		adapter = new CollectionAdapter(this,mHandler,mList);
 		lv_my_collection.setAdapter(adapter);
+		lv_my_collection.setOnItemClickListener(bookItemListener);
 	}
+
+	private AdapterView.OnItemClickListener bookItemListener = new AdapterView.OnItemClickListener() {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+								long id) {
+			Book book = mList.get(position);
+			Bundle bundle = new Bundle();
+			bundle.putSerializable("detailBook", book);
+			IntentUtil.intent(CollectionActivity.this, bundle, BookDetailActivity.class, false);
+		}
+	};
 
 	@Override
 	public void onClick(View v) {

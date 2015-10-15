@@ -319,7 +319,7 @@ public class AppController {
 				mHandler.obtainMessage(-1).sendToTarget();
 				return;
 			}
-			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+			//appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}catch (Exception e) {
 		}
 	
@@ -339,7 +339,7 @@ public class AppController {
 		try {
 			service.addBuyCar(id);
 			appHandler.obtainMessage(HANDLER_TOAST,"已加入购物车").sendToTarget();
-			//mHandler.obtainMessage(1).sendToTarget();
+			mHandler.obtainMessage(1).sendToTarget();
 		} catch (BusinessException e) {
 		}catch (Exception e) {
 		}

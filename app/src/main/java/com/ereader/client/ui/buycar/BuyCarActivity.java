@@ -115,7 +115,7 @@ public class BuyCarActivity extends BaseActivity implements OnClickListener {
 		if (!EReaderApplication.getInstance().isLogin()) {
 			IntentUtil.intent(BuyCarActivity.this, LoginActivity.class);
 		} else {
-			ProgressDialogUtil.showProgressDialog(this, "通信中…", false);
+			ProgressDialogUtil.showProgressDialog(this, "", false);
 			new Thread(new Runnable() {
 				@Override
 				public void run() {

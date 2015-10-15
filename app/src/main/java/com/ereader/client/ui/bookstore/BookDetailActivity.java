@@ -45,6 +45,8 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 	private RatingBar rb_book_star;
 	private TextView tv_book_price;
 	private int buyNum = 0;
+
+	private Book mBook;
 	
 	private Handler mHandler = new Handler(){
 		
@@ -55,8 +57,10 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 				break;
 			case 1:
 				//TODO  改变购物车的数量
-				buyNum++;
-				main_top_right.setText("购物车("+buyNum+")");
+				BookOnlyResp resp = EReaderApplication.getInstance().getBuyCar();
+				resp.getData().add(mBook);
+				EReaderApplication.getInstance().saveBuyCar(resp);
+				setBuyCarNum();
 				break;
 			default:
 				break;
@@ -100,16 +104,11 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 	  * @time: 2015-2-10 下午1:37:06
 	 */
 	private void initView() {
-		Book book = (Book)getIntent().getExtras().getSerializable("detailBook");
-		tv_book_collection.setTag(book.getInfo().getProduct_id());
+		mBook = (Book)getIntent().getExtras().getSerializable("detailBook");
+		tv_book_collection.setTag(mBook.getInfo().getProduct_id());
 		((TextView) findViewById(R.id.tv_main_top_title)).setText("书城");
-		BookOnlyResp resp  = (BookOnlyResp)EReaderApplication.getInstance().getBuyCar();
 		main_top_right.setText("购物车");
-		
-		if(resp != null){
-			buyNum = resp.getData().size();
-			main_top_right.setText("购物车("+buyNum+")");
-		}
+
 		Drawable drawable= getResources().getDrawable(R.drawable.b5_03);
 		/// 这一步必须要做,否则不会显示.
 		drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
@@ -125,7 +124,7 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 		mListTitle.add("作者简介");
 		mListTitle.add("书评");
 		
-		BookDetailFragsAdapter pageAdapter = new BookDetailFragsAdapter(getSupportFragmentManager(),mListTitle.size(),book);
+		BookDetailFragsAdapter pageAdapter = new BookDetailFragsAdapter(getSupportFragmentManager(),mListTitle.size(),mBook);
 		vp_book_store.setAdapter(pageAdapter);
 		
 		// 设置缓存fragment的数量
@@ -137,9 +136,22 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 		BookDetailTabsAdapter adapter = new BookDetailTabsAdapter(this,mListTitle);
 		st_book_detail.setAdapter(adapter);
 		st_book_detail.setViewPager(vp_book_store);
-		setBook(book);
-		
-		
+		setBook(mBook);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		setBuyCarNum();
+	}
+
+
+	private void setBuyCarNum(){
+		BookOnlyResp resp  =  EReaderApplication.getInstance().getBuyCar();
+		if(resp != null){
+			buyNum = resp.getData().size();
+			main_top_right.setText("购物车("+buyNum+")");
+		}
 	}
 
 	private void setBook(Book book) {

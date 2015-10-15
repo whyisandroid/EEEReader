@@ -9,6 +9,7 @@ import com.ereader.client.entities.json.ArticleResp;
 import com.ereader.client.entities.json.BaseResp;
 import com.ereader.client.entities.json.BookOnlyResp;
 import com.ereader.client.entities.json.BookResp;
+import com.ereader.client.entities.json.BookSearchResp;
 import com.ereader.client.entities.json.CategoryResp;
 import com.ereader.client.entities.json.CommentResp;
 import com.ereader.client.entities.json.DisCategoryResp;
@@ -263,13 +264,13 @@ public class AppServiceImpl implements AppService {
 
 	@Override
 	public void search(String value) throws Exception {
-		Request<BookResp> request = new Request<BookResp>();
+		Request<BookSearchResp> request = new Request<BookSearchResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("keyword", value));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 		request.setUrl(Config.HTTP_BOOK_SEARCH);
-		request.setR_calzz(BookResp.class);
-		BookResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		request.setR_calzz(BookSearchResp.class);
+		BookSearchResp resp = EReaderApplication.getAppSocket().shortConnect(request);
 		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
 			context.addBusinessData("SearchBookResp", resp.getData());
 		} else {
