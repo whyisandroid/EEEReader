@@ -18,16 +18,21 @@ import android.widget.TextView;
 import com.ereader.client.EReaderApplication;
 import com.ereader.client.R;
 import com.ereader.client.entities.Book;
+import com.ereader.client.entities.PayCar;
+import com.ereader.client.entities.PayCarList;
 import com.ereader.client.entities.json.BookOnlyResp;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.BaseActivity;
 import com.ereader.client.ui.adapter.BuyCarAdapter;
 import com.ereader.client.ui.login.LoginActivity;
 import com.ereader.client.ui.pay.PayActivity;
+import com.ereader.common.exception.BusinessException;
 import com.ereader.common.util.IntentUtil;
+import com.ereader.common.util.Json_U;
 import com.ereader.common.util.ProgressDialogUtil;
 import com.ereader.common.util.StringUtil;
 import com.ereader.common.util.ToastUtil;
+import com.google.gson.Gson;
 
 // 购物车
 public class BuyCarActivity extends BaseActivity implements OnClickListener {
@@ -41,6 +46,9 @@ public class BuyCarActivity extends BaseActivity implements OnClickListener {
 	private int buyNum = 0;
 	private String money = "0";
 	private TextView tv_buycar_delete;
+
+	public static final int  ORDER_SUCCESS = 4 ;
+
 	private Handler mHandler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
@@ -89,6 +97,9 @@ public class BuyCarActivity extends BaseActivity implements OnClickListener {
 				}
 				checkMoney();
 				adapter.notifyDataSetChanged();
+				case ORDER_SUCCESS:
+					IntentUtil.intent(BuyCarActivity.this, PayActivity.class);
+					break;
 			default:
 				break;
 			}
@@ -182,9 +193,21 @@ public class BuyCarActivity extends BaseActivity implements OnClickListener {
 				ToastUtil.showToast(BuyCarActivity.this, "没有可支付商品", ToastUtil.LENGTH_LONG);
 				return;
 			}
-			Bundle bundle = new Bundle();
-			bundle.putString("money", money);
-			IntentUtil.intent(BuyCarActivity.this,bundle, PayActivity.class,false);
+
+			// 生成订单
+			try {
+				final String  orderData = getOrderMessage();
+				ProgressDialogUtil.showProgressDialog(this, "", false);
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						controller.getOrderId(mHandler, orderData);
+						ProgressDialogUtil.closeProgressDialog();
+					}
+				}).start();
+			} catch (BusinessException e) {
+				e.printStackTrace();
+			}
 			break;
 		case R.id.rb_car_all:
 			if(mList.size() == 0){
@@ -221,8 +244,22 @@ public class BuyCarActivity extends BaseActivity implements OnClickListener {
 		}
 	}
 
+	/**
+	 * @return
+	 */
+	private String getOrderMessage() throws BusinessException{
+		PayCarList pList = new PayCarList();
+		for (int i = 0 ; i < mList.size(); i++){
+			Book book = mList.get(i);
+			pList.getmPayCarList().add(new PayCar(book.getInfo().getProduct_id()));
+		}
+		String jsonData = Json_U.objToJsonStr(pList);
+		return jsonData.substring(15,jsonData.length()-1);
+	}
+
+
 	private void deleteCar(final String id) {
-		ProgressDialogUtil.showProgressDialog(this, "删除中…", false);
+		ProgressDialogUtil.showProgressDialog(this, "", false);
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -230,7 +267,6 @@ public class BuyCarActivity extends BaseActivity implements OnClickListener {
 				ProgressDialogUtil.closeProgressDialog();
 			}
 		}).start();
-	
 	}
 
 	/**

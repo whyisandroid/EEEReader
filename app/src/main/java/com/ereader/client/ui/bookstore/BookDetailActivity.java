@@ -101,6 +101,7 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 	 */
 	private void initView() {
 		Book book = (Book)getIntent().getExtras().getSerializable("detailBook");
+		bt_book_add_friends.setTag(book.getInfo().getProduct_id());
 		tv_book_collection.setTag(book.getInfo().getProduct_id());
 		((TextView) findViewById(R.id.tv_main_top_title)).setText("书城");
 		BookOnlyResp resp  = (BookOnlyResp)EReaderApplication.getInstance().getBuyCar();
@@ -185,7 +186,14 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 				}).start();
 			break;
 			case R.id.bt_book_add_friends:
-				IntentUtil.intent(BookDetailActivity.this, FriendsActivity.class);
+				if(!EReaderApplication.getInstance().isLogin()){
+					IntentUtil.intent(BookDetailActivity.this, LoginActivity.class);
+					return;
+				}
+				//  推荐给好友
+				controller.getContext().addBusinessData("bookSendId",bt_book_add_friends.getTag().toString());
+				FriendsActivity.mFriendsSend = true;
+				IntentUtil.intent(BookDetailActivity.this,FriendsActivity.class);
 				break;
 		default:
 			break;
