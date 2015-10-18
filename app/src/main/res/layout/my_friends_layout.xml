@@ -6,6 +6,14 @@
     android:orientation="vertical" >
     <include layout="@layout/main_top_layout" />
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:visibility="gone"
+        android:id="@+id/friends_et_send" />
+
     <ListView
         android:id="@+id/lv_my_friends"
         android:layout_width="match_parent"

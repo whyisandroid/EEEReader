@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.ereader.client.R;
+import com.ereader.client.entities.Order;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.BaseActivity;
 import com.ereader.client.ui.pay.alipay.PayResult;
@@ -82,7 +83,8 @@ public class PayActivity extends BaseActivity implements OnClickListener {
 		main_top_right.setOnClickListener(this);
 		bt_pay_go.setOnClickListener(this);
 		main_top_right.setText("充值");
-		money = getIntent().getExtras().getString("money");
+		Order order = (Order)controller.getContext().getBusinessData("OrderResp");
+		money = order.getPay_total();
 		point = 60;
 		tv_pay_money.setText("¥ " + money);
 		tv_pay_all_money.setText("¥ " + money);

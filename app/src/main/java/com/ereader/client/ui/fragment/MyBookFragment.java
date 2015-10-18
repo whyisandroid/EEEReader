@@ -123,6 +123,7 @@ public class MyBookFragment extends Fragment implements OnClickListener {
 				IntentUtil.intent(mContext, MessageActivity.class);
 				break;
 			case 8:
+				FriendsActivity.mFriendsSend = false;
 				IntentUtil.intent(mContext, FriendsActivity.class);
 				break;
 			default:

@@ -4,6 +4,7 @@ package com.ereader.client.service.impl;
 import com.ereader.client.EReaderApplication;
 import com.ereader.client.entities.DisCategory;
 import com.ereader.client.entities.Login;
+import com.ereader.client.entities.Order;
 import com.ereader.client.entities.json.ArticleDetailResp;
 import com.ereader.client.entities.json.ArticleResp;
 import com.ereader.client.entities.json.BaseResp;
@@ -17,6 +18,7 @@ import com.ereader.client.entities.json.FriendsResp;
 import com.ereader.client.entities.json.GiftResp;
 import com.ereader.client.entities.json.LoginResp;
 import com.ereader.client.entities.json.MessageResp;
+import com.ereader.client.entities.json.OrderResp;
 import com.ereader.client.entities.json.SPResp;
 import com.ereader.client.entities.json.SubCategoryResp;
 import com.ereader.client.entities.json.WalletResp;
@@ -508,9 +510,23 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void createOrder() throws Exception {
-		// TODO Auto-generated method stub
-
+	public void createOrder(String orderMessage) throws Exception {
+		{
+			String token = EReaderApplication.getInstance().getLogin().getToken();
+			Request<OrderResp> request = new Request<OrderResp>();
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+			nameValuePairs.add(new BasicNameValuePair("_token_", token));
+			nameValuePairs.add(new BasicNameValuePair("jsondata", orderMessage));
+			request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+			request.setUrl(Config.HTTP_PAY_OREDER);
+			request.setR_calzz(OrderResp.class);
+			OrderResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+			if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+				context.addBusinessData("OrderResp",resp.getData());
+			} else {
+				throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+			}
+		}
 	}
 
 	@Override
@@ -582,13 +598,14 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void tellToFriend() throws Exception {
+	public void tellToFriend(String friendId) throws Exception {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
+		String bookSendId = context.getStringData("bookSendId");
 		Request<BaseResp> request = new Request<BaseResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("_token_", token));
-		nameValuePairs.add(new BasicNameValuePair("friend_id", "20"));
-		nameValuePairs.add(new BasicNameValuePair("product_id", "20"));
+		nameValuePairs.add(new BasicNameValuePair("friend_id", friendId));
+		nameValuePairs.add(new BasicNameValuePair("product_id", bookSendId));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 		request.setUrl(Config.HTTP_MY_TO_FRIEND);
 		request.setR_calzz(BaseResp.class);

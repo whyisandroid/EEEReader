@@ -104,11 +104,19 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 	  * @time: 2015-2-10 下午1:37:06
 	 */
 	private void initView() {
+		Book book = (Book)getIntent().getExtras().getSerializable("detailBook");
+		bt_book_add_friends.setTag(book.getInfo().getProduct_id());
+		tv_book_collection.setTag(book.getInfo().getProduct_id());
 		mBook = (Book)getIntent().getExtras().getSerializable("detailBook");
 		tv_book_collection.setTag(mBook.getInfo().getProduct_id());
 		((TextView) findViewById(R.id.tv_main_top_title)).setText("书城");
+		BookOnlyResp resp  = (BookOnlyResp)EReaderApplication.getInstance().getBuyCar();
 		main_top_right.setText("购物车");
-
+		
+		if(resp != null){
+			buyNum = resp.getData().size();
+			main_top_right.setText("购物车("+buyNum+")");
+		}
 		Drawable drawable= getResources().getDrawable(R.drawable.b5_03);
 		/// 这一步必须要做,否则不会显示.
 		drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
@@ -124,7 +132,7 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 		mListTitle.add("作者简介");
 		mListTitle.add("书评");
 		
-		BookDetailFragsAdapter pageAdapter = new BookDetailFragsAdapter(getSupportFragmentManager(),mListTitle.size(),mBook);
+		BookDetailFragsAdapter pageAdapter = new BookDetailFragsAdapter(getSupportFragmentManager(),mListTitle.size(),book);
 		vp_book_store.setAdapter(pageAdapter);
 		
 		// 设置缓存fragment的数量
@@ -197,7 +205,14 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 				}).start();
 			break;
 			case R.id.bt_book_add_friends:
-				IntentUtil.intent(BookDetailActivity.this, FriendsActivity.class);
+				if(!EReaderApplication.getInstance().isLogin()){
+					IntentUtil.intent(BookDetailActivity.this, LoginActivity.class);
+					return;
+				}
+				//  推荐给好友
+				controller.getContext().addBusinessData("bookSendId",bt_book_add_friends.getTag().toString());
+				FriendsActivity.mFriendsSend = true;
+				IntentUtil.intent(BookDetailActivity.this,FriendsActivity.class);
 				break;
 		default:
 			break;

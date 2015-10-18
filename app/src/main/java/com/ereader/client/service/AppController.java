@@ -12,6 +12,7 @@ import com.ereader.client.entities.Login;
 import com.ereader.client.service.impl.AppServiceImpl;
 import com.ereader.client.ui.bookstore.BookActivity;
 import com.ereader.client.ui.bookstore.BookTitleActivity;
+import com.ereader.client.ui.buycar.BuyCarActivity;
 import com.ereader.client.ui.dialog.DialogUtil;
 import com.ereader.client.ui.login.FindPwdActivity;
 import com.ereader.client.ui.login.LoginActivity;
@@ -374,7 +375,7 @@ public class AppController {
 		try {
 			service.addFriends(id);
 			mHandler.obtainMessage(1).sendToTarget();
-			ToastUtil.showToast(currentActivity, "添加成功！", ToastUtil.LENGTH_LONG);
+			ToastUtil.showToast(currentActivity, "好友申请已发送！", ToastUtil.LENGTH_LONG);
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}catch (Exception e) {
@@ -509,6 +510,27 @@ public class AppController {
 		try {
 			service.useCard(card);
 			appHandler.obtainMessage(HANDLER_TOAST,"充值成功").sendToTarget();
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}catch (Exception e) {
+		}
+	}
+
+	public void sendFriends(Handler mHandler, String s) {
+		try {
+			service.tellToFriend(s);
+			currentActivity.finish();
+			appHandler.obtainMessage(HANDLER_TOAST,"推荐成功").sendToTarget();
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}catch (Exception e) {
+		}
+	}
+
+	public void getOrderId(Handler mHandler, String orderData) {
+		try {
+			service.createOrder(orderData);
+			mHandler.obtainMessage(BuyCarActivity.ORDER_SUCCESS).sendToTarget();
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}catch (Exception e) {
