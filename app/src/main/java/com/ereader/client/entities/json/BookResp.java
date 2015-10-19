@@ -6,21 +6,12 @@ import com.ereader.client.entities.Book;
 import com.ereader.client.entities.Page;
 
 public class BookResp extends BaseResp {
-	private List<Book> data;
-	private Page page;
-
-	public Page getPage() {
-		return page;
-	}
-
-	public void setPage(Page page) {
-		this.page = page;
-	}
+	private BookData data;
 
 	/**
 	 * @return the data
 	 */
-	public List<Book> getData() {
+	public BookData getData() {
 		return data;
 	}
 
@@ -28,7 +19,7 @@ public class BookResp extends BaseResp {
 	 * @param data
 	 *            the data to set
 	 */
-	public void setData(List<Book> data) {
+	public void setData(BookData data) {
 		this.data = data;
 	}
 }

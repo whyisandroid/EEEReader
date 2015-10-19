@@ -6,11 +6,14 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 
+import com.ereader.client.EReaderApplication;
 import com.ereader.client.entities.DisCategory;
+import com.ereader.client.entities.Login;
 import com.ereader.client.service.impl.AppServiceImpl;
 import com.ereader.client.ui.bookshelf.SearchBuyActivity;
 import com.ereader.client.ui.bookstore.BookActivity;
 import com.ereader.client.ui.bookstore.BookTitleActivity;
+import com.ereader.client.ui.buycar.BuyCarActivity;
 import com.ereader.client.ui.dialog.DialogUtil;
 import com.ereader.client.ui.login.FindPwdActivity;
 import com.ereader.client.ui.login.LoginActivity;
@@ -18,6 +21,7 @@ import com.ereader.client.ui.login.RegisterActivity;
 import com.ereader.client.ui.more.NoticeActivity;
 import com.ereader.client.ui.more.NoticeDetailActivity;
 import com.ereader.client.ui.my.MessageFriendsFragment;
+import com.ereader.client.ui.pay.RechargeActivity;
 import com.ereader.common.exception.BusinessException;
 import com.ereader.common.util.IntentUtil;
 import com.ereader.common.util.LogUtil;
@@ -314,9 +318,10 @@ public class AppController {
 			mHandler.obtainMessage(0).sendToTarget();
 		} catch (BusinessException e) {
 			if("1000".equals(e.getErrorMessage().getCode())){
+				mHandler.obtainMessage(-1).sendToTarget();
 				return;
 			}
-			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+			//appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}catch (Exception e) {
 		}
 	
@@ -336,7 +341,7 @@ public class AppController {
 		try {
 			service.addBuyCar(id);
 			appHandler.obtainMessage(HANDLER_TOAST,"已加入购物车").sendToTarget();
-			//mHandler.obtainMessage(1).sendToTarget();
+			mHandler.obtainMessage(1).sendToTarget();
 		} catch (BusinessException e) {
 		}catch (Exception e) {
 		}
@@ -371,7 +376,7 @@ public class AppController {
 		try {
 			service.addFriends(id);
 			mHandler.obtainMessage(1).sendToTarget();
-			ToastUtil.showToast(currentActivity, "添加成功！", ToastUtil.LENGTH_LONG);
+			ToastUtil.showToast(currentActivity, "好友申请已发送！", ToastUtil.LENGTH_LONG);
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}catch (Exception e) {
@@ -393,7 +398,7 @@ public class AppController {
 	public void getArticleDetail(String article_id) {
 		try {
 			service.helpDetail(article_id);
-			IntentUtil.intent(currentActivity,NoticeDetailActivity.class);
+			IntentUtil.intent(currentActivity, NoticeDetailActivity.class);
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}catch (Exception e) {
@@ -410,9 +415,9 @@ public class AppController {
 		}
 	}
 
-	public void sendCode(Handler mHandler,String phone) {
+	public void sendCode(Handler mHandler,String phone,String type) {
 			try {
-				service.getCode(phone, "rest_password");
+				service.getCode(phone, type);
 				mHandler.obtainMessage(FindPwdActivity.CODE_OK).sendToTarget();
 			} catch (BusinessException e) {
 				appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
@@ -436,6 +441,97 @@ public class AppController {
 		try {
 			service.gift(type);
 			mHandler.obtainMessage(FindPwdActivity.CODE_OK).sendToTarget();
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}catch (Exception e) {
+		}
+	}
+
+	public void updatePwd() {
+			try {
+				service.updatePwd();
+				appHandler.obtainMessage(HANDLER_TOAST,"密码修改成功").sendToTarget();
+				currentActivity.finish();
+			} catch (BusinessException e) {
+				appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+			}catch (Exception e) {
+			}
+	}
+
+	public void updatePhone() {
+		try {
+			service.updatePhone();
+			appHandler.obtainMessage(HANDLER_TOAST,"手机号修改成功").sendToTarget();
+			currentActivity.finish();
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}catch (Exception e) {
+		}
+	}
+
+
+	public void updateName(String name) {
+		try {
+			service.updateName(name);
+			Login login = EReaderApplication.getInstance().getLogin();
+			login.setNickname(name);
+			EReaderApplication.getInstance().saveLogin(login);
+			appHandler.obtainMessage(HANDLER_TOAST,"姓名修改成功").sendToTarget();
+			currentActivity.finish();
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}catch (Exception e) {
+		}
+	}
+	public void updateEmail(String email,String pwd) {
+		try {
+			service.updateEmail(email, pwd);
+			Login login = EReaderApplication.getInstance().getLogin();
+			login.setEmail(email);
+			EReaderApplication.getInstance().saveLogin(login);
+			appHandler.obtainMessage(HANDLER_TOAST,"邮箱修改成功").sendToTarget();
+			currentActivity.finish();
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}catch (Exception e) {
+		}
+	}
+
+	public void wallet() {
+		try {
+			service.wallet();
+			IntentUtil.intent(currentActivity, RechargeActivity.class);
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}catch (Exception e) {
+		}
+	}
+
+	public void useCard(String card) {
+		try {
+			service.useCard(card);
+			appHandler.obtainMessage(HANDLER_TOAST,"充值成功").sendToTarget();
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}catch (Exception e) {
+		}
+	}
+
+	public void sendFriends(Handler mHandler, String s) {
+		try {
+			service.tellToFriend(s);
+			currentActivity.finish();
+			appHandler.obtainMessage(HANDLER_TOAST,"推荐成功").sendToTarget();
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}catch (Exception e) {
+		}
+	}
+
+	public void getOrderId(Handler mHandler, String orderData) {
+		try {
+			service.createOrder(orderData);
+			mHandler.obtainMessage(BuyCarActivity.ORDER_SUCCESS).sendToTarget();
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}catch (Exception e) {

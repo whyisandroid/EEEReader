@@ -56,7 +56,7 @@ public class BillActivity extends BaseFragmentActivity implements OnClickListene
 	 */
 	private void initView() {
 		((TextView) findViewById(R.id.tv_main_top_title)).setText("账单");
-		main_top_right.setOnClickListener(this);
+			main_top_right.setOnClickListener(this);
 			mListTitle.add(new Category("全部","1"));
 			mListTitle.add(new Category("交易中","2"));
 			mListTitle.add(new Category("购书","3"));

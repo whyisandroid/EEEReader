@@ -94,7 +94,7 @@ public class FindPwdActivity extends BaseActivity implements OnClickListener {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
-					controller.sendCode(mHandler,phone);
+					controller.sendCode(mHandler,phone,"rest_password");
 					ProgressDialogUtil.closeProgressDialog();
 				}
 			}).start();
@@ -126,12 +126,14 @@ public class FindPwdActivity extends BaseActivity implements OnClickListener {
 		@Override
 		public void onFinish() {
 			is_validate_tip = true;
+			tv_login_findpwd.setEnabled(true);
 			tv_login_findpwd.setText("获取验证码");
 		}
 
 		@Override
 		public void onTick(long millisUntilFinished) {
 			is_validate_tip = false;
+			tv_login_findpwd.setEnabled(false);
 			tv_login_findpwd.setText("倒计时"+millisUntilFinished / 1000 + "s");
 		}
 	}

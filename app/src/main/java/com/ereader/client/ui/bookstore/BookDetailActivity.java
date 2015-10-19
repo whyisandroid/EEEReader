@@ -45,6 +45,8 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 	private RatingBar rb_book_star;
 	private TextView tv_book_price;
 	private int buyNum = 0;
+
+	private Book mBook;
 	
 	private Handler mHandler = new Handler(){
 		
@@ -55,8 +57,10 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 				break;
 			case 1:
 				//TODO  改变购物车的数量
-				buyNum++;
-				main_top_right.setText("购物车("+buyNum+")");
+				BookOnlyResp resp = EReaderApplication.getInstance().getBuyCar();
+				resp.getData().add(mBook);
+				EReaderApplication.getInstance().saveBuyCar(resp);
+				setBuyCarNum();
 				break;
 			default:
 				break;
@@ -101,7 +105,10 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 	 */
 	private void initView() {
 		Book book = (Book)getIntent().getExtras().getSerializable("detailBook");
+		bt_book_add_friends.setTag(book.getInfo().getProduct_id());
 		tv_book_collection.setTag(book.getInfo().getProduct_id());
+		mBook = (Book)getIntent().getExtras().getSerializable("detailBook");
+		tv_book_collection.setTag(mBook.getInfo().getProduct_id());
 		((TextView) findViewById(R.id.tv_main_top_title)).setText("书城");
 		BookOnlyResp resp  = (BookOnlyResp)EReaderApplication.getInstance().getBuyCar();
 		main_top_right.setText("购物车");
@@ -137,9 +144,22 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 		BookDetailTabsAdapter adapter = new BookDetailTabsAdapter(this,mListTitle);
 		st_book_detail.setAdapter(adapter);
 		st_book_detail.setViewPager(vp_book_store);
-		setBook(book);
-		
-		
+		setBook(mBook);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		setBuyCarNum();
+	}
+
+
+	private void setBuyCarNum(){
+		BookOnlyResp resp  =  EReaderApplication.getInstance().getBuyCar();
+		if(resp != null){
+			buyNum = resp.getData().size();
+			main_top_right.setText("购物车("+buyNum+")");
+		}
 	}
 
 	private void setBook(Book book) {
@@ -185,7 +205,14 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 				}).start();
 			break;
 			case R.id.bt_book_add_friends:
-				IntentUtil.intent(BookDetailActivity.this, FriendsActivity.class);
+				if(!EReaderApplication.getInstance().isLogin()){
+					IntentUtil.intent(BookDetailActivity.this, LoginActivity.class);
+					return;
+				}
+				//  推荐给好友
+				controller.getContext().addBusinessData("bookSendId",bt_book_add_friends.getTag().toString());
+				FriendsActivity.mFriendsSend = true;
+				IntentUtil.intent(BookDetailActivity.this,FriendsActivity.class);
 				break;
 		default:
 			break;

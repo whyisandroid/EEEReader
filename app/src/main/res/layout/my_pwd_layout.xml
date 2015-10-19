@@ -8,7 +8,7 @@
     <include layout="@layout/main_top_layout" />
 
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/pwd_et_pwd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -23,7 +23,7 @@
         <requestFocus />
     </EditText>
     <EditText
-        android:id="@+id/editText5"
+        android:id="@+id/pwd_et_pwd1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -37,7 +37,7 @@
 
     </EditText>
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/pwd_et_pwd2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -15,6 +16,8 @@ import com.ereader.client.R;
 import com.ereader.client.entities.Login;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.BaseActivity;
+import com.ereader.common.util.ProgressDialogUtil;
+import com.ereader.common.util.StringUtil;
 import com.ereader.common.util.ToastUtil;
 
 public class PhoneActivity extends BaseActivity implements OnClickListener {
@@ -22,6 +25,8 @@ public class PhoneActivity extends BaseActivity implements OnClickListener {
 	private Button main_top_right;
 	private TextView tv_pwd_get_code;
 	private EditText et_account_phone;
+	private EditText mNewPhone;
+	private EditText mCode;
 	private RegisterCountDownTimer timer;
 	private boolean is_validate_tip = true;
 	public static final int CODE_OK = 5;  //验证码  成功
@@ -60,6 +65,8 @@ public class PhoneActivity extends BaseActivity implements OnClickListener {
 		main_top_right = (Button)findViewById(R.id.main_top_right);
 		tv_pwd_get_code = (TextView)findViewById(R.id.tv_pwd_get_code);
 		et_account_phone = (EditText)findViewById(R.id.et_account_phone);
+		mNewPhone = (EditText)findViewById(R.id.phone_et_new_phone);
+		mCode = (EditText)findViewById(R.id.phone_et_code);
 	}
 	
 
@@ -84,12 +91,45 @@ public class PhoneActivity extends BaseActivity implements OnClickListener {
 	public void onClick(View v) {
 
 		switch (v.getId()) {
-		case  R.id.tv_login_findpwd:
-			mHandler.obtainMessage(CODE_OK).sendToTarget();
-			break;
+			case  R.id.tv_pwd_get_code:
+				final String phone = mNewPhone.getText().toString();
+				if(!TextUtils.isEmpty(StringUtil.moblie(phone))){
+					ToastUtil.showToast(PhoneActivity.this,StringUtil.moblie(phone),ToastUtil.LENGTH_LONG);
+					return;
+				}
+				ProgressDialogUtil.showProgressDialog(this, "", false);
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						controller.sendCode(mHandler,phone,"update_phone");
+						ProgressDialogUtil.closeProgressDialog();
+					}
+				}).start();
+				break;
 		case  R.id.main_top_right:
-			ToastUtil.showToast(this, "保存成功", ToastUtil.LENGTH_LONG);
-			this.finish();
+			final String mNPhone = mNewPhone.getText().toString();
+			if(!TextUtils.isEmpty(StringUtil.moblie(mNPhone))){
+				ToastUtil.showToast(PhoneActivity.this,StringUtil.moblie(mNPhone),ToastUtil.LENGTH_LONG);
+				return;
+			}else{
+				controller.getContext().addBusinessData("mNewPhone", mNPhone);
+			}
+
+			String mCodeValue = mCode.getText().toString();
+			if(TextUtils.isEmpty(mCodeValue)){
+				ToastUtil.showToast(PhoneActivity.this,"验证码不能为空",ToastUtil.LENGTH_LONG);
+				return;
+			}else{
+				controller.getContext().addBusinessData("mPhoneCode",mCodeValue);
+			}
+			ProgressDialogUtil.showProgressDialog(this, "", false);
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					controller.updatePhone();
+					ProgressDialogUtil.closeProgressDialog();
+				}
+			}).start();
 			break;
 		default:
 			break;
@@ -106,12 +146,14 @@ public class PhoneActivity extends BaseActivity implements OnClickListener {
 		@Override
 		public void onFinish() {
 			is_validate_tip = true;
+			tv_pwd_get_code.setEnabled(true);
 			tv_pwd_get_code.setText("获取验证码");
 		}
 
 		@Override
 		public void onTick(long millisUntilFinished) {
 			is_validate_tip = false;
+			tv_pwd_get_code.setEnabled(false);
 			tv_pwd_get_code.setText("倒计时"+millisUntilFinished / 1000 + "s");
 		}
 	}

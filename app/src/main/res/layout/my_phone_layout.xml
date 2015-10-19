@@ -24,7 +24,7 @@
 
     </EditText>
      <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/phone_et_new_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -49,7 +49,7 @@
         android:layout_marginRight="@dimen/dimen_xnormal" >
 
       <EditText
-        android:id="@+id/et_register_code"
+        android:id="@+id/phone_et_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/new_color_2"

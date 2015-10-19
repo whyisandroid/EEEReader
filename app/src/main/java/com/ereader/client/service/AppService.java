@@ -66,12 +66,12 @@ public interface AppService {
 	/***我的充值劵*/
 	public void gift(String type) throws Exception;
 	/***使用充值券*/
-	public void giftUse() throws Exception;
+	public void useCard(String card) throws Exception;
 	/***商品评论数据*/
 	public void commentCount() throws Exception;
 	
 	/***创建订单*/
-	public void createOrder() throws Exception;
+	public void createOrder(String value) throws Exception;
 	/***2.4.2.	设置订单支付方式*/
 	public void payType() throws Exception;
 	/***使用电子币支付*/
@@ -85,14 +85,8 @@ public interface AppService {
 	/**我的消息***/
 	public void getMessage(String type)throws Exception;
 	/**向好友推荐商品***/
-	public void tellToFriend()throws Exception;
+	public void tellToFriend(String friendID)throws Exception;
 
 	/**找回密码***/
 	public void findCode()throws Exception;
-
-	/**已经购买的图书***/
-	public void shelfBuyBooks()throws Exception;
-
-	/**删除已经购买的图书***/
-	public void shelfDelBuyBooks()throws Exception;
 }

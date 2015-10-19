@@ -48,8 +48,8 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 			case BOOK:
 				// 更新页面数据
 				BookResp bookResp =  (BookResp)controller.getContext().getBusinessData("BookFeaturedResp");
-				mList.addAll(bookResp.getData());
-				page = bookResp.getPage();
+				mList.addAll(bookResp.getData().getData());
+				page = bookResp.getData().getPage();
 				adapter.notifyDataSetChanged();
 				break;
 			case REFRESH_DOWN_OK:

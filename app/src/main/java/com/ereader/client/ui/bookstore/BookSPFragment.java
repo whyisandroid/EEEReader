@@ -19,6 +19,7 @@ import android.widget.ListView;
 import com.ereader.client.R;
 import com.ereader.client.entities.Book;
 import com.ereader.client.entities.Comment;
+import com.ereader.client.entities.json.CommentData;
 import com.ereader.client.entities.json.CommentResp;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.adapter.BookSPAdapter;
@@ -38,7 +39,7 @@ public class BookSPFragment extends Fragment implements OnClickListener{
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
 			case 0:
-				CommentResp resp = (CommentResp)controller.getContext().getBusinessData("CommentResp");
+				CommentData resp = (CommentData)controller.getContext().getBusinessData("CommentResp");
 				mList.addAll(resp.getData());
 				adapter.notifyDataSetChanged();
 				break;
@@ -60,9 +61,15 @@ public class BookSPFragment extends Fragment implements OnClickListener{
 		mContext = getActivity();
 		findView();
 		initView();
-		getComment();
 		return view;
 	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		getComment();
+	}
+
 	private void getComment() {
 		new Thread(new Runnable() {
 			@Override

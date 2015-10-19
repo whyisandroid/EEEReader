@@ -3,6 +3,7 @@ package com.ereader.client.ui.adapter;
 import java.util.List;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,8 @@ import android.widget.TextView;
 import com.ereader.client.R;
 import com.ereader.client.entities.Book;
 import com.ereader.client.service.AppController;
+import com.ereader.client.ui.bookstore.BookDetailActivity;
+import com.ereader.common.util.IntentUtil;
 import com.ereader.common.util.ProgressDialogUtil;
 
 public class CollectionAdapter extends BaseAdapter {
@@ -61,7 +64,34 @@ public class CollectionAdapter extends BaseAdapter {
 		holder.tv_book_name.setText(book.getInfo().getName());
 		holder.tv_book_time.setText("收藏时间："+book.getUpdated_at());
 		holder.tv_book_price.setText("￥"+book.getPrice());
-		
+
+		holder.tv_book_name.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Bundle bundle = new Bundle();
+				bundle.putSerializable("detailBook", book);
+				IntentUtil.intent(mContext, bundle, BookDetailActivity.class, false);
+			}
+		});
+
+		holder.tv_book_time.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Bundle bundle = new Bundle();
+				bundle.putSerializable("detailBook", book);
+				IntentUtil.intent(mContext, bundle, BookDetailActivity.class, false);
+			}
+		});
+
+		holder.tv_book_price.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Bundle bundle = new Bundle();
+				bundle.putSerializable("detailBook", book);
+				IntentUtil.intent(mContext, bundle, BookDetailActivity.class, false);
+			}
+		});
+
 		holder.tv_order_delete.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -96,6 +126,9 @@ public class CollectionAdapter extends BaseAdapter {
 		});
 		return convertView;
 	}
+
+
+
 	class ViewHolder{
 		private Button tv_collection_buycar;
 		private TextView tv_order_delete;

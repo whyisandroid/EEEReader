@@ -76,7 +76,7 @@ public class FindPwd2Activity extends BaseActivity implements OnClickListener {
 			}else{
 				controller.getContext().addBusinessData("pwdCode",pwd2);
 			}
-
+			ProgressDialogUtil.showProgressDialog(this, "", false);
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
