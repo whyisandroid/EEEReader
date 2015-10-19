@@ -89,4 +89,10 @@ public interface AppService {
 
 	/**找回密码***/
 	public void findCode()throws Exception;
+
+	/**已经购买的图书***/
+	public void shelfBuyBooks()throws Exception;
+
+	/**删除已经购买的图书***/
+	public void shelfDelBuyBooks()throws Exception;
 }
