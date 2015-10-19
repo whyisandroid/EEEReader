@@ -32,13 +32,17 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ereader.client.EReaderApplication;
 import com.ereader.client.R;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.adapter.BookPagerAdapter;
 import com.ereader.client.ui.adapter.BookShelfAdapter;
 import com.ereader.client.ui.bookshelf.Read;
+import com.ereader.client.ui.bookshelf.ReadActivity;
 import com.ereader.client.ui.bookshelf.SearchBuyActivity;
+import com.ereader.client.ui.bookshelf.read.EpubNavigator;
 import com.ereader.client.ui.bookshelf.read.LocalBook;
+import com.ereader.client.ui.login.LoginActivity;
 import com.ereader.client.ui.view.LoopViewPager;
 import com.ereader.client.ui.view.PointView;
 import com.ereader.common.util.IntentUtil;
@@ -62,6 +66,7 @@ public class BookshelfFragment extends Fragment {
 	private LocalBook localbook;
 	private boolean isInit = false;
 	private PointView pointView;
+
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -131,7 +136,15 @@ public class BookshelfFragment extends Fragment {
 		pointlayout.postInvalidate();
 		
 	}
-	
+
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
+
+	}
+
 	private  OnPageChangeListener viewpagerListener = new OnPageChangeListener() {
 		
 		@Override
@@ -154,13 +167,6 @@ public class BookshelfFragment extends Fragment {
 			
 		}
 	};
-	
-	
-	
-	
-	
-	
-	
 
 	private OnItemClickListener gridItemListener = new OnItemClickListener() {
 
@@ -170,11 +176,12 @@ public class BookshelfFragment extends Fragment {
 			ToastUtil.showToast(mContext, position + "", ToastUtil.LENGTH_LONG);
 			Intent it = new Intent();
 
-			it.setClass(mContext, Read.class);
+			it.setClass(mContext, ReadActivity.class);
 			getResources().openRawResource(R.raw.book0);
 
 			String path = (String) listItem.get(0).get("path");
-			it.putExtra("aaa", path);
+			//it.putExtra("aaa", path);getString(R.string.bpath)
+			it.putExtra(getString(R.string.bpath), path);
 			startActivity(it);
 
 		}
@@ -183,7 +190,13 @@ public class BookshelfFragment extends Fragment {
 	private OnClickListener rightListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			IntentUtil.intent(mContext, SearchBuyActivity.class);
+
+			if (EReaderApplication.getInstance().isLogin()){
+				IntentUtil.intent(mContext, SearchBuyActivity.class);
+			}else{
+				IntentUtil.intent(mContext, LoginActivity.class);
+			}
+
 		}
 	};
 

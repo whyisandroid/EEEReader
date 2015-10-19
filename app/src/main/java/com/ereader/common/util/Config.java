@@ -19,7 +19,7 @@ public class Config {
 
 
 	// 正式环境
-	// public final static String MY_SERVICE = "http://10.106.4.56:5050";
+	 //public final static String MY_SERVICE = "http://10.106.4.56:5050";
 	// 测试环境
 	public final static String MY_SERVICE = "http://bookshop.0ett.com";
 
@@ -88,4 +88,10 @@ public class Config {
 
 	public final static String HTTP_MY_MESSAGE = MY_SERVICE+ "/api/user/message"; // 我的消息列表
 	public final static String HTTP_MY_TO_FRIEND = MY_SERVICE+ "/api/user/tellToFriend"; // 向好友推荐商品
+
+	// shelf
+	public final static String HTTP_MY_SHELF_BOOKS = MY_SERVICE+ "/api/ebook/shelves"; //已购图书
+	// shelf－delete
+	public final static String HTTP_MY_SHELF_BOOKS_DELETE = MY_SERVICE+ "/api/ebook/delFromShelves"; //删除已购图书
+
 }

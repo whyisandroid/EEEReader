@@ -10,6 +10,7 @@ import com.ereader.client.EReaderApplication;
 import com.ereader.client.entities.DisCategory;
 import com.ereader.client.entities.Login;
 import com.ereader.client.service.impl.AppServiceImpl;
+import com.ereader.client.ui.bookshelf.SearchBuyActivity;
 import com.ereader.client.ui.bookstore.BookActivity;
 import com.ereader.client.ui.bookstore.BookTitleActivity;
 import com.ereader.client.ui.buycar.BuyCarActivity;
@@ -531,6 +532,28 @@ public class AppController {
 		try {
 			service.createOrder(orderData);
 			mHandler.obtainMessage(BuyCarActivity.ORDER_SUCCESS).sendToTarget();
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}catch (Exception e) {
+		}
+	}
+
+	public void shelfBuyBooks(Handler mHandler){
+
+		try {
+			service.shelfBuyBooks();
+			mHandler.obtainMessage(SearchBuyActivity._OK).sendToTarget();
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}catch (Exception e) {
+		}
+	}
+
+	public void shelfDelBuyBooks(Handler mHandler){
+
+		try {
+			service.shelfDelBuyBooks();
+			mHandler.obtainMessage(SearchBuyActivity._OK).sendToTarget();
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}catch (Exception e) {

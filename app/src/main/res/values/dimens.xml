@@ -51,4 +51,6 @@
 	<dimen name = "dimen_small">5dp</dimen>	
 	
 	<integer name = "radius">5</integer>	<!--轮播图和安全教育界面底部圆点的半径  -->
+
+	<dimen name="all_margin">0dp</dimen>
 </resources>
