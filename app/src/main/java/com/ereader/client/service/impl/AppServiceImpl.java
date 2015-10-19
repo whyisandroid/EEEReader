@@ -4,7 +4,7 @@ package com.ereader.client.service.impl;
 import com.ereader.client.EReaderApplication;
 import com.ereader.client.entities.DisCategory;
 import com.ereader.client.entities.Login;
-import com.ereader.client.entities.Order;
+import com.ereader.client.entities.RechargeOrder;
 import com.ereader.client.entities.json.ArticleDetailResp;
 import com.ereader.client.entities.json.ArticleResp;
 import com.ereader.client.entities.json.BaseResp;
@@ -18,19 +18,20 @@ import com.ereader.client.entities.json.FriendsResp;
 import com.ereader.client.entities.json.GiftResp;
 import com.ereader.client.entities.json.LoginResp;
 import com.ereader.client.entities.json.MessageResp;
+import com.ereader.client.entities.json.OrderRechargeResp;
 import com.ereader.client.entities.json.OrderResp;
 import com.ereader.client.entities.json.SPResp;
 import com.ereader.client.entities.json.SubCategoryResp;
 import com.ereader.client.entities.json.WalletResp;
 import com.ereader.client.service.AppContext;
 import com.ereader.client.service.AppService;
-import com.ereader.common.exception.BusinessException;
 import com.ereader.common.exception.ErrorMessage;
 import com.ereader.common.net.Request;
 import com.ereader.common.util.Config;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import com.ereader.common.exception.BusinessException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,7 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void login() throws Exception {
+	public void login() throws BusinessException {
 		String account = (String) context.getBusinessData("user.account");
 		String password = (String) context.getBusinessData("user.password");
 		Request<LoginResp> request = new Request<LoginResp>();
@@ -66,7 +67,7 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void register() throws Exception {
+	public void register() throws BusinessException {
 		String phone = context.getStringData("regisrerPhone");
 		String pwd = context.getStringData("regisrerPwd");
 		String email = context.getStringData("regisrerEmail");
@@ -90,7 +91,7 @@ public class AppServiceImpl implements AppService {
 
 
 	@Override
-	public void getCode(String phone, String type) throws Exception {
+	public void getCode(String phone, String type) throws BusinessException {
 		Request<BaseResp> request = new Request<BaseResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("phone", phone));
@@ -106,7 +107,7 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void findCode() throws Exception {
+	public void findCode() throws BusinessException {
 		String pwd = context.getStringData("pwdCode");
 		String phone = context.getStringData("phone");
 		String vcode = context.getStringData("vcode");
@@ -127,11 +128,11 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void featuredList() throws Exception {
+	public void featuredList() throws BusinessException {
 		Request<BookResp> request = new Request<BookResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("page", "1"));
-		nameValuePairs.add(new BasicNameValuePair("per_page", "10"));
+		nameValuePairs.add(new BasicNameValuePair("per_page", "20"));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 		request.setUrl(Config.HTTP_BOOK_FEATURED);
 		request.setR_calzz(BookResp.class);
@@ -142,9 +143,24 @@ public class AppServiceImpl implements AppService {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
 	}
-
 	@Override
-	public void latest() throws Exception {
+	public void recommend() throws BusinessException {
+		Request<BookResp> request = new Request<BookResp>();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("page", "1"));
+		nameValuePairs.add(new BasicNameValuePair("per_page", "20"));
+		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+		request.setUrl(Config.HTTP_BOOK_RECOMMEND);
+		request.setR_calzz(BookResp.class);
+		BookResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+			context.addBusinessData("BookFeaturedResp", resp);
+		} else {
+			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+		}
+	}
+	@Override
+	public void latest() throws BusinessException {
 		Request<CategoryResp> request = new Request<CategoryResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
@@ -159,7 +175,7 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void latest(String cate_id) throws Exception {
+	public void latest(String cate_id) throws BusinessException {
 
 		Request<BookResp> request = new Request<BookResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
@@ -178,7 +194,7 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void discount() throws Exception {
+	public void discount() throws BusinessException {
 
 		Request<DisCategoryResp> request = new Request<DisCategoryResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
@@ -195,7 +211,7 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void discountBook(DisCategory mDisCate) throws Exception {
+	public void discountBook(DisCategory mDisCate) throws BusinessException {
 		Request<BookResp> request = new Request<BookResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("min", mDisCate.getMin()));
@@ -214,7 +230,7 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void getCollection() throws Exception {
+	public void getCollection() throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		Request<BookOnlyResp> request = new Request<BookOnlyResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
@@ -231,7 +247,7 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void deleteCollection(String id) throws Exception {
+	public void deleteCollection(String id) throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		Request<BookResp> request = new Request<BookResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
@@ -249,7 +265,7 @@ public class AppServiceImpl implements AppService {
 	}
 
 
-	public void getCategory() throws Exception {
+	public void getCategory() throws BusinessException {
 		Request<SubCategoryResp> request = new Request<SubCategoryResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
@@ -265,7 +281,25 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void search(String value) throws Exception {
+	public void categroyItem(String id) throws BusinessException {
+		Request<BookResp> request = new Request<BookResp>();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("category_id", id));
+		nameValuePairs.add(new BasicNameValuePair("page", "1"));
+		nameValuePairs.add(new BasicNameValuePair("per_page", "20"));
+		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+		request.setUrl(Config.HTTP_BOOK_SEARCH);
+		request.setR_calzz(BookResp.class);
+		BookResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+			context.addBusinessData("BookFeaturedResp", resp);
+		} else {
+			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+		}
+	}
+
+	@Override
+	public void search(String value) throws BusinessException {
 		Request<BookSearchResp> request = new Request<BookSearchResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("keyword", value));
@@ -282,7 +316,7 @@ public class AppServiceImpl implements AppService {
 
 
 	@Override
-	public void addCollection(String id) throws Exception {
+	public void addCollection(String id) throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		Request<BaseResp> request = new Request<BaseResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
@@ -300,7 +334,7 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void getSP() throws Exception {
+	public void getSP() throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		Request<SPResp> request = new Request<SPResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
@@ -317,7 +351,7 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void buyCar() throws Exception {
+	public void buyCar() throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		Request<BookOnlyResp> request = new Request<BookOnlyResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
@@ -338,7 +372,7 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void addBuyCar(String id) throws Exception {
+	public void addBuyCar(String id) throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		Request<BaseResp> request = new Request<BaseResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
@@ -355,7 +389,7 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void deleteBuyCar(String id) throws Exception {
+	public void deleteBuyCar(String id) throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		Request<BaseResp> request = new Request<BaseResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
@@ -372,7 +406,7 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void getComment(String id) throws Exception {
+	public void getComment(String id) throws BusinessException {
 		Request<CommentResp> request = new Request<CommentResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("product_id", id));
@@ -391,7 +425,7 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void getFriends() throws Exception {
+	public void getFriends() throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		Request<FriendsResp> request = new Request<FriendsResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
@@ -408,7 +442,7 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void addFriends(String id) throws Exception {
+	public void addFriends(String id) throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		Request<BaseResp> request = new Request<BaseResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
@@ -425,19 +459,19 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void loginExit() throws Exception {
+	public void loginExit() throws BusinessException {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void user() throws Exception {
+	public void user() throws BusinessException {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void wallet() throws Exception {
+	public void wallet() throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		Request<WalletResp> request = new Request<WalletResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
@@ -454,19 +488,19 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void bill() throws Exception {
+	public void bill() throws BusinessException {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void order() throws Exception {
+	public void order() throws BusinessException {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void gift(String type) throws Exception {
+	public void gift(String type) throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		Request<GiftResp> request = new Request<GiftResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
@@ -485,7 +519,7 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void useCard(String card) throws Exception {
+	public void useCard(String card) throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		Request<BaseResp> request = new Request<BaseResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
@@ -504,14 +538,13 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void commentCount() throws Exception {
+	public void commentCount() throws BusinessException {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void createOrder(String orderMessage) throws Exception {
-		{
+	public void createOrder(String orderMessage) throws BusinessException {
 			String token = EReaderApplication.getInstance().getLogin().getToken();
 			Request<OrderResp> request = new Request<OrderResp>();
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
@@ -526,23 +559,39 @@ public class AppServiceImpl implements AppService {
 			} else {
 				throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 			}
+	}
+	@Override
+	public void getRechargeOrder(String money) throws BusinessException {
+		String token = EReaderApplication.getInstance().getLogin().getToken();
+		Request<OrderRechargeResp> request = new Request<OrderRechargeResp>();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("_token_", token));
+		nameValuePairs.add(new BasicNameValuePair("money", money));
+		nameValuePairs.add(new BasicNameValuePair("pay_type", "alipay"));
+		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+		request.setUrl(Config.HTTP_PAY_OREDER_RECHARGE);
+		request.setR_calzz(OrderRechargeResp.class);
+		OrderRechargeResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+			context.addBusinessData("OrderRechargeResp",resp.getData());
+		} else {
+			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
 	}
-
 	@Override
-	public void payType() throws Exception {
+	public void payType() throws BusinessException {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void pay() throws Exception {
+	public void pay() throws BusinessException {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void helpType(String type) throws Exception {
+	public void helpType(String type) throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		Request<ArticleResp> request = new Request<ArticleResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
@@ -561,7 +610,7 @@ public class AppServiceImpl implements AppService {
 		}
 	}
 
-	public void helpDetail(String id) throws Exception {
+	public void helpDetail(String id) throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		Request<ArticleDetailResp> request = new Request<ArticleDetailResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
@@ -579,7 +628,7 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void getMessage(String type) throws Exception {
+	public void getMessage(String type) throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		Request<MessageResp> request = new Request<MessageResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
@@ -598,7 +647,7 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void tellToFriend(String friendId) throws Exception {
+	public void tellToFriend(String friendId) throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		String bookSendId = context.getStringData("bookSendId");
 		Request<BaseResp> request = new Request<BaseResp>();
@@ -617,7 +666,7 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void updatePwd() throws Exception {
+	public void updatePwd() throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		String mPwd = context.getStringData("mPwd");
 		String mNewPwd = context.getStringData("mNewPwd");
@@ -637,7 +686,7 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void updatePhone() throws Exception {
+	public void updatePhone() throws BusinessException {
 			String token = EReaderApplication.getInstance().getLogin().getToken();
 			String mNewPhone = context.getStringData("mNewPhone");
 			String mPhoneCode = context.getStringData("mPhoneCode");
@@ -660,7 +709,7 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-		 public void updateName(String name) throws Exception {
+		 public void updateName(String name) throws BusinessException {
 		{
 			String token = EReaderApplication.getInstance().getLogin().getToken();
 			Request<BaseResp> request = new Request<BaseResp>();
@@ -678,7 +727,7 @@ public class AppServiceImpl implements AppService {
 		}
 	}
 	@Override
-	public void updateEmail(String email,String pwd) throws Exception {
+	public void updateEmail(String email,String pwd) throws BusinessException {
 		{
 			String token = EReaderApplication.getInstance().getLogin().getToken();
 			Request<BaseResp> request = new Request<BaseResp>();

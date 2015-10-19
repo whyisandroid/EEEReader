@@ -102,9 +102,22 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 		
 		String title = getIntent().getExtras().getString("title");
 		((TextView) findViewById(R.id.tv_main_top_title)).setText(title);
-		//if("经典热销".equals(title)){
+		if("经典热销".equals(title)){
 			featuredList();
-	//	}
+		}else if("推荐阅读".equals(title)) {
+			recommend();
+		}else if("好评榜".equals(title)){
+			//缺失
+			recommend();
+		}else if("热销榜".equals(title)){
+			//缺失
+			recommend();
+		}else{
+			// 分类列表
+			String id = getIntent().getExtras().getString("categroyItem_id");
+			categroyItem(id);
+
+		}
 		
 		main_top_right.setText("购物车");
 		main_top_right.setOnClickListener(this);
@@ -114,9 +127,20 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 		lv_book.setAdapter(adapter);
 		lv_book.setOnItemClickListener(bookItemListener);
 	}
-	
+
+	private void categroyItem(final String id) {
+		ProgressDialogUtil.showProgressDialog(this, "", false);
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				controller.categroyItem(mhandler,id);
+				ProgressDialogUtil.closeProgressDialog();
+			}
+		}).start();
+	}
+
 	private void featuredList() {
-		ProgressDialogUtil.showProgressDialog(this, "努力加载中…", false);
+		ProgressDialogUtil.showProgressDialog(this, "", false);
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -125,7 +149,16 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 			}
 		}).start();
 	}
-
+	private void recommend(){
+		ProgressDialogUtil.showProgressDialog(this, "", false);
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				controller.recommend(mhandler);
+				ProgressDialogUtil.closeProgressDialog();
+			}
+		}).start();
+	}
 	private OnItemClickListener bookItemListener = new OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,

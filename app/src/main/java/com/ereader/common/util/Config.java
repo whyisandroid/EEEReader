@@ -39,6 +39,7 @@ public class Config {
 	public final static String HTTP_QUIT = MY_SERVICE+ "/api/index/logout"; //退出接口
 	public final static String HTTP_CODE = MY_SERVICE+ "/api/index/sendCodeToPhone"; //注册接口
 	public final static String HTTP_BOOK_FEATURED= MY_SERVICE+ "/api/product/featured"; // 经典热销
+	public final static String HTTP_BOOK_RECOMMEND= MY_SERVICE+ "/Api/product/recommend"; // 推荐阅读
 	public final static String HTTP_BOOK_LATEST_CATE= MY_SERVICE+ "/Api/product/latest_category"; // 最新上架类别
 	public final static String HTTP_BOOK_LATEST= MY_SERVICE+ "/Api/product/latest"; // 最新上架
 	public final static String HTTP_BOOK_DISCOUNT_CATE= MY_SERVICE+ "/Api/product/discount_category"; // 特价专区类别
@@ -78,6 +79,7 @@ public class Config {
 	
 	//TODO pay
 	public final static String HTTP_PAY_OREDER = MY_SERVICE+ "/api/order/create"; //  创建订单
+	public final static String HTTP_PAY_OREDER_RECHARGE = MY_SERVICE+ "/api/user/inpourFromThirdparty"; //  创建充值订单
 	public final static String HTTP_PAY_TYPE = MY_SERVICE+ "/api/order/pay_type"; //  设置订单支付方式
 	public final static String HTTP_PAY = MY_SERVICE+ "/api/order/pay"; //  使用电子币支付
 	

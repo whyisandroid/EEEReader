@@ -176,6 +176,26 @@ public class AppController {
 		}
 	}
 
+	public void recommend(Handler mHandler) {
+		try {
+			service.recommend();
+			mHandler.obtainMessage(BookActivity.BOOK).sendToTarget();
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}catch (Exception e) {
+		}
+	}
+
+	public void categroyItem(Handler mHandler, String id) {
+		try {
+			service.categroyItem(id);
+			mHandler.obtainMessage(BookActivity.BOOK).sendToTarget();
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}catch (Exception e) {
+		}
+	}
+
 	public void register() {
 
 		try {
@@ -534,6 +554,18 @@ public class AppController {
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}catch (Exception e) {
+		}
+	}
+
+
+	public void getRechargeOrder(Handler mHandler,String money) {
+		try {
+			service.getRechargeOrder(money);
+			mHandler.obtainMessage(RechargeActivity.ORDER_SUCCESS).sendToTarget();
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }

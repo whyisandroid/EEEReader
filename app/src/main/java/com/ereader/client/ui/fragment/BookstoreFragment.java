@@ -95,7 +95,7 @@ public class BookstoreFragment  extends Fragment implements OnClickListener{
 		}
 
 		private void discount(final Bundle bundle) {
-			ProgressDialogUtil.showProgressDialog(mContext, "通信中…", false);
+			ProgressDialogUtil.showProgressDialog(mContext, "", false);
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
@@ -106,7 +106,7 @@ public class BookstoreFragment  extends Fragment implements OnClickListener{
 		}
 
 		private void latest(final Bundle bundle) {
-			ProgressDialogUtil.showProgressDialog(mContext, "通信中…", false);
+			ProgressDialogUtil.showProgressDialog(mContext, "", false);
 			new Thread(new Runnable() {
 				@Override
 				public void run() {

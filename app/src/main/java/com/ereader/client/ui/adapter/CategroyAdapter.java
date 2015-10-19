@@ -5,8 +5,11 @@ import java.util.List;
 import com.ereader.client.R;
 import com.ereader.client.entities.Category;
 import com.ereader.client.entities.SubCategory;
+import com.ereader.client.ui.bookstore.BookActivity;
+import com.ereader.common.util.IntentUtil;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,12 +82,20 @@ public class CategroyAdapter extends BaseExpandableListAdapter {
 	}
 
 	@Override
-	public View getChildView(int groupPosition, int childPosition,
+	public View getChildView(int groupPosition,final int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent) {
 		convertView =inflater.inflate(R.layout.book_categroy_child, null);
-		List<Category>cList = sList.get(groupPosition).getSub();
+		final List<Category> cList = sList.get(groupPosition).getSub();
 		((TextView)convertView.findViewById(R.id.tv_category_child)).setText(cList.get(childPosition).getName());
-		
+		((TextView)convertView.findViewById(R.id.tv_category_child)).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Bundle bundle = new Bundle();
+				bundle.putString("title", cList.get(childPosition).getName());
+				bundle.putString("categroyItem_id", cList.get(childPosition).getCategory_id());
+				IntentUtil.intent(mContext, bundle, BookActivity.class, false);
+			}
+		});
 		return convertView;
 	}
 

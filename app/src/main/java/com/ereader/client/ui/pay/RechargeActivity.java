@@ -1,6 +1,8 @@
 package com.ereader.client.ui.pay;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,6 +13,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.ereader.client.R;
+import com.ereader.client.entities.RechargeOrder;
 import com.ereader.client.entities.json.WalletData;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.BaseActivity;
@@ -28,6 +31,25 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 	private RadioButton mPayCard;
 	private EditText mRechMoney;
 	private EditText mRechCard;
+	public static final int ORDER_SUCCESS = 0;
+
+	private Handler mHander = new Handler(){
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what){
+				case ORDER_SUCCESS:
+					RechargeOrder order = (RechargeOrder)controller.getContext().getBusinessData("OrderRechargeResp");
+					Alipay pay = new Alipay(RechargeActivity.this,order);
+					pay.pay();
+					break;
+				default:
+					break;
+			}
+
+
+
+		}
+	};
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -94,14 +116,21 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 			case R.id.bt_recharge:
 				if(mPaybao.isChecked()){
 
-					String money = mRechMoney.getText().toString();
+					final String money = mRechMoney.getText().toString();
 					if(TextUtils.isEmpty(money)){
 						ToastUtil.showToast(RechargeActivity.this,"充值金额不能为空",ToastUtil.LENGTH_LONG);
 						return;
 					}
 
-					Alipay pay = new Alipay(this);
-					pay.pay();
+					// 先生成订单
+					ProgressDialogUtil.showProgressDialog(RechargeActivity.this, "", false);
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							controller.getRechargeOrder(mHander,money);
+							ProgressDialogUtil.closeProgressDialog();
+						}
+					}).start();
 				}
 
 				if(mPayCard.isChecked()){

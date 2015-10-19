@@ -56,7 +56,7 @@
                 android:layout_toRightOf="@+id/rb_pay_bao"
                 android:ems="10"
                 android:hint="请输入充值金额"
-                android:inputType="number"
+                android:inputType="text"
                 android:textSize="@dimen/new_size_3">
 
                 <requestFocus />
