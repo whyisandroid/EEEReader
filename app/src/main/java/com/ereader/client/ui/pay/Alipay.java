@@ -91,28 +91,30 @@ public class Alipay {
                     }
                     break;
                 }
-                case SDK_CHECK_FLAG: {
-                    Toast.makeText(mContext, "检查结果为：" + msg.obj,
-                            Toast.LENGTH_SHORT).show();
+                case SDK_CHECK_FLAG:
+                    if ("true".equals(msg.obj.toString())) {
+                    } else {
+                        Toast.makeText(mContext, "未安装支付宝应用", Toast.LENGTH_SHORT).show();
+                    }
                     break;
-                }
                 default:
                     break;
             }
-        };
+        }
+
+        ;
     };
 
-    public Alipay(Context mContext,RechargeOrder order){
+    public Alipay(Context mContext) {
         this.mContext = mContext;
-        mOrder = order;
     }
 
     /**
      * call alipay sdk pay. 调用SDK支付
-     *
      */
     public void pay() {
-        if (TextUtils.isEmpty(PARTNER) || TextUtils.isEmpty(RSA_PRIVATE)
+        check();
+        /*if (TextUtils.isEmpty(PARTNER) || TextUtils.isEmpty(RSA_PRIVATE)
                 || TextUtils.isEmpty(SELLER)) {
             new AlertDialog.Builder(mContext)
                     .setTitle("警告")
@@ -126,7 +128,7 @@ public class Alipay {
                                 }
                             }).show();
             return;
-        }
+        }*/
         // 订单
         String orderInfo = getOrderInfo("测试的商品", "该测试商品的详细描述", "0.01");
 
@@ -142,14 +144,14 @@ public class Alipay {
         // 完整的符合支付宝参数规范的订单信息
         final String payInfo = orderInfo + "&sign=\"" + sign + "\"&"
                 + getSignType();
-        LogUtil.Log("pay",payInfo);
+        LogUtil.Log("pay", payInfo);
 
         Runnable payRunnable = new Runnable() {
 
             @Override
             public void run() {
                 // 构造PayTask 对象
-                PayTask alipay = new PayTask((Activity)mContext);
+                PayTask alipay = new PayTask((Activity) mContext);
                 // 调用支付接口，获取支付结果
                 String result = alipay.pay(payInfo);
 
@@ -168,15 +170,14 @@ public class Alipay {
     /**
      * check whether the device has authentication alipay account.
      * 查询终端设备是否存在支付宝认证账户
-     *
      */
-    public void check(View v) {
+    public void check() {
         Runnable checkRunnable = new Runnable() {
 
             @Override
             public void run() {
                 // 构造PayTask 对象
-                PayTask payTask = new PayTask((Activity)mContext);
+                PayTask payTask = new PayTask((Activity) mContext);
                 // 调用查询接口，获取查询结果
                 boolean isExist = payTask.checkAccountIfExist();
 
@@ -189,22 +190,27 @@ public class Alipay {
 
         Thread checkThread = new Thread(checkRunnable);
         checkThread.start();
+    }
 
+    public static boolean checkPay(Context mContext) {
+        // 构造PayTask 对象
+        PayTask payTask = new PayTask((Activity) mContext);
+        // 调用查询接口，获取查询结果
+        boolean isExist = payTask.checkAccountIfExist();
+        return isExist;
     }
 
     /**
      * get the sdk version. 获取SDK版本号
-     *
      */
     public void getSDKVersion() {
-        PayTask payTask = new PayTask((Activity)mContext);
+        PayTask payTask = new PayTask((Activity) mContext);
         String version = payTask.getVersion();
         Toast.makeText(mContext, version, Toast.LENGTH_SHORT).show();
     }
 
     /**
      * create the order info. 创建订单信息
-     *
      */
     public String getOrderInfo(String subject, String body, String price) {
 
@@ -250,7 +256,7 @@ public class Alipay {
         // orderInfo += "&extern_token=" + "\"" + extern_token + "\"";
 
         // 支付宝处理完请求后，当前页面跳转到商户指定页面的路径，可空
-        orderInfo += "&return_url=" + "\"" + mOrder.getNotify_url()+"\"";
+        orderInfo += "&return_url=" + "\"" + mOrder.getNotify_url() + "\"";
 
         // 调用银行卡支付，需配置此参数，参与签名， 固定值 （需要签约《无线银行卡快捷支付》才能使用）
         // orderInfo += "&paymethod=\"expressGateway\"";
@@ -260,7 +266,6 @@ public class Alipay {
 
     /**
      * get the out_trade_no for an order. 生成商户订单号，该值在商户端应保持唯一（可自定义格式规范）
-     *
      */
     public String getOutTradeNo() {
         SimpleDateFormat format = new SimpleDateFormat("MMddHHmmss",
@@ -277,8 +282,7 @@ public class Alipay {
     /**
      * sign the order info. 对订单信息进行签名
      *
-     * @param content
-     *            待签名订单信息
+     * @param content 待签名订单信息
      */
     public String sign(String content) {
         return SignUtils.sign(content, RSA_PRIVATE);
@@ -286,9 +290,16 @@ public class Alipay {
 
     /**
      * get the sign type we use. 获取签名方式
-     *
      */
     public String getSignType() {
         return "sign_type=\"RSA\"";
+    }
+
+    public RechargeOrder getmOrder() {
+        return mOrder;
+    }
+
+    public void setmOrder(RechargeOrder mOrder) {
+        this.mOrder = mOrder;
     }
 }
