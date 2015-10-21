@@ -11,6 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ereader.client.R;
 import com.ereader.client.entities.RechargeOrder;
@@ -33,13 +34,15 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 	private EditText mRechCard;
 	public static final int ORDER_SUCCESS = 0;
 
+	private  Alipay pay = new Alipay(RechargeActivity.this);
+
 	private Handler mHander = new Handler(){
 		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what){
 				case ORDER_SUCCESS:
 					RechargeOrder order = (RechargeOrder)controller.getContext().getBusinessData("OrderRechargeResp");
-					Alipay pay = new Alipay(RechargeActivity.this,order);
+					pay.setmOrder(order);
 					pay.pay();
 					break;
 				default:
@@ -86,11 +89,12 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 		main_top_right.setText("账单");
 		main_top_right.setOnClickListener(this);
 		WalletData wallet = (WalletData)controller.getContext().getBusinessData("WalletResp");
-		mEcoin.setText("当前余额：￥"+wallet.getEcoin().getTotal());
+		mEcoin.setText("当前余额：￥" + wallet.getEcoin().getTotal());
 		mPaybao.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
+					pay.check();
 					mPayCard.setChecked(false);
 				}
 			}
@@ -98,11 +102,15 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 		mPayCard.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if(isChecked){
+				if (isChecked) {
 					mPaybao.setChecked(false);
 				}
 			}
 		});
+
+		if(mPaybao.isChecked()){
+			pay.check();
+		}
 		bt_recharge.setOnClickListener(this);
 	}
 
@@ -118,9 +126,14 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 
 					final String money = mRechMoney.getText().toString();
 					if(TextUtils.isEmpty(money)){
-						ToastUtil.showToast(RechargeActivity.this,"充值金额不能为空",ToastUtil.LENGTH_LONG);
+						ToastUtil.showToast(RechargeActivity.this, "充值金额不能为空", ToastUtil.LENGTH_LONG);
 						return;
 					}
+
+					/*if(!Alipay.checkPay(this)){
+						Toast.makeText(RechargeActivity.this, "未安装支付宝应用", Toast.LENGTH_SHORT).show();
+						return;
+					}*/
 
 					// 先生成订单
 					ProgressDialogUtil.showProgressDialog(RechargeActivity.this, "", false);
