@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.ereader.client.EReaderApplication;
+import com.ereader.client.entities.BookShow;
+import com.ereader.client.ui.bookshelf.SearchBuyActivity;
 import com.ereader.common.util.IntentUtil;
 
 /**
@@ -59,21 +61,42 @@ public class DialogUtil {
 		final IOSStyleDialog dialog = new IOSStyleDialog(context, IOSStyleDialog.DIALOG_TWO);
 		dialog.setCancelable(false);
 		dialog.setMessage("确定退出此账号");
-		dialog.setRight("确定",new OnClickListener() {
+		dialog.setRight("确定", new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				EReaderApplication.getInstance().setLogin(false);
 				mHandler.obtainMessage(0).sendToTarget();
 				dialog.closeDialog();
-				
+
 			}
 		});
-		dialog.setLeft("取消",new OnClickListener() {
+		dialog.setLeft("取消", new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				dialog.closeDialog();
 			}
 		});
 	
+	}
+
+	public static void delBookById(Context context,BookShow book,final Handler mHandler){
+		final IOSStyleDialog dialog = new IOSStyleDialog(context, IOSStyleDialog.DIALOG_TWO);
+		dialog.setCancelable(false);
+		dialog.setMessage("确定要删除《"+book.getName()+"》？");
+		dialog.setRight("确定", new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				mHandler.obtainMessage(SearchBuyActivity._DELETE).sendToTarget();
+				dialog.closeDialog();
+
+			}
+		});
+		dialog.setLeft("取消", new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.closeDialog();
+			}
+		});
 	}
 }

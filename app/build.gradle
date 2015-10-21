@@ -24,4 +24,7 @@ dependencies {
     compile 'com.android.support:gridlayout-v7:18.0.0'
     compile files('libs/universal-image-loader-1.9.3.jar')
     compile files('libs/xUtils-2.6.14.jar')
+    compile files('libs/epublib-core-latest.jar')
+    compile files('libs/slf4j-android-1.6.1-RC1.jar')
+    compile files('libs/alipaySDK-20150818.jar')
 }

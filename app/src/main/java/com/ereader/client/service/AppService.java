@@ -91,11 +91,20 @@ public interface AppService {
 	/**帮助中心详情***/
 	public void helpDetail(String type)throws BusinessException;
 	/**我的消息***/
-	public void getMessage(String type)throws BusinessException;
+	public void getMessage(String type)throws Exception;
 	/**向好友推荐商品***/
 	public void tellToFriend(String friendID)throws BusinessException;
 
 	/**找回密码***/
+	public void findCode()throws Exception;
+
+
+	/**已经购买的图书***/
+	public void shelfBuyBooks()throws Exception;
+
+	/**删除已经购买的图书***/
+	public void shelfDelBuyBooks()throws Exception;
+
 	public void findCode()throws BusinessException;
 	/**修改我的密码***/
 	public void updatePwd()throws BusinessException;

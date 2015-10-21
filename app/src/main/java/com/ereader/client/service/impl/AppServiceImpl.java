@@ -11,6 +11,7 @@ import com.ereader.client.entities.json.BaseResp;
 import com.ereader.client.entities.json.BookOnlyResp;
 import com.ereader.client.entities.json.BookResp;
 import com.ereader.client.entities.json.BookSearchResp;
+import com.ereader.client.entities.json.BookShowResp;
 import com.ereader.client.entities.json.CategoryResp;
 import com.ereader.client.entities.json.CommentResp;
 import com.ereader.client.entities.json.DisCategoryResp;
@@ -744,6 +745,48 @@ public class AppServiceImpl implements AppService {
 				throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 			}
 		}
+	}
+	/*
+	* 已经购买的图书
+	* */
+	@Override
+	public void shelfBuyBooks() throws Exception {
+		String token = EReaderApplication.getInstance().getLogin().getToken();
+		Request<BookShowResp> request = new Request<BookShowResp>();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("_token_", token));
+//		nameValuePairs.add(new BasicNameValuePair("per_page", "20"));
+//		nameValuePairs.add(new BasicNameValuePair("page", "20"));
+		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+		request.setUrl(Config.HTTP_MY_SHELF_BOOKS);
+		request.setR_calzz(BookShowResp.class);
+		BookShowResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+			context.addBusinessData("BookShowResp", resp.getData());
+		} else {
+			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+		}
+	}
+
+	@Override
+	public void shelfDelBuyBooks() throws Exception {
+		String token = EReaderApplication.getInstance().getLogin().getToken();
+		String book_id = (String) context.getBusinessData("delete.book_id");
+		Request<BookShowResp> request = new Request<BookShowResp>();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("_token_", token));
+		nameValuePairs.add(new BasicNameValuePair("book_id", book_id));
+//		nameValuePairs.add(new BasicNameValuePair("page", "20"));
+		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+		request.setUrl(Config.HTTP_MY_SHELF_BOOKS_DELETE);
+		request.setR_calzz(BookShowResp.class);
+		BookShowResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+			context.addBusinessData("BookShowResp", resp.getData());
+		} else {
+			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+		}
+
 	}
 }
 
