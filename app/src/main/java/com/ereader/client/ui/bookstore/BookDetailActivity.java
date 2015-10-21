@@ -104,10 +104,8 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 	  * @time: 2015-2-10 下午1:37:06
 	 */
 	private void initView() {
-		Book book = (Book)getIntent().getExtras().getSerializable("detailBook");
-		bt_book_add_friends.setTag(book.getInfo().getProduct_id());
-		tv_book_collection.setTag(book.getInfo().getProduct_id());
 		mBook = (Book)getIntent().getExtras().getSerializable("detailBook");
+		bt_book_add_friends.setTag(mBook.getInfo().getProduct_id());
 		tv_book_collection.setTag(mBook.getInfo().getProduct_id());
 		((TextView) findViewById(R.id.tv_main_top_title)).setText("书城");
 		BookOnlyResp resp  = (BookOnlyResp)EReaderApplication.getInstance().getBuyCar();
@@ -132,7 +130,7 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 		mListTitle.add("作者简介");
 		mListTitle.add("书评");
 		
-		BookDetailFragsAdapter pageAdapter = new BookDetailFragsAdapter(getSupportFragmentManager(),mListTitle.size(),book);
+		BookDetailFragsAdapter pageAdapter = new BookDetailFragsAdapter(getSupportFragmentManager(),mListTitle.size(),mBook);
 		vp_book_store.setAdapter(pageAdapter);
 		
 		// 设置缓存fragment的数量

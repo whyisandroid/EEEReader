@@ -42,7 +42,6 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 			switch (msg.what){
 				case ORDER_SUCCESS:
 					RechargeOrder order = (RechargeOrder)controller.getContext().getBusinessData("OrderRechargeResp");
-
 					pay.setmOrder(order);
 					pay.pay();
 					break;
