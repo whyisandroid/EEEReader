@@ -11,8 +11,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
+import com.ereader.client.entities.RechargeOrder;
 import com.ereader.client.ui.pay.alipay.PayResult;
 import com.ereader.client.ui.pay.alipay.SignUtils;
+import com.ereader.common.util.LogUtil;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -56,6 +58,8 @@ public class Alipay {
 
     private static final int SDK_CHECK_FLAG = 2;
 
+    private RechargeOrder mOrder;
+
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -98,8 +102,9 @@ public class Alipay {
         };
     };
 
-    public Alipay(Context mContext){
+    public Alipay(Context mContext,RechargeOrder order){
         this.mContext = mContext;
+        mOrder = order;
     }
 
     /**
@@ -137,6 +142,7 @@ public class Alipay {
         // 完整的符合支付宝参数规范的订单信息
         final String payInfo = orderInfo + "&sign=\"" + sign + "\"&"
                 + getSignType();
+        LogUtil.Log("pay",payInfo);
 
         Runnable payRunnable = new Runnable() {
 
@@ -209,7 +215,7 @@ public class Alipay {
         orderInfo += "&seller_id=" + "\"" + SELLER + "\"";
 
         // 商户网站唯一订单号
-        orderInfo += "&out_trade_no=" + "\"" + getOutTradeNo() + "\"";
+        orderInfo += "&out_trade_no=" + "\"" + mOrder.getOut_trade_no() + "\"";
 
         // 商品名称
         orderInfo += "&subject=" + "\"" + subject + "\"";
@@ -218,7 +224,7 @@ public class Alipay {
         orderInfo += "&body=" + "\"" + body + "\"";
 
         // 商品金额
-        orderInfo += "&total_fee=" + "\"" + price + "\"";
+        orderInfo += "&total_fee=" + "\"" + mOrder.getTotal_fee() + "\"";
 
         // 服务器异步通知页面路径
         orderInfo += "&notify_url=" + "\"" + "http://notify.msp.hk/notify.htm"
@@ -244,7 +250,7 @@ public class Alipay {
         // orderInfo += "&extern_token=" + "\"" + extern_token + "\"";
 
         // 支付宝处理完请求后，当前页面跳转到商户指定页面的路径，可空
-        orderInfo += "&return_url=\"m.alipay.com\"";
+        orderInfo += "&return_url=" + "\"" + mOrder.getNotify_url()+"\"";
 
         // 调用银行卡支付，需配置此参数，参与签名， 固定值 （需要签约《无线银行卡快捷支付》才能使用）
         // orderInfo += "&paymethod=\"expressGateway\"";

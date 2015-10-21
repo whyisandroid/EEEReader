@@ -100,8 +100,8 @@ public class PayActivity extends BaseActivity implements OnClickListener {
 			IntentUtil.intent(PayActivity.this, RechargeActivity.class);
 			break;
 		case R.id.bt_pay_go:
-			Alipay pay = new Alipay(this	);
-			pay.pay();
+			/*Alipay pay = new Alipay(this	);
+			pay.pay();*/
 		default:
 			break;
 		}
