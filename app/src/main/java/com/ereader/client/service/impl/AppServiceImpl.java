@@ -750,7 +750,7 @@ public class AppServiceImpl implements AppService {
 	* 已经购买的图书
 	* */
 	@Override
-	public void shelfBuyBooks() throws Exception {
+	public void shelfBuyBooks() throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		Request<BookShowResp> request = new Request<BookShowResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
@@ -769,7 +769,7 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void shelfDelBuyBooks() throws Exception {
+	public void shelfDelBuyBooks() throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		String book_id = (String) context.getBusinessData("delete.book_id");
 		Request<BookShowResp> request = new Request<BookShowResp>();

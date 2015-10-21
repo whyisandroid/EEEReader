@@ -96,16 +96,14 @@ public interface AppService {
 	public void tellToFriend(String friendID)throws BusinessException;
 
 	/**找回密码***/
-	public void findCode()throws Exception;
+	public void findCode()throws BusinessException;
 
 
 	/**已经购买的图书***/
-	public void shelfBuyBooks()throws Exception;
+	public void shelfBuyBooks()throws BusinessException;
 
 	/**删除已经购买的图书***/
-	public void shelfDelBuyBooks()throws Exception;
-
-	public void findCode()throws BusinessException;
+	public void shelfDelBuyBooks()throws BusinessException;
 	/**修改我的密码***/
 	public void updatePwd()throws BusinessException;
 	/**修改我的手机号***/
