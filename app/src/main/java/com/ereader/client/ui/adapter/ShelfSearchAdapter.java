@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.ereader.client.R;
 import com.ereader.client.entities.BookShow;
@@ -21,7 +22,7 @@ public class ShelfSearchAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private List<BookShow> mList;
 
-    private boolean isShowDelete=false;
+    private boolean isShowDelete = false;
 
 
     private ImageLoader imageLoader = null;
@@ -38,6 +39,11 @@ public class ShelfSearchAdapter extends BaseAdapter {
         if (!this.imageLoader.isInited()) {
             this.imageLoader.init(configuration);
         }
+    }
+
+    public void setDownloadStatusNById(int position, boolean status) {
+        mList.get(position).setIsDownloading(status);
+        notifyDataSetChanged();
     }
 
     public void setData(List<BookShow> list) {
@@ -105,6 +111,17 @@ public class ShelfSearchAdapter extends BaseAdapter {
         } else {
             holder.iv_book_delete.setVisibility(View.GONE);
         }
+        if (book.isDownloaded()) {
+            holder.iv_book_status_ok.setVisibility(View.VISIBLE);
+        } else {
+            holder.iv_book_status_ok.setVisibility(View.GONE);
+            if (book.isDownloading()) {
+                holder.ll_item.setVisibility(View.VISIBLE);
+            } else {
+                holder.ll_item.setVisibility(View.GONE);
+            }
+        }
+
         return convertView;
     }
 
@@ -113,13 +130,19 @@ public class ShelfSearchAdapter extends BaseAdapter {
 
         private ImageView iv_book_delete;
 
-        private ImageView iv_book_status;
+        private ImageView iv_book_status_ing;
+
+        private ImageView iv_book_status_ok;
+
+        private RelativeLayout ll_item;
+
 
         public void findView(View view) {
             iv_book_shelf = (ImageView) view.findViewById(R.id.iv_book_shelf);
             iv_book_delete = (ImageView) view.findViewById(R.id.book_delete);
-            iv_book_status = (ImageView) view.findViewById(R.id.book_status);
-
+            iv_book_status_ing = (ImageView) view.findViewById(R.id.book_status);
+            iv_book_status_ok = (ImageView) view.findViewById(R.id.book_status_ok);
+            ll_item = (RelativeLayout) view.findViewById(R.id.ll_item);
         }
     }
 

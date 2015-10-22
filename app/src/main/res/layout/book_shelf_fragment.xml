@@ -3,20 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <include layout="@layout/main_top_text_layout" />
 
     <RelativeLayout
         android:id="@+id/home_banner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
 
         <com.ereader.client.ui.view.LoopViewPager
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/home_webview" >
-        </com.ereader.client.ui.view.LoopViewPager>
+            android:layout_height="@dimen/home_webview"></com.ereader.client.ui.view.LoopViewPager>
 
         <LinearLayout
             android:id="@+id/pointlayout"
@@ -26,15 +25,13 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:paddingBottom="5dp"
-            android:orientation="horizontal" >
-        </LinearLayout>
+            android:orientation="horizontal"></LinearLayout>
     </RelativeLayout>
 
     <GridView
         android:id="@+id/gridv_book"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="3" >
-    </GridView>
+        android:numColumns="3"></GridView>
 
 </LinearLayout>

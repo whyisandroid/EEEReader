@@ -45,7 +45,7 @@
     <string name="bookpop_send">跳转</string>
 
     <string-array name="bookid">
-        <item>book0.txt</item>
+        <item>book.epub</item>
     </string-array>
     <string-array name="bookname">
         <item>泡MM专用短信</item>
