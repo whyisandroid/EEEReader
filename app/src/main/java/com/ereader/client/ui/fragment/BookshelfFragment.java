@@ -85,6 +85,7 @@ public class BookshelfFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         view = inflater.inflate(R.layout.book_shelf_fragment, container, false);
         controller = AppController.getController(getActivity());
         mContext = getActivity();
@@ -98,7 +99,6 @@ public class BookshelfFragment extends Fragment {
         if (!isInit) {
             new AsyncSetApprove().execute("");
         }
-
         // 读取名为"mark"的sharedpreferences
         sp = mContext.getSharedPreferences("mark", mContext.MODE_PRIVATE);
         localbook = new LocalBook(mContext, "localbook");
@@ -148,6 +148,7 @@ public class BookshelfFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
         localCustom();
 
     }
@@ -227,7 +228,15 @@ public class BookshelfFragment extends Fragment {
     private AdapterView.OnItemLongClickListener longListener = new AdapterView.OnItemLongClickListener() {
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-            adapter.setIsShowDelete(!adapter.isShowDelete());
+
+            if(position==parent.getAdapter().getCount()-1){
+
+            }else{
+                BookShow book=(BookShow)parent.getAdapter().getItem(position);
+                if (null!=book&&!book.isDownloading()){
+                    adapter.setIsShowDelete(!adapter.isShowDelete());
+                }
+            }
             return true;
         }
     };
@@ -371,35 +380,18 @@ public class BookshelfFragment extends Fragment {
 
 
     private void localCustom() {
-        if(!EReaderApplication.getInstance().isLogin()){
-            list.clear();
-            if (null == adapter) {
-                adapter = new BookShelfAdapter(mContext, list);
-                gridv_book.setAdapter(adapter);
-            } else {
-                adapter.setData(list);
-            }
-        }else{
-            list.clear();
+        if (!EReaderApplication.getInstance().isLogin()) {
+            setupData(list);
+        } else {
             LogUtil.LogError("path", Constant.OUTPATH + Constant.DBNAME);
-            File f = new File(Constant.OUTPATH);
-            if (!f.exists()) {
-                f.mkdirs();
-            }
             try {
-                db = DbUtils.create(getActivity(), Constant.OUTPATH, Constant.DBNAME);
-                db.configAllowTransaction(true);
-                db.configDebug(true);
+                if (null == db) {
+                    db = DbUtils.create(getActivity(), Constant.OUTPATH, Constant.DBNAME);
+                    db.configAllowTransaction(true);
+                    db.configDebug(true);
+                }
                 list = db.findAll(BookShow.class);
-                if (null == list) {
-                    list = new ArrayList<BookShow>();
-                }
-                if (null == adapter) {
-                    adapter = new BookShelfAdapter(mContext, list);
-                    gridv_book.setAdapter(adapter);
-                } else {
-                    adapter.setData(list);
-                }
+                setupData(list);
             } catch (DbException e) {
                 LogUtil.LogError("DbException", e.toString());
             }
@@ -407,6 +399,19 @@ public class BookshelfFragment extends Fragment {
 
     }
 
+    private void setupData(List<BookShow> list) {
+        if (null == list) {
+            list = new ArrayList<BookShow>();
+        }
+//                if (null == adapter) {
+//                    adapter = new BookShelfAdapter(mContext, list);
+//                    gridv_book.setAdapter(adapter);
+//                } else {
+//                    adapter.setData(list);
+//                }
+        adapter = new BookShelfAdapter(mContext, list);
+        gridv_book.setAdapter(adapter);
+    }
 
     /**
      * 本地书库载入
