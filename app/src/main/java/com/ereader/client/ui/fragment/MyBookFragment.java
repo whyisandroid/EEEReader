@@ -2,6 +2,8 @@ package com.ereader.client.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +42,18 @@ public class MyBookFragment extends Fragment implements OnClickListener {
 	private TextView tv_main_top_title;
 	private Button main_top_right;
 	private Button main_top_left;
+	private Handler mHandler = new Handler(){
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what){
+				case 11:
+					IntentUtil.intent(getActivity(), RechargeActivity.class);
+					break;
+				default:
+					break;
+			}
+		}
+	};
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -152,11 +166,12 @@ public class MyBookFragment extends Fragment implements OnClickListener {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
-					controller.wallet();
+					controller.wallet(mHandler);
 					ProgressDialogUtil.closeProgressDialog();
 				}
 			}).start();
 			break;
+
 		default:
 			break;
 		}

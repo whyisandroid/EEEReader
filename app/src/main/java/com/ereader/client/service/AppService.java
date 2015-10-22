@@ -1,6 +1,5 @@
 package com.ereader.client.service;
 
-import android.os.Handler;
 
 import com.ereader.client.entities.DisCategory;
 import com.ereader.common.exception.BusinessException;
@@ -83,7 +82,7 @@ public interface AppService {
 	/***2.4.2.	设置订单支付方式*/
 	public void payType() throws BusinessException;
 	/***使用电子币支付*/
-	public void pay() throws BusinessException;
+	public void pay(String orderId,String money,String point,String frinedName) throws BusinessException;
 	
 	//other
 	/**帮助中心***/

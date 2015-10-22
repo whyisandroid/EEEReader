@@ -34,7 +34,7 @@ public class CollectionActivity extends BaseActivity implements OnClickListener 
 				mList.addAll((List<Book>)controller.getContext().getBusinessData("CollectionResp"));
 				adapter.notifyDataSetChanged();
 				break;
-			case 1: // 删除
+			case 100: // 删除
 				mList.remove(mList.get((int)msg.obj));
 				adapter.notifyDataSetChanged();
 				//ToastUtil.showToast(CollectionActivity.this, "删除成功", ToastUtil.LENGTH_LONG);

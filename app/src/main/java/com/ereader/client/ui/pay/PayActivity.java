@@ -17,12 +17,15 @@ import android.widget.Toast;
 import com.alipay.sdk.app.PayTask;
 import com.ereader.client.R;
 import com.ereader.client.entities.Order;
+import com.ereader.client.entities.json.WalletData;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.BaseActivity;
 import com.ereader.client.ui.pay.alipay.PayResult;
 import com.ereader.client.ui.pay.alipay.SignUtils;
 import com.ereader.common.util.IntentUtil;
 import com.ereader.common.util.ProgressDialogUtil;
+import com.ereader.common.util.ToastUtil;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -42,6 +45,22 @@ public class PayActivity extends BaseActivity implements OnClickListener {
 	private Button bt_pay_go; //支付
 	private String money;
 	private int point = 0;
+
+	private Order order;
+
+	public static final int SUCCESS = 1;
+	private Handler mHandler = new Handler(){
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what){
+				case SUCCESS:
+					ToastUtil.showToast(PayActivity.this,"购买成功",ToastUtil.LENGTH_LONG);
+					break;
+				default:
+					break;
+			}
+		}
+	};
 
 
 	@Override
@@ -79,16 +98,16 @@ public class PayActivity extends BaseActivity implements OnClickListener {
 	 * @time: 2015-2-10 下午1:37:06
 	 */
 	private void initView() {
+		WalletData wallet = (WalletData)controller.getContext().getBusinessData("WalletResp");
 		((TextView) findViewById(R.id.tv_main_top_title)).setText("支付");
 		main_top_right.setOnClickListener(this);
 		bt_pay_go.setOnClickListener(this);
 		main_top_right.setText("充值");
-		Order order = (Order)controller.getContext().getBusinessData("OrderResp");
+		order = (Order)controller.getContext().getBusinessData("OrderResp");
 		money = order.getPay_total();
-		point = 60;
-		tv_pay_money.setText("¥ " + money);
+		tv_pay_money.setText("¥ " + wallet.getEcoin().getTotal());
 		tv_pay_all_money.setText("¥ " + money);
-		tv_pay_point.setText("(可用"+point+"点)");
+		tv_pay_point.setText("(可用"+wallet.getPoint().getTotal()+"点)");
 		tv_pay_point_sum.setText("-¥ 0.00");
 	}
 
@@ -100,8 +119,14 @@ public class PayActivity extends BaseActivity implements OnClickListener {
 			IntentUtil.intent(PayActivity.this, RechargeActivity.class);
 			break;
 		case R.id.bt_pay_go:
-			/*Alipay pay = new Alipay(this	);
-			pay.pay();*/
+			ProgressDialogUtil.showProgressDialog(this, "", false);
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					controller.pay(mHandler,order.getOrder_id(),order.getPay_total(),"0","");
+					ProgressDialogUtil.closeProgressDialog();
+				}
+			}).start();
 		default:
 			break;
 		}
