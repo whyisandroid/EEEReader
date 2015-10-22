@@ -21,6 +21,7 @@ import com.ereader.client.ui.login.RegisterActivity;
 import com.ereader.client.ui.more.NoticeActivity;
 import com.ereader.client.ui.more.NoticeDetailActivity;
 import com.ereader.client.ui.my.MessageFriendsFragment;
+import com.ereader.client.ui.pay.PayActivity;
 import com.ereader.client.ui.pay.RechargeActivity;
 import com.ereader.common.exception.BusinessException;
 import com.ereader.common.util.IntentUtil;
@@ -293,7 +294,7 @@ public class AppController {
 	public void deleteCollection(Handler mHandler,int position,String id) {
 		try {
 			service.deleteCollection(id);
-			mHandler.obtainMessage(1,position).sendToTarget();
+			mHandler.obtainMessage(100,position).sendToTarget();
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}catch (Exception e) {
@@ -517,10 +518,10 @@ public class AppController {
 		}
 	}
 
-	public void wallet() {
+	public void wallet(Handler mHandler) {
 		try {
 			service.wallet();
-			IntentUtil.intent(currentActivity, RechargeActivity.class);
+			mHandler.obtainMessage(11).sendToTarget();
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}catch (Exception e) {
@@ -596,6 +597,15 @@ public class AppController {
 		try {
 			service.orderList(mOrderType);
 			mHandler.obtainMessage(RechargeActivity.ORDER_SUCCESS).sendToTarget();
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}
+	}
+
+	public void pay(Handler mHandler,String orderId,String money,String point,String frinedName) {
+		try {
+			service.pay( orderId, money, point, frinedName);
+			mHandler.obtainMessage(PayActivity.SUCCESS).sendToTarget();
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}

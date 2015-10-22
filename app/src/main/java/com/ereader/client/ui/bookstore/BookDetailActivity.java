@@ -16,6 +16,8 @@ import android.widget.TextView;
 import com.ereader.client.EReaderApplication;
 import com.ereader.client.R;
 import com.ereader.client.entities.Book;
+import com.ereader.client.entities.PayCar;
+import com.ereader.client.entities.PayCarList;
 import com.ereader.client.entities.json.BookOnlyResp;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.BaseFragmentActivity;
@@ -25,8 +27,11 @@ import com.ereader.client.ui.buycar.BuyCarActivity;
 import com.ereader.client.ui.login.LoginActivity;
 import com.ereader.client.ui.my.CollectionActivity;
 import com.ereader.client.ui.my.FriendsActivity;
+import com.ereader.client.ui.pay.PayActivity;
 import com.ereader.client.ui.view.ScrollingTabsView;
+import com.ereader.common.exception.BusinessException;
 import com.ereader.common.util.IntentUtil;
+import com.ereader.common.util.Json_U;
 import com.ereader.common.util.ProgressDialogUtil;
 import com.ereader.common.util.ToastUtil;
 
@@ -37,6 +42,7 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 	private Button main_top_right;
 	private Button bt_book_add_buy;
 	private Button bt_book_add_friends;
+	private Button book_detail_bt_buy;
 	private List<String> mListTitle;
 	private TextView tv_book_collection;
 	private TextView tv_book_name;
@@ -53,15 +59,36 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
 			case 0:
+				tv_book_collection.setText("已收藏");
 				ToastUtil.showToast(BookDetailActivity.this, "收藏成功", ToastUtil.LENGTH_LONG);
 				break;
 			case 1:
 				//TODO  改变购物车的数量
 				BookOnlyResp resp = EReaderApplication.getInstance().getBuyCar();
+                if(resp == null){
+                    resp = new BookOnlyResp();
+                }
 				resp.getData().add(mBook);
 				EReaderApplication.getInstance().saveBuyCar(resp);
 				setBuyCarNum();
 				break;
+				case 100:
+					tv_book_collection.setText("收藏");
+					break;
+                case BuyCarActivity.ORDER_SUCCESS:
+                    // 充值
+                    ProgressDialogUtil.showProgressDialog(BookDetailActivity.this, "", false);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            controller.wallet(mHandler);
+                            ProgressDialogUtil.closeProgressDialog();
+                        }
+                    }).start();
+                    break;
+                case  11:
+                    IntentUtil.intent(BookDetailActivity.this, PayActivity.class);
+                    break;
 			default:
 				break;
 			}
@@ -84,6 +111,7 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 	 */
 	private void findView() {
 		main_top_right = (Button)findViewById(R.id.main_top_right);
+        book_detail_bt_buy = (Button)findViewById(R.id.book_detail_bt_buy);
 		bt_book_add_buy = (Button)findViewById(R.id.bt_book_add_buy);
 		bt_book_add_friends = (Button)findViewById(R.id.bt_book_add_friends);
 		st_book_detail = (ScrollingTabsView)findViewById(R.id.st_book_detail);
@@ -107,6 +135,8 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 		mBook = (Book)getIntent().getExtras().getSerializable("detailBook");
 		bt_book_add_friends.setTag(mBook.getInfo().getProduct_id());
 		tv_book_collection.setTag(mBook.getInfo().getProduct_id());
+        book_detail_bt_buy.setTag(mBook.getInfo().getProduct_id());
+        book_detail_bt_buy.setOnClickListener(this);
 		((TextView) findViewById(R.id.tv_main_top_title)).setText("书城");
 		BookOnlyResp resp  = (BookOnlyResp)EReaderApplication.getInstance().getBuyCar();
 		main_top_right.setText("购物车");
@@ -171,6 +201,27 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 	public void onClick(View v) {
 
 		switch (v.getId()) {
+            case R.id.book_detail_bt_buy:
+                if(!EReaderApplication.getInstance().isLogin()){
+                    IntentUtil.intent(BookDetailActivity.this, LoginActivity.class);
+                    return;
+                }
+                // 生成订单
+                try {
+                    final String  orderData = getOrderMessage(book_detail_bt_buy.getTag().toString());
+                    ProgressDialogUtil.showProgressDialog(this, "", false);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            controller.getOrderId(mHandler, orderData);
+                            ProgressDialogUtil.closeProgressDialog();
+                        }
+                    }).start();
+                } catch (BusinessException e) {
+                    e.printStackTrace();
+                }
+
+                break;
 		case R.id.bt_book_add_buy:
 			if(!EReaderApplication.getInstance().isLogin()){
 				IntentUtil.intent(BookDetailActivity.this, LoginActivity.class);
@@ -193,6 +244,7 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 				IntentUtil.intent(BookDetailActivity.this, LoginActivity.class);
 				return;
 			}
+			if("收藏".equals(tv_book_collection.getText().toString())){
 				ProgressDialogUtil.showProgressDialog(this, "", false);
 				new Thread(new Runnable() {
 					@Override
@@ -201,6 +253,16 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 						ProgressDialogUtil.closeProgressDialog();
 					}
 				}).start();
+			}else{
+				ProgressDialogUtil.showProgressDialog(this, "", false);
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						AppController.getController().deleteCollection(mHandler, -1, tv_book_collection.getTag().toString());
+						ProgressDialogUtil.closeProgressDialog();
+					}
+				}).start();
+			}
 			break;
 			case R.id.bt_book_add_friends:
 				if(!EReaderApplication.getInstance().isLogin()){
@@ -216,4 +278,11 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 			break;
 		}
 	}
+
+    private String getOrderMessage(String bookId) throws BusinessException{
+        PayCarList pList = new PayCarList();
+        pList.getmPayCarList().add(new PayCar(bookId));
+        String jsonData = Json_U.objToJsonStr(pList);
+        return jsonData.substring(15,jsonData.length()-1);
+    }
 }

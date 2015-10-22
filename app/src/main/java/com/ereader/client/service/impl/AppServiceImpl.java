@@ -600,9 +600,24 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void pay() throws BusinessException {
-		// TODO Auto-generated method stub
-
+	public void pay(String orderId,String money,String point,String frinedName) throws BusinessException {
+		String token = EReaderApplication.getInstance().getLogin().getToken();
+		Request<ArticleResp> request = new Request<ArticleResp>();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("_token_", token));
+		nameValuePairs.add(new BasicNameValuePair("out_trade_no", orderId));
+		nameValuePairs.add(new BasicNameValuePair("total_fee", money));
+		nameValuePairs.add(new BasicNameValuePair("total_point", point));
+		//nameValuePairs.add(new BasicNameValuePair("remark", frinedName));
+		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+		request.setUrl(Config.HTTP_PAY);
+		request.setR_calzz(ArticleResp.class);
+		ArticleResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+			context.addBusinessData("ArticleResp", resp.getData());
+		} else {
+			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+		}
 	}
 
 	@Override

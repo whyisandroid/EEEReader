@@ -95,7 +95,7 @@
         android:weightSum="4" >
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/book_detail_bt_buy"
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_marginLeft="15dp"

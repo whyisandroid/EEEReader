@@ -98,6 +98,16 @@ public class BuyCarActivity extends BaseActivity implements OnClickListener {
 				checkMoney();
 				adapter.notifyDataSetChanged();
 				case ORDER_SUCCESS:
+					ProgressDialogUtil.showProgressDialog(BuyCarActivity.this, "", false);
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							controller.wallet(mHandler);
+							ProgressDialogUtil.closeProgressDialog();
+						}
+					}).start();
+					break;
+				case  11:
 					IntentUtil.intent(BuyCarActivity.this, PayActivity.class);
 					break;
 			default:
@@ -189,7 +199,14 @@ public class BuyCarActivity extends BaseActivity implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.bt_buy_go:
-			if(mList.size() == 0){
+			boolean flag = false;
+			for (int i = 0; i < mList.size(); i++) {
+				if (mList.get(i).isSelect()) {
+					flag = true;
+				}
+			}
+
+			if(!flag){
 				ToastUtil.showToast(BuyCarActivity.this, "没有可支付商品", ToastUtil.LENGTH_LONG);
 				return;
 			}
