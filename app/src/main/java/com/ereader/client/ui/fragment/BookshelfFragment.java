@@ -85,7 +85,7 @@ public class BookshelfFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        LogUtil.LogError("onCreateView","onCreateView");
+
         view = inflater.inflate(R.layout.book_shelf_fragment, container, false);
         controller = AppController.getController(getActivity());
         mContext = getActivity();
@@ -148,7 +148,7 @@ public class BookshelfFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        LogUtil.LogError("onCreateView", "onCreateView:"+list.size());
+
         localCustom();
 
     }
@@ -228,7 +228,15 @@ public class BookshelfFragment extends Fragment {
     private AdapterView.OnItemLongClickListener longListener = new AdapterView.OnItemLongClickListener() {
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-            adapter.setIsShowDelete(!adapter.isShowDelete());
+
+            if(position==parent.getAdapter().getCount()-1){
+
+            }else{
+                BookShow book=(BookShow)parent.getAdapter().getItem(position);
+                if (null!=book&&!book.isDownloading()){
+                    adapter.setIsShowDelete(!adapter.isShowDelete());
+                }
+            }
             return true;
         }
     };
@@ -372,39 +380,18 @@ public class BookshelfFragment extends Fragment {
 
 
     private void localCustom() {
-        if(!EReaderApplication.getInstance().isLogin()){
-            //list.clear();
-
-//            if (null == adapter) {
-//                LogUtil.LogError("localCustom", "未登录－新建适配器");
-//
-//            } else {
-//                LogUtil.LogError("localCustom", "未登录－更新数据");
-//                adapter.setData(list);
-//            }
-            adapter = new BookShelfAdapter(mContext, list);
-            gridv_book.setAdapter(adapter);
-        }else{
+        if (!EReaderApplication.getInstance().isLogin()) {
+            setupData(list);
+        } else {
             LogUtil.LogError("path", Constant.OUTPATH + Constant.DBNAME);
             try {
-                if(null==db){
+                if (null == db) {
                     db = DbUtils.create(getActivity(), Constant.OUTPATH, Constant.DBNAME);
                     db.configAllowTransaction(true);
                     db.configDebug(true);
                 }
                 list = db.findAll(BookShow.class);
-                if (null == list) {
-                    list = new ArrayList<BookShow>();
-                }
-                LogUtil.LogError("list",list.size()+"");
-//                if (null == adapter) {
-//                    adapter = new BookShelfAdapter(mContext, list);
-//                    gridv_book.setAdapter(adapter);
-//                } else {
-//                    adapter.setData(list);
-//                }
-                adapter = new BookShelfAdapter(mContext, list);
-                gridv_book.setAdapter(adapter);
+                setupData(list);
             } catch (DbException e) {
                 LogUtil.LogError("DbException", e.toString());
             }
@@ -412,6 +399,19 @@ public class BookshelfFragment extends Fragment {
 
     }
 
+    private void setupData(List<BookShow> list) {
+        if (null == list) {
+            list = new ArrayList<BookShow>();
+        }
+//                if (null == adapter) {
+//                    adapter = new BookShelfAdapter(mContext, list);
+//                    gridv_book.setAdapter(adapter);
+//                } else {
+//                    adapter.setData(list);
+//                }
+        adapter = new BookShelfAdapter(mContext, list);
+        gridv_book.setAdapter(adapter);
+    }
 
     /**
      * 本地书库载入

@@ -184,7 +184,10 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        adapter.setIsShowDelete(!adapter.isShowDelete());
+        BookShow book =adapter.getItem(position);
+        if(null!=book&&!book.isDownloading()){
+            adapter.setIsShowDelete(!adapter.isShowDelete());
+        }
         return true;
     }
 
