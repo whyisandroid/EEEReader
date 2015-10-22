@@ -197,7 +197,17 @@ public class BookshelfFragment extends Fragment {
                 }
                 if (adapter.isShowDelete()) {//删除
                     //TODO:删除数据库／本地文件
-                    ToastUtil.showToast(getActivity(), "删除：未处理", ToastUtil.LENGTH_SHORT);
+
+                    if(DbDeleteBook(book)){
+                        if (book.isDownloaded()) {//已经下载
+                            new File(book.getLocalpath()).delete();
+                        }
+                        adapter.deleteByPostion(position);
+                        ToastUtil.showToast(getActivity(), "删除《"+book.getName()+"》成功！", ToastUtil.LENGTH_SHORT);
+                    }else{
+                        ToastUtil.showToast(getActivity(),"删除《"+book.getName()+"》失败！",ToastUtil.LENGTH_SHORT);
+                    }
+
                 } else {
 
                     if (book.isDownloaded()) {//已经下载
@@ -377,7 +387,22 @@ public class BookshelfFragment extends Fragment {
         }
         return sdDir.toString();
     }
+    private boolean DbDeleteBook(BookShow book){
+        if(null==db){
+            db = DbUtils.create(getActivity(), Constant.OUTPATH, Constant.DBNAME);
+            db.configAllowTransaction(true);
+            db.configDebug(true);
+        }
+        try {
+            db.delete(book);
+            return true;
+        } catch (DbException e) {
+            e.printStackTrace();
+            return false;
 
+        }
+
+    }
 
     private void localCustom() {
         if (!EReaderApplication.getInstance().isLogin()) {
@@ -534,6 +559,7 @@ public class BookshelfFragment extends Fragment {
         super.onDestroy();
         if (null != db) {
             db.close();
+            db=null;
         }
     }
 }
