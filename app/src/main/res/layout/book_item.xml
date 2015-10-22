@@ -2,13 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:padding="15dp" >
+        android:padding="15dp">
 
         <ImageView
             android:id="@+id/iv_book"
@@ -25,6 +25,7 @@
             android:text="永远不要找别人要安全感"
             android:textColor="@color/new_color_2"
             android:textSize="@dimen/new_size_4" />
+
         <TextView
             android:id="@+id/tv_book_author"
             android:layout_width="wrap_content"
@@ -35,7 +36,7 @@
             android:text="(美)加布瑞艾拉"
             android:textColor="@color/new_color_2"
             android:textSize="@dimen/new_size_3" />
-        
+
         <TextView
             android:id="@+id/tv_book_info"
             android:layout_width="wrap_content"

@@ -1,35 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<!-- UI2.0 -->
-	<!-- 字体颜色标准 -->
-	<color name = "new_color_1">#222222</color>
-	<color name = "new_color_2">#505050</color>
-	<color name = "new_color_3">#9C9C9C</color>
-	<color name = "new_color_4">#CCCCCC</color>
-	<color name = "new_color_5">#dfc8b6</color>
-	<color name = "new_color_6">#FFFFFF</color><!-- 纯白 -->
-	<color name = "new_color_7">#88E95847</color><!-- 半透明 -->
-	<color name = "new_color_yrb_color">#ff9c7a</color><!-- 宜人币title -->
-	<color name="main_bar">#43a8d7</color><!-- bar主背景 -->
-	<color name="spilt_line_color">#c8c8c8</color><!-- 分割线-->
-	<color name="main_bg">#F4F4F4</color> <!-- 背景色  灰色 -->
-	
-	<color name="spilt_line_vertical_color">#dddddd</color>
-	
-	 
+    <!-- UI2.0 -->
+    <!-- 字体颜色标准 -->
+    <color name="new_color_1">#222222</color>
+    <color name="new_color_2">#505050</color>
+    <color name="new_color_3">#9C9C9C</color>
+    <color name="new_color_4">#CCCCCC</color>
+    <color name="new_color_5">#dfc8b6</color>
+    <color name="new_color_6">#FFFFFF</color>
+    <!-- 纯白 -->
+    <color name="new_color_7">#88E95847</color>
+    <!-- 半透明 -->
+    <color name="new_color_yrb_color">#ff9c7a</color>
+    <!-- 宜人币title -->
+    <color name="main_bar">#43a8d7</color>
+    <!-- bar主背景 -->
+    <color name="spilt_line_color">#c8c8c8</color>
+    <!-- 分割线-->
+    <color name="main_bg">#F4F4F4</color>
+    <!-- 背景色  灰色 -->
+
+    <color name="spilt_line_vertical_color">#dddddd</color>
+
+
     <!-- 定义标准颜色 -->
-    <color name="white">#FFFFFF</color> 
-    <color name="black">#000000</color> <!-- 纯黑 -->
-    <color name="red"> #d72839</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <!-- 纯黑 -->
+    <color name="red">#d72839</color>
     <color name="holo_green_dark">#ff669900</color>
-    <color name="transparent_color">#00000000</color> <!-- 透明色 -->
-    
+    <color name="transparent_color">#00000000</color>
+    <!-- 透明色 -->
+    <color name="_transparent_color">#30000000</color>
+    <!-- 半透明色 -->
     <color name="window_bg">#F2F2F2</color>
     <color name="tabs_color">#EFEFEF</color>
 
- <color name="holo_blue_light">#ff33b5e5</color>
- 
- <color name="off_point">#7fFFFFFF</color>
-	<color name="dark_grey">#696969</color>
-	
+    <color name="holo_blue_light">#ff33b5e5</color>
+
+    <color name="off_point">#7fFFFFFF</color>
+    <color name="dark_grey">#696969</color>
+
 </resources>
