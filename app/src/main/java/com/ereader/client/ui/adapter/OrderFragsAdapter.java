@@ -16,7 +16,7 @@ public class OrderFragsAdapter extends FragmentStatePagerAdapter {
 		super(fm);
 		fragments = new ArrayList<Fragment>();
 		for (int i = 0; i < length; i++) {
-			fragments.add(new OrderFragment()); 
+			fragments.add(new OrderFragment(i));
 		}
 	}
 

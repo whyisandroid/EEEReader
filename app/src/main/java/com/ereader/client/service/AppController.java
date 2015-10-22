@@ -591,4 +591,13 @@ public class AppController {
 			e.printStackTrace();
 		}
 	}
+
+	public void getOrderList(Handler mHandler, String mOrderType) {
+		try {
+			service.orderList(mOrderType);
+			mHandler.obtainMessage(RechargeActivity.ORDER_SUCCESS).sendToTarget();
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}
+	}
 }

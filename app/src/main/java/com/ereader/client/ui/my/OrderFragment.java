@@ -3,6 +3,7 @@ package com.ereader.client.ui.my;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,8 +25,10 @@ import com.ereader.client.ui.view.PullToRefreshView;
 import com.ereader.client.ui.view.PullToRefreshView.OnFooterRefreshListener;
 import com.ereader.client.ui.view.PullToRefreshView.OnHeaderRefreshListener;
 import com.ereader.common.util.IntentUtil;
+import com.ereader.common.util.ProgressDialogUtil;
 import com.ereader.common.util.ToastUtil;
 
+@SuppressLint("ValidFragment")
 public class OrderFragment extends Fragment implements OnClickListener,
 OnHeaderRefreshListener, OnFooterRefreshListener{
 	private View view;
@@ -35,7 +38,8 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	private PullToRefreshView pull_refresh_order;
 	private List<String> mList = new ArrayList<String>();
 	private OrderAdapter adapter;
-	
+	private String mOrderType = "0";
+
 	public static final int REFRESH_DOWN_OK = 1; // 向下刷新
 	public static final int REFRESH_UP_OK = 2;  //向上拉
 	private Handler mhandler = new Handler(){
@@ -55,6 +59,11 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 			}
 		};
 	};
+
+	@SuppressLint("ValidFragment")
+	public OrderFragment(int type){
+		this.mOrderType = String.valueOf(type);
+	}
 	
 	
 	@Override
@@ -77,9 +86,20 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 		adapter = new OrderAdapter(mContext, mList);
 		lv_order.setAdapter(adapter);
 		lv_order.setOnItemClickListener(orderItemListener);
-		
+		getOrderList();
 	}
-	
+
+	public void getOrderList() {
+		ProgressDialogUtil.showProgressDialog(mContext, "", false);
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				controller.getOrderList(mhandler,mOrderType);
+				ProgressDialogUtil.closeProgressDialog();
+			}
+		}).start();
+	}
+
 	private OnItemClickListener orderItemListener = new OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
