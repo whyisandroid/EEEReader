@@ -1,17 +1,53 @@
 package com.ereader.client.entities;
 
+import com.lidroid.xutils.db.annotation.Column;
+import com.lidroid.xutils.db.annotation.Table;
+import com.lidroid.xutils.db.annotation.Transient;
+import com.lidroid.xutils.db.annotation.Id;
+
 import java.io.Serializable;
 
 /**
  * Created by ghf on 15/10/10.
  */
+@Table(name="shelfbooks")
 public class BookShow implements Serializable {
+    @Id(column = "book_id")
+    private String book_id;
 
-    private  String book_id;
+    @Column(column = "name")
     private String name;
+    @Transient
     private String author;
+    // Transient使这个列被忽略，不存入数据库
+    @Transient
     private String version;
+
+    @Column(column = "cover_front_url")
     private String cover_front_url;
+    @Column(column = "isDownloading")
+    private boolean isDownloading = false;//是否正在下载
+    @Column(column = "isDownloaded")
+    private boolean isDownloaded = false;
+    @Column(column = "localpath")
+    private String localpath;
+
+
+    public String getLocalpath() {
+        return localpath;
+    }
+
+    public void setLocalpath(String localpath) {
+        this.localpath = localpath;
+    }
+
+    public boolean isDownloaded() {
+        return isDownloaded;
+    }
+
+    public void setIsDownloaded(boolean isDownloaded) {
+        this.isDownloaded = isDownloaded;
+    }
 
     public String getName() {
         return name;
@@ -51,6 +87,14 @@ public class BookShow implements Serializable {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public boolean isDownloading() {
+        return isDownloading;
+    }
+
+    public void setIsDownloading(boolean isDownloading) {
+        this.isDownloading = isDownloading;
     }
 
     @Override

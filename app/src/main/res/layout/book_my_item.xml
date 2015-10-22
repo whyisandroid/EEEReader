@@ -2,13 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:padding="15dp" >
+        android:padding="15dp">
 
         <TextView
             android:id="@+id/tv_mybook_cate"
@@ -17,8 +17,7 @@
             android:layout_centerVertical="true"
             android:text="TextView"
             android:textSize="@dimen/new_size_5"
-            android:textColor="@color/new_color_2"
-             />
+            android:textColor="@color/new_color_2" />
 
         <ImageView
             android:id="@+id/imageView1"
