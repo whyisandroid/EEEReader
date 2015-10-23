@@ -388,18 +388,21 @@ public class BookshelfFragment extends Fragment {
         return sdDir.toString();
     }
     private boolean DbDeleteBook(BookShow book){
-        if(null==db){
+
+
+        try {
             db = DbUtils.create(getActivity(), Constant.OUTPATH, Constant.DBNAME);
             db.configAllowTransaction(true);
             db.configDebug(true);
-        }
-        try {
             db.delete(book);
             return true;
         } catch (DbException e) {
+            LogUtil.LogError("删除数据－DbException", e.toString());
             e.printStackTrace();
             return false;
 
+        }finally {
+            db.close();
         }
 
     }
@@ -410,15 +413,15 @@ public class BookshelfFragment extends Fragment {
         } else {
             LogUtil.LogError("path", Constant.OUTPATH + Constant.DBNAME);
             try {
-                if (null == db) {
-                    db = DbUtils.create(getActivity(), Constant.OUTPATH, Constant.DBNAME);
-                    db.configAllowTransaction(true);
-                    db.configDebug(true);
-                }
+                db = DbUtils.create(getActivity(), Constant.OUTPATH, Constant.DBNAME);
+                db.configAllowTransaction(true);
+                db.configDebug(true);
                 list = db.findAll(BookShow.class);
                 setupData(list);
             } catch (DbException e) {
-                LogUtil.LogError("DbException", e.toString());
+                LogUtil.LogError("获取数据－DbException", e.toString());
+            }finally {
+                db.close();
             }
         }
 
