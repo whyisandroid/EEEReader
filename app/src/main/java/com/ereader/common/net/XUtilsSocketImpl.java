@@ -1,13 +1,5 @@
 package com.ereader.common.net;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
 import com.ereader.client.service.AppController;
 import com.ereader.common.exception.BusinessException;
 import com.ereader.common.exception.ErrorMessage;
@@ -20,6 +12,15 @@ import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseStream;
 import com.lidroid.xutils.http.client.HttpRequest;
 import com.lidroid.xutils.util.PreferencesCookieStore;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * ***************************************
@@ -107,4 +108,36 @@ public class XUtilsSocketImpl implements AppSocketInterface {
         }
         return httpUtils;
     }
+
+    public  static String getDownURL(Request request) throws  Exception{
+        RequestParams params = new RequestParams();
+        List<NameValuePair> nameValuePairs = (List<NameValuePair>) request
+                .getParameter(Request.AJAXPARAMS);
+        if (nameValuePairs == null) {
+            nameValuePairs = new ArrayList<NameValuePair>();
+        }
+
+        for (int i = 0; i < nameValuePairs.size(); i++) {
+            BasicNameValuePair pair = (BasicNameValuePair) nameValuePairs.get(i);
+            if ("signature".equals(pair.getName())) {
+                nameValuePairs.remove(i);
+            }
+        }
+        String sign = MD5Test.md5Sign(nameValuePairs, new BasicNameValuePair("_URI_", request.getUrl().replace(Config.MY_SERVICE, "")));
+        nameValuePairs.add(0, new BasicNameValuePair("appid", "test"));
+        nameValuePairs.add(new BasicNameValuePair("signature", sign));
+
+// 遍历排序后的字典，将所有参数按"key=value"格式拼接在一起
+        StringBuilder basestring = new StringBuilder();
+        basestring.append(request.getUrl() + "?");
+        basestring.append(nameValuePairs.get(0).getName()).append("=").append(URLEncoder.encode(nameValuePairs.get(0).getValue(), "UTF-8")).append("&");
+
+        for (int i = 1; i < nameValuePairs.size(); i++) {
+            BasicNameValuePair pair = (BasicNameValuePair) nameValuePairs.get(i);
+            basestring.append(pair.getName()).append("=").append(URLEncoder.encode(pair.getValue() == null ?"":pair.getValue(),"UTF-8")).append("&");
+        }
+        basestring.deleteCharAt(basestring.length()-1);
+        return basestring.toString();
+    }
+
 }
