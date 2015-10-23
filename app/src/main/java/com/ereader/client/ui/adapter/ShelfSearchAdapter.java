@@ -45,7 +45,10 @@ public class ShelfSearchAdapter extends BaseAdapter {
         mList.get(position).setIsDownloading(status);
         notifyDataSetChanged();
     }
-
+    public void deleteByPostion(int position){
+        mList.remove(position);
+        notifyDataSetChanged();
+    }
     public void setData(List<BookShow> list) {
         this.mList = list;
         notifyDataSetChanged();

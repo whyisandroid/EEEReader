@@ -44,6 +44,11 @@ public class BookShelfAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public void deleteByPostion(int position){
+        mList.remove(position);
+        notifyDataSetChanged();
+    }
+
     public void setData(List<BookShow> list) {
         this.mList = list;
         notifyDataSetChanged();
@@ -125,6 +130,8 @@ public class BookShelfAdapter extends BaseAdapter {
             }
         }
         if (position == getCount()-1) {//加号
+            holder.iv_book_delete.setVisibility(View.GONE);
+            holder.iv_book_status_ok.setVisibility(View.GONE);
             holder.iv_book_shelf.setImageResource(R.drawable.s3_20);
         }
         return convertView;

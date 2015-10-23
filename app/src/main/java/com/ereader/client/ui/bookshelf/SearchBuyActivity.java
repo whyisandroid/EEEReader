@@ -150,12 +150,16 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
             if (operation == OPERATION_CHOOSE) {//添加图书
                 //Todo 添加本地图书
                 try {
+
                     db= DbUtils.create(SearchBuyActivity.this, Constant.OUTPATH, Constant.DBNAME);
                     db.configAllowTransaction(true);
                     db.configDebug(true);
+
                     db.save(book);
                 } catch (DbException e) {
-                    LogUtil.LogError("DbException", e.toString());
+                    LogUtil.LogError("添加本地图书-DbException", e.toString());
+                }finally {
+                    db.close();
                 }
 //
                 setResult(100);
@@ -196,6 +200,7 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
         super.onDestroy();
         if (null!=db){
             db.close();
+            db=null;
         }
     }
 }

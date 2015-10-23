@@ -197,7 +197,17 @@ public class BookshelfFragment extends Fragment {
                 }
                 if (adapter.isShowDelete()) {//删除
                     //TODO:删除数据库／本地文件
-                    ToastUtil.showToast(getActivity(), "删除：未处理", ToastUtil.LENGTH_SHORT);
+
+                    if(DbDeleteBook(book)){
+                        if (book.isDownloaded()) {//已经下载
+                            new File(book.getLocalpath()).delete();
+                        }
+                        adapter.deleteByPostion(position);
+                        ToastUtil.showToast(getActivity(), "删除《"+book.getName()+"》成功！", ToastUtil.LENGTH_SHORT);
+                    }else{
+                        ToastUtil.showToast(getActivity(),"删除《"+book.getName()+"》失败！",ToastUtil.LENGTH_SHORT);
+                    }
+
                 } else {
 
                     if (book.isDownloaded()) {//已经下载
@@ -377,7 +387,25 @@ public class BookshelfFragment extends Fragment {
         }
         return sdDir.toString();
     }
+    private boolean DbDeleteBook(BookShow book){
 
+
+        try {
+            db = DbUtils.create(getActivity(), Constant.OUTPATH, Constant.DBNAME);
+            db.configAllowTransaction(true);
+            db.configDebug(true);
+            db.delete(book);
+            return true;
+        } catch (DbException e) {
+            LogUtil.LogError("删除数据－DbException", e.toString());
+            e.printStackTrace();
+            return false;
+
+        }finally {
+            db.close();
+        }
+
+    }
 
     private void localCustom() {
         if (!EReaderApplication.getInstance().isLogin()) {
@@ -385,15 +413,15 @@ public class BookshelfFragment extends Fragment {
         } else {
             LogUtil.LogError("path", Constant.OUTPATH + Constant.DBNAME);
             try {
-                if (null == db) {
-                    db = DbUtils.create(getActivity(), Constant.OUTPATH, Constant.DBNAME);
-                    db.configAllowTransaction(true);
-                    db.configDebug(true);
-                }
+                db = DbUtils.create(getActivity(), Constant.OUTPATH, Constant.DBNAME);
+                db.configAllowTransaction(true);
+                db.configDebug(true);
                 list = db.findAll(BookShow.class);
                 setupData(list);
             } catch (DbException e) {
-                LogUtil.LogError("DbException", e.toString());
+                LogUtil.LogError("获取数据－DbException", e.toString());
+            }finally {
+                db.close();
             }
         }
 
@@ -534,6 +562,7 @@ public class BookshelfFragment extends Fragment {
         super.onDestroy();
         if (null != db) {
             db.close();
+            db=null;
         }
     }
 }
