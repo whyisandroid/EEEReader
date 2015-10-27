@@ -17,6 +17,8 @@ import com.ereader.client.entities.BookShow;
 import com.ereader.client.entities.BookShowInfo;
 import com.ereader.client.entities.json.BookShowResp;
 import com.ereader.client.service.AppController;
+import com.ereader.client.service.download.DownloadManager;
+import com.ereader.client.service.download.DownloadService;
 import com.ereader.client.ui.BaseActivity;
 import com.ereader.client.ui.adapter.ShelfSearchAdapter;
 import com.ereader.client.ui.dialog.DialogUtil;
@@ -33,6 +35,7 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
     private GridView gridv_book_search;
     private EditText main_top_title;
     private ShelfSearchAdapter adapter;
+    private DownloadManager downloadManager;
 
 
     public final static int _OK = 1000;
@@ -76,6 +79,7 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shelf_search_layout);
         controller = AppController.getController(this);
+        downloadManager = DownloadService.getDownloadManager(SearchBuyActivity.this);
         findView();
         initView();
     }
@@ -174,6 +178,18 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
                     startActivity(it);
 
                 } else {//未下载
+                    //TODO
+                    String target = Constant.DOWNLOAD + book.getName()+Constant.SUFFIX_EPUB;
+//                    try {
+//                        downloadManager.addNewDownload(book.,
+//                                "力卓文件",
+//                                target,
+//                                true, // 如果目标文件存在，接着未完成的部分继续下载。服务器不支持RANGE时将从新下载。
+//                                false, //如果从请求返回信息中获取到文件名，下载完成后自动重命名。
+//                                null);
+//                    } catch (DbException e) {
+//                        LogUtil.LogError("下载－DbException", e.toString());
+//                    }
                     //ToastUtil.showToast(SearchBuyActivity.this,"下载...", Toast.LENGTH_SHORT);
                     if (book.isDownloading()) {//正在下载之取消下载
                         adapter.setDownloadStatusNById(position, false);

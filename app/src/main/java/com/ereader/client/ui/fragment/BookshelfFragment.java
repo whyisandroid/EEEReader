@@ -175,7 +175,6 @@ public class BookshelfFragment extends Fragment {
 
         }
     };
-
     private OnItemClickListener gridItemListener = new OnItemClickListener() {
 
         @Override

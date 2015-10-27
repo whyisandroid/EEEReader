@@ -3,14 +3,19 @@ package com.ereader.client.ui.adapter;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.ereader.client.R;
 import com.ereader.client.ui.adapter.BookAdapter.ViewHolder;
+import com.ereader.client.ui.bookshelf.ReadActivity;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -81,6 +86,37 @@ public class BookPagerAdapter extends PagerAdapter {
 	@Override
 	public Object instantiateItem(ViewGroup view, final int position) {
 		View imageLayout = inflater.inflate(R.layout.book_shelf_pager_item, view,false);
+		final TextView textView1= (TextView) imageLayout.findViewById(R.id.textView1);
+		final RelativeLayout rl_index1=(RelativeLayout)imageLayout.findViewById(R.id.rl_index1);
+		RelativeLayout rl_index2=(RelativeLayout)imageLayout.findViewById(R.id.rl_index2);
+		rl_index1.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent it = new Intent();
+				it.setClass(context, ReadActivity.class);
+				//getResources().openRawResource(R.raw.book0);
+				String path = context.getFilesDir().getAbsolutePath() + "/book.epub";
+				//(String) listItem.get(0).get("path");
+//           ToastUtil.showToast(mContext, "position=" + position + ";path=" + path, ToastUtil.LENGTH_LONG);
+				//it.putExtra("aaa", path);getString(R.string.bpath)
+				it.putExtra(context.getString(R.string.bpath), path);
+				context.startActivity(it);
+			}
+		});
+		rl_index2.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent it = new Intent();
+				it.setClass(context, ReadActivity.class);
+				//getResources().openRawResource(R.raw.book0);
+				String path = context.getFilesDir().getAbsolutePath() + "/book.epub";
+				//(String) listItem.get(0).get("path");
+//           ToastUtil.showToast(mContext, "position=" + position + ";path=" + path, ToastUtil.LENGTH_LONG);
+				//it.putExtra("aaa", path);getString(R.string.bpath)
+				it.putExtra(context.getString(R.string.bpath), path);
+				context.startActivity(it);
+			}
+		});
 		((ViewPager) view).addView(imageLayout, 0);
 		return imageLayout;
 	}

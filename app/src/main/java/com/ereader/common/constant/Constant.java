@@ -7,10 +7,12 @@ import android.os.Environment;
  */
 public class Constant {
 
-    public final static String OUTPATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/EEEReader/";//"/sdcard/EEEReader/";
+    public final static String OUTPATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/EEEReader/";//
 
     public final static String DBNAME = "bookshelf.db";
 
     public final static String DOWNLOAD = OUTPATH + "Downloads/";
+
+    public final static String SUFFIX_EPUB= ".epub";
 
 }
