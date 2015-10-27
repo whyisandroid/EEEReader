@@ -233,15 +233,15 @@ public class AppServiceImpl implements AppService {
 	@Override
 	public void getCollection() throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
-		Request<BookOnlyResp> request = new Request<BookOnlyResp>();
+		Request<BookResp> request = new Request<BookResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("_token_", token));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 		request.setUrl(Config.HTTP_BOOK_COLLECTION);
-		request.setR_calzz(BookOnlyResp.class);
-		BookOnlyResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		request.setR_calzz(BookResp.class);
+		BookResp resp = EReaderApplication.getAppSocket().shortConnect(request);
 		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
-			context.addBusinessData("CollectionResp", resp.getData());
+			context.addBusinessData("CollectionResp", resp.getData().getData());
 		} else {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
@@ -602,7 +602,7 @@ public class AppServiceImpl implements AppService {
 	@Override
 	public void pay(String orderId,String money,String point,String frinedName) throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
-		Request<ArticleResp> request = new Request<ArticleResp>();
+		Request<BaseResp> request = new Request<BaseResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("_token_", token));
 		nameValuePairs.add(new BasicNameValuePair("out_trade_no", orderId));
@@ -611,10 +611,10 @@ public class AppServiceImpl implements AppService {
 		//nameValuePairs.add(new BasicNameValuePair("remark", frinedName));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 		request.setUrl(Config.HTTP_PAY);
-		request.setR_calzz(ArticleResp.class);
-		ArticleResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		request.setR_calzz(BaseResp.class);
+		BaseResp resp = EReaderApplication.getAppSocket().shortConnect(request);
 		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
-			context.addBusinessData("ArticleResp", resp.getData());
+		//	context.addBusinessData("ArticleResp", resp.getData());
 		} else {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}

@@ -56,8 +56,10 @@
             android:textSize="@dimen/new_size_3" />
 
         <RelativeLayout
+            android:id="@+id/rl_pay_point"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_gravity="bottom" >
 
             <EditText
@@ -169,8 +171,6 @@
                 android:singleLine="true"
                 android:textColor="@color/new_color_2"
                 android:textSize="@dimen/new_size_3" >
-
-                <requestFocus />
             </EditText>
         </RelativeLayout>
     </LinearLayout>
