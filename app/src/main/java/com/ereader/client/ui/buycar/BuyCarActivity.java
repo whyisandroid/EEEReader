@@ -97,6 +97,7 @@ public class BuyCarActivity extends BaseActivity implements OnClickListener {
 				}
 				checkMoney();
 				adapter.notifyDataSetChanged();
+				break;
 				case ORDER_SUCCESS:
 					ProgressDialogUtil.showProgressDialog(BuyCarActivity.this, "", false);
 					new Thread(new Runnable() {
