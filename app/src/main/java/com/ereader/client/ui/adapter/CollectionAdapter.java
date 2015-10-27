@@ -3,6 +3,7 @@ package com.ereader.client.ui.adapter;
 import java.util.List;
 
 import android.content.Context;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -11,8 +12,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ereader.client.EReaderApplication;
 import com.ereader.client.R;
 import com.ereader.client.entities.Book;
 import com.ereader.client.service.AppController;
@@ -64,7 +67,7 @@ public class CollectionAdapter extends BaseAdapter {
 		holder.tv_book_name.setText(book.getInfo().getName());
 		holder.tv_book_time.setText("收藏时间："+book.getUpdated_at());
 		holder.tv_book_price.setText("￥"+book.getPrice());
-
+		EReaderApplication.imageLoader.displayImage(book.getInfo().getImage_url(), holder.iv_book, EReaderApplication.options);
 		holder.tv_book_name.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -135,12 +138,14 @@ public class CollectionAdapter extends BaseAdapter {
 		private TextView tv_book_name;
 		private TextView tv_book_time;
 		private TextView tv_book_price;
+		private ImageView iv_book;
 		public void findView(View view){
 			tv_collection_buycar = (Button)view.findViewById(R.id.tv_collection_buycar);
 			tv_order_delete = (TextView)view.findViewById(R.id.tv_order_delete);
 			tv_book_name = (TextView)view.findViewById(R.id.tv_book_name);
 			tv_book_time = (TextView)view.findViewById(R.id.tv_book_time); 
-			tv_book_price = (TextView)view.findViewById(R.id.tv_book_price); 
+			tv_book_price = (TextView)view.findViewById(R.id.tv_book_price);
+			iv_book = (ImageView)view.findViewById(R.id.iv_book);
 		}
 	}
 

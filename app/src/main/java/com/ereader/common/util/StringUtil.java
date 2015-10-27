@@ -305,4 +305,36 @@ public class StringUtil {
         return money.replace("¥", "");
     }
 
+    /**
+     *
+     * 方法描述：计算金额  除法
+     * @param d1
+     * @param d2
+     * @param len  精确到几位
+     * @return
+     * @author: why
+     * @time: 2013-10-31 下午2:46:32
+     */
+    public static String div(String d1,String d2,int len) {// 进行除法运算
+        BigDecimal b1 = new BigDecimal(d1);
+        BigDecimal b2 = new BigDecimal(d2);
+        return b1.divide(b2, len, BigDecimal.
+                ROUND_HALF_UP).toString();
+    }
+
+    /**
+     *
+     * 方法描述：计算金额  乘法
+     * @param d1
+     * @param d2
+     * @return
+     * @author: why
+     * @time: 2013-10-31 下午2:46:32
+     */
+    public static String mul(String d1,String d2) throws NumberFormatException{// 进行乘法运算
+        BigDecimal b1 = new BigDecimal(d1);
+        BigDecimal b2 = new BigDecimal(d2);
+        return b1.multiply(b2).toString();
+    }
+
 }

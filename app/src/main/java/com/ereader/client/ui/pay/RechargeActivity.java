@@ -89,7 +89,7 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 		main_top_right.setText("账单");
 		main_top_right.setOnClickListener(this);
 		WalletData wallet = (WalletData)controller.getContext().getBusinessData("WalletResp");
-		mEcoin.setText("当前余额：￥" + wallet.getEcoin().getTotal());
+		mEcoin.setText("当前余额：￥" + wallet.getEcoin());
 		mPaybao.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

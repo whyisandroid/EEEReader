@@ -11,22 +11,31 @@ import com.ereader.client.entities.Point;
  * Date:  2015/10/13 21:00
  ***************************************/
 public class WalletData {
-    private Ecoin ecoin;
-    private Point point;
+    private String ecoin;
+    private String point;
+    private String p2e_exchange_rate;
 
-    public Ecoin getEcoin() {
+    public String getP2e_exchange_rate() {
+        return p2e_exchange_rate;
+    }
+
+    public void setP2e_exchange_rate(String p2e_exchange_rate) {
+        this.p2e_exchange_rate = p2e_exchange_rate;
+    }
+
+    public String getEcoin() {
         return ecoin;
     }
 
-    public void setEcoin(Ecoin ecoin) {
+    public void setEcoin(String ecoin) {
         this.ecoin = ecoin;
     }
 
-    public Point getPoint() {
+    public String getPoint() {
         return point;
     }
 
-    public void setPoint(Point point) {
+    public void setPoint(String point) {
         this.point = point;
     }
 }

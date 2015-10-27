@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -50,6 +51,7 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 	private TextView tv_book_publish;
 	private RatingBar rb_book_star;
 	private TextView tv_book_price;
+	private ImageView iv_book;
 	private int buyNum = 0;
 
 	private Book mBook;
@@ -122,6 +124,7 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 		tv_book_publish = (TextView)findViewById(R.id.tv_book_publish);
 		tv_book_price = (TextView)findViewById(R.id.tv_book_price);
 		rb_book_star = (RatingBar)findViewById(R.id.rb_book_star);
+		iv_book = (ImageView)findViewById(R.id.iv_book);
 	}
 	
 
@@ -191,6 +194,8 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 	}
 
 	private void setBook(Book book) {
+
+		EReaderApplication.imageLoader.displayImage(book.getInfo().getImage_url(), iv_book, EReaderApplication.options);
 		tv_book_name.setText(book.getInfo().getName());
 		tv_book_author.setText("作者："+book.getExtra().getAuthor());
 		tv_book_publish.setText("出版社："+book.getExtra().getPress());

@@ -7,17 +7,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ereader.client.EReaderApplication;
 import com.ereader.client.R;
 import com.ereader.client.entities.Book;
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 public class BookAdapter extends BaseAdapter {
 	private LayoutInflater inflater;
 	private List<Book> mList ;
+	private Context mContext;
+
 
 	public BookAdapter(Context mContext,List<Book>  list) {
-		inflater=LayoutInflater.from(mContext);
+		this.mContext = mContext;
+		inflater = LayoutInflater.from(mContext);
 		mList = list;
 	}
 
@@ -51,7 +60,7 @@ public class BookAdapter extends BaseAdapter {
 		holder.tv_book_author.setText(book.getExtra().getAuthor());
 		holder.tv_book_name.setText(book.getInfo().getName());
 		holder.tv_book_info.setText(book.getInfo().getDescription());
-		
+		EReaderApplication.imageLoader.displayImage(book.getInfo().getImage_url(), holder.iv_book, EReaderApplication.options);
 		
 		return convertView;
 	}
@@ -59,11 +68,12 @@ public class BookAdapter extends BaseAdapter {
 		private TextView tv_book_name;
 		private TextView tv_book_author;
 		private TextView tv_book_info;
+		private ImageView iv_book;
 		public void findView(View view){
 			tv_book_name = (TextView)view.findViewById(R.id.tv_book_name);
 			tv_book_author = (TextView)view.findViewById(R.id.tv_book_author);
 			tv_book_info = (TextView)view.findViewById(R.id.tv_book_info);
+			iv_book = (ImageView)view.findViewById(R.id.iv_book);
 		}
 	}
-
 }
