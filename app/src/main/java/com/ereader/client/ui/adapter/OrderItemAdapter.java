@@ -18,6 +18,7 @@ import com.ereader.client.entities.OrderBook;
 import com.ereader.client.entities.OrderList;
 import com.ereader.client.ui.my.SPActivity;
 import com.ereader.common.util.IntentUtil;
+import com.ereader.common.util.LogUtil;
 
 import java.util.List;
 
@@ -34,7 +35,13 @@ public class OrderItemAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return mOrderList.getOrder_products().size();
+		if(mOrderList.getOrder_products()==null){
+			LogUtil.Log("orderID"+mOrderList.getOrder_id(),0+"");
+		}else {
+			LogUtil.Log("orderID"+mOrderList.getOrder_id(),mOrderList.getOrder_products().size()+"");
+		}
+
+		return  mOrderList.getOrder_products()==null?0:mOrderList.getOrder_products().size();
 	}
 
 	@Override

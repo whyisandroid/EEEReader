@@ -340,6 +340,8 @@ public class AppServiceImpl implements AppService {
 		Request<SPResp> request = new Request<SPResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("_token_", token));
+		nameValuePairs.add(new BasicNameValuePair("page", "1"));
+		nameValuePairs.add(new BasicNameValuePair("per_page", "30"));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 		request.setUrl(Config.HTTP_MY_SP);
 		request.setR_calzz(SPResp.class);
@@ -502,7 +504,7 @@ public class AppServiceImpl implements AppService {
 		nameValuePairs.add(new BasicNameValuePair("_token_", token));
 		nameValuePairs.add(new BasicNameValuePair("pay_status", type));
 		nameValuePairs.add(new BasicNameValuePair("page", "1"));
-		nameValuePairs.add(new BasicNameValuePair("per_page", "30"));
+		nameValuePairs.add(new BasicNameValuePair("per_page", "50"));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 		request.setUrl(Config.HTTP_USER_ORDER_LIST);
 		request.setR_calzz(OrderListResp.class);

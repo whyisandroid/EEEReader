@@ -1,9 +1,6 @@
 package com.ereader.client.ui.adapter;
 
-import java.util.List;
-
 import android.content.Context;
-import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,18 +8,17 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.ereader.client.EReaderApplication;
 import com.ereader.client.R;
 import com.ereader.client.entities.Order;
 import com.ereader.client.entities.OrderList;
 import com.ereader.client.service.AppController;
-import com.ereader.client.ui.my.SPActivity;
-import com.ereader.common.util.IntentUtil;
 import com.ereader.common.util.ProgressDialogUtil;
+import com.ereader.common.util.UIUtils;
+
+import java.util.List;
 
 public class OrderAdapter extends BaseAdapter {
 	private LayoutInflater inflater;
@@ -65,7 +61,12 @@ public class OrderAdapter extends BaseAdapter {
 		}else {
 			holder=(ViewHolder) convertView.getTag();
 		}
-		holder.lv_order_item.setAdapter(new OrderItemAdapter(mContext,order));
+
+		OrderItemAdapter adapter2 = new OrderItemAdapter(mContext,order);
+		holder.lv_order_item.setAdapter(adapter2);
+		UIUtils.setListViewHeight(holder.lv_order_item, adapter2);
+
+
 		holder.tv_order_id.setText("订单编号   "+order.getOrder_id());
 		//订单状态 未支付0 已支付1  已取消2
         if("0".equals(order.getPay_status())){

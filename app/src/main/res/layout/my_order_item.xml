@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:padding="15dp"
+    android:paddingTop="15dp"
+    android:paddingBottom="15dp"
     android:orientation="vertical" >
 
 
@@ -12,7 +13,7 @@
             android:id="@+id/tv_order_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="25dp"
             android:text="永远不要找别人要安全感"
             android:textColor="@color/new_color_2"
             android:textSize="@dimen/new_size_4" />
@@ -22,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:divider="@color/main_bg"
+            android:dividerHeight="1dp"
             android:listSelector="@android:color/transparent"
             >
         </ListView>

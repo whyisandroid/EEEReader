@@ -33,7 +33,7 @@ public class Json_U {
 //			return JSON.parseObject(jsonStr, clazz);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new BusinessException(new ErrorMessage("-1", "网络故障，请稍候再试"));
+            throw new BusinessException(new ErrorMessage("-1", "服务端返回错误，请稍候再试"));
         }
     }
 
