@@ -55,19 +55,20 @@ public class OrderActivity extends BaseFragmentActivity implements OnClickListen
 	private void initView() {
 		((TextView) findViewById(R.id.tv_main_top_title)).setText("我的订单");
 		mListTitle = new ArrayList<Category>();
-			mListTitle.add(new Category("全部","1"));
-			mListTitle.add(new Category("正在处理","2"));
-			mListTitle.add(new Category("已取消","3"));
-		OrderFragsAdapter orderAdapter = new OrderFragsAdapter(getSupportFragmentManager(),mListTitle.size());
+		mListTitle.add(new Category("全部", ""));
+		mListTitle.add(new Category("已完成", "1"));
+		mListTitle.add(new Category("未支付", "0"));
+		mListTitle.add(new Category("已取消", "2"));
+		OrderFragsAdapter orderAdapter = new OrderFragsAdapter(getSupportFragmentManager(), mListTitle);
 		vp_order.setAdapter(orderAdapter);
-		
+
 		// 设置缓存fragment的数量
 		vp_order.setOffscreenPageLimit(2);
 		vp_order.setCurrentItem(0);
 		vp_order.setPageMargin(4);
-		
-		
-		BookTabsAdapter adapter = new BookTabsAdapter(this,mListTitle);
+
+
+		BookTabsAdapter adapter = new BookTabsAdapter(this, mListTitle);
 		st_order.setAdapter(adapter);
 		st_order.setViewPager(vp_order);
 	}

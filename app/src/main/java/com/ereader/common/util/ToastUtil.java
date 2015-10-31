@@ -12,6 +12,11 @@ public class ToastUtil {
 
     private static Toast mToast = null;
 
+
+    public static void showLongToast(Context context, String msg){
+        showToast(context, msg, LENGTH_LONG);
+    }
+
     public static void showToast(Context context, String msg, int duration) {
         if (mToast == null) {
             mToast = Toast.makeText(context, msg, duration);

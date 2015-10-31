@@ -67,12 +67,14 @@ public interface AppService {
 	public void bill() throws BusinessException;
 	/***我的订单列表*/
 	public void orderList(String type) throws BusinessException;
+	/***取消订单*/
+	public void cancelOrder(String id) throws BusinessException;
 	/***我的充值劵*/
 	public void gift(String type) throws BusinessException;
 	/***使用充值券*/
 	public void useCard(String card) throws BusinessException;
 	/***商品评论数据*/
-	public void commentCount() throws BusinessException;
+	public void addComment(float rating, String id, String title, String comment) throws BusinessException;
 
 	/***创建支付订单*/
 	public void createOrder(String value) throws BusinessException;

@@ -15,7 +15,7 @@
         android:padding="@dimen/dimen_xnormal" >
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/tv_sp_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="葵花宝典"
@@ -42,13 +42,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:stepSize="1"
+                android:rating="3"
+                android:numStars="5"
+                android:isIndicator="false"
                 android:layout_toRightOf="@+id/tv_sp_star"
                 android:gravity="center_vertical" />
         </RelativeLayout>
     </LinearLayout>
 
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/et_sp_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dimen_xnormal"
@@ -69,7 +73,7 @@
     </EditText>
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/et_sp_comment"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginLeft="@dimen/dimen_xnormal"

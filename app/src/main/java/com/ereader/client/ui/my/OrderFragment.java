@@ -17,10 +17,14 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.ereader.client.R;
+import com.ereader.client.entities.Order;
+import com.ereader.client.entities.OrderList;
+import com.ereader.client.entities.json.OrderData;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.adapter.BookAdapter;
 import com.ereader.client.ui.adapter.OrderAdapter;
 import com.ereader.client.ui.bookstore.BookDetailActivity;
+import com.ereader.client.ui.pay.PayActivity;
 import com.ereader.client.ui.view.PullToRefreshView;
 import com.ereader.client.ui.view.PullToRefreshView.OnFooterRefreshListener;
 import com.ereader.client.ui.view.PullToRefreshView.OnHeaderRefreshListener;
@@ -36,24 +40,37 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	private AppController controller;
 	private ListView lv_order;
 	private PullToRefreshView pull_refresh_order;
-	private List<String> mList = new ArrayList<String>();
+	private List<OrderList> mOrderList = new ArrayList<OrderList>();
 	private OrderAdapter adapter;
-	private String mOrderType = "0";
+	private String mOrderType = "";
 
 	public static final int REFRESH_DOWN_OK = 1; // 向下刷新
 	public static final int REFRESH_UP_OK = 2;  //向上拉
+	public static final int CANCEL= 3;  //取消订单
+	public static final int PAY_OK = 4;  //支付订单
 	private Handler mhandler = new Handler(){
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
 			case REFRESH_DOWN_OK:
-				ToastUtil.showToast(mContext, "刷新成功！", ToastUtil.LENGTH_LONG);
+				OrderData orderData = (OrderData)controller.getContext().getBusinessData("OrderListResp"+mOrderType);
+				mOrderList.clear();
+				mOrderList.addAll(orderData.getData());
+				//ToastUtil.showToast(mContext, "刷新成功！", ToastUtil.LENGTH_LONG);
 				pull_refresh_order.onHeaderRefreshComplete();
+				adapter.notifyDataSetChanged();
 				break;
 			case REFRESH_UP_OK:
 				adapter.notifyDataSetChanged();
 				pull_refresh_order.onFooterRefreshComplete();
 				break;
-
+				case CANCEL:
+					int position = Integer.valueOf(msg.obj.toString());
+					mOrderList.remove(position);
+					adapter.notifyDataSetChanged();
+				break;
+				case  11:
+					IntentUtil.intent(mContext, PayActivity.class);
+					break;
 			default:
 				break;
 			}
@@ -61,11 +78,11 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	};
 
 	@SuppressLint("ValidFragment")
-	public OrderFragment(int type){
-		this.mOrderType = String.valueOf(type);
+	public OrderFragment(String type){
+		this.mOrderType = type;
 	}
-	
-	
+
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -83,19 +100,25 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	private void initView() {
 		pull_refresh_order.setOnHeaderRefreshListener(this);
 		pull_refresh_order.setOnFooterRefreshListener(this);
-		adapter = new OrderAdapter(mContext, mList);
+		adapter = new OrderAdapter(mContext, mOrderList,mhandler);
 		lv_order.setAdapter(adapter);
 		lv_order.setOnItemClickListener(orderItemListener);
+
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
 		getOrderList();
 	}
 
 	public void getOrderList() {
-		ProgressDialogUtil.showProgressDialog(mContext, "", false);
+		//ProgressDialogUtil.showProgressDialog(mContext, "", false);
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				controller.getOrderList(mhandler,mOrderType);
-				ProgressDialogUtil.closeProgressDialog();
+				//ProgressDialogUtil.closeProgressDialog();
 			}
 		}).start();
 	}
@@ -117,10 +140,12 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	}
 	@Override
 	public void onFooterRefresh(PullToRefreshView view) {
+
 		mhandler.sendEmptyMessageDelayed(REFRESH_UP_OK, 3000);
 	}
 	@Override
 	public void onHeaderRefresh(PullToRefreshView view) {
-		mhandler.sendEmptyMessageDelayed(REFRESH_DOWN_OK, 3000);
+		getOrderList();
+		//mhandler.sendEmptyMessageDelayed(REFRESH_DOWN_OK, 3000);
 	}
 }

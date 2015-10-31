@@ -78,7 +78,7 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 					tv_book_collection.setText("收藏");
 					break;
                 case BuyCarActivity.ORDER_SUCCESS:
-                    // 充值
+                    //
                     ProgressDialogUtil.showProgressDialog(BookDetailActivity.this, "", false);
                     new Thread(new Runnable() {
                         @Override

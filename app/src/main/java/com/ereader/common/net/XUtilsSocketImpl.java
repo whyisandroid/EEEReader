@@ -70,12 +70,12 @@ public class XUtilsSocketImpl implements AppSocketInterface {
 
             params.addQueryStringParameter(nameValuePairsGet);
             params.addBodyParameter(nameValuePairs);
-            LogUtil.Log("sendHttp", request.getUrl() + nameValuePairs.toString() + nameValuePairsGet.toString());
+            LogUtil.Log("XUtilsSocketImpl", request.getUrl() + nameValuePairs.toString() + nameValuePairsGet.toString());
             ResponseStream responseStream = httpUtils.sendSync(HttpRequest.HttpMethod.POST,
                     request.getUrl(), params);
 
             value = responseStream.readString();
-            LogUtil.Log("XUtilsSocketImpl", value);
+            LogUtil.Log("XUtilsSocketImpl"+request.getUrl(), value);
         } catch (com.lidroid.xutils.exception.HttpException e) {
             e.printStackTrace();
             throw new BusinessException(new ErrorMessage("服务器连接错误"));

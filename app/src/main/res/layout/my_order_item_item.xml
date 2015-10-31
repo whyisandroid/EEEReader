@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="15dp" >
+
+        <ImageView
+            android:id="@+id/iv_book"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/b1_03" />
+
+        <TextView
+            android:id="@+id/tv_book_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/iv_book"
+            android:text="永远不要找别人要安全感"
+            android:textColor="@color/new_color_2"
+            android:textSize="@dimen/new_size_4" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_book_name"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/iv_book" >
+
+            <TextView
+                android:id="@+id/tv_book_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:text="2015-6-24 23:56:57"
+                android:textColor="@color/new_color_3"
+                android:textSize="@dimen/new_size_2" />
+            
+            <TextView
+                android:id="@+id/tv_book_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:text="$2.00"
+                android:textColor="@color/main_bar"
+                android:layout_alignParentRight="true"
+                android:textSize="@dimen/new_size_2" />
+        </RelativeLayout>
+        
+         <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_book"
+             >
+
+            <TextView
+                android:id="@+id/tv_order_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="交易成功"
+                android:layout_centerVertical="true"
+                android:textColor="@color/holo_green_dark"
+                android:textSize="@dimen/new_size_2" />
+            
+            <Button
+                android:id="@+id/tv_order_left"
+                android:layout_width="60dp"
+                android:layout_height="32dp"
+                android:text="立即阅读"
+                android:textColor="@color/main_bar"
+                android:background="@drawable/b_14"
+                android:layout_toLeftOf="@+id/tv_order_right"
+                android:textSize="@dimen/new_size_2" />
+            
+            <Button
+                android:id="@+id/tv_order_right"
+                android:layout_width="60dp"
+                android:layout_height="32dp"
+                android:layout_marginLeft="10dp"
+                android:text="写书评"
+                android:textColor="@color/new_color_5"
+                android:background="@drawable/b_16"
+                android:layout_alignParentRight="true"
+                android:textSize="@dimen/new_size_2" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</LinearLayout>

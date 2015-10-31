@@ -74,7 +74,7 @@ public class MySPActivity extends BaseActivity implements OnClickListener {
 	}
 	
 	private void getSP() {
-		ProgressDialogUtil.showProgressDialog(this, "努力加载中…", false);
+		ProgressDialogUtil.showProgressDialog(this, "", false);
 		new Thread(new Runnable() {
 			@Override
 			public void run() {

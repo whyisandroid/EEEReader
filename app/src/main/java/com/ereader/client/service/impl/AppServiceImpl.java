@@ -4,7 +4,6 @@ package com.ereader.client.service.impl;
 import com.ereader.client.EReaderApplication;
 import com.ereader.client.entities.DisCategory;
 import com.ereader.client.entities.Login;
-import com.ereader.client.entities.RechargeOrder;
 import com.ereader.client.entities.json.ArticleDetailResp;
 import com.ereader.client.entities.json.ArticleResp;
 import com.ereader.client.entities.json.BaseResp;
@@ -19,6 +18,7 @@ import com.ereader.client.entities.json.FriendsResp;
 import com.ereader.client.entities.json.GiftResp;
 import com.ereader.client.entities.json.LoginResp;
 import com.ereader.client.entities.json.MessageResp;
+import com.ereader.client.entities.json.OrderListResp;
 import com.ereader.client.entities.json.OrderRechargeResp;
 import com.ereader.client.entities.json.OrderResp;
 import com.ereader.client.entities.json.SPResp;
@@ -26,13 +26,13 @@ import com.ereader.client.entities.json.SubCategoryResp;
 import com.ereader.client.entities.json.WalletResp;
 import com.ereader.client.service.AppContext;
 import com.ereader.client.service.AppService;
+import com.ereader.common.exception.BusinessException;
 import com.ereader.common.exception.ErrorMessage;
 import com.ereader.common.net.Request;
 import com.ereader.common.util.Config;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import com.ereader.common.exception.BusinessException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -497,7 +497,7 @@ public class AppServiceImpl implements AppService {
 	@Override
 	public void orderList(String type) throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
-		Request<BaseResp> request = new Request<BaseResp>();
+		Request<OrderListResp> request = new Request<OrderListResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("_token_", token));
 		nameValuePairs.add(new BasicNameValuePair("pay_status", type));
@@ -505,10 +505,28 @@ public class AppServiceImpl implements AppService {
 		nameValuePairs.add(new BasicNameValuePair("per_page", "30"));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 		request.setUrl(Config.HTTP_USER_ORDER_LIST);
+		request.setR_calzz(OrderListResp.class);
+		OrderListResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+			context.addBusinessData("OrderListResp"+type, resp.getData());
+		} else {
+			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+		}
+	}
+
+	@Override
+	public void cancelOrder(String id) throws BusinessException {
+		String token = EReaderApplication.getInstance().getLogin().getToken();
+		Request<BaseResp> request = new Request<BaseResp>();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("_token_", token));
+		nameValuePairs.add(new BasicNameValuePair("order_id", id));
+		nameValuePairs.add(new BasicNameValuePair("per_page", "30"));
+		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+		request.setUrl(Config.HTTP_USER_ORDER_CANENL);
 		request.setR_calzz(BaseResp.class);
 		BaseResp resp = EReaderApplication.getAppSocket().shortConnect(request);
 		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
-			//context.addBusinessData("BaseResp", resp.getData());
 		} else {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
@@ -553,9 +571,25 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void commentCount() throws BusinessException {
-		// TODO Auto-generated method stub
+	public void addComment(float rating, String id, String title, String comment) throws BusinessException {
+		String token = EReaderApplication.getInstance().getLogin().getToken();
+		Request<BaseResp> request = new Request<BaseResp>();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("_token_", token));
+		nameValuePairs.add(new BasicNameValuePair("order_type", "1"));
+		nameValuePairs.add(new BasicNameValuePair("score", rating+""));
+		nameValuePairs.add(new BasicNameValuePair("product_id", id));
+		nameValuePairs.add(new BasicNameValuePair("title", title));
+		nameValuePairs.add(new BasicNameValuePair("content", comment));
+		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+		request.setUrl(Config.HTTP_BOOK_ADD_COMMENT);
+		request.setR_calzz(BaseResp.class);
+		BaseResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
 
+		} else {
+			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+		}
 	}
 
 	@Override
