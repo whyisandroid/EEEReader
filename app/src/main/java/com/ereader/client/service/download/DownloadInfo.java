@@ -1,22 +1,27 @@
 package com.ereader.client.service.download;
 
+import com.lidroid.xutils.db.annotation.Table;
 import com.lidroid.xutils.db.annotation.Transient;
 import com.lidroid.xutils.http.HttpHandler;
 
 import java.io.File;
-
+import com.lidroid.xutils.db.annotation.Id;
 /**
  * Author: Xutils
  * Date: 13-11-10
  * Time: 下午8:11
  */
+@Table(name="downloadbooks")
 public class DownloadInfo {
 
     public DownloadInfo() {
     }
 
+    public DownloadInfo(long bookid) {
+        this.id=bookid;
+    }
+    @Id(column = "id")
     private long id;
-
     @Transient
     private HttpHandler<File> handler;
 

@@ -11,6 +11,8 @@ public class Constant {
 
     public final static String DBNAME = "bookshelf.db";
 
+    public final static String DBNAME_DOWNLOAD= "download.db";
+
     public final static String DOWNLOAD = OUTPATH + "Downloads/";
 
     public final static String SUFFIX_EPUB= ".epub";

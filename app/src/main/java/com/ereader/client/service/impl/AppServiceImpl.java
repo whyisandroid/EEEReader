@@ -29,10 +29,14 @@ import com.ereader.client.service.AppService;
 import com.ereader.common.exception.BusinessException;
 import com.ereader.common.exception.ErrorMessage;
 import com.ereader.common.net.Request;
+import com.ereader.common.net.XUtilsSocketImpl;
 import com.ereader.common.util.Config;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import com.ereader.common.exception.BusinessException;
+import com.ereader.common.util.LogUtil;
+import com.lidroid.xutils.util.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -851,6 +855,26 @@ public class AppServiceImpl implements AppService {
 		} else {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
+	}
+	@Override
+	public String getDownUrl(){
+
+		String result="";
+		String token = EReaderApplication.getInstance().getLogin().getToken();
+		String book_id = (String) context.getBusinessData("download.book_id");
+		Request request = new Request();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("_token_", token));
+		nameValuePairs.add(new BasicNameValuePair("book_id", book_id));
+		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+		request.setUrl(Config.HTTP_MY_SHELF_BOOKS_DOWNLOAD);
+		try {
+			result= XUtilsSocketImpl.getDownURL(request);
+		} catch (Exception e) {
+			LogUtil.LogError("getDownUrlerror",e.toString());
+			result= "";
+		}
+		return result;
 
 	}
 }

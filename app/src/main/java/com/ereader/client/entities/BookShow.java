@@ -1,5 +1,6 @@
 package com.ereader.client.entities;
 
+import com.ereader.client.service.download.DownloadInfo;
 import com.lidroid.xutils.db.annotation.Column;
 import com.lidroid.xutils.db.annotation.Table;
 import com.lidroid.xutils.db.annotation.Transient;
@@ -17,29 +18,37 @@ public class BookShow implements Serializable {
 
     @Column(column = "name")
     private String name;
-    @Transient
+    @Column(column = "author")
     private String author;
     // Transient使这个列被忽略，不存入数据库
-    @Transient
+    @Column(column = "version")
     private String version;
-
     @Column(column = "cover_front_url")
     private String cover_front_url;
     @Column(column = "isDownloading")
     private boolean isDownloading = false;//是否正在下载
     @Column(column = "isDownloaded")
     private boolean isDownloaded = false;
-    @Column(column = "localpath")
-    private String localpath;
+//    @Column(column = "localpath")
+//    private String localpath;//在downloadInfo里找
 
-
-    public String getLocalpath() {
-        return localpath;
-    }
-
-    public void setLocalpath(String localpath) {
-        this.localpath = localpath;
-    }
+//    //下载的信息   我靠－json 解析不了
+//    private DownloadInfo downloadInfo;
+//
+//    public DownloadInfo getDownloadInfo() {
+//        return downloadInfo;
+//    }
+//
+//    public void setDownloadInfo(DownloadInfo downloadInfo) {
+//        this.downloadInfo = downloadInfo;
+//    }
+//    public String getLocalpath() {
+//        return localpath;
+//    }
+//
+//    public void setLocalpath(String localpath) {
+//        this.localpath = localpath;
+//    }
 
     public boolean isDownloaded() {
         return isDownloaded;
