@@ -100,4 +100,7 @@ public class Config {
     // shelf－delete
     public final static String HTTP_MY_SHELF_BOOKS_DELETE = MY_SERVICE + "/api/ebook/delFromShelves"; //删除已购图书
 
+    //download
+    public final static String HTTP_MY_SHELF_BOOKS_DOWNLOAD = MY_SERVICE + "/api/ebook/down"; // 下载已购图书
+
 }

@@ -2,6 +2,9 @@ package com.ereader.client.service.download;
 
 import android.content.Context;
 import android.database.Cursor;
+
+import com.ereader.common.constant.Constant;
+import com.ereader.common.util.LogUtil;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.db.converter.ColumnConverter;
@@ -36,7 +39,7 @@ public class DownloadManager {
     /*package*/ DownloadManager(Context appContext) {
         ColumnConverterFactory.registerColumnConverter(HttpHandler.State.class, new HttpHandlerStateConverter());
         mContext = appContext;
-        db = DbUtils.create(mContext);
+        db = DbUtils.create(mContext, Constant.OUTPATH, Constant.DBNAME_DOWNLOAD);
         try {
             downloadInfoList = db.findAll(Selector.from(DownloadInfo.class));
         } catch (DbException e) {
@@ -55,10 +58,12 @@ public class DownloadManager {
         return downloadInfoList.get(index);
     }
 
-    public void addNewDownload(String url, String fileName, String target,
+    public void addNewDownload(long bookid,String url, String fileName, String target,
                                boolean autoResume, boolean autoRename,
                                final RequestCallBack<File> callback) throws DbException {
         final DownloadInfo downloadInfo = new DownloadInfo();
+        LogUtil.LogError("下载","bookid="+bookid+";downUrl="+url);
+        downloadInfo.setId(bookid);
         downloadInfo.setDownloadUrl(url);
         downloadInfo.setAutoRename(autoRename);
         downloadInfo.setAutoResume(autoResume);
@@ -70,7 +75,7 @@ public class DownloadManager {
         downloadInfo.setHandler(handler);
         downloadInfo.setState(handler.getState());
         downloadInfoList.add(downloadInfo);
-        db.saveBindingId(downloadInfo);
+        db.save(downloadInfo);
     }
 
     public void resumeDownload(int index, final RequestCallBack<File> callback) throws DbException {

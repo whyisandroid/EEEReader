@@ -1,5 +1,6 @@
 package com.ereader.client;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Application;
@@ -10,12 +11,17 @@ import com.ereader.client.entities.Book;
 import com.ereader.client.entities.Login;
 import com.ereader.client.entities.json.BookOnlyResp;
 import com.ereader.client.entities.json.SubCategoryResp;
+import com.ereader.client.ui.bookshelf.epubread.CustomFont;
+import com.ereader.client.ui.bookshelf.epubread.SkyDatabase;
+import com.ereader.client.ui.bookshelf.epubread.SkySetting;
+import com.ereader.client.ui.bookshelf.epubread.SkyUtility;
 import com.ereader.common.net.AppSocketInterface;
 import com.ereader.common.net.XUtilsSocketImpl;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.skytree.epub.BookInformation;
 
 /**
  * ***************************************
@@ -186,5 +192,30 @@ public class EReaderApplication extends Application {
 
     public BookOnlyResp getBuyCar() {
         return AppSharedPref.getInstance(this).getBuyCar();
+    }
+
+
+    //sky
+    public String message = "We are the world.";
+    public ArrayList<BookInformation> bis;
+    public ArrayList<CustomFont> customFonts = new ArrayList<CustomFont>();
+    public SkySetting setting;
+    public SkyDatabase sd = null;
+    public int sortType=0;
+
+    public void reloadBookInformations() {
+        this.bis = sd.fetchBookInformations(sortType,"");
+    }
+
+    public void reloadBookInformations(String key) {
+        this.bis = sd.fetchBookInformations(sortType,key);
+    }
+
+    public void loadSetting() {
+        this.setting = sd.fetchSetting();
+    }
+
+    public void saveSetting() {
+        sd.updateSetting(this.setting);
     }
 }

@@ -59,10 +59,8 @@ public class BookView extends SplitPanel {
     public void onActivityCreated(Bundle saved) {
 		super.onActivityCreated(saved);
 		view = (WebView) getView().findViewById(R.id.Viewport);
-		
 		// enable JavaScript for cool things to happen!
 		view.getSettings().setJavaScriptEnabled(true);
-		
 		// ----- SWIPE PAGE
 		view.setOnTouchListener(new OnTouchListener() {
 			@Override

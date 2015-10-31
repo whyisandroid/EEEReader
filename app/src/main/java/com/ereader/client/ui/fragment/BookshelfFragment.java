@@ -9,8 +9,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -18,6 +20,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
@@ -35,12 +38,15 @@ import android.widget.TextView;
 import com.ereader.client.EReaderApplication;
 import com.ereader.client.R;
 import com.ereader.client.entities.BookShow;
+import com.ereader.client.entities.BookShowWithDownloadInfo;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.adapter.BookPagerAdapter;
 import com.ereader.client.ui.adapter.BookShelfAdapter;
 import com.ereader.client.ui.bookshelf.Read;
 import com.ereader.client.ui.bookshelf.ReadActivity;
 import com.ereader.client.ui.bookshelf.SearchBuyActivity;
+import com.ereader.client.ui.bookshelf.epubread.LocalService;
+import com.ereader.client.ui.bookshelf.epubread.SkySetting;
 import com.ereader.client.ui.bookshelf.read.EpubNavigator;
 import com.ereader.client.ui.bookshelf.read.LocalBook;
 import com.ereader.client.ui.dialog.DialogUtil;
@@ -80,8 +86,10 @@ public class BookshelfFragment extends Fragment {
 
     public static final int requestCode_login = 1001;
 
-    private List<BookShow> list = new ArrayList<BookShow>();
-
+    private List<BookShowWithDownloadInfo> list = new ArrayList<BookShowWithDownloadInfo>();
+    //
+//    LocalService ls = null;
+//    boolean isBound = false;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -91,13 +99,49 @@ public class BookshelfFragment extends Fragment {
         mContext = getActivity();
         findView();
         initView();
+/*
+        if (SkySetting.getStorageDirectory()==null) {
+            // All book related data will be stored /data/data/com....../files/appName/
+			SkySetting.setStorageDirectory(getActivity().getFilesDir().getAbsolutePath(),"test.epub");
+            // All book related data will be stored /sdcard/appName/...
+//            SkySetting.setStorageDirectory(Environment.getExternalStorageDirectory().getAbsolutePath(),appName);
+        }
+        doBindService();*/
         initRead();
         return view;
     }
 
+   /* @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        getActivity().unbindService(mConnection);
+    }
+
+    private ServiceConnection mConnection = new ServiceConnection() {
+
+        public void onServiceConnected(ComponentName className,IBinder service) {
+            LocalService.LocalBinder binder = (LocalService.LocalBinder) service;
+            ls = binder.getService();
+            isBound = true;
+            if(!isInit){
+                ls.startDownload("http://skytree21.host.whoisweb.net/books/Alice-e.epub", "http://skytree21.host.whoisweb.net/books/Alice.jpg", "Alice's Adventures in Wonderland", "Lewis Carroll");
+
+            }
+        }
+
+        public void onServiceDisconnected(ComponentName arg0) {
+            isBound = false;
+        }
+    };
+    void doBindService() {
+        Intent intent = new Intent(getActivity(), LocalService.class);
+        getActivity().bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+        isBound = true;
+    }*/
     private void initRead() {
         if (!isInit) {
             new AsyncSetApprove().execute("");
+
         }
         // 读取名为"mark"的sharedpreferences
         sp = mContext.getSharedPreferences("mark", mContext.MODE_PRIVATE);
@@ -148,7 +192,6 @@ public class BookshelfFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
         localCustom();
 
     }
@@ -158,7 +201,6 @@ public class BookshelfFragment extends Fragment {
         @Override
         public void onPageSelected(int position) {
 
-            // TODO Auto-generated method stub
             int size = viewpager.getAdapter().getCount();
             pointView.setPosition(position % size);
             pointView.postInvalidate();
@@ -189,7 +231,7 @@ public class BookshelfFragment extends Fragment {
                 }
 
             } else {
-                BookShow book = adapter.getItem(position);
+                BookShowWithDownloadInfo book = adapter.getItem(position);
                 if (null == book) {
                     //TODO 无效的显示
                     return;
@@ -198,8 +240,8 @@ public class BookshelfFragment extends Fragment {
                     //TODO:删除数据库／本地文件
 
                     if(DbDeleteBook(book)){
-                        if (book.isDownloaded()) {//已经下载
-                            new File(book.getLocalpath()).delete();
+                        if (book.isDownloaded()&&null!=book.getDownloadInfo()) {//已经下载
+                            new File(book.getDownloadInfo().getFileSavePath()).delete();
                         }
                         adapter.deleteByPostion(position);
                         ToastUtil.showToast(getActivity(), "删除《"+book.getName()+"》成功！", ToastUtil.LENGTH_SHORT);
@@ -241,7 +283,7 @@ public class BookshelfFragment extends Fragment {
             if(position==parent.getAdapter().getCount()-1){
 
             }else{
-                BookShow book=(BookShow)parent.getAdapter().getItem(position);
+                BookShowWithDownloadInfo book=(BookShowWithDownloadInfo)parent.getAdapter().getItem(position);
                 if (null!=book&&!book.isDownloading()){
                     adapter.setIsShowDelete(!adapter.isShowDelete());
                 }
@@ -331,6 +373,7 @@ public class BookshelfFragment extends Fragment {
 //                db.close();
             }*/
             if (!isInit) {
+
                 File path = mContext.getFilesDir();
                 String[] strings = getResources()
                         .getStringArray(R.array.bookid);// 获取assets目录下的文件列表
@@ -415,7 +458,7 @@ public class BookshelfFragment extends Fragment {
                 db = DbUtils.create(getActivity(), Constant.OUTPATH, Constant.DBNAME);
                 db.configAllowTransaction(true);
                 db.configDebug(true);
-                list = db.findAll(BookShow.class);
+                list = db.findAll(BookShowWithDownloadInfo.class);
                 setupData(list);
             } catch (DbException e) {
                 LogUtil.LogError("获取数据－DbException", e.toString());
@@ -426,9 +469,9 @@ public class BookshelfFragment extends Fragment {
 
     }
 
-    private void setupData(List<BookShow> list) {
+    private void setupData(List<BookShowWithDownloadInfo> list) {
         if (null == list) {
-            list = new ArrayList<BookShow>();
+            list = new ArrayList<BookShowWithDownloadInfo>();
         }
 //                if (null == adapter) {
 //                    adapter = new BookShelfAdapter(mContext, list);

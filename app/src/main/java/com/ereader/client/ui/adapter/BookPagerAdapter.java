@@ -13,13 +13,18 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ereader.client.EReaderApplication;
 import com.ereader.client.R;
 import com.ereader.client.ui.adapter.BookAdapter.ViewHolder;
 import com.ereader.client.ui.bookshelf.ReadActivity;
+import com.ereader.client.ui.bookshelf.epubread.BookViewActivity;
+import com.ereader.client.ui.bookshelf.epubread.MagazineActivity;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.skytree.epub.BookInformation;
+import com.skytree.epub.SkyProvider;
 
 public class BookPagerAdapter extends PagerAdapter {
 
@@ -28,6 +33,8 @@ public class BookPagerAdapter extends PagerAdapter {
 	private LayoutInflater inflater;
 	private ImageLoader imageLoader = null;
 	private ImageLoaderConfiguration configuration = null;
+
+	private EReaderApplication app;
 	private DisplayImageOptions options;
 	public BookPagerAdapter(Context context, List<String> list) {
 		this.context = context;
@@ -38,6 +45,7 @@ public class BookPagerAdapter extends PagerAdapter {
 		if (!this.imageLoader.isInited()) {
 			this.imageLoader.init(configuration);
 		}
+		app=EReaderApplication.getInstance();
 	}
 
 	/**
@@ -94,11 +102,7 @@ public class BookPagerAdapter extends PagerAdapter {
 			public void onClick(View v) {
 				Intent it = new Intent();
 				it.setClass(context, ReadActivity.class);
-				//getResources().openRawResource(R.raw.book0);
 				String path = context.getFilesDir().getAbsolutePath() + "/book.epub";
-				//(String) listItem.get(0).get("path");
-//           ToastUtil.showToast(mContext, "position=" + position + ";path=" + path, ToastUtil.LENGTH_LONG);
-				//it.putExtra("aaa", path);getString(R.string.bpath)
 				it.putExtra(context.getString(R.string.bpath), path);
 				context.startActivity(it);
 			}
@@ -106,7 +110,7 @@ public class BookPagerAdapter extends PagerAdapter {
 		rl_index2.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent it = new Intent();
+				/*Intent it = new Intent();
 				it.setClass(context, ReadActivity.class);
 				//getResources().openRawResource(R.raw.book0);
 				String path = context.getFilesDir().getAbsolutePath() + "/book.epub";
@@ -114,10 +118,47 @@ public class BookPagerAdapter extends PagerAdapter {
 //           ToastUtil.showToast(mContext, "position=" + position + ";path=" + path, ToastUtil.LENGTH_LONG);
 				//it.putExtra("aaa", path);getString(R.string.bpath)
 				it.putExtra(context.getString(R.string.bpath), path);
-				context.startActivity(it);
+				context.startActivity(it);*/
+				openBookViewer();
 			}
 		});
 		((ViewPager) view).addView(imageLayout, 0);
 		return imageLayout;
+	}
+
+	//打开书
+	private void openBookViewer(){
+		BookInformation bi=new BookInformation("book.epub",context.getFilesDir().getAbsolutePath(),new SkyProvider());
+		bi.isFixedLayout=false;
+		bi.isDownloaded=true;
+		bi.code=1;
+		app.sd.updateBook(bi);
+		if (!bi.isDownloaded) return;
+		Intent intent;
+		if (!bi.isFixedLayout) {
+			intent = new Intent(context,BookViewActivity.class);
+		}else {
+			intent = new Intent(context,MagazineActivity.class);
+		}
+		intent.putExtra("BOOKCODE",bi.bookCode);//bi.bookCode
+		intent.putExtra("TITLE",bi.title);
+		intent.putExtra("AUTHOR", bi.creator);
+		intent.putExtra("BOOKNAME",bi.fileName);
+		if (bi.isRTL && !bi.isRead) {
+			intent.putExtra("POSITION",(double)1);
+		}else {
+			intent.putExtra("POSITION",bi.position);
+		}
+		intent.putExtra("THEMEINDEX",app.setting.theme);//app.setting.theme
+		intent.putExtra("DOUBLEPAGED",app.setting.doublePaged);//app.setting.doublePaged
+		intent.putExtra("transitionType",app.setting.transitionType);//app.setting.transitionType
+		intent.putExtra("GLOBALPAGINATION",app.setting.globalPagination);//app.setting.globalPagination
+		intent.putExtra("RTL",bi.isRTL);
+		intent.putExtra("VERTICALWRITING",bi.isVerticalWriting);
+
+		intent.putExtra("SPREAD", bi.spread);
+		intent.putExtra("ORIENTATION", bi.orientation);
+
+		context.startActivity(intent);
 	}
 }

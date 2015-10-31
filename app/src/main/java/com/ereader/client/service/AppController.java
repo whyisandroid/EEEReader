@@ -610,4 +610,8 @@ public class AppController {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}
 	}
+
+	public String getDownUrl(){
+		return service.getDownUrl();
+	}
 }

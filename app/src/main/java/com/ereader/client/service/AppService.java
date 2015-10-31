@@ -112,6 +112,6 @@ public interface AppService {
 	/**修改邮箱***/
 	public void updateEmail(String emali,String pwd)throws BusinessException;
 
-
+	public String getDownUrl();
 
 }

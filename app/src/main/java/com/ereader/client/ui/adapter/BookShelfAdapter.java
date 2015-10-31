@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 
 import com.ereader.client.R;
 import com.ereader.client.entities.BookShow;
+import com.ereader.client.entities.BookShowWithDownloadInfo;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -20,7 +21,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 public class BookShelfAdapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater inflater;
-    private List<BookShow> mList;
+    private List<BookShowWithDownloadInfo> mList;
 
     private boolean isShowDelete = false;
 
@@ -28,7 +29,7 @@ public class BookShelfAdapter extends BaseAdapter {
     private ImageLoader imageLoader = null;
     private ImageLoaderConfiguration configuration = null;
     private DisplayImageOptions options;
-    public BookShelfAdapter(Context mContext, List<BookShow> list) {
+    public BookShelfAdapter(Context mContext, List<BookShowWithDownloadInfo> list) {
         this.mContext=mContext;
         this.mList = list;
 
@@ -49,7 +50,7 @@ public class BookShelfAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public void setData(List<BookShow> list) {
+    public void setData(List<BookShowWithDownloadInfo> list) {
         this.mList = list;
         notifyDataSetChanged();
     }
@@ -86,7 +87,7 @@ public class BookShelfAdapter extends BaseAdapter {
     }
 
     @Override
-    public BookShow getItem(int position) {
+    public BookShowWithDownloadInfo getItem(int position) {
         if(position==getCount()-1){
             return null;
         }
@@ -102,7 +103,7 @@ public class BookShelfAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder holder;
-        BookShow book = (BookShow) getItem(position);
+        BookShowWithDownloadInfo book = (BookShowWithDownloadInfo) getItem(position);
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.book_shelf_item, null);
             holder = new ViewHolder();

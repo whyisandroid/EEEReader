@@ -151,7 +151,6 @@
     </string-array>
 
     <string name="title_activity_split_panel">SplitPanel</string>
-    <string name="hello_world">Hello world!</string>
     <string name="title_activity_book_view">BookView</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_tocview">TOCView</string>

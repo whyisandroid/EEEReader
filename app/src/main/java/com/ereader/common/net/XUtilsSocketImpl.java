@@ -127,7 +127,7 @@ public class XUtilsSocketImpl implements AppSocketInterface {
         nameValuePairs.add(0, new BasicNameValuePair("appid", "test"));
         nameValuePairs.add(new BasicNameValuePair("signature", sign));
 
-// 遍历排序后的字典，将所有参数按"key=value"格式拼接在一起
+        // 遍历排序后的字典，将所有参数按"key=value"格式拼接在一起
         StringBuilder basestring = new StringBuilder();
         basestring.append(request.getUrl() + "?");
         basestring.append(nameValuePairs.get(0).getName()).append("=").append(URLEncoder.encode(nameValuePairs.get(0).getValue(), "UTF-8")).append("&");

@@ -55,4 +55,5 @@
     <!--轮播图和安全教育界面底部圆点的半径  -->
 
     <dimen name="all_margin">0dp</dimen>
+
 </resources>
