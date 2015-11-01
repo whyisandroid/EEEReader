@@ -636,4 +636,13 @@ public class AppController {
 	public String getDownUrl(){
 		return service.getDownUrl();
 	}
+
+	public void getPointList(Handler mHandler, String balance) {
+		try {
+			service.getPointList(balance);
+			mHandler.obtainMessage(OrderFragment.REFRESH_DOWN_OK).sendToTarget();
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}
+	}
 }

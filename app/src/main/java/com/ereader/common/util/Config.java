@@ -68,6 +68,7 @@ public class Config {
     public final static String HTTP_USER = MY_SERVICE + "/api/user/user"; //  用户基本信息
     public final static String HTTP_USER_WALLET = MY_SERVICE + "/api/user/wallet"; //  我的钱包
     public final static String HTTP_USER_BILL = MY_SERVICE + "/api/user/bill"; //  我的账单列表
+    public final static String HTTP_USER_POINT_LIST = MY_SERVICE + "/api/user/bill"; //  我的积分列表
     public final static String HTTP_USER_ORDER_LIST = MY_SERVICE + "/api/user/order"; //  我的订单列表
     public final static String HTTP_USER_ORDER_CANENL = MY_SERVICE + "/api/user/cancelOrder"; //  取消订单
     public final static String HTTP_USER_GIFT = MY_SERVICE + "/api/user/giftcard"; //  我的充值劵

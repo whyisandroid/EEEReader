@@ -21,6 +21,7 @@ import com.ereader.client.entities.json.MessageResp;
 import com.ereader.client.entities.json.OrderListResp;
 import com.ereader.client.entities.json.OrderRechargeResp;
 import com.ereader.client.entities.json.OrderResp;
+import com.ereader.client.entities.json.PointResp;
 import com.ereader.client.entities.json.SPResp;
 import com.ereader.client.entities.json.SubCategoryResp;
 import com.ereader.client.entities.json.WalletResp;
@@ -498,6 +499,27 @@ public class AppServiceImpl implements AppService {
 	public void bill() throws BusinessException {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void getPointList(String balance) throws BusinessException {
+		String token = EReaderApplication.getInstance().getLogin().getToken();
+		Request<PointResp> request = new Request<PointResp>();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("_token_", token));
+		nameValuePairs.add(new BasicNameValuePair("type", token));
+		nameValuePairs.add(new BasicNameValuePair("balance", balance));
+		nameValuePairs.add(new BasicNameValuePair("page", "1"));
+		nameValuePairs.add(new BasicNameValuePair("per_page", "50"));
+		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+		request.setUrl(Config.HTTP_USER_POINT_LIST);
+		request.setR_calzz(PointResp.class);
+		PointResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+			context.addBusinessData("PointResp"+balance, resp.getData());
+		} else {
+			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+		}
 	}
 
 	@Override

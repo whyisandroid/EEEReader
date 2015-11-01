@@ -56,10 +56,10 @@ public class PointsActivity extends BaseFragmentActivity implements OnClickListe
 	private void initView() {
 		((TextView) findViewById(R.id.tv_main_top_title)).setText("我的积分");
 		mListTitle = new ArrayList<Category>();
-			mListTitle.add(new Category("全部","1"));
-			mListTitle.add(new Category("积分收入","2"));
-			mListTitle.add(new Category("积分支出","3"));
-		PointsFragsAdapter orderAdapter = new PointsFragsAdapter(getSupportFragmentManager(),mListTitle.size());
+			mListTitle.add(new Category("全部","all"));
+			mListTitle.add(new Category("积分收入","income"));
+			mListTitle.add(new Category("积分支出","outlay"));
+		PointsFragsAdapter orderAdapter = new PointsFragsAdapter(getSupportFragmentManager(),mListTitle);
 		vpager_points.setAdapter(orderAdapter);
 		
 		// 设置缓存fragment的数量
