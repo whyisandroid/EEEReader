@@ -20,6 +20,7 @@ import com.ereader.client.ui.login.LoginActivity;
 import com.ereader.client.ui.login.RegisterActivity;
 import com.ereader.client.ui.more.NoticeActivity;
 import com.ereader.client.ui.more.NoticeDetailActivity;
+import com.ereader.client.ui.my.CouponsFragment;
 import com.ereader.client.ui.my.MessageFriendsFragment;
 import com.ereader.client.ui.my.OrderFragment;
 import com.ereader.client.ui.pay.PayActivity;
@@ -462,7 +463,7 @@ public class AppController {
 	public void getCoupons(Handler mHandler,String type) {
 		try {
 			service.gift(type);
-			mHandler.obtainMessage(FindPwdActivity.CODE_OK).sendToTarget();
+			mHandler.obtainMessage(CouponsFragment.REFRESH_DOWN_OK).sendToTarget();
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}catch (Exception e) {
@@ -637,9 +638,9 @@ public class AppController {
 		return service.getDownUrl();
 	}
 
-	public void getPointList(Handler mHandler, String balance) {
+	public void getPointList(Handler mHandler, String balance,String type) {
 		try {
-			service.getPointList(balance);
+			service.getPointList(balance,type);
 			mHandler.obtainMessage(OrderFragment.REFRESH_DOWN_OK).sendToTarget();
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();

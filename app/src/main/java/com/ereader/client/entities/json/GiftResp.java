@@ -7,26 +7,18 @@ import com.ereader.client.entities.Page;
 import java.util.List;
 
 public class GiftResp extends BaseResp {
-	private List<Gift> data;
-	private Page page;
-	
-	public void setPage(Page page) {
-		this.page = page;
-	}
-	
-	public Page getPage() {
-		return page;
-	}
+	private GiftData data;
+
 	/**
 	 * @return the data
 	 */
-	public List<Gift> getData() {
+	public GiftData getData() {
 		return data;
 	}
 	/**
 	 * @param data the data to set
 	 */
-	public void setData(List<Gift> data) {
+	public void setData(GiftData data) {
 		this.data = data;
 	}
 }

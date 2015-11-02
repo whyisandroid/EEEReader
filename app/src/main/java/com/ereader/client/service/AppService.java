@@ -66,7 +66,7 @@ public interface AppService {
 	/***我的账单列表*/
 	public void bill() throws BusinessException;
 	/***我的积分列表*/
-	public void getPointList(String balance) throws BusinessException;
+	public void getPointList(String balance,String type) throws BusinessException;
 	/***我的订单列表*/
 	public void orderList(String type) throws BusinessException;
 	/***取消订单*/

@@ -502,12 +502,12 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void getPointList(String balance) throws BusinessException {
+	public void getPointList(String balance,String type) throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		Request<PointResp> request = new Request<PointResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("_token_", token));
-		nameValuePairs.add(new BasicNameValuePair("type", token));
+		nameValuePairs.add(new BasicNameValuePair("type", type));
 		nameValuePairs.add(new BasicNameValuePair("balance", balance));
 		nameValuePairs.add(new BasicNameValuePair("page", "1"));
 		nameValuePairs.add(new BasicNameValuePair("per_page", "50"));
@@ -516,7 +516,7 @@ public class AppServiceImpl implements AppService {
 		request.setR_calzz(PointResp.class);
 		PointResp resp = EReaderApplication.getAppSocket().shortConnect(request);
 		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
-			context.addBusinessData("PointResp"+balance, resp.getData());
+			context.addBusinessData("PointResp"+balance+type, resp.getData());
 		} else {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
@@ -566,14 +566,15 @@ public class AppServiceImpl implements AppService {
 		Request<GiftResp> request = new Request<GiftResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("_token_", token));
-		nameValuePairs.add(new BasicNameValuePair("is_use", type));
-		nameValuePairs.add(new BasicNameValuePair("is_expire", type));
+		nameValuePairs.add(new BasicNameValuePair("status", type));
+		nameValuePairs.add(new BasicNameValuePair("page", "1"));
+		nameValuePairs.add(new BasicNameValuePair("per_page", "30"));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 		request.setUrl(Config.HTTP_USER_GIFT);
 		request.setR_calzz(GiftResp.class);
 		GiftResp resp = EReaderApplication.getAppSocket().shortConnect(request);
 		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
-			context.addBusinessData("GiftResp", resp);
+			context.addBusinessData("GiftResp"+type, resp.getData());
 		} else {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}

@@ -57,12 +57,11 @@ public class BillActivity extends BaseFragmentActivity implements OnClickListene
 	private void initView() {
 		((TextView) findViewById(R.id.tv_main_top_title)).setText("账单");
 			main_top_right.setOnClickListener(this);
-			mListTitle.add(new Category("全部","1"));
-			mListTitle.add(new Category("交易中","2"));
-			mListTitle.add(new Category("购书","3"));
-			mListTitle.add(new Category("充值","4"));
+			mListTitle.add(new Category("全部","all"));
+			mListTitle.add(new Category("购书","outlay"));
+			mListTitle.add(new Category("充值","income"));
 		
-		BillFragsAdapter orderAdapter = new BillFragsAdapter(getSupportFragmentManager(),mListTitle.size());
+		BillFragsAdapter orderAdapter = new BillFragsAdapter(getSupportFragmentManager(),mListTitle);
 		vpager_bill.setAdapter(orderAdapter);
 		
 		// 设置缓存fragment的数量

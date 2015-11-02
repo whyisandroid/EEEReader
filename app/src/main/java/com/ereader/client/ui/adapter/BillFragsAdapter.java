@@ -1,7 +1,9 @@
 package com.ereader.client.ui.adapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import com.ereader.client.entities.Category;
 import com.ereader.client.ui.bookstore.BookFragment;
 import com.ereader.client.ui.pay.BillFragment;
 
@@ -13,11 +15,11 @@ public class BillFragsAdapter extends FragmentStatePagerAdapter {
 
 	private ArrayList<Fragment> fragments;
 
-	public BillFragsAdapter(FragmentManager fm,int length) {
+	public BillFragsAdapter(FragmentManager fm,List<Category> mList) {
 		super(fm);
 		fragments = new ArrayList<Fragment>();
-		for (int i = 0; i < length; i++) {
-			fragments.add(new BillFragment()); 
+		for (int i = 0; i < mList.size(); i++) {
+			fragments.add(new BillFragment(mList.get(i)));
 		}
 	}
 

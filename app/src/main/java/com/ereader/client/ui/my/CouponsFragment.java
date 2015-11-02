@@ -3,6 +3,7 @@ package com.ereader.client.ui.my;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,14 +16,16 @@ import android.widget.ListView;
 
 import com.ereader.client.R;
 import com.ereader.client.entities.Category;
+import com.ereader.client.entities.Gift;
+import com.ereader.client.entities.json.GiftData;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.adapter.CouponsAdapter;
 import com.ereader.client.ui.view.PullToRefreshView;
 import com.ereader.client.ui.view.PullToRefreshView.OnFooterRefreshListener;
 import com.ereader.client.ui.view.PullToRefreshView.OnHeaderRefreshListener;
 import com.ereader.common.util.ProgressDialogUtil;
-import com.ereader.common.util.ToastUtil;
 
+@SuppressLint("ValidFragment")
 public class CouponsFragment extends Fragment implements OnClickListener,
 OnHeaderRefreshListener, OnFooterRefreshListener{
 	private View view;
@@ -30,7 +33,7 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	private AppController controller;
 	private ListView lv_coupons;
 	private PullToRefreshView pull_refresh_coupons;
-	private List<String> mList = new ArrayList<String>();
+	private List<Gift> mList = new ArrayList<Gift>();
 	private CouponsAdapter adapter;
 	private Category cate;
 	
@@ -40,8 +43,11 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
 			case REFRESH_DOWN_OK:
-				ToastUtil.showToast(mContext, "刷新成功！", ToastUtil.LENGTH_LONG);
+				GiftData giftData = (GiftData)controller.getContext().getBusinessData("GiftResp"+cate.getCategory_id());
+				mList.clear();
+				mList.addAll(giftData.getData());
 				pull_refresh_coupons.onHeaderRefreshComplete();
+				adapter.notifyDataSetChanged();
 				break;
 			case REFRESH_UP_OK:
 				adapter.notifyDataSetChanged();
@@ -54,6 +60,7 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 		};
 	};
 
+	@SuppressLint("ValidFragment")
 	public CouponsFragment(Category cate) {
 		this.cate = cate;
 	}
@@ -78,8 +85,13 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 		adapter = new CouponsAdapter(mContext, mList);
 		lv_coupons.setAdapter(adapter);
 	}
-	
-	
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		getCoupons();
+	}
+
 	@Override
 	public void onClick(View v) {
 		
@@ -90,16 +102,14 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	}
 	@Override
 	public void onHeaderRefresh(PullToRefreshView view) {
-		mhandler.sendEmptyMessageDelayed(REFRESH_DOWN_OK, 3000);
+		getCoupons();
 	}
 
 	private void getCoupons() {
-		ProgressDialogUtil.showProgressDialog(getActivity(), "", false);
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				controller.getCoupons(mhandler,cate.getCategory_id());
-				ProgressDialogUtil.closeProgressDialog();
+				controller.getCoupons(mhandler, cate.getCategory_id());
 			}
 		}).start();
 	}
