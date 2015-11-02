@@ -221,13 +221,17 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
                     startActivity(it);
 
                 } else {//未下载
-                    //TODO
-                    adapter.startDown(controller, position);
+
+//                    adapter.startDown(controller, position);
                     //ToastUtil.showToast(SearchBuyActivity.this,"下载...", Toast.LENGTH_SHORT);
                     if (book.isDownloading()) {//正在下载之取消下载
+                        //TODO
                         adapter.setDownloadStatusNById(position, false);
+                        adapter.stopDownload(position);
+
                     } else {//正在下载之开始下载
                         adapter.setDownloadStatusNById(position, true);
+                        adapter.startDown(controller, position);
                     }
                 }
             }

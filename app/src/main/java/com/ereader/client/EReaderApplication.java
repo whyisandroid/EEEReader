@@ -203,6 +203,12 @@ public class EReaderApplication extends Application {
     public SkyDatabase sd = null;
     public int sortType=0;
 
+    public void initReadSettings(){
+        sd = new SkyDatabase(this);
+        reloadBookInformations();
+        loadSetting();
+    }
+
     public void reloadBookInformations() {
         this.bis = sd.fetchBookInformations(sortType,"");
     }
