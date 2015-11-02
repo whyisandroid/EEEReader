@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.ereader.client.ui.adapter.BookAdapter.ViewHolder;
 import com.ereader.client.ui.bookshelf.ReadActivity;
 import com.ereader.client.ui.bookshelf.epubread.BookViewActivity;
 import com.ereader.client.ui.bookshelf.epubread.MagazineActivity;
+import com.ereader.common.constant.Constant;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -110,15 +112,6 @@ public class BookPagerAdapter extends PagerAdapter {
 		rl_index2.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				/*Intent it = new Intent();
-				it.setClass(context, ReadActivity.class);
-				//getResources().openRawResource(R.raw.book0);
-				String path = context.getFilesDir().getAbsolutePath() + "/book.epub";
-				//(String) listItem.get(0).get("path");
-//           ToastUtil.showToast(mContext, "position=" + position + ";path=" + path, ToastUtil.LENGTH_LONG);
-				//it.putExtra("aaa", path);getString(R.string.bpath)
-				it.putExtra(context.getString(R.string.bpath), path);
-				context.startActivity(it);*/
 				openBookViewer();
 			}
 		});
@@ -128,11 +121,28 @@ public class BookPagerAdapter extends PagerAdapter {
 
 	//打开书
 	private void openBookViewer(){
-		BookInformation bi=new BookInformation("book.epub",context.getFilesDir().getAbsolutePath(),new SkyProvider());
+
+		SkyProvider sky=new SkyProvider();
+		//
+		//BookInformation bi=new BookInformation("alice.epub", context.getFilesDir().getAbsolutePath().toString(),sky);
+		BookInformation bi=new BookInformation("book.epub", Constant.DOWNLOAD,sky);
 		bi.isFixedLayout=false;
 		bi.isDownloaded=true;
-		bi.code=1;
+		bi.code=0;
+		//
+		bi.setFileName("book.epub");
+		bi.setBaseDirectory(Constant.DOWNLOAD);
+		bi.setContentProvider(sky);
+		sky.setBook(bi.getBook());
+//		sky.setKeyListener(new KeyDelegate());
+//		bi.makeInformation();
+		//
+
+		app.initReadSettings();
+		app.sd.insertEmptyBook("iii","uu","111","222",0);
 		app.sd.updateBook(bi);
+
+
 		if (!bi.isDownloaded) return;
 		Intent intent;
 		if (!bi.isFixedLayout) {

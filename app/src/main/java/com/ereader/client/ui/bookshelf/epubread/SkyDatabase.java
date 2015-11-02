@@ -99,7 +99,7 @@ public class SkyDatabase {
 	}	
 	
 	// Using db method
-	// It's global setting for all books 
+	// It's global setting for all books 更新数据库／设置：所有书的字体／大小／背景／主题／
     public void updateSetting(SkySetting setting) {    	
        	ContentValues values = new ContentValues();
     	values.put("FontName",setting.fontName);
@@ -117,7 +117,7 @@ public class SkyDatabase {
     	String where = "BookCode=0";
     	db.update("Setting", values, where, null);
     }
-    
+    //fetching
     public SkySetting fetchSetting() {
     	String sql = "SELECT * FROM Setting where BookCode=0";
         Cursor result = db.rawQuery(sql, null);
@@ -220,7 +220,7 @@ public class SkyDatabase {
     
    
     public ArrayList<PageInformation> fetchBookmarks(int bookCode) {
-    	ArrayList<PageInformation>pis = new ArrayList<PageInformation>();
+    	ArrayList<PageInformation> pis = new ArrayList<PageInformation>();
     	String selectSql = String.format(Locale.US,"SELECT * from Bookmark where bookCode=%d ORDER BY ChapterIndex",bookCode);
         Cursor cursor = db.rawQuery(selectSql, null);
         while (cursor.moveToNext()) {

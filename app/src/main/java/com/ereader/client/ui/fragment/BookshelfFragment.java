@@ -374,7 +374,7 @@ public class BookshelfFragment extends Fragment {
             }*/
             if (!isInit) {
 
-                File path = mContext.getFilesDir();
+                File path = new File (Constant.DOWNLOAD);//mContext.getFilesDir();
                 String[] strings = getResources()
                         .getStringArray(R.array.bookid);// 获取assets目录下的文件列表
                 for (int i = 0; i < strings.length; i++) {
