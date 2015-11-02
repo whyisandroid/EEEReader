@@ -123,12 +123,14 @@ public class BookPagerAdapter extends PagerAdapter {
 	private void openBookViewer(){
 
 		SkyProvider sky=new SkyProvider();
-		BookInformation bi=new BookInformation("alice.epub", Constant.DOWNLOAD,sky);
+		//
+		//BookInformation bi=new BookInformation("alice.epub", context.getFilesDir().getAbsolutePath().toString(),sky);
+		BookInformation bi=new BookInformation("book.epub", Constant.DOWNLOAD,sky);
 		bi.isFixedLayout=false;
 		bi.isDownloaded=true;
 		bi.code=0;
 		//
-		bi.setFileName("alice.epub");
+		bi.setFileName("book.epub");
 		bi.setBaseDirectory(Constant.DOWNLOAD);
 		bi.setContentProvider(sky);
 		sky.setBook(bi.getBook());
