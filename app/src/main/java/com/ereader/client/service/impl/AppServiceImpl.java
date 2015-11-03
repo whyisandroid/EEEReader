@@ -22,6 +22,7 @@ import com.ereader.client.entities.json.OrderListResp;
 import com.ereader.client.entities.json.OrderRechargeResp;
 import com.ereader.client.entities.json.OrderResp;
 import com.ereader.client.entities.json.PointResp;
+import com.ereader.client.entities.json.RecommendResp;
 import com.ereader.client.entities.json.SPResp;
 import com.ereader.client.entities.json.SubCategoryResp;
 import com.ereader.client.entities.json.WalletResp;
@@ -444,6 +445,25 @@ public class AppServiceImpl implements AppService {
 		FriendsResp resp = EReaderApplication.getAppSocket().shortConnect(request);
 		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
 			context.addBusinessData("FriendsResp", resp.getData());
+		} else {
+			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+		}
+	}
+
+	@Override
+	public void myRecommend() throws BusinessException {
+		String token = EReaderApplication.getInstance().getLogin().getToken();
+		Request<RecommendResp> request = new Request<RecommendResp>();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("_token_", token));
+		nameValuePairs.add(new BasicNameValuePair("page", "1"));
+		nameValuePairs.add(new BasicNameValuePair("per_page", "50"));
+		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+		request.setUrl(Config.HTTP_MY_RECOMMEND);
+		request.setR_calzz(RecommendResp.class);
+		RecommendResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+			context.addBusinessData("RecommendResp", resp.getData());
 		} else {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}

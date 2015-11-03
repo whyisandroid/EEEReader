@@ -52,6 +52,8 @@ public interface AppService {
 	public void getComment(String id)throws BusinessException;
 	/**我的好友**/
 	public void getFriends()throws BusinessException;
+	/**我的推荐**/
+	public void myRecommend()throws BusinessException;
 	/**添加好友**/
 	public void addFriends(String id)throws BusinessException;
 	

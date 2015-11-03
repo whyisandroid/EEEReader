@@ -23,7 +23,6 @@ import com.ereader.client.ui.adapter.CouponsAdapter;
 import com.ereader.client.ui.view.PullToRefreshView;
 import com.ereader.client.ui.view.PullToRefreshView.OnFooterRefreshListener;
 import com.ereader.client.ui.view.PullToRefreshView.OnHeaderRefreshListener;
-import com.ereader.common.util.ProgressDialogUtil;
 
 @SuppressLint("ValidFragment")
 public class CouponsFragment extends Fragment implements OnClickListener,

@@ -60,7 +60,7 @@ public class MessageActivity extends BaseFragmentActivity implements OnClickList
 		mListTitle = new ArrayList<Category>();
 			mListTitle.add(new Category("好友消息","1"));
 			mListTitle.add(new Category("好友推荐","2"));
-			mListTitle.add(new Category("连载更新","3"));
+		//	mListTitle.add(new Category("连载更新","3"));
 			mListTitle.add(new Category("系统消息","0"));
 		MessageFragsAdapter orderAdapter = new MessageFragsAdapter(getSupportFragmentManager(),mListTitle);
 		vpager_message.setAdapter(orderAdapter);

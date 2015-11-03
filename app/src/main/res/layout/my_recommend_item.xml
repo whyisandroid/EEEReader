@@ -11,29 +11,29 @@
         android:padding="15dp" >
 
         <ImageView
-            android:id="@+id/iv_book"
+            android:id="@+id/iv_recommend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/b1_03" />
 
         <TextView
-            android:id="@+id/tv_book_name"
+            android:id="@+id/tv_recommend_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/iv_book"
+            android:layout_toRightOf="@+id/iv_recommend"
             android:text="永远不要找别人要安全感"
             android:textColor="@color/new_color_2"
             android:textSize="@dimen/new_size_4" />
 
         <TextView
-            android:id="@+id/tv_book_author"
+            android:id="@+id/tv_recommend_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_book_name"
+            android:layout_below="@+id/tv_recommend_name"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="15dp"
-            android:layout_toRightOf="@+id/iv_book"
+            android:layout_toRightOf="@+id/iv_recommend"
             android:text="推荐给的好友：李高峰"
             android:textColor="@color/new_color_2"
             android:textSize="@dimen/new_size_2" />

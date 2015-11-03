@@ -23,6 +23,7 @@ import com.ereader.client.ui.more.NoticeDetailActivity;
 import com.ereader.client.ui.my.CouponsFragment;
 import com.ereader.client.ui.my.MessageFriendsFragment;
 import com.ereader.client.ui.my.OrderFragment;
+import com.ereader.client.ui.my.RecommendActivity;
 import com.ereader.client.ui.pay.PayActivity;
 import com.ereader.client.ui.pay.RechargeActivity;
 import com.ereader.common.exception.BusinessException;
@@ -645,6 +646,15 @@ public class AppController {
 		try {
 			service.getPointList(balance,type);
 			mHandler.obtainMessage(OrderFragment.REFRESH_DOWN_OK).sendToTarget();
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}
+	}
+
+	public void myRecommend(Handler mHandler) {
+		try {
+			service.myRecommend();
+			mHandler.obtainMessage(RecommendActivity.SUCCESS).sendToTarget();
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}

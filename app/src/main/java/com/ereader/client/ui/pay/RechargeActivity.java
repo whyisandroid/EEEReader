@@ -48,9 +48,6 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 				default:
 					break;
 			}
-
-
-
 		}
 	};
 	@Override
