@@ -39,6 +39,8 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	
 	public static final int REFRESH_DOWN_OK = 1; // 向下刷新
 	public static final int REFRESH_UP_OK = 2;  //向上拉
+	public static final int INPUT_OK = 33;  //充值成功
+
 	private Handler mhandler = new Handler(){
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
@@ -53,7 +55,16 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 				adapter.notifyDataSetChanged();
 				pull_refresh_coupons.onFooterRefreshComplete();
 				break;
-
+				case INPUT_OK:
+					if("0".equals(cate.getCategory_id())){
+						int position = (int)msg.obj;
+						mList.get(position).setStatus("2");
+					}else if("1".equals(cate.getCategory_id())){
+					int position = (int)msg.obj;
+					mList.remove(position);
+					}
+					adapter.notifyDataSetChanged();
+					break;
 			default:
 				break;
 			}
@@ -82,7 +93,7 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	private void initView() {
 		pull_refresh_coupons.setOnHeaderRefreshListener(this);
 		pull_refresh_coupons.setOnFooterRefreshListener(this);
-		adapter = new CouponsAdapter(mContext, mList);
+		adapter = new CouponsAdapter(mContext, mList,mhandler);
 		lv_coupons.setAdapter(adapter);
 	}
 

@@ -530,9 +530,12 @@ public class AppController {
 		}
 	}
 
-	public void useCard(String card) {
+	public void useCard(String card,Handler mHandler,int position) {
 		try {
 			service.useCard(card);
+			if(mHandler != null){
+				mHandler.obtainMessage(CouponsFragment.INPUT_OK,position).sendToTarget();
+			}
 			appHandler.obtainMessage(HANDLER_TOAST,"充值成功").sendToTarget();
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();

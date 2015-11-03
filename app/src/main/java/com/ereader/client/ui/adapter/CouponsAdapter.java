@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,11 +21,13 @@ public class CouponsAdapter extends BaseAdapter {
 	private LayoutInflater inflater;
 	private List<Gift> mList;
 	private Context mContext;
+	private Handler mHandler;
 
-	public CouponsAdapter(Context mContext,List<Gift>  list) {
+	public CouponsAdapter(Context mContext,List<Gift>  list,Handler mHandler) {
 		inflater=LayoutInflater.from(mContext);
 		this.mContext = mContext;
 		mList = list;
+		this.mHandler = mHandler;
 	}
 
 	@Override
@@ -43,7 +46,7 @@ public class CouponsAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		final Gift gift = mList.get(position);
 		ViewHolder holder;
 		if(convertView == null){
@@ -79,7 +82,7 @@ public class CouponsAdapter extends BaseAdapter {
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
-						AppController.getController().useCard(gift.getCode());
+						AppController.getController().useCard(gift.getCode(),mHandler,position);
 						ProgressDialogUtil.closeProgressDialog();
 					}
 				}).start();
