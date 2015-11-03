@@ -747,7 +747,8 @@ public class AppServiceImpl implements AppService {
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("_token_", token));
 		nameValuePairs.add(new BasicNameValuePair("type", type));
-		nameValuePairs.add(new BasicNameValuePair("per_page", "20"));
+		nameValuePairs.add(new BasicNameValuePair("page", "1"));
+		nameValuePairs.add(new BasicNameValuePair("per_page", "30"));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 		request.setUrl(Config.HTTP_MY_MESSAGE);
 		request.setR_calzz(MessageResp.class);

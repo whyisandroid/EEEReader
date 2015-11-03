@@ -81,6 +81,7 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 		pull_refresh_message_friends.setOnFooterRefreshListener(this);
 		adapter = new MessageFriendsAdapter(mContext, mList);
 		lv_message_friends.setAdapter(adapter);
+		message();
 	}
 	
 	

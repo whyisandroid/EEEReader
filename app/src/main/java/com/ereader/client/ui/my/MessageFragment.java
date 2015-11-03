@@ -79,7 +79,7 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 		pull_refresh_order.setOnFooterRefreshListener(this);
 		adapter = new MessageAdapter(mContext, mList);
 		lv_order.setAdapter(adapter);
-		onFooterRefresh(pull_refresh_order);
+		message();
 	}
 	
 	
