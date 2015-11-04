@@ -100,7 +100,7 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
             // All book related data will be stored /data/data/com....../files/appName/
 //            SkySetting.setStorageDirectory(getFilesDir().getAbsolutePath(),);
             // All book related data will be stored /sdcard/EEEReader/...
-			SkySetting.setStorageDirectory(Environment.getExternalStorageDirectory().getAbsolutePath(),"EEEReader");
+			SkySetting.setStorageDirectory(Constant.ROOT_OUTPATH,Constant.FOLDER_NAME);
         }
     }
 

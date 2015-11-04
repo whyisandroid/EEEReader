@@ -132,7 +132,7 @@ public class BookPagerAdapter extends PagerAdapter {
 		SkyProvider sky=new SkyProvider();
 		//
 		//BookInformation bi=new BookInformation("alice.epub", context.getFilesDir().getAbsolutePath().toString(),sky);
-		BookInformation bi=new BookInformation("book.epub", Constant.DOWNLOAD,sky);
+		BookInformation bi=new BookInformation("book.epub", Constant.BOOKS,sky);
 		bi.isFixedLayout=false;
 		bi.isDownloaded=true;
 		bi.code=0;
