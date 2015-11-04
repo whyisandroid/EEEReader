@@ -7,6 +7,7 @@ import java.util.List;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Debug;
+import android.os.Environment;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
@@ -26,6 +27,7 @@ import com.ereader.client.service.download.DownloadManager;
 import com.ereader.client.service.download.DownloadService;
 import com.ereader.client.ui.BaseActivity;
 import com.ereader.client.ui.adapter.ShelfSearchAdapter;
+import com.ereader.client.ui.bookshelf.epubread.SkySetting;
 import com.ereader.client.ui.dialog.DialogUtil;
 import com.ereader.common.constant.Constant;
 import com.ereader.common.util.IntentUtil;
@@ -93,6 +95,13 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
         downloadManager = DownloadService.getDownloadManager(SearchBuyActivity.this);
         findView();
         initView();
+
+        if (SkySetting.getStorageDirectory()==null) {
+            // All book related data will be stored /data/data/com....../files/appName/
+//            SkySetting.setStorageDirectory(getFilesDir().getAbsolutePath(),);
+            // All book related data will be stored /sdcard/EEEReader/...
+			SkySetting.setStorageDirectory(Environment.getExternalStorageDirectory().getAbsolutePath(),"EEEReader");
+        }
     }
 
     private void findView() {

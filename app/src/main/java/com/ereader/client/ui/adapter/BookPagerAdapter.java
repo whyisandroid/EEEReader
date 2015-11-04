@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Environment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -20,12 +21,14 @@ import com.ereader.client.ui.adapter.BookAdapter.ViewHolder;
 import com.ereader.client.ui.bookshelf.ReadActivity;
 import com.ereader.client.ui.bookshelf.epubread.BookViewActivity;
 import com.ereader.client.ui.bookshelf.epubread.MagazineActivity;
+import com.ereader.client.ui.bookshelf.epubread.SkySetting;
 import com.ereader.common.constant.Constant;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.skytree.epub.BookInformation;
+import com.skytree.epub.Setting;
 import com.skytree.epub.SkyProvider;
 
 public class BookPagerAdapter extends PagerAdapter {
@@ -122,6 +125,10 @@ public class BookPagerAdapter extends PagerAdapter {
 	//打开书
 	private void openBookViewer(){
 
+		if (SkySetting.getStorageDirectory()==null) {
+			SkySetting.setStorageDirectory(Constant.ROOT_OUTPATH,Constant.FOLDER_NAME);
+		}
+
 		SkyProvider sky=new SkyProvider();
 		//
 		//BookInformation bi=new BookInformation("alice.epub", context.getFilesDir().getAbsolutePath().toString(),sky);
@@ -129,6 +136,7 @@ public class BookPagerAdapter extends PagerAdapter {
 		bi.isFixedLayout=false;
 		bi.isDownloaded=true;
 		bi.code=0;
+
 		//
 		bi.setFileName("book.epub");
 		bi.setBaseDirectory(Constant.DOWNLOAD);
@@ -139,11 +147,13 @@ public class BookPagerAdapter extends PagerAdapter {
 		//
 
 		app.initReadSettings();
-		app.sd.insertEmptyBook("iii","uu","111","222",0);
+		app.sd.insertEmptyBook("iii", "uu", "111", "222", 0);
 		app.sd.updateBook(bi);
 
-
-		if (!bi.isDownloaded) return;
+		Log.e("eeeeee",bi.fileName+":::"+ SkySetting.storageDirectory);
+		if (!bi.isDownloaded) {
+			return;
+		}
 		Intent intent;
 		if (!bi.isFixedLayout) {
 			intent = new Intent(context,BookViewActivity.class);
