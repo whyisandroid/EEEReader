@@ -55,20 +55,20 @@ public class CouponsActivity extends BaseFragmentActivity implements OnClickList
 	private void initView() {
 		((TextView) findViewById(R.id.tv_main_top_title)).setText("电子充值卡");
 		mListTitle = new ArrayList<Category>();
-			mListTitle.add(new Category("全部","1"));
-			mListTitle.add(new Category("可用","2"));
-			mListTitle.add(new Category("已使用","3"));
-			mListTitle.add(new Category("已过期","4"));
-		CouponsFragsAdapter orderAdapter = new CouponsFragsAdapter(getSupportFragmentManager(),mListTitle);
+		mListTitle.add(new Category("全部", "0"));
+		mListTitle.add(new Category("可用", "1"));
+		mListTitle.add(new Category("已使用", "2"));
+		mListTitle.add(new Category("已过期", "3"));
+		CouponsFragsAdapter orderAdapter = new CouponsFragsAdapter(getSupportFragmentManager(), mListTitle);
 		vpager_coupons.setAdapter(orderAdapter);
-		
+
 		// 设置缓存fragment的数量
 		vpager_coupons.setOffscreenPageLimit(2);
 		vpager_coupons.setCurrentItem(0);
 		vpager_coupons.setPageMargin(4);
-		
-		
-		BookTabsAdapter adapter = new BookTabsAdapter(this,mListTitle);
+
+
+		BookTabsAdapter adapter = new BookTabsAdapter(this, mListTitle);
 		stabs_coupons.setAdapter(adapter);
 		stabs_coupons.setViewPager(vpager_coupons);
 	}

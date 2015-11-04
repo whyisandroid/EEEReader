@@ -1,5 +1,6 @@
 package com.ereader.client.ui.my;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,7 +25,9 @@ import com.ereader.common.util.ToastUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressLint("ValidFragment")
 public class MessageFriendsFragment extends Fragment implements OnClickListener,
+
 OnHeaderRefreshListener, OnFooterRefreshListener{
 	private View view;
 	private Context mContext;
@@ -78,7 +81,7 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 		pull_refresh_message_friends.setOnFooterRefreshListener(this);
 		adapter = new MessageFriendsAdapter(mContext, mList);
 		lv_message_friends.setAdapter(adapter);
-
+		message();
 	}
 	
 	

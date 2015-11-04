@@ -48,9 +48,6 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 				default:
 					break;
 			}
-
-
-
 		}
 	};
 	@Override
@@ -156,7 +153,7 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 					new Thread(new Runnable() {
 						@Override
 						public void run() {
-							controller.useCard(card);
+							controller.useCard(card,null,-1);
 							ProgressDialogUtil.closeProgressDialog();
 						}
 					}).start();

@@ -3,6 +3,7 @@ package com.ereader.client.ui.pay;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,13 +15,16 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.ereader.client.R;
+import com.ereader.client.entities.Bill;
+import com.ereader.client.entities.Category;
+import com.ereader.client.entities.json.PointData;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.adapter.BillAdapter;
 import com.ereader.client.ui.view.PullToRefreshView;
 import com.ereader.client.ui.view.PullToRefreshView.OnFooterRefreshListener;
 import com.ereader.client.ui.view.PullToRefreshView.OnHeaderRefreshListener;
 import com.ereader.common.util.ToastUtil;
-
+@SuppressLint("ValidFragment")
 public class BillFragment extends Fragment implements OnClickListener,
 OnHeaderRefreshListener, OnFooterRefreshListener{
 	private View view;
@@ -28,8 +32,9 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	private AppController controller;
 	private ListView lv_my_bill;
 	private PullToRefreshView pull_refresh_bill;
-	private List<String> mList = new ArrayList<String>();
+	private List<Bill> mList = new ArrayList<Bill>();
 	private BillAdapter adapter;
+	private Category mCate;
 	
 	public static final int REFRESH_DOWN_OK = 1; // 向下刷新
 	public static final int REFRESH_UP_OK = 2;  //向上拉
@@ -37,9 +42,11 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
 			case REFRESH_DOWN_OK:
-				ToastUtil.showToast(mContext, "刷新成功！", ToastUtil.LENGTH_LONG);
+				PointData pointData = (PointData)controller.getContext().getBusinessData("PointResp"+mCate.getCategory_id()+"ecoin");
+				mList.clear();
+				mList.addAll(pointData.getData());
 				pull_refresh_bill.onHeaderRefreshComplete();
-				break;
+				adapter.notifyDataSetChanged();
 			case REFRESH_UP_OK:
 				adapter.notifyDataSetChanged();
 				pull_refresh_bill.onFooterRefreshComplete();
@@ -50,7 +57,11 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 			}
 		};
 	};
-	
+
+	@SuppressLint("ValidFragment")
+	public BillFragment(Category cate){
+		this.mCate = cate;
+	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,7 +83,20 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 		adapter = new BillAdapter(mContext, mList);
 		lv_my_bill.setAdapter(adapter);
 	}
-	
+	@Override
+	public void onResume() {
+		super.onResume();
+		getPointList();
+	}
+
+	public void getPointList() {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				controller.getPointList(mhandler, mCate.getCategory_id(),"ecoin");
+			}
+		}).start();
+	}
 	
 	@Override
 	public void onClick(View v) {
@@ -84,6 +108,6 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	}
 	@Override
 	public void onHeaderRefresh(PullToRefreshView view) {
-		mhandler.sendEmptyMessageDelayed(REFRESH_DOWN_OK, 3000);
+		getPointList();
 	}
 }

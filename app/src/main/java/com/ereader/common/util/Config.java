@@ -62,6 +62,7 @@ public class Config {
     public final static String HTTP_MY_SP = MY_SERVICE + "/api/user/comment"; //  我的评论
     public final static String HTTP_MY_FRIENDS = MY_SERVICE + "/api/user/friend"; //  我的好友
     public final static String HTTP_MY_FRIENDS_ADD = MY_SERVICE + "/api/user/addFriend"; //  添加好友
+    public final static String HTTP_MY_RECOMMEND = MY_SERVICE + "/api/user/myRecommend"; //  我的推荐列表
 
     //TODO  my
     public final static String HTTP_LOGIN_EXIT = MY_SERVICE + "/api/index/logout"; //  退出

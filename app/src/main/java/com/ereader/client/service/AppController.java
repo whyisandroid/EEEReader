@@ -20,8 +20,10 @@ import com.ereader.client.ui.login.LoginActivity;
 import com.ereader.client.ui.login.RegisterActivity;
 import com.ereader.client.ui.more.NoticeActivity;
 import com.ereader.client.ui.more.NoticeDetailActivity;
+import com.ereader.client.ui.my.CouponsFragment;
 import com.ereader.client.ui.my.MessageFriendsFragment;
 import com.ereader.client.ui.my.OrderFragment;
+import com.ereader.client.ui.my.RecommendActivity;
 import com.ereader.client.ui.pay.PayActivity;
 import com.ereader.client.ui.pay.RechargeActivity;
 import com.ereader.common.exception.BusinessException;
@@ -462,7 +464,7 @@ public class AppController {
 	public void getCoupons(Handler mHandler,String type) {
 		try {
 			service.gift(type);
-			mHandler.obtainMessage(FindPwdActivity.CODE_OK).sendToTarget();
+			mHandler.obtainMessage(CouponsFragment.REFRESH_DOWN_OK).sendToTarget();
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}catch (Exception e) {
@@ -529,9 +531,12 @@ public class AppController {
 		}
 	}
 
-	public void useCard(String card) {
+	public void useCard(String card,Handler mHandler,int position) {
 		try {
 			service.useCard(card);
+			if(mHandler != null){
+				mHandler.obtainMessage(CouponsFragment.INPUT_OK,position).sendToTarget();
+			}
 			appHandler.obtainMessage(HANDLER_TOAST,"充值成功").sendToTarget();
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
@@ -637,10 +642,19 @@ public class AppController {
 		return service.getDownUrl();
 	}
 
-	public void getPointList(Handler mHandler, String balance) {
+	public void getPointList(Handler mHandler, String balance,String type) {
 		try {
-			service.getPointList(balance);
+			service.getPointList(balance,type);
 			mHandler.obtainMessage(OrderFragment.REFRESH_DOWN_OK).sendToTarget();
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}
+	}
+
+	public void myRecommend(Handler mHandler) {
+		try {
+			service.myRecommend();
+			mHandler.obtainMessage(RecommendActivity.SUCCESS).sendToTarget();
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}

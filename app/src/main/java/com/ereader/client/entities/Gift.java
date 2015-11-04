@@ -24,6 +24,15 @@ public class Gift {
     private String created_at;
     private String updated_at;
     private String is_expire;
+    private String status;
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getStatus() {
+        return status;
+    }
 
     public String getGiftcard_id() {
         return giftcard_id;

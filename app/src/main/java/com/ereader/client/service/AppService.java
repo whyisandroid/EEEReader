@@ -52,6 +52,8 @@ public interface AppService {
 	public void getComment(String id)throws BusinessException;
 	/**我的好友**/
 	public void getFriends()throws BusinessException;
+	/**我的推荐**/
+	public void myRecommend()throws BusinessException;
 	/**添加好友**/
 	public void addFriends(String id)throws BusinessException;
 	
@@ -66,7 +68,7 @@ public interface AppService {
 	/***我的账单列表*/
 	public void bill() throws BusinessException;
 	/***我的积分列表*/
-	public void getPointList(String balance) throws BusinessException;
+	public void getPointList(String balance,String type) throws BusinessException;
 	/***我的订单列表*/
 	public void orderList(String type) throws BusinessException;
 	/***取消订单*/

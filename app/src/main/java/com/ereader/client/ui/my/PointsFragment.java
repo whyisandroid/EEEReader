@@ -25,6 +25,7 @@ import com.ereader.client.ui.view.PullToRefreshView.OnFooterRefreshListener;
 import com.ereader.client.ui.view.PullToRefreshView.OnHeaderRefreshListener;
 import com.ereader.common.util.ToastUtil;
 
+@SuppressLint("ValidFragment")
 public class PointsFragment extends Fragment implements OnClickListener,
 OnHeaderRefreshListener, OnFooterRefreshListener{
 	private View view;
@@ -43,7 +44,7 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 			switch (msg.what) {
 			case REFRESH_DOWN_OK:
 
-				PointData pointData = (PointData)controller.getContext().getBusinessData("PointResp"+balance);
+				PointData pointData = (PointData)controller.getContext().getBusinessData("PointResp"+balance+"point");
 				mList.clear();
 				mList.addAll(pointData.getData());
 				pull_refresh_points.onHeaderRefreshComplete();
@@ -94,12 +95,10 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	}
 
 	public void getPointList() {
-		//ProgressDialogUtil.showProgressDialog(mContext, "", false);
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				controller.getPointList(mhandler, balance);
-				//ProgressDialogUtil.closeProgressDialog();
+				controller.getPointList(mhandler, balance,"point");
 			}
 		}).start();
 	}

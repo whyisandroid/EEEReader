@@ -78,7 +78,5 @@ public class PointsAdapter extends BaseAdapter {
 			tv_point_time = (TextView)view.findViewById(R.id.tv_point_time);
 			tv_points_num = (TextView)view.findViewById(R.id.tv_points_num);
 		}
-
 	}
-
 }

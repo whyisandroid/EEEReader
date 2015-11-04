@@ -3,6 +3,7 @@ package com.ereader.client.ui.my;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,6 +25,7 @@ import com.ereader.client.ui.view.PullToRefreshView.OnHeaderRefreshListener;
 import com.ereader.common.util.ProgressDialogUtil;
 import com.ereader.common.util.ToastUtil;
 
+@SuppressLint("ValidFragment")
 public class MessageFragment extends Fragment implements OnClickListener,
 OnHeaderRefreshListener, OnFooterRefreshListener{
 	private View view;
@@ -77,7 +79,7 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 		pull_refresh_order.setOnFooterRefreshListener(this);
 		adapter = new MessageAdapter(mContext, mList);
 		lv_order.setAdapter(adapter);
-		onFooterRefresh(pull_refresh_order);
+		message();
 	}
 	
 	

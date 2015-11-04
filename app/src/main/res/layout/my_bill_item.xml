@@ -11,7 +11,7 @@
         android:padding="15dp" >
         
          <TextView
-            android:id="@+id/tv_bill_type"
+            android:id="@+id/tv_bill_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -23,23 +23,24 @@
         
 
         <TextView
-            android:id="@+id/tv_points_name"
+            android:id="@+id/tv_bill_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_bill_type"
+            android:layout_below="@+id/tv_bill_name"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_alignParentLeft="true"
-            android:text="交易进行中"
+            android:text="支付成功"
+            android:visibility="gone"
             android:textColor="@color/main_bar"
             android:layout_toLeftOf="@+id/tv_points_num"
             android:textSize="@dimen/new_size_2" />
 
         <TextView
-            android:id="@+id/tv_book_author"
+            android:id="@+id/tv_bill_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_points_name"
+            android:layout_below="@+id/tv_bill_type"
             android:layout_marginLeft="10dp"
             android:layout_alignParentLeft="true"
             android:layout_marginTop="5dp"
@@ -47,7 +48,7 @@
             android:textColor="@color/new_color_2"
             android:textSize="@dimen/new_size_2" />
         <TextView
-            android:id="@+id/tv_points_num"
+            android:id="@+id/tv_bill_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

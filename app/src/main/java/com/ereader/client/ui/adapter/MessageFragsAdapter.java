@@ -21,7 +21,6 @@ public class MessageFragsAdapter extends FragmentStatePagerAdapter {
 			fragments.add(new MessageFriendsFragment(mListTitle.get(0)));
 			fragments.add(new MessageFragment(mListTitle.get(1)));
 			fragments.add(new MessageFragment(mListTitle.get(2)));
-			fragments.add(new MessageFragment(mListTitle.get(3)));
 	}
 
 	@Override
