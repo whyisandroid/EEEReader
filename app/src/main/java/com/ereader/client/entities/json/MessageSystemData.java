@@ -1,14 +1,13 @@
 package com.ereader.client.entities.json;
 
-import com.ereader.client.entities.Article;
-import com.ereader.client.entities.Message;
 import com.ereader.client.entities.MessageFriends;
+import com.ereader.client.entities.MessageSystem;
 import com.ereader.client.entities.Page;
 
 import java.util.List;
 
-public class MessageData {
-	private List<MessageFriends> data;
+public class MessageSystemData {
+	private List<MessageSystem> data;
 	private Page page;
 	
 	public void setPage(Page page) {
@@ -21,13 +20,13 @@ public class MessageData {
 	/**
 	 * @return the data
 	 */
-	public List<MessageFriends> getData() {
+	public List<MessageSystem> getData() {
 		return data;
 	}
 	/**
 	 * @param data the data to set
 	 */
-	public void setData(List<MessageFriends> data) {
+	public void setData(List<MessageSystem> data) {
 		this.data = data;
 	}
 }

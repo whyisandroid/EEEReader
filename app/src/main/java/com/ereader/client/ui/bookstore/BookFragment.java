@@ -54,7 +54,7 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 			switch (msg.what) {
 			case BookActivity.BOOK:
 				// 更新页面数据
-				BookResp bookResp =  (BookResp)controller.getContext().getBusinessData("BookFeaturedResp");
+				BookResp bookResp =  (BookResp)controller.getContext().getBusinessData("BookFeaturedResp"+mCate.getCategory_id());
 				for (int i = 0; i < bookResp.getData().getData().size(); i++) {
 					boolean flag = true;
 					
@@ -73,6 +73,27 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 				pull_refresh_book.onHeaderRefreshComplete();
 				pull_refresh_book.onFooterRefreshComplete();
 				break;
+				case BookActivity.BOOK_DIS:
+					// 更新页面数据
+					BookResp bookResp2 =  (BookResp)controller.getContext().getBusinessData("BookFeaturedResp"+mDisCate.getName());
+					for (int i = 0; i < bookResp2.getData().getData().size(); i++) {
+						boolean flag = true;
+
+						for (int j = 0; j < mList.size(); j++) {
+							if(bookResp2.getData().getData().get(i).getInfo().getProduct_id().equals(mList.get(j).getInfo().getProduct_id())){
+								flag = false;
+							}
+						}
+						if(flag){
+							mList.add(bookResp2.getData().getData().get(i));
+						}
+					}
+
+					page = bookResp2.getData().getPage();
+					adapter.notifyDataSetChanged();
+					pull_refresh_book.onHeaderRefreshComplete();
+					pull_refresh_book.onFooterRefreshComplete();
+					break;
 			case REFRESH_DOWN_OK:
 				ToastUtil.showToast(mContext, "刷新成功！", ToastUtil.LENGTH_LONG);
 				adapter.notifyDataSetChanged();
@@ -143,7 +164,7 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				controller.bookList(mhandler,mCate.getParent_id());
+				controller.bookList(mhandler,mCate.getCategory_id());
 			}
 		}).start();
 	}

@@ -69,6 +69,7 @@ public class FriendsAdapter extends BaseAdapter {
 			holder=(ViewHolder) convertView.getTag();
 		}	
 		holder.tv_mybook_cate.setText(mFriend.getmF1().getNickname());
+		holder.tv_mybook_cate2.setText(mFriend.getmF2() != null ? mFriend.getmF2().getNickname() : "");
 		return convertView;
 	}
 	class ViewHolder{
@@ -79,5 +80,4 @@ public class FriendsAdapter extends BaseAdapter {
 			tv_mybook_cate2 = (TextView)view.findViewById(R.id.tv_mybook_cate2);
 		}
 	}
-
 }

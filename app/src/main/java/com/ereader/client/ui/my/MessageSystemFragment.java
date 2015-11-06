@@ -14,42 +14,46 @@ import android.widget.ListView;
 import com.ereader.client.R;
 import com.ereader.client.entities.Category;
 import com.ereader.client.entities.Message;
+import com.ereader.client.entities.MessageSystem;
+import com.ereader.client.entities.json.MessageData;
+import com.ereader.client.entities.json.MessageSystemData;
 import com.ereader.client.service.AppController;
-import com.ereader.client.ui.adapter.MessageFriendsAdapter;
+import com.ereader.client.ui.adapter.MessageAdapter;
+import com.ereader.client.ui.adapter.MessageSystemAdapter;
 import com.ereader.client.ui.view.PullToRefreshView;
 import com.ereader.client.ui.view.PullToRefreshView.OnFooterRefreshListener;
 import com.ereader.client.ui.view.PullToRefreshView.OnHeaderRefreshListener;
 import com.ereader.common.util.ProgressDialogUtil;
-import com.ereader.common.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @SuppressLint("ValidFragment")
-public class MessageFriendsFragment extends Fragment implements OnClickListener,
-
+public class MessageSystemFragment extends Fragment implements OnClickListener,
 OnHeaderRefreshListener, OnFooterRefreshListener{
 	private View view;
 	private Context mContext;
 	private AppController controller;
-	private ListView lv_message_friends;
-	private PullToRefreshView pull_refresh_message_friends;
-	private List<Message> mList = new ArrayList<Message>();
-	private MessageFriendsAdapter adapter;
-	private Category category;
-	
+	private ListView lv_message;
+	private PullToRefreshView pull_refresh_message;
+	private List<MessageSystem> mList = new ArrayList<MessageSystem>();
+	private MessageSystemAdapter adapter;
+
 	public static final int REFRESH_DOWN_OK = 1; // 向下刷新
 	public static final int REFRESH_UP_OK = 2;  //向上拉
 	private Handler mhandler = new Handler(){
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
 			case REFRESH_DOWN_OK:
-				ToastUtil.showToast(mContext, "刷新成功！", ToastUtil.LENGTH_LONG);
-				pull_refresh_message_friends.onHeaderRefreshComplete();
+				MessageSystemData messageData = (MessageSystemData)controller.getContext().getBusinessData("MessageSystemResp");
+				mList.clear();
+				mList.addAll(messageData.getData());
+				pull_refresh_message.onHeaderRefreshComplete();
+				adapter.notifyDataSetChanged();
 				break;
 			case REFRESH_UP_OK:
 				adapter.notifyDataSetChanged();
-				pull_refresh_message_friends.onFooterRefreshComplete();
+				pull_refresh_message.onFooterRefreshComplete();
 				break;
 
 			default:
@@ -58,14 +62,10 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 		};
 	};
 
-	public MessageFriendsFragment(Category category){
-		this.category = category;
-	}
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		view = inflater.inflate(R.layout.my_message_friends_fragment, container, false);
+		view = inflater.inflate(R.layout.my_message_fragment, container, false);
 		controller = AppController.getController(getActivity());
 		mContext = getActivity();
 		findView();
@@ -73,14 +73,14 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 		return view;
 	}
 	private void findView() {
-		lv_message_friends= (ListView)view.findViewById(R.id.lv_message_friends);
-		pull_refresh_message_friends = (PullToRefreshView)view.findViewById(R.id.pull_refresh_message_friends);
+		lv_message= (ListView)view.findViewById(R.id.lv_message);
+		pull_refresh_message = (PullToRefreshView)view.findViewById(R.id.pull_refresh_message);
 	}
 	private void initView() {
-		pull_refresh_message_friends.setOnHeaderRefreshListener(this);
-		pull_refresh_message_friends.setOnFooterRefreshListener(this);
-		adapter = new MessageFriendsAdapter(mContext, mList);
-		lv_message_friends.setAdapter(adapter);
+		pull_refresh_message.setOnHeaderRefreshListener(this);
+		pull_refresh_message.setOnFooterRefreshListener(this);
+		adapter = new MessageSystemAdapter(mContext, mList);
+		lv_message.setAdapter(adapter);
 		message();
 	}
 	
@@ -108,7 +108,7 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				controller.getMessage(mhandler,category.getCategory_id());
+				controller.getMessageSystem(mhandler);
 				ProgressDialogUtil.closeProgressDialog();
 			}
 		}).start();

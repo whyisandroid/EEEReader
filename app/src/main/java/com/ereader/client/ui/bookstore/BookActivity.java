@@ -39,6 +39,7 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	private Page page;
 	
 	public static final int BOOK =  0; // 更新页面数据 书本
+	public static final int BOOK_DIS =  -1; // 更新页面数据 书本 ....... 多个
 	public static final int REFRESH_DOWN_OK = 1; // 向下刷新
 	public static final int REFRESH_UP_OK = 2;  //向上拉
 	public static final int REFRESH_ERROR =  3; // 刷新失败

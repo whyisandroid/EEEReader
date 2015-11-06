@@ -78,14 +78,14 @@ public class XUtilsSocketImpl implements AppSocketInterface {
             LogUtil.Log("XUtilsSocketImpl"+request.getUrl(), value);
         } catch (com.lidroid.xutils.exception.HttpException e) {
             e.printStackTrace();
-            throw new BusinessException(new ErrorMessage("服务器连接错误"));
+            throw new BusinessException(new ErrorMessage("服务器连接错误(1001)"));
         } catch (IOException e) {
             e.printStackTrace();
-            throw new BusinessException(new ErrorMessage("网络连接错误，请您稍后再试"));
+            throw new BusinessException(new ErrorMessage("服务器连接错误，请您稍后再试(1002)"));
         }
 
         if (value == null) {
-            throw new BusinessException(new ErrorMessage("网络连接错误，请您稍后再试"));
+            throw new BusinessException(new ErrorMessage("服务器连接错误，请您稍后再试(1003)"));
         }
         return Json_U.parseJsonToObj(value, request.getR_calzz());
     }
