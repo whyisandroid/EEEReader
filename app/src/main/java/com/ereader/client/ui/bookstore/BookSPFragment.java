@@ -39,6 +39,7 @@ public class BookSPFragment extends Fragment implements OnClickListener{
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
 			case 0:
+				mList.clear();
 				CommentData resp = (CommentData)controller.getContext().getBusinessData("CommentResp");
 				mList.addAll(resp.getData());
 				adapter.notifyDataSetChanged();

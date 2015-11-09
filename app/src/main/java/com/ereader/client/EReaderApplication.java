@@ -15,6 +15,7 @@ import com.ereader.client.ui.bookshelf.epubread.CustomFont;
 import com.ereader.client.ui.bookshelf.epubread.SkyDatabase;
 import com.ereader.client.ui.bookshelf.epubread.SkySetting;
 import com.ereader.client.ui.bookshelf.epubread.SkyUtility;
+import com.ereader.client.ui.pay.Alipay;
 import com.ereader.common.net.AppSocketInterface;
 import com.ereader.common.net.XUtilsSocketImpl;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;

@@ -3,6 +3,7 @@ package com.ereader.client.ui.my;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -89,11 +90,13 @@ public class FriendsActivity extends BaseActivity implements OnClickListener {
 	  * @time: 2015-2-10 下午1:37:06
 	 */
 	private void initView() {
-		((TextView) findViewById(R.id.tv_main_top_title)).setText("我的好友");
 		if(mFriendsSend){
+			((TextView) findViewById(R.id.tv_main_top_title)).setText("推荐给好友");
 			main_top_right.setText("发送推荐");
+			main_top_right.setTextColor(Color.WHITE);
 			friends_et_send.setVisibility(View.VISIBLE );
 		}else{
+			((TextView) findViewById(R.id.tv_main_top_title)).setText("我的好友");
 			friends_et_send.setVisibility(View.GONE);
 			main_top_right.setText("添加好友");
 		}

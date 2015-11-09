@@ -16,7 +16,7 @@
         android:paddingLeft="@dimen/dimen_xnormal"
         android:layout_below="@+id/title">
 
-        <RadioButton
+        <CheckBox
             android:id="@+id/rb_car_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

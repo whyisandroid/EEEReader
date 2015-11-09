@@ -7,22 +7,22 @@
     >
         <TextView
             android:id="@+id/tv_mybook_cate"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="15dp"
             android:layout_weight="1"
-            android:text=""
+            android:text="11"
             android:gravity="center"
             android:textSize="@dimen/new_size_5"
             android:textColor="@color/new_color_2"
              />
          <TextView
             android:id="@+id/tv_mybook_cate2"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="15dp"
             android:layout_weight="1"
-            android:text=""
+            android:text="11"
             android:gravity="center"
             android:textSize="@dimen/new_size_5"
             android:textColor="@color/new_color_2"

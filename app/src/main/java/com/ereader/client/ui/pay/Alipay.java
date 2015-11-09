@@ -58,6 +58,7 @@ public class Alipay {
     private static final int SDK_PAY_FLAG = 1;
 
     private static final int SDK_CHECK_FLAG = 2;
+    private static final int SDK_PAY_CHECK_FLAG = 3;
 
     private RechargeOrder mOrder;
 
@@ -95,6 +96,7 @@ public class Alipay {
                 }
                 case SDK_CHECK_FLAG:
                     if ("true".equals(msg.obj.toString())) {
+                        pay();
                     } else {
                         Toast.makeText(mContext, "未安装支付宝应用", Toast.LENGTH_SHORT).show();
                     }
@@ -114,8 +116,7 @@ public class Alipay {
     /**
      * call alipay sdk pay. 调用SDK支付
      */
-    public void pay() {
-        check();
+    private void pay() {
         /*if (TextUtils.isEmpty(PARTNER) || TextUtils.isEmpty(RSA_PRIVATE)
                 || TextUtils.isEmpty(SELLER)) {
             new AlertDialog.Builder(mContext)
@@ -187,6 +188,23 @@ public class Alipay {
                 msg.what = SDK_CHECK_FLAG;
                 msg.obj = isExist;
                 mHandler.sendMessage(msg);
+            }
+        };
+
+        Thread checkThread = new Thread(checkRunnable);
+        checkThread.start();
+    }
+
+
+    public static void check(final Context mContext) {
+        Runnable checkRunnable = new Runnable() {
+
+            @Override
+            public void run() {
+                // 构造PayTask 对象
+                PayTask payTask = new PayTask((Activity) mContext);
+                // 调用查询接口，获取查询结果
+                boolean isExist = payTask.checkAccountIfExist();
             }
         };
 

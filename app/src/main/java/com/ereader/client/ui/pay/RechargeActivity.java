@@ -43,7 +43,7 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 				case ORDER_SUCCESS:
 					RechargeOrder order = (RechargeOrder)controller.getContext().getBusinessData("OrderRechargeResp");
 					pay.setmOrder(order);
-					pay.pay();
+					pay.check();
 					break;
 				default:
 					break;
@@ -54,6 +54,7 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pay_recharge_layout);
+		Alipay.check(this);
 		controller = AppController.getController(this);
 		findView();
 		initView();
@@ -91,7 +92,6 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
-					pay.check();
 					mPayCard.setChecked(false);
 				}
 			}
@@ -105,9 +105,9 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 			}
 		});
 
-		if(mPaybao.isChecked()){
+		/*if(mPaybao.isChecked()){
 			pay.check();
-		}
+		}*/
 		bt_recharge.setOnClickListener(this);
 	}
 
@@ -120,17 +120,12 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 			break;
 			case R.id.bt_recharge:
 				if(mPaybao.isChecked()){
-
 					final String money = mRechMoney.getText().toString();
 					if(TextUtils.isEmpty(money)){
 						ToastUtil.showToast(RechargeActivity.this, "充值金额不能为空", ToastUtil.LENGTH_LONG);
 						return;
 					}
 
-					/*if(!Alipay.checkPay(this)){
-						Toast.makeText(RechargeActivity.this, "未安装支付宝应用", Toast.LENGTH_SHORT).show();
-						return;
-					}*/
 
 					// 先生成订单
 					ProgressDialogUtil.showProgressDialog(RechargeActivity.this, "", false);
@@ -157,7 +152,6 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 							ProgressDialogUtil.closeProgressDialog();
 						}
 					}).start();
-
 				}
 				break;
 		default:

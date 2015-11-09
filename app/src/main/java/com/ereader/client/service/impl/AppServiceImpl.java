@@ -4,6 +4,7 @@ package com.ereader.client.service.impl;
 import com.ereader.client.EReaderApplication;
 import com.ereader.client.entities.DisCategory;
 import com.ereader.client.entities.Login;
+import com.ereader.client.entities.json.AddBuyResp;
 import com.ereader.client.entities.json.ArticleDetailResp;
 import com.ereader.client.entities.json.ArticleResp;
 import com.ereader.client.entities.json.BaseResp;
@@ -384,15 +385,16 @@ public class AppServiceImpl implements AppService {
 	@Override
 	public void addBuyCar(String id) throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
-		Request<BaseResp> request = new Request<BaseResp>();
+		Request<AddBuyResp> request = new Request<AddBuyResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("_token_", token));
 		nameValuePairs.add(new BasicNameValuePair("product_id", id));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 		request.setUrl(Config.HTTP_BUY_CAR_ADD);
-		request.setR_calzz(BaseResp.class);
-		BaseResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		request.setR_calzz(AddBuyResp.class);
+		AddBuyResp resp = EReaderApplication.getAppSocket().shortConnect(request);
 		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+			context.addBusinessData("AddBuyResp", resp.getData());
 		} else {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}

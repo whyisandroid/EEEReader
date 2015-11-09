@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.ereader.client.EReaderApplication;
 import com.ereader.client.R;
+import com.ereader.client.entities.AddBuy;
 import com.ereader.client.entities.Book;
 import com.ereader.client.entities.PayCar;
 import com.ereader.client.entities.PayCarList;
@@ -72,7 +73,9 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
                 }
 				resp.getData().add(mBook);
 				EReaderApplication.getInstance().saveBuyCar(resp);
-				setBuyCarNum();
+
+				buyNum = Integer.valueOf(((AddBuy) controller.getContext().getBusinessData("AddBuyResp")).getTotal_product_count());
+				main_top_right.setText("购物车(" + buyNum+")");
 				break;
 				case 100:
 					tv_book_collection.setText("收藏");
