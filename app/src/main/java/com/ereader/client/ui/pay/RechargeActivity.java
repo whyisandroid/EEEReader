@@ -54,7 +54,6 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pay_recharge_layout);
-		Alipay.check(this);
 		controller = AppController.getController(this);
 		findView();
 		initView();

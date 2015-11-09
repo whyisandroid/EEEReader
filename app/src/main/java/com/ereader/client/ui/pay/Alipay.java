@@ -95,6 +95,7 @@ public class Alipay {
                     break;
                 }
                 case SDK_CHECK_FLAG:
+                    LogUtil.Log("Alipay",msg.obj.toString());
                     if ("true".equals(msg.obj.toString())) {
                         pay();
                     } else {
@@ -195,22 +196,6 @@ public class Alipay {
         checkThread.start();
     }
 
-
-    public static void check(final Context mContext) {
-        Runnable checkRunnable = new Runnable() {
-
-            @Override
-            public void run() {
-                // 构造PayTask 对象
-                PayTask payTask = new PayTask((Activity) mContext);
-                // 调用查询接口，获取查询结果
-                boolean isExist = payTask.checkAccountIfExist();
-            }
-        };
-
-        Thread checkThread = new Thread(checkRunnable);
-        checkThread.start();
-    }
 
     public static boolean checkPay(Context mContext) {
         // 构造PayTask 对象
