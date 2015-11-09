@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.ereader.client.EReaderApplication;
 import com.ereader.client.R;
 import com.ereader.client.entities.BookShow;
 import com.ereader.client.entities.BookShowInfo;
@@ -27,7 +28,9 @@ import com.ereader.client.service.download.DownloadManager;
 import com.ereader.client.service.download.DownloadService;
 import com.ereader.client.ui.BaseActivity;
 import com.ereader.client.ui.adapter.ShelfSearchAdapter;
+import com.ereader.client.ui.bookshelf.epubread.CustomFont;
 import com.ereader.client.ui.bookshelf.epubread.SkySetting;
+import com.ereader.client.ui.bookshelf.epubread.SkyUtility;
 import com.ereader.client.ui.dialog.DialogUtil;
 import com.ereader.common.constant.Constant;
 import com.ereader.common.util.IntentUtil;
@@ -40,6 +43,7 @@ import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.skytree.epub.Setting;
 
 public class SearchBuyActivity extends BaseActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
     private AppController controller;
@@ -48,7 +52,7 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
     private ShelfSearchAdapter adapter;
     private DownloadManager downloadManager;
 
-
+    private EReaderApplication app;
     public final static int _OK = 1000;
     public final static int _DELETE = 1001;
 
@@ -58,6 +62,7 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
     private static int operation = OPERATION_CUSTOM;//默认OPERATION_CUSTOM
 
     private DbUtils db;
+    private SkyUtility  st;
 
     private Handler mHandler = new Handler() {
 
@@ -88,22 +93,49 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        LogUtil.LogError("onCreate","onCreate");
+        LogUtil.LogError("onCreate", "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shelf_search_layout);
+        app=EReaderApplication.getInstance();
         controller = AppController.getController(this);
         downloadManager = DownloadService.getDownloadManager(SearchBuyActivity.this);
         findView();
+//        init();
         initView();
 
+
+
+    }
+    //初始化阅读设置
+    private void init(){
+
         if (SkySetting.getStorageDirectory()==null) {
-            // All book related data will be stored /data/data/com....../files/appName/
-//            SkySetting.setStorageDirectory(getFilesDir().getAbsolutePath(),);
-            // All book related data will be stored /sdcard/EEEReader/...
-			SkySetting.setStorageDirectory(Constant.ROOT_OUTPATH,Constant.FOLDER_NAME);
+
+            SkySetting.setStorageDirectory(Constant.ROOT_OUTPATH,Constant.FOLDER_NAME);
         }
+        st = new SkyUtility(this);
+        st.makeSetup();
+        this.registerFonts();
+//        this.makeLayout();
+        this.reload();
+        Setting.prepare();
+
+    }
+    public void reload() {
+        app.reloadBookInformations();
+        //TODO   清除数据重新加载
+        //
+
+    }
+    public void registerFonts() {
+        this.registerCustomFont("Underwood","uwch.ttf");
+        this.registerCustomFont("Mayflower","Mayflower Antique.ttf");
     }
 
+    public void registerCustomFont(String fontFaceName,String fontFileName) {
+        st.copyFontToDevice(fontFileName);
+        app.customFonts.add(new CustomFont(fontFaceName,fontFileName));
+    }
     private void findView() {
         main_top_title = (EditText) findViewById(R.id.et_book_search);
         gridv_book_search = (GridView) findViewById(R.id.gridv_book_search);
