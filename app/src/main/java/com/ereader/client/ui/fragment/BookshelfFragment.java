@@ -45,8 +45,10 @@ import com.ereader.client.ui.adapter.BookShelfAdapter;
 import com.ereader.client.ui.bookshelf.Read;
 import com.ereader.client.ui.bookshelf.ReadActivity;
 import com.ereader.client.ui.bookshelf.SearchBuyActivity;
+import com.ereader.client.ui.bookshelf.epubread.CustomFont;
 import com.ereader.client.ui.bookshelf.epubread.LocalService;
 import com.ereader.client.ui.bookshelf.epubread.SkySetting;
+import com.ereader.client.ui.bookshelf.epubread.SkyUtility;
 import com.ereader.client.ui.bookshelf.read.EpubNavigator;
 import com.ereader.client.ui.bookshelf.read.LocalBook;
 import com.ereader.client.ui.dialog.DialogUtil;
@@ -60,6 +62,7 @@ import com.ereader.common.util.ToastUtil;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.db.sqlite.Selector;
 import com.lidroid.xutils.exception.DbException;
+import com.skytree.epub.Setting;
 
 public class BookshelfFragment extends Fragment {
     private static final String TAG = "BookshelfFragment";
@@ -80,16 +83,17 @@ public class BookshelfFragment extends Fragment {
     private boolean isInit = false;
     private PointView pointView;
     private BookShelfAdapter adapter;
+
+    private EReaderApplication app;
     private DbUtils db;
+    private SkyUtility st;
 
     public static final int requestCode_addBook = 1000;
 
     public static final int requestCode_login = 1001;
 
     private List<BookShowWithDownloadInfo> list = new ArrayList<BookShowWithDownloadInfo>();
-    //
-//    LocalService ls = null;
-//    boolean isBound = false;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -97,51 +101,54 @@ public class BookshelfFragment extends Fragment {
         view = inflater.inflate(R.layout.book_shelf_fragment, container, false);
         controller = AppController.getController(getActivity());
         mContext = getActivity();
+        app = EReaderApplication.getInstance();
         findView();
         initView();
-/*
-        if (SkySetting.getStorageDirectory()==null) {
-            // All book related data will be stored /data/data/com....../files/appName/
-			SkySetting.setStorageDirectory(getActivity().getFilesDir().getAbsolutePath(),"test.epub");
-            // All book related data will be stored /sdcard/appName/...
-//            SkySetting.setStorageDirectory(Environment.getExternalStorageDirectory().getAbsolutePath(),appName);
-        }
-        doBindService();*/
+
         initRead();
         return view;
     }
 
-   /* @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        getActivity().unbindService(mConnection);
+    //初始化阅读设置
+    private void init() {
+
+        if (SkySetting.getStorageDirectory() == null) {
+
+            SkySetting.setStorageDirectory(Constant.ROOT_OUTPATH, Constant.FOLDER_NAME);
+        }
+        st = new SkyUtility(mContext);
+        st.makeSetup();
+        this.registerFonts();
+//        this.makeLayout();
+        this.reload();
+        Setting.prepare();
+
     }
 
-    private ServiceConnection mConnection = new ServiceConnection() {
+    public void reload() {
+//        app.reloadBookInformations();
+        //TODO   清除数据重新加载
+        //
 
-        public void onServiceConnected(ComponentName className,IBinder service) {
-            LocalService.LocalBinder binder = (LocalService.LocalBinder) service;
-            ls = binder.getService();
-            isBound = true;
-            if(!isInit){
-                ls.startDownload("http://skytree21.host.whoisweb.net/books/Alice-e.epub", "http://skytree21.host.whoisweb.net/books/Alice.jpg", "Alice's Adventures in Wonderland", "Lewis Carroll");
+    }
 
-            }
-        }
+    public void registerFonts() {
+        this.registerCustomFont("Underwood", "uwch.ttf");
+        this.registerCustomFont("Mayflower", "Mayflower Antique.ttf");
+    }
 
-        public void onServiceDisconnected(ComponentName arg0) {
-            isBound = false;
-        }
-    };
-    void doBindService() {
-        Intent intent = new Intent(getActivity(), LocalService.class);
-        getActivity().bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-        isBound = true;
-    }*/
+    public void registerCustomFont(String fontFaceName, String fontFileName) {
+        st.copyFontToDevice(fontFileName);
+        app.customFonts.add(new CustomFont(fontFaceName, fontFileName));
+    }
+
     private void initRead() {
+        //阅读的设置
+        init();
+
+        //sample图书
         if (!isInit) {
             new AsyncSetApprove().execute("");
-
         }
         // 读取名为"mark"的sharedpreferences
         sp = mContext.getSharedPreferences("mark", mContext.MODE_PRIVATE);
@@ -239,14 +246,14 @@ public class BookshelfFragment extends Fragment {
                 if (adapter.isShowDelete()) {//删除
                     //TODO:删除数据库／本地文件
 
-                    if(DbDeleteBook(book)){
-                        if (book.isDownloaded()&&null!=book.getDownloadInfo()) {//已经下载
+                    if (DbDeleteBook(book)) {
+                        if (book.isDownloaded() && null != book.getDownloadInfo()) {//已经下载
                             new File(book.getDownloadInfo().getFileSavePath()).delete();
                         }
                         adapter.deleteByPostion(position);
-                        ToastUtil.showToast(getActivity(), "删除《"+book.getName()+"》成功！", ToastUtil.LENGTH_SHORT);
-                    }else{
-                        ToastUtil.showToast(getActivity(),"删除《"+book.getName()+"》失败！",ToastUtil.LENGTH_SHORT);
+                        ToastUtil.showToast(getActivity(), "删除《" + book.getName() + "》成功！", ToastUtil.LENGTH_SHORT);
+                    } else {
+                        ToastUtil.showToast(getActivity(), "删除《" + book.getName() + "》失败！", ToastUtil.LENGTH_SHORT);
                     }
 
                 } else {
@@ -280,11 +287,11 @@ public class BookshelfFragment extends Fragment {
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-            if(position==parent.getAdapter().getCount()-1){
+            if (position == parent.getAdapter().getCount() - 1) {
 
-            }else{
-                BookShowWithDownloadInfo book=(BookShowWithDownloadInfo)parent.getAdapter().getItem(position);
-                if (null!=book&&!book.isDownloading()){
+            } else {
+                BookShowWithDownloadInfo book = (BookShowWithDownloadInfo) parent.getAdapter().getItem(position);
+                if (null != book && !book.isDownloading()) {
                     adapter.setIsShowDelete(!adapter.isShowDelete());
                 }
             }
@@ -374,8 +381,8 @@ public class BookshelfFragment extends Fragment {
             }*/
             if (!isInit) {
 
-                File path = new File (Constant.BOOKS);//mContext.getFilesDir();
-                if(!path.exists()){
+                File path = new File(Constant.BOOKS);//mContext.getFilesDir();
+                if (!path.exists()) {
                     path.mkdirs();
                 }
                 String[] strings = getResources()
@@ -432,7 +439,8 @@ public class BookshelfFragment extends Fragment {
         }
         return sdDir.toString();
     }
-    private boolean DbDeleteBook(BookShow book){
+
+    private boolean DbDeleteBook(BookShow book) {
 
 
         try {
@@ -446,7 +454,7 @@ public class BookshelfFragment extends Fragment {
             e.printStackTrace();
             return false;
 
-        }finally {
+        } finally {
             db.close();
         }
 
@@ -465,7 +473,7 @@ public class BookshelfFragment extends Fragment {
                 setupData(list);
             } catch (DbException e) {
                 LogUtil.LogError("获取数据－DbException", e.toString());
-            }finally {
+            } finally {
                 db.close();
             }
         }
@@ -476,12 +484,6 @@ public class BookshelfFragment extends Fragment {
         if (null == list) {
             list = new ArrayList<BookShowWithDownloadInfo>();
         }
-//                if (null == adapter) {
-//                    adapter = new BookShelfAdapter(mContext, list);
-//                    gridv_book.setAdapter(adapter);
-//                } else {
-//                    adapter.setData(list);
-//                }
         adapter = new BookShelfAdapter(mContext, list);
         gridv_book.setAdapter(adapter);
     }
@@ -607,7 +609,7 @@ public class BookshelfFragment extends Fragment {
         super.onDestroy();
         if (null != db) {
             db.close();
-            db=null;
+            db = null;
         }
     }
 }
