@@ -9,7 +9,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.ereader.client.entities.Category;
 import com.ereader.client.ui.my.MessageFragment;
-import com.ereader.client.ui.my.MessageFriendsFragment;
+import com.ereader.client.ui.my.MessageFriendApplyFragment;
+import com.ereader.client.ui.my.MessageSystemFragment;
 
 public class MessageFragsAdapter extends FragmentStatePagerAdapter {
 
@@ -18,9 +19,9 @@ public class MessageFragsAdapter extends FragmentStatePagerAdapter {
 	public MessageFragsAdapter(FragmentManager fm,List<Category> mListTitle) {
 		super(fm);
 		fragments = new ArrayList<Fragment>();
-			fragments.add(new MessageFriendsFragment(mListTitle.get(0)));
-			fragments.add(new MessageFragment(mListTitle.get(1)));
-			fragments.add(new MessageFragment(mListTitle.get(2)));
+		fragments.add(new MessageFriendApplyFragment());
+		fragments.add(new MessageFragment());
+		fragments.add(new MessageSystemFragment());
 	}
 
 	@Override

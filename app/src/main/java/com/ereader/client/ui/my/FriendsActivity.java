@@ -44,7 +44,6 @@ public class FriendsActivity extends BaseActivity implements OnClickListener {
 					lv_my_friends.setAdapter(mAdapter);
 				}
 				break;
-
 			default:
 				break;
 			}

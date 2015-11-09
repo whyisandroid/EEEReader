@@ -18,6 +18,7 @@ import com.ereader.client.entities.json.FriendsResp;
 import com.ereader.client.entities.json.GiftResp;
 import com.ereader.client.entities.json.LoginResp;
 import com.ereader.client.entities.json.MessageResp;
+import com.ereader.client.entities.json.MessageSystemResp;
 import com.ereader.client.entities.json.OrderListResp;
 import com.ereader.client.entities.json.OrderRechargeResp;
 import com.ereader.client.entities.json.OrderResp;
@@ -194,7 +195,7 @@ public class AppServiceImpl implements AppService {
 		request.setR_calzz(BookResp.class);
 		BookResp resp = EReaderApplication.getAppSocket().shortConnect(request);
 		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
-			context.addBusinessData("BookFeaturedResp", resp);
+			context.addBusinessData("BookFeaturedResp"+cate_id, resp);
 		} else {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
@@ -230,7 +231,7 @@ public class AppServiceImpl implements AppService {
 		request.setR_calzz(BookResp.class);
 		BookResp resp = EReaderApplication.getAppSocket().shortConnect(request);
 		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
-			context.addBusinessData("BookFeaturedResp", resp);
+			context.addBusinessData("BookFeaturedResp"+mDisCate.getName(), resp);
 		} else {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
@@ -299,7 +300,7 @@ public class AppServiceImpl implements AppService {
 		request.setR_calzz(BookResp.class);
 		BookResp resp = EReaderApplication.getAppSocket().shortConnect(request);
 		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
-			context.addBusinessData("BookFeaturedResp", resp);
+			context.addBusinessData("BookFeaturedResp"+id, resp);
 		} else {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
@@ -470,7 +471,7 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void addFriends(String id) throws BusinessException {
+	 public void addFriends(String id) throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		Request<BaseResp> request = new Request<BaseResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
@@ -478,6 +479,39 @@ public class AppServiceImpl implements AppService {
 		nameValuePairs.add(new BasicNameValuePair("friend_search", id));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 		request.setUrl(Config.HTTP_MY_FRIENDS_ADD);
+		request.setR_calzz(BaseResp.class);
+		BaseResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+		} else {
+			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+		}
+	}
+
+	@Override
+	public void agreeFriends(String id) throws BusinessException {
+		String token = EReaderApplication.getInstance().getLogin().getToken();
+		Request<BaseResp> request = new Request<BaseResp>();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("_token_", token));
+		nameValuePairs.add(new BasicNameValuePair("friend_id", id));
+		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+		request.setUrl(Config.HTTP_MY_FRIENDS_ADD);
+		request.setR_calzz(BaseResp.class);
+		BaseResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+		} else {
+			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+		}
+	}
+	@Override
+	public void disagreeFriends(String id) throws BusinessException {
+		String token = EReaderApplication.getInstance().getLogin().getToken();
+		Request<BaseResp> request = new Request<BaseResp>();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("_token_", token));
+		nameValuePairs.add(new BasicNameValuePair("friend_id", id));
+		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+		request.setUrl(Config.HTTP_MY_FRIENDS_DIS);
 		request.setR_calzz(BaseResp.class);
 		BaseResp resp = EReaderApplication.getAppSocket().shortConnect(request);
 		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
@@ -754,7 +788,64 @@ public class AppServiceImpl implements AppService {
 		request.setR_calzz(MessageResp.class);
 		MessageResp resp = EReaderApplication.getAppSocket().shortConnect(request);
 		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
-			context.addBusinessData("MessageResp", resp.getData());
+			context.addBusinessData("MessageResp"+type, resp.getData());
+		} else {
+			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+		}
+	}
+
+	@Override
+	public void getFriendsApply() throws Exception {
+		String token = EReaderApplication.getInstance().getLogin().getToken();
+		Request<MessageResp> request = new Request<MessageResp>();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("_token_", token));
+		nameValuePairs.add(new BasicNameValuePair("page", "1"));
+		nameValuePairs.add(new BasicNameValuePair("per_page", "10"));
+		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+		request.setUrl(Config.HTTP_MY_MESSAGE_APPLY);
+		request.setR_calzz(MessageResp.class);
+		MessageResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+			context.addBusinessData("MessageApplyResp", resp.getData());
+		} else {
+			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+		}
+	}
+
+	@Override
+	public void getFriendsMessage() throws Exception {
+		String token = EReaderApplication.getInstance().getLogin().getToken();
+		Request<MessageResp> request = new Request<MessageResp>();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("_token_", token));
+		nameValuePairs.add(new BasicNameValuePair("page", "1"));
+		nameValuePairs.add(new BasicNameValuePair("per_page", "10"));
+		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+		request.setUrl(Config.HTTP_MY_MESSAGE_FRIENDS);
+		request.setR_calzz(MessageResp.class);
+		MessageResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+			context.addBusinessData("MessageFriendsResp", resp.getData());
+		} else {
+			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+		}
+	}
+
+	@Override
+	public void getSystemMessage() throws Exception {
+		String token = EReaderApplication.getInstance().getLogin().getToken();
+		Request<MessageSystemResp> request = new Request<MessageSystemResp>();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("_token_", token));
+		nameValuePairs.add(new BasicNameValuePair("page", "1"));
+		nameValuePairs.add(new BasicNameValuePair("per_page", "10"));
+		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+		request.setUrl(Config.HTTP_MY_MESSAGE_SYSTEM);
+		request.setR_calzz(MessageSystemResp.class);
+		MessageSystemResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+			context.addBusinessData("MessageSystemResp", resp.getData());
 		} else {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}

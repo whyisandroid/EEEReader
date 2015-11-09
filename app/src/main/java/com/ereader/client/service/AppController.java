@@ -21,7 +21,9 @@ import com.ereader.client.ui.login.RegisterActivity;
 import com.ereader.client.ui.more.NoticeActivity;
 import com.ereader.client.ui.more.NoticeDetailActivity;
 import com.ereader.client.ui.my.CouponsFragment;
-import com.ereader.client.ui.my.MessageFriendsFragment;
+import com.ereader.client.ui.my.MessageFragment;
+import com.ereader.client.ui.my.MessageFriendApplyFragment;
+import com.ereader.client.ui.my.MessageSystemFragment;
 import com.ereader.client.ui.my.OrderFragment;
 import com.ereader.client.ui.my.RecommendActivity;
 import com.ereader.client.ui.pay.PayActivity;
@@ -263,7 +265,7 @@ public class AppController {
 
 		try {
 			service.discountBook(mDisCate);
-			mHandler.obtainMessage(BookActivity.BOOK).sendToTarget();
+			mHandler.obtainMessage(BookActivity.BOOK_DIS).sendToTarget();
 		} catch (BusinessException e) {
 			mHandler.obtainMessage(BookActivity.REFRESH_ERROR).sendToTarget();
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
@@ -407,6 +409,27 @@ public class AppController {
 		}
 	}
 
+	public void agreeFriends(Handler mHandler,String id,int position) {
+		try {
+			service.agreeFriends(id);
+			mHandler.obtainMessage(MessageFriendApplyFragment.AGREE,position).sendToTarget();
+			ToastUtil.showToast(currentActivity, "好友添加成功", ToastUtil.LENGTH_LONG);
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}catch (Exception e) {
+		}
+	}
+	public void disagreeFriends(Handler mHandler,String id,int position) {
+		try {
+			service.disagreeFriends(id);
+			mHandler.obtainMessage(MessageFriendApplyFragment.REFUSE,position).sendToTarget();
+			ToastUtil.showToast(currentActivity, "好友拒绝成功", ToastUtil.LENGTH_LONG);
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}catch (Exception e) {
+		}
+	}
+
 	public void getArticle(String id) {
 		try {
 			service.helpType(id);
@@ -429,10 +452,28 @@ public class AppController {
 		}
 	}
 
-	public void getMessage(Handler mhandler,String type) {
+	public void getFriendsMessage(Handler mhandler) {
 		try {
-			service.getMessage(type);
-			mhandler.obtainMessage(MessageFriendsFragment.REFRESH_DOWN_OK).sendToTarget();
+			service.getFriendsMessage();
+			mhandler.obtainMessage(MessageFragment.REFRESH_DOWN_OK).sendToTarget();
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}catch (Exception e) {
+		}
+	}
+	public void getFriendsApply(Handler mhandler) {
+		try {
+			service.getFriendsApply();
+			mhandler.obtainMessage(MessageFriendApplyFragment.REFRESH_DOWN_OK).sendToTarget();
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}catch (Exception e) {
+		}
+	}
+	public void getMessageSystem(Handler mhandler) {
+		try {
+			service.getSystemMessage();
+			mhandler.obtainMessage(MessageSystemFragment.REFRESH_DOWN_OK).sendToTarget();
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}catch (Exception e) {

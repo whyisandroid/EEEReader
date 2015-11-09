@@ -56,7 +56,11 @@ public interface AppService {
 	public void myRecommend()throws BusinessException;
 	/**添加好友**/
 	public void addFriends(String id)throws BusinessException;
-	
+	/**同意好友**/
+	public void agreeFriends(String id)throws BusinessException;
+	/**同意好友**/
+	public void disagreeFriends(String id)throws BusinessException;
+
 	
 	// TODO
 	/***用户登出*/
@@ -97,6 +101,12 @@ public interface AppService {
 	public void helpDetail(String type)throws BusinessException;
 	/**我的消息***/
 	public void getMessage(String type)throws Exception;
+	/**好友申请消息***/
+	public void getFriendsApply()throws Exception;
+	/**好友推荐消息**/
+	public void getFriendsMessage()throws Exception;
+	/**系统消息***/
+	public void getSystemMessage()throws Exception;
 	/**向好友推荐商品***/
 	public void tellToFriend(String friendID)throws BusinessException;
 

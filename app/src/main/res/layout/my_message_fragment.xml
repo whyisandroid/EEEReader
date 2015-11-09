@@ -7,12 +7,12 @@
     android:orientation="vertical" >
 
        <com.ereader.client.ui.view.PullToRefreshView
-        android:id="@+id/pull_refresh_order"
+        android:id="@+id/pull_refresh_message"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical" >
         <ListView
-            android:id="@+id/lv_order"
+            android:id="@+id/lv_message"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@color/main_bg"

@@ -62,6 +62,7 @@ public class Config {
     public final static String HTTP_MY_SP = MY_SERVICE + "/api/user/comment"; //  我的评论
     public final static String HTTP_MY_FRIENDS = MY_SERVICE + "/api/user/friend"; //  我的好友
     public final static String HTTP_MY_FRIENDS_ADD = MY_SERVICE + "/api/user/addFriend"; //  添加好友
+    public final static String HTTP_MY_FRIENDS_DIS = MY_SERVICE + "/api/user/refuseFriendApply"; //  拒绝好友
     public final static String HTTP_MY_RECOMMEND = MY_SERVICE + "/api/user/myRecommend"; //  我的推荐列表
 
     //TODO  my
@@ -96,6 +97,9 @@ public class Config {
     public final static String HTTP_MORE_HELP_DETAIL = MY_SERVICE + "/api/article/detail"; //  帮助中心内容详情
 
     public final static String HTTP_MY_MESSAGE = MY_SERVICE + "/api/user/message"; // 我的消息列表
+    public final static String HTTP_MY_MESSAGE_APPLY = MY_SERVICE + "/api/user/friendApplyMessage"; // 好友申请列表
+    public final static String HTTP_MY_MESSAGE_FRIENDS = MY_SERVICE + "/api/user/friendRecommendMessage"; // 好友推荐消息列表
+    public final static String HTTP_MY_MESSAGE_SYSTEM = MY_SERVICE + "/api/user/message"; // 系统消息列表
     public final static String HTTP_MY_TO_FRIEND = MY_SERVICE + "/api/user/tellToFriend"; // 向好友推荐商品
 
     // shelf
