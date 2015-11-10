@@ -196,8 +196,8 @@ public class ScrollingTabsView extends HorizontalScrollView implements OnPageCha
 		params.setMargins(0, mDividerMarginTop, 0, mDividerMarginBottom);
 		v.setLayoutParams(params);
 		
-		if (mDividerDrawable != null) v.setBackgroundDrawable(mDividerDrawable);
-		else v.setBackgroundColor(mDividerColor);
+		/*if (mDividerDrawable != null) v.setBackgroundDrawable(mDividerDrawable);
+		else v.setBackgroundColor(mDividerColor);*/
 		
 		return v;
 	}

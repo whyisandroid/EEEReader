@@ -5,8 +5,8 @@
     android:background="@drawable/tab_holo"
     android:gravity="center"
     android:paddingBottom="8dp"
-    android:paddingLeft="30dip"
-    android:paddingRight="30dip"
+    android:paddingLeft="20dip"
+    android:paddingRight="15dip"
     android:paddingTop="8dp"
     android:textColor="@color/tabs_title_color"
     android:textSize="16sp" />
