@@ -658,9 +658,9 @@ public class AppController {
 		}
 	}
 
-	public void addComment(float rating, String id, String title, String comment) {
+	public void addComment(float rating,String orderId,String id, String title, String comment) {
 		try {
-			service.addComment(rating, id, title, comment);
+			service.addComment(rating,orderId,id, title, comment);
 			currentActivity.finish();
 			IntentUtil.popFromLeft(currentActivity);
 			appHandler.obtainMessage(HANDLER_TOAST,"提交成功").sendToTarget();

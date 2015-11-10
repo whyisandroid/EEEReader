@@ -68,6 +68,7 @@ public class SPAdapter extends BaseAdapter {
 		}
 		
 		holder.tv_book_date.setText(sp.getUpdated_at());
+		holder.tv_book_name.setText(sp.getProduct_name());
 		holder.rbar_sp_star.setRating(Float.valueOf(sp.getScore()));
 		return convertView;
 	}
@@ -75,12 +76,14 @@ public class SPAdapter extends BaseAdapter {
 		private TextView tv_sp_name;
 		private TextView tv_book_content;
 		private TextView tv_book_date;
+		private TextView tv_book_name;
 		private RatingBar rbar_sp_star;
 		private ImageView iv_sp_max;
 		public void findView(View view){
 			tv_sp_name = (TextView)view.findViewById(R.id.tv_sp_name);
 			tv_book_content = (TextView)view.findViewById(R.id.tv_book_content);
 			tv_book_date = (TextView)view.findViewById(R.id.tv_book_date);
+			tv_book_name = (TextView)view.findViewById(R.id.tv_book_name);
 			rbar_sp_star = (RatingBar)view.findViewById(R.id.rbar_sp_star);
 			iv_sp_max = (ImageView)view.findViewById(R.id.iv_sp_max);
 		}

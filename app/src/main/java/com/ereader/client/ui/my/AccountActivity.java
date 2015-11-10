@@ -8,6 +8,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
+import com.ereader.client.EReaderApplication;
 import com.ereader.client.R;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.BaseActivity;
@@ -44,7 +45,13 @@ public class AccountActivity extends BaseActivity implements OnClickListener {
 	 */
 	private void initView() {
 		((TextView) findViewById(R.id.tv_main_top_title)).setText("账户设置");
-		String[] mList = getResources().getStringArray(R.array.account);
+		String[] mList = new String[]{};
+		String loginAccount = EReaderApplication.getInstance().getLocalInfoByKeyValue("LoginAccount");
+		if(loginAccount.contains("@")){
+			mList = getResources().getStringArray(R.array.account2);
+		}else{
+		  mList = getResources().getStringArray(R.array.account1);
+		}
 		MyBookAdapter adapter = new MyBookAdapter(this, mList);
 		lv_my_account.setAdapter(adapter);
 		lv_my_account.setOnItemClickListener(bookItemListener);
@@ -60,12 +67,14 @@ public class AccountActivity extends BaseActivity implements OnClickListener {
 				IntentUtil.intent(AccountActivity.this, NameActivity.class);
 				break;
 			case 1:
-				IntentUtil.intent(AccountActivity.this, PhoneActivity.class);
+				String loginAccount = EReaderApplication.getInstance().getLocalInfoByKeyValue("LoginAccount");
+				if(loginAccount.contains("@")){
+					IntentUtil.intent(AccountActivity.this,EmailActivity.class);
+				}else{
+					IntentUtil.intent(AccountActivity.this, PhoneActivity.class);
+				}
 				break;
 			case 2:
-				IntentUtil.intent(AccountActivity.this,EmailActivity.class);
-				break;
-			case 3:
 				IntentUtil.intent(AccountActivity.this, PwdActivity.class);
 				break;
 			default:

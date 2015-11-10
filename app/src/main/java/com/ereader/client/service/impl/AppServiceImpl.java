@@ -69,7 +69,7 @@ public class AppServiceImpl implements AppService {
 			EReaderApplication.getInstance().setLogin(true);
 			resp.getData().setToken(resp.get_token_());
 			EReaderApplication.getInstance().saveLogin(resp.getData());
-
+			EReaderApplication.getInstance().saveLocalInfoByKeyValue("LoginAccount",account);
 		} else {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
@@ -656,12 +656,12 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void addComment(float rating, String id, String title, String comment) throws BusinessException {
+	public void addComment(float rating, String order_id,String id, String title, String comment) throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		Request<BaseResp> request = new Request<BaseResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("_token_", token));
-		nameValuePairs.add(new BasicNameValuePair("order_type", "1"));
+		nameValuePairs.add(new BasicNameValuePair("order_id", order_id));
 		nameValuePairs.add(new BasicNameValuePair("score", rating+""));
 		nameValuePairs.add(new BasicNameValuePair("product_id", id));
 		nameValuePairs.add(new BasicNameValuePair("title", title));

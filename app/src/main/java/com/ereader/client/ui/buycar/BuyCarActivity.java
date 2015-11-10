@@ -90,7 +90,7 @@ public class BuyCarActivity extends BaseActivity implements OnClickListener {
 			case 3:
 				BookOnlyResp resp3 = EReaderApplication.getInstance().getBuyCar();
 				int size = mList.size();
-				for (int i = 0; i < size; i++) {
+				for (int i = size-1; i >=0; i--) {
 					if (mList.get(i).isSelect()) {
 						mList.remove(i);
 						resp3.getData().remove(i);

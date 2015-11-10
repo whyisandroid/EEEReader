@@ -10,14 +10,14 @@ import java.util.List;
  * Created by wanghy on 2015/10/14.
  */
 public class BookSearchData {
-    private List<BookSearch> data;
+    private List<Book> data;
     private Page page;
 
-    public List<BookSearch> getData() {
+    public List<Book> getData() {
         return data;
     }
 
-    public void setData(List<BookSearch> data) {
+    public void setData(List<Book> data) {
         this.data = data;
     }
 

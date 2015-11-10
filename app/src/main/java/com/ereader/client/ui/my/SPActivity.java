@@ -87,7 +87,7 @@ public class SPActivity extends BaseActivity implements OnClickListener {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        controller.addComment(rbar_sp_star.getRating(), getIntent().getExtras().getString("id"), title, comment);
+                        controller.addComment(rbar_sp_star.getRating(),getIntent().getExtras().getString("orderId"), getIntent().getExtras().getString("id"), title, comment);
                         ProgressDialogUtil.closeProgressDialog();
                     }
                 }).start();

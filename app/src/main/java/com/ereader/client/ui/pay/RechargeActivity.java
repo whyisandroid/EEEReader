@@ -33,8 +33,9 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 	private EditText mRechMoney;
 	private EditText mRechCard;
 	public static final int ORDER_SUCCESS = 0;
+	public static final int GET_ORDER = 1;
 
-	private  Alipay pay = new Alipay(RechargeActivity.this);
+	private  Alipay pay;
 
 	private Handler mHander = new Handler(){
 		@Override
@@ -43,7 +44,19 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 				case ORDER_SUCCESS:
 					RechargeOrder order = (RechargeOrder)controller.getContext().getBusinessData("OrderRechargeResp");
 					pay.setmOrder(order);
-					pay.check();
+					pay.pay();
+					break;
+				case GET_ORDER:
+
+					// 先生成订单
+					ProgressDialogUtil.showProgressDialog(RechargeActivity.this, "", false);
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							controller.getRechargeOrder(mHander,mRechMoney.getText().toString());
+							ProgressDialogUtil.closeProgressDialog();
+						}
+					}).start();
 					break;
 				default:
 					break;
@@ -82,6 +95,7 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 	  * @time: 2015-2-10 下午1:37:06
 	 */
 	private void initView() {
+		pay = new Alipay(RechargeActivity.this,mHander);
 		((TextView) findViewById(R.id.tv_main_top_title)).setText("充值");
 		main_top_right.setText("账单");
 		main_top_right.setOnClickListener(this);
@@ -124,17 +138,8 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 						ToastUtil.showToast(RechargeActivity.this, "充值金额不能为空", ToastUtil.LENGTH_LONG);
 						return;
 					}
-
-
-					// 先生成订单
-					ProgressDialogUtil.showProgressDialog(RechargeActivity.this, "", false);
-					new Thread(new Runnable() {
-						@Override
-						public void run() {
-							controller.getRechargeOrder(mHander,money);
-							ProgressDialogUtil.closeProgressDialog();
-						}
-					}).start();
+					// 检测 支付环境
+					pay.check(Alipay.SDK_CHECK_FLAG);
 				}
 
 				if(mPayCard.isChecked()){

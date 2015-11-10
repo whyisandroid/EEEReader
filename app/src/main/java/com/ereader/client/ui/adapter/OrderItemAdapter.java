@@ -76,6 +76,11 @@ public class OrderItemAdapter extends BaseAdapter {
 
 		}else if("1".equals(mOrderList.getPay_status())){
 			holder.tv_order_type.setText("交易成功");
+			if("1".equals(orderBook.getIsComment())){
+				holder.tv_order_right.setVisibility(View.GONE);
+			}else{
+				holder.tv_order_right.setVisibility(View.VISIBLE);
+			}
 			holder.tv_order_right.setText("写书评");
 			holder.tv_order_left.setText("立即阅读");
 		}else if("2".equals(mOrderList.getPay_status())){
@@ -96,6 +101,7 @@ public class OrderItemAdapter extends BaseAdapter {
 				Bundle bundle = new Bundle();
 				bundle.putString("name",orderBook.getName());
 				bundle.putString("id",orderBook.getInfo().getProduct_id());
+				bundle.putString("orderId",mOrderList.getOrder_id());
 				IntentUtil.intent(mContext,bundle,SPActivity.class,false);
 			}
 		});

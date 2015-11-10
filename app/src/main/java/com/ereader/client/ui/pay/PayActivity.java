@@ -156,6 +156,10 @@ public class PayActivity extends BaseActivity implements OnClickListener {
 
             @Override
             public void afterTextChanged(Editable s) {
+                if(TextUtils.isEmpty(s)){
+                    tv_pay_point_sum.setText("-¥0.00");
+                    return;
+                }
                 if (Double.valueOf(StringUtil.subtractionMoney(wallet.getPoint(), s.toString())) < 0) {
                     ToastUtil.showToast(PayActivity.this, "没有这么多积分", ToastUtil.LENGTH_LONG);
                     et_pay_point.setText(wallet.getPoint());
