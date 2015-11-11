@@ -369,9 +369,8 @@ public class AppController {
 			appHandler.obtainMessage(HANDLER_TOAST,"已加入购物车").sendToTarget();
 			mHandler.obtainMessage(1).sendToTarget();
 		} catch (BusinessException e) {
-		}catch (Exception e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}
-	
 	}
 
 	public void getComment(Handler mHandler,String id) {
