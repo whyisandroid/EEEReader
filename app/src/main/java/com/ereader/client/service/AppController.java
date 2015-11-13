@@ -515,6 +515,8 @@ public class AppController {
 			try {
 				service.updatePwd();
 				appHandler.obtainMessage(HANDLER_TOAST,"密码修改成功").sendToTarget();
+				EReaderApplication.getInstance().setLogin(false);
+				IntentUtil.intent(currentActivity,LoginActivity.class);
 				currentActivity.finish();
 			} catch (BusinessException e) {
 				appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();

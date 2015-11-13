@@ -59,6 +59,7 @@ public class Alipay {
 
     public static final int SDK_CHECK_FLAG = 2;
     public static final int SDK_PAY_CHECK_FLAG = 3;
+    public static final int PAY_SUCCESS = 0;
 
     private RechargeOrder mOrder;
 
@@ -79,6 +80,7 @@ public class Alipay {
                     if (TextUtils.equals(resultStatus, "9000")) {
                         Toast.makeText(mContext, "充值成功",
                                 Toast.LENGTH_SHORT).show();
+                        payHandler.obtainMessage(PAY_SUCCESS).sendToTarget();
                         AppController.getController().getCurrentActivity().finish();
                     } else {
                         // 判断resultStatus 为非“9000”则代表可能支付失败

@@ -85,18 +85,31 @@
                 android:hint="请输入充值码"
                 android:inputType="number"
                 android:textSize="@dimen/new_size_3"></EditText>
-        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:padding="15dp"
-            android:text="本次充值金额：￥100"
-            android:textColor="@color/new_color_2"
-            android:textSize="@dimen/new_size_3"
-            android:visibility="gone" />
+            <TextView
+                android:id="@+id/recharge_tv_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/recharge_et_card"
+                android:background="@color/white"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="15dp"
+                android:text="本次输入金额："
+                android:textColor="@color/new_color_2"
+                android:textSize="@dimen/new_size_3"
+                />
+            <TextView
+                android:id="@+id/recharge_tv_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_below="@+id/recharge_et_card"
+                android:layout_toRightOf="@+id/recharge_tv_message"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/main_bar"
+                android:textSize="@dimen/new_size_3"
+                />
+        </RelativeLayout>
     </LinearLayout>
 
     <Button

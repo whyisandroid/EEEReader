@@ -97,6 +97,13 @@ public class PhoneActivity extends BaseActivity implements OnClickListener {
 					ToastUtil.showToast(PhoneActivity.this,StringUtil.moblie(phone),ToastUtil.LENGTH_LONG);
 					return;
 				}
+				String loginPhone = EReaderApplication.getInstance().getLogin().getPhone();
+				if(phone.equals(loginPhone)){
+					ToastUtil.showToast(PhoneActivity.this,StringUtil.moblie(phone),ToastUtil.LENGTH_LONG);
+					return;
+				}
+
+
 				ProgressDialogUtil.showProgressDialog(this, "", false);
 				new Thread(new Runnable() {
 					@Override

@@ -3,7 +3,9 @@ package com.ereader.client.ui.pay;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -20,20 +22,22 @@ import com.ereader.client.service.AppController;
 import com.ereader.client.ui.BaseActivity;
 import com.ereader.common.util.IntentUtil;
 import com.ereader.common.util.ProgressDialogUtil;
+import com.ereader.common.util.StringUtil;
 import com.ereader.common.util.ToastUtil;
 
 // 充值
 public class RechargeActivity extends BaseActivity implements OnClickListener {
 	private AppController controller;
 	private TextView mEcoin;
+	private TextView recharge_tv_money;
 	private Button main_top_right;
 	private Button bt_recharge;
 	private RadioButton mPaybao;
 	private RadioButton mPayCard;
 	private EditText mRechMoney;
 	private EditText mRechCard;
-	public static final int ORDER_SUCCESS = 0;
 	public static final int GET_ORDER = 1;
+	public static final int ORDER_SUCCESS = 2;
 
 	private  Alipay pay;
 
@@ -41,13 +45,20 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what){
+				case Alipay.PAY_SUCCESS:
+					// 充值成功 修改金额
+					WalletData wallet = (WalletData)controller.getContext().getBusinessData("WalletResp");
+					String sumMoney = StringUtil.addMoney(wallet.getEcoin().toString(),mRechMoney.getText().toString());
+					wallet.setEcoin(sumMoney);
+					controller.getContext().addBusinessData("WalletResp",wallet);
+					//mEcoin.setText("当前余额：￥" + sumMoney);
+					break;
 				case ORDER_SUCCESS:
 					RechargeOrder order = (RechargeOrder)controller.getContext().getBusinessData("OrderRechargeResp");
 					pay.setmOrder(order);
 					pay.pay();
 					break;
 				case GET_ORDER:
-
 					// 先生成订单
 					ProgressDialogUtil.showProgressDialog(RechargeActivity.this, "", false);
 					new Thread(new Runnable() {
@@ -79,6 +90,7 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 	 */
 	private void findView() {
 		mEcoin = (TextView)findViewById(R.id.recharge_tv_ecoin);
+		recharge_tv_money = (TextView)findViewById(R.id.recharge_tv_money);
 		main_top_right = (Button)findViewById(R.id.main_top_right);
 		bt_recharge = (Button)findViewById(R.id.bt_recharge);
 		mPaybao = (RadioButton)findViewById(R.id.rb_pay_bao);
@@ -122,6 +134,25 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 			pay.check();
 		}*/
 		bt_recharge.setOnClickListener(this);
+
+
+
+		mRechMoney.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				recharge_tv_money.setText("￥"+s);
+			}
+		});
 	}
 
 	@Override

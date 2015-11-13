@@ -114,7 +114,6 @@ public class PayActivity extends BaseActivity implements OnClickListener {
         main_top_right.setText("充值");
         order = (Order) controller.getContext().getBusinessData("OrderResp");
         money = order.getPay_total();
-        tv_pay_money.setText("¥ " + wallet.getEcoin());
         tv_pay_all_money.setText("¥ " + money);
         tv_pay_point.setText("(可用" + wallet.getPoint() + "点)");
         tv_pay_point_sum.setText("-¥ 0.00");
@@ -170,6 +169,12 @@ public class PayActivity extends BaseActivity implements OnClickListener {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        WalletData wallet = (WalletData) controller.getContext().getBusinessData("WalletResp");
+        tv_pay_money.setText("¥ " + wallet.getEcoin());
+    }
 
     String point = "0";
 
