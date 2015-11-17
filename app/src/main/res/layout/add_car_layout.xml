@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg"
+    android:orientation="vertical">
+    <include layout="@layout/main_top_layout" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:drawableLeft="@drawable/m9_03"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:text="商品成功添加至购物车"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/new_color_2"
+            android:textSize="@dimen/new_size_4" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="18dp"
+            android:background="@color/spilt_line_color"
+            />
+        <TextView
+            android:id="@+id/addcar_tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="25dp"
+            android:text="Small Text"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/new_color_2"
+            android:textSize="@dimen/new_size_5" />
+
+        <TextView
+            android:id="@+id/addcar_tv_coust"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="15dp"
+            android:text="$10"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/main_bar"
+            android:textSize="@dimen/new_size_5" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingBottom="15dp"
+        android:paddingLeft="25dp">
+
+        <TextView
+            android:id="@+id/addcar_tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Small Text"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/new_color_2"
+            android:textSize="@dimen/new_size_4" />
+
+        <TextView
+            android:id="@+id/addcar_tv_count_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Small Text"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/new_color_2"
+            android:textSize="@dimen/new_size_4" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/addcar_bt_pay"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/dimen_xnormal"
+        android:layout_marginRight="@dimen/dimen_xnormal"
+        android:textColor="@color/main_bar"
+        android:textSize="@dimen/new_size_5"
+        android:background="@drawable/bt12_03"
+        android:text="去购物车结算"  />
+
+    <Button
+        android:id="@+id/addcar_bt_goto"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/dimen_xnormal"
+        android:layout_marginRight="@dimen/dimen_xnormal"
+        android:textColor="@color/read2"
+        android:textSize="@dimen/new_size_5"
+        android:background="@drawable/b_16"
+        android:text="继续购物" />
+
+</LinearLayout>

@@ -39,5 +39,6 @@
 
     <color name="off_point">#7fFFFFFF</color>
     <color name="dark_grey">#696969</color>
+    <color name="read2">#EE8124</color>
 
 </resources>

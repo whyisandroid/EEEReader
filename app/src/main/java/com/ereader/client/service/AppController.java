@@ -7,12 +7,14 @@ import android.os.Message;
 import android.text.TextUtils;
 
 import com.ereader.client.EReaderApplication;
+import com.ereader.client.entities.Book;
 import com.ereader.client.entities.DisCategory;
 import com.ereader.client.entities.Login;
 import com.ereader.client.service.impl.AppServiceImpl;
 import com.ereader.client.ui.bookshelf.SearchBuyActivity;
 import com.ereader.client.ui.bookstore.BookActivity;
 import com.ereader.client.ui.bookstore.BookTitleActivity;
+import com.ereader.client.ui.buycar.AddCarSuccessActivity;
 import com.ereader.client.ui.buycar.BuyCarActivity;
 import com.ereader.client.ui.dialog.DialogUtil;
 import com.ereader.client.ui.login.FindPwdActivity;
@@ -363,11 +365,15 @@ public class AppController {
 		}
 	
 	}
-	public void addBuyCar(Handler mHandler,String id) {
+	public void addBuyCar(Handler mHandler,Book mBook) {
 		try {
-			service.addBuyCar(id);
-			appHandler.obtainMessage(HANDLER_TOAST,"已加入购物车").sendToTarget();
+			service.addBuyCar(mBook.getInfo().getProduct_id());
 			mHandler.obtainMessage(1).sendToTarget();
+			Bundle bundle = new Bundle();
+			bundle.putString("name",mBook.getInfo().getName());
+			bundle.putString("coust",mBook.getPrice());
+			IntentUtil.intent(currentActivity,bundle,AddCarSuccessActivity.class,false);
+
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}

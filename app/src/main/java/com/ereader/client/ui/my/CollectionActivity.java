@@ -26,6 +26,8 @@ public class CollectionActivity extends BaseActivity implements OnClickListener 
 	private ListView lv_my_collection;
 	private CollectionAdapter adapter;
 	private List<Book> mList = new ArrayList<Book>();
+	private static  final int ADD_CAR = 99;
+
 	private Handler mHandler = new Handler(){
 		
 		public void handleMessage(android.os.Message msg) {
@@ -39,6 +41,9 @@ public class CollectionActivity extends BaseActivity implements OnClickListener 
 				adapter.notifyDataSetChanged();
 				//ToastUtil.showToast(CollectionActivity.this, "删除成功", ToastUtil.LENGTH_LONG);
 				break;
+				case ADD_CAR:
+
+					break;
 			default:
 				break;
 			}

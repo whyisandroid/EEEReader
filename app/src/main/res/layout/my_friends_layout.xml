@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/friends_et_send" />
 
     <ListView

@@ -121,7 +121,7 @@ public class CollectionAdapter extends BaseAdapter {
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
-						AppController.getController().addBuyCar(mHandler,book.getInfo().getProduct_id());
+						AppController.getController().addBuyCar(mHandler,book);
 						ProgressDialogUtil.closeProgressDialog();
 					}
 				}).start();

@@ -24,6 +24,7 @@ import com.ereader.client.entities.Order;
 import com.ereader.client.entities.json.WalletData;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.BaseActivity;
+import com.ereader.client.ui.my.OrderActivity;
 import com.ereader.client.ui.pay.alipay.PayResult;
 import com.ereader.client.ui.pay.alipay.SignUtils;
 import com.ereader.common.util.IntentUtil;
@@ -62,7 +63,7 @@ public class PayActivity extends BaseActivity implements OnClickListener {
             switch (msg.what) {
                 case SUCCESS:
                     ToastUtil.showToast(PayActivity.this, "购买成功", ToastUtil.LENGTH_LONG);
-                    PayActivity.this.finish();
+                    IntentUtil.intent(PayActivity.this, OrderActivity.class);
                     break;
                 default:
                     break;
@@ -135,6 +136,7 @@ public class PayActivity extends BaseActivity implements OnClickListener {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+
                     rl_pay_point.setVisibility(View.VISIBLE);
                 } else {
                     rl_pay_point.setVisibility(View.GONE);
@@ -177,6 +179,7 @@ public class PayActivity extends BaseActivity implements OnClickListener {
     }
 
     String point = "0";
+    String payMoney = "0";
 
     @Override
     public void onClick(View v) {
@@ -190,11 +193,19 @@ public class PayActivity extends BaseActivity implements OnClickListener {
                 } else {
                     point = "0";
                 }
+                WalletData wallet = (WalletData) controller.getContext().getBusinessData("WalletResp");
+                String pointPay = StringUtil.div(point, wallet.getP2e_exchange_rate(), 2);
+                if(Double.valueOf(pointPay) > Double.valueOf(order.getPay_total())){
+                    payMoney = "0";
+                }else{
+                    payMoney = StringUtil.subtractionMoney(order.getPay_total(),pointPay);
+                }
+
                 ProgressDialogUtil.showProgressDialog(this, "", false);
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        controller.pay(mHandler, order.getOrder_id(), order.getPay_total(), point, "");
+                        controller.pay(mHandler, order.getOrder_id(), payMoney, point, "");
                         ProgressDialogUtil.closeProgressDialog();
                     }
                 }).start();

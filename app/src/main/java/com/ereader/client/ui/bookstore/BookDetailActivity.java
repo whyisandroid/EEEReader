@@ -244,7 +244,7 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
-						controller.addBuyCar(mHandler, tv_book_collection.getTag().toString());
+						controller.addBuyCar(mHandler, mBook);
 						ProgressDialogUtil.closeProgressDialog();
 					}
 				}).start();

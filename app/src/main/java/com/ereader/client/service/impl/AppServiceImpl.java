@@ -127,7 +127,7 @@ public class AppServiceImpl implements AppService {
 		nameValuePairs.add(new BasicNameValuePair("vcode", vcode));
 		nameValuePairs.add(new BasicNameValuePair("email", ""));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
-		request.setUrl(Config.HTTP_CODE);
+		request.setUrl(Config.HTTP_FIND_PWD);
 		request.setR_calzz(BaseResp.class);
 		BaseResp resp = EReaderApplication.getAppSocket().shortConnect(request);
 		if (BaseResp.SUCCESS.equals(resp.getStatus())) {

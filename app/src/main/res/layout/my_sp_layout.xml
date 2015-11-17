@@ -38,7 +38,7 @@
 
             <RatingBar
                 android:id="@+id/rbar_sp_star"
-                style="?android:attr/ratingBarStyleSmall"
+                style="@style/myRatingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
