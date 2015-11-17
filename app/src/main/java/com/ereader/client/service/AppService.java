@@ -82,7 +82,7 @@ public interface AppService {
 	/***使用充值券*/
 	public void useCard(String card) throws BusinessException;
 	/***商品评论数据*/
-	public void addComment(float rating, String id, String title, String comment) throws BusinessException;
+	public void addComment(float rating, String orderId,String id, String title, String comment) throws BusinessException;
 
 	/***创建支付订单*/
 	public void createOrder(String value) throws BusinessException;

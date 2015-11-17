@@ -15,6 +15,7 @@ public class SpComment {
 	private String comment_id;
 	private String user_id;
 	private String product_id;
+	private String product_name;
 	private String title;
 	private String score;
 	private String content;
@@ -23,8 +24,15 @@ public class SpComment {
 	private String updated_at;
 	private String nickname;
 	private String realname;
-	
-	
+
+	public String getProduct_name() {
+		return product_name;
+	}
+
+	public void setProduct_name(String product_name) {
+		this.product_name = product_name;
+	}
+
 	public String getContent() {
 		return content;
 	}

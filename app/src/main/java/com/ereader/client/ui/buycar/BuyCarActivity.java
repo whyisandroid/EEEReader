@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
@@ -42,7 +43,7 @@ public class BuyCarActivity extends BaseActivity implements OnClickListener {
 	private List<Book> mList = new ArrayList<Book>();
 	private BuyCarAdapter adapter;
 	private Button bt_buy_go;
-	private RadioButton rb_car_all;
+	private CheckBox rb_car_all;
 	private int buyNum = 0;
 	private String money = "0";
 	private TextView tv_buycar_delete;
@@ -88,13 +89,14 @@ public class BuyCarActivity extends BaseActivity implements OnClickListener {
 				break;
 			case 3:
 				BookOnlyResp resp3 = EReaderApplication.getInstance().getBuyCar();
-				for (int i = 0; i < mList.size(); i++) {
+				int size = mList.size();
+				for (int i = size-1; i >=0; i--) {
 					if (mList.get(i).isSelect()) {
 						mList.remove(i);
 						resp3.getData().remove(i);
 					}
-					EReaderApplication.getInstance().saveBuyCar(resp3);
 				}
+				EReaderApplication.getInstance().saveBuyCar(resp3);
 				checkMoney();
 				adapter.notifyDataSetChanged();
 				break;
@@ -160,7 +162,7 @@ public class BuyCarActivity extends BaseActivity implements OnClickListener {
 		bt_buy_go = (Button) findViewById(R.id.bt_buy_go);
 		tv_buy_money = (TextView) findViewById(R.id.tv_buy_money);
 		tv_buycar_delete = (TextView) findViewById(R.id.tv_buycar_delete);
-		rb_car_all = (RadioButton) findViewById(R.id.rb_car_all);
+		rb_car_all = (CheckBox) findViewById(R.id.rb_car_all);
 	}
 
 	/**
@@ -190,7 +192,32 @@ public class BuyCarActivity extends BaseActivity implements OnClickListener {
 		bt_buy_go.setText("结算（" + buyNum + ")");
 		adapter = new BuyCarAdapter(this, mList, mHandler);
 		lv_buy_car.setAdapter(adapter);
-		rb_car_all.setOnClickListener(this);
+		rb_car_all.setChecked(true);
+		rb_car_all.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if (mList.size() == 0) {
+					ToastUtil.showToast(BuyCarActivity.this, "没有可选择商品", ToastUtil.LENGTH_LONG);
+					return;
+				}
+				if (isChecked) {
+					money = "0";
+					buyNum = 0;
+					for (int i = 0; i < mList.size(); i++) {
+						mList.get(i).setSelect(true);
+					}
+				} else {
+					money = "0";
+					buyNum = 0;
+					for (int i = 0; i < mList.size(); i++) {
+						mList.get(i).setSelect(false);
+					}
+				}
+				checkMoney();
+				saveData();
+				adapter.notifyDataSetChanged();
+			}
+		});
 		tv_buycar_delete.setOnClickListener(this);
 	}
 
@@ -225,22 +252,6 @@ public class BuyCarActivity extends BaseActivity implements OnClickListener {
 				}).start();
 			} catch (BusinessException e) {
 				e.printStackTrace();
-			}
-			break;
-		case R.id.rb_car_all:
-			if(mList.size() == 0){
-				ToastUtil.showToast(BuyCarActivity.this, "没有可选择商品", ToastUtil.LENGTH_LONG);
-				return;
-			}
-			if (rb_car_all.isChecked()) {
-				money = "0";
-				buyNum = 0;
-				for (int i = 0; i < mList.size(); i++) {
-					mList.get(i).setSelect(true);
-				}
-				checkMoney();
-				saveData();
-				adapter.notifyDataSetChanged();
 			}
 			break;
 		case R.id.tv_buycar_delete:

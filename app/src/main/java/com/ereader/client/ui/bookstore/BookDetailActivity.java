@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.ereader.client.EReaderApplication;
 import com.ereader.client.R;
+import com.ereader.client.entities.AddBuy;
 import com.ereader.client.entities.Book;
 import com.ereader.client.entities.PayCar;
 import com.ereader.client.entities.PayCarList;
@@ -34,6 +35,7 @@ import com.ereader.common.exception.BusinessException;
 import com.ereader.common.util.IntentUtil;
 import com.ereader.common.util.Json_U;
 import com.ereader.common.util.ProgressDialogUtil;
+import com.ereader.common.util.RegExpUtil;
 import com.ereader.common.util.ToastUtil;
 
 public class BookDetailActivity extends BaseFragmentActivity implements OnClickListener {
@@ -72,7 +74,9 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
                 }
 				resp.getData().add(mBook);
 				EReaderApplication.getInstance().saveBuyCar(resp);
-				setBuyCarNum();
+
+				buyNum = Integer.valueOf(((AddBuy) controller.getContext().getBusinessData("AddBuyResp")).getTotal_product_count());
+				main_top_right.setText("购物车(" + buyNum+")");
 				break;
 				case 100:
 					tv_book_collection.setText("收藏");
@@ -198,8 +202,12 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 		EReaderApplication.imageLoader.displayImage(book.getInfo().getImage_url(), iv_book, EReaderApplication.options);
 		tv_book_name.setText(book.getInfo().getName());
 		tv_book_author.setText("作者："+book.getExtra().getAuthor());
-		tv_book_publish.setText("出版社："+book.getExtra().getPress());
-		rb_book_star.setRating(4);
+		tv_book_publish.setText("出版社：" + book.getExtra().getPress());
+		float rating = 0;
+		if(RegExpUtil.isNumeric(book.getComment_star())){
+			 rating  = Float.valueOf(book.getComment_star());
+		}
+		rb_book_star.setRating(rating);
 		tv_book_price.setText("¥ "+book.getPrice());
 	}
 	@Override

@@ -369,9 +369,8 @@ public class AppController {
 			appHandler.obtainMessage(HANDLER_TOAST,"已加入购物车").sendToTarget();
 			mHandler.obtainMessage(1).sendToTarget();
 		} catch (BusinessException e) {
-		}catch (Exception e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}
-	
 	}
 
 	public void getComment(Handler mHandler,String id) {
@@ -516,6 +515,8 @@ public class AppController {
 			try {
 				service.updatePwd();
 				appHandler.obtainMessage(HANDLER_TOAST,"密码修改成功").sendToTarget();
+				EReaderApplication.getInstance().setLogin(false);
+				IntentUtil.intent(currentActivity,LoginActivity.class);
 				currentActivity.finish();
 			} catch (BusinessException e) {
 				appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
@@ -658,9 +659,9 @@ public class AppController {
 		}
 	}
 
-	public void addComment(float rating, String id, String title, String comment) {
+	public void addComment(float rating,String orderId,String id, String title, String comment) {
 		try {
-			service.addComment(rating, id, title, comment);
+			service.addComment(rating,orderId,id, title, comment);
 			currentActivity.finish();
 			IntentUtil.popFromLeft(currentActivity);
 			appHandler.obtainMessage(HANDLER_TOAST,"提交成功").sendToTarget();

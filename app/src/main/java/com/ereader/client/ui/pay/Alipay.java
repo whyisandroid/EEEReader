@@ -57,9 +57,13 @@ public class Alipay {
 
     private static final int SDK_PAY_FLAG = 1;
 
-    private static final int SDK_CHECK_FLAG = 2;
+    public static final int SDK_CHECK_FLAG = 2;
+    public static final int SDK_PAY_CHECK_FLAG = 3;
+    public static final int PAY_SUCCESS = 0;
 
     private RechargeOrder mOrder;
+
+    private  Handler payHandler;
 
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -76,6 +80,7 @@ public class Alipay {
                     if (TextUtils.equals(resultStatus, "9000")) {
                         Toast.makeText(mContext, "充值成功",
                                 Toast.LENGTH_SHORT).show();
+                        payHandler.obtainMessage(PAY_SUCCESS).sendToTarget();
                         AppController.getController().getCurrentActivity().finish();
                     } else {
                         // 判断resultStatus 为非“9000”则代表可能支付失败
@@ -86,19 +91,29 @@ public class Alipay {
 
                         } else {
                             // 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
-                            Toast.makeText(mContext, "支付失败",
-                                    Toast.LENGTH_SHORT).show();
-
+                           // Toast.makeText(mContext, "支付失败", Toast.LENGTH_SHORT).show();
+                            check(SDK_PAY_CHECK_FLAG);
                         }
                     }
                     break;
                 }
                 case SDK_CHECK_FLAG:
                     if ("true".equals(msg.obj.toString())) {
+                        payHandler.obtainMessage(RechargeActivity.GET_ORDER).sendToTarget();
                     } else {
                         Toast.makeText(mContext, "未安装支付宝应用", Toast.LENGTH_SHORT).show();
                     }
                     break;
+                case SDK_PAY_CHECK_FLAG:
+                    LogUtil.Log("Alipay",msg.obj.toString());
+                    if ("true".equals(msg.obj.toString())) {
+                        Toast.makeText(mContext, "支付失败",
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(mContext, "未安装支付宝应用", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+
                 default:
                     break;
             }
@@ -107,15 +122,15 @@ public class Alipay {
         ;
     };
 
-    public Alipay(Context mContext) {
+    public Alipay(Context mContext,Handler payHandler) {
         this.mContext = mContext;
+        this.payHandler = payHandler;
     }
 
     /**
      * call alipay sdk pay. 调用SDK支付
      */
     public void pay() {
-        check();
         /*if (TextUtils.isEmpty(PARTNER) || TextUtils.isEmpty(RSA_PRIVATE)
                 || TextUtils.isEmpty(SELLER)) {
             new AlertDialog.Builder(mContext)
@@ -173,7 +188,7 @@ public class Alipay {
      * check whether the device has authentication alipay account.
      * 查询终端设备是否存在支付宝认证账户
      */
-    public void check() {
+    public void check(final int code) {
         Runnable checkRunnable = new Runnable() {
 
             @Override
@@ -182,9 +197,8 @@ public class Alipay {
                 PayTask payTask = new PayTask((Activity) mContext);
                 // 调用查询接口，获取查询结果
                 boolean isExist = payTask.checkAccountIfExist();
-
                 Message msg = new Message();
-                msg.what = SDK_CHECK_FLAG;
+                msg.what = code;
                 msg.obj = isExist;
                 mHandler.sendMessage(msg);
             }
@@ -192,14 +206,6 @@ public class Alipay {
 
         Thread checkThread = new Thread(checkRunnable);
         checkThread.start();
-    }
-
-    public static boolean checkPay(Context mContext) {
-        // 构造PayTask 对象
-        PayTask payTask = new PayTask((Activity) mContext);
-        // 调用查询接口，获取查询结果
-        boolean isExist = payTask.checkAccountIfExist();
-        return isExist;
     }
 
     /**

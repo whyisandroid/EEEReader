@@ -67,7 +67,9 @@
 
         <RatingBar
             android:id="@+id/rb_book_star"
-            style="?android:attr/ratingBarStyleSmall"
+            style="@style/myRatingBar"
+            android:isIndicator="true"
+            android:stepSize="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_book_publish"
@@ -81,7 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/rb_book_star"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/iv_book"
             android:text="2.00"
             android:textColor="@color/holo_blue_light"
@@ -102,6 +104,7 @@
             android:layout_weight="1"
             android:background="@drawable/b_14"
             android:text="购买"
+            android:textColor="@color/main_bar"
             android:textSize="@dimen/new_size_2" />
 
         <Button
@@ -112,6 +115,7 @@
             android:layout_weight="1"
             android:background="@drawable/b_16"
             android:text="购物车"
+            android:textColor="@color/new_color_yrb_color"
             android:textSize="@dimen/new_size_2" />
 
         <Button
@@ -133,6 +137,7 @@
             android:layout_weight="1"
             android:background="@drawable/b_20"
             android:text="推荐好友"
+            android:textColor="@color/main_bar"
             android:textSize="@dimen/new_size_2" />
     </LinearLayout>
 

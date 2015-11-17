@@ -40,13 +40,25 @@ public class Book implements Serializable {
 	private String stock_status;
 	private String created_at;
 	private String updated_at;
+	private String comment_star;
 	private BookExtra extra;
 	private BookInfo info;
 	private String image_url;
 	
 	private boolean select; // 购物车用
-	
-	
+
+	public static long getSerialVersionUID() {
+		return serialVersionUID;
+	}
+
+	public String getComment_star() {
+		return comment_star;
+	}
+
+	public void setComment_star(String comment_star) {
+		this.comment_star = comment_star;
+	}
+
 	public boolean isSelect() {
 		return select;
 	}

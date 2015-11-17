@@ -33,7 +33,7 @@ public class BookSearchActivity extends BaseActivity implements
 		OnClickListener {
 	private AppController controller;
 	private ListView lv_book_search;
-	private List<BookSearch> mList = new ArrayList<BookSearch>();
+	private List<Book> mList = new ArrayList<Book>();
 	private BookSearchAdapter adapter;
 	private EditText et_book_search;
 
@@ -117,12 +117,14 @@ public class BookSearchActivity extends BaseActivity implements
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
-		//	IntentUtil.intent(BookSearchActivity.this, BookDetailActivity.class);
+			Book book = mList.get(position);
+			Bundle bundle = new Bundle();
+			bundle.putSerializable("detailBook", book);
+			IntentUtil.intent(BookSearchActivity.this, bundle,BookDetailActivity.class,false);
 		}
 	};
 	@Override
 	public void onClick(View v) {
-
 		switch (v.getId()) {
 		case R.id.textView1:
 			break;

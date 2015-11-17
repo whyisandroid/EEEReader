@@ -1,5 +1,7 @@
 package com.ereader.common.util;
 
+import android.text.TextUtils;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,6 +19,9 @@ public class RegExpUtil {
      * @return
      */
     public static boolean isNumeric(String str) {
+        if(TextUtils.isEmpty(str)){
+            return false;
+        }
         Pattern pattern = Pattern.compile("[0-9]*");
         Matcher isNum = pattern.matcher(str);
         return isNum.matches();
@@ -43,7 +48,7 @@ public class RegExpUtil {
      * @return
      */
     public static boolean isMobileNO(String str) {
-        Pattern pattern = Pattern.compile("1[3,4,5,8]{1}\\d{9}");
+        Pattern pattern = Pattern.compile("1[3,4,5,7,8]{1}\\d{9}");
         Matcher invalid = pattern.matcher(str);
         return invalid.matches();
     }

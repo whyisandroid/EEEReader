@@ -57,6 +57,7 @@ public class BillAdapter extends BaseAdapter {
 			holder.tv_bill_num.setTextColor(Color.RED);
 		}else{
 			holder.tv_bill_num.setText("+"+bill.getCarry());
+			holder.tv_bill_num.setTextColor(Color.GREEN);
 		}
 
 		return convertView;
