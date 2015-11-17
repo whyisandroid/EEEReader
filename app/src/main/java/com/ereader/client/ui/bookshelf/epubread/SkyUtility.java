@@ -451,9 +451,9 @@ public class SkyUtility {
         copyImageToDevice("Phone-Landscape-Double-Black.png");
         copyImageToDevice("Phone-Portrait-Black.png");
 
-        copyImageToDevice("Phone-Landscape-Alpha.png");
-        copyImageToDevice("Phone-Landscape-Double-Alpha.png");
-        copyImageToDevice("Phone-Portrait-Alpha.png");
+//        copyImageToDevice("Phone-Landscape-Alpha.png");
+//        copyImageToDevice("Phone-Landscape-Double-Alpha.png");
+//        copyImageToDevice("Phone-Portrait-Alpha.png");
 
 
         if (!this.makeDirectory("downloads")) {

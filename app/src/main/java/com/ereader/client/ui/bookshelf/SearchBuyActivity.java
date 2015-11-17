@@ -10,6 +10,7 @@ import android.os.Debug;
 import android.os.Environment;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -29,6 +30,7 @@ import com.ereader.client.service.download.DownloadService;
 import com.ereader.client.ui.BaseActivity;
 import com.ereader.client.ui.adapter.ShelfSearchAdapter;
 import com.ereader.client.ui.bookshelf.epubread.CustomFont;
+import com.ereader.client.ui.bookshelf.epubread.LocalService;
 import com.ereader.client.ui.bookshelf.epubread.SkySetting;
 import com.ereader.client.ui.bookshelf.epubread.SkyUtility;
 import com.ereader.client.ui.dialog.DialogUtil;
@@ -43,6 +45,7 @@ import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.skytree.epub.BookInformation;
 import com.skytree.epub.Setting;
 
 public class SearchBuyActivity extends BaseActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
@@ -63,6 +66,7 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
 
     private DbUtils db;
     private SkyUtility  st;
+    private LocalService ls = null;
 
     private Handler mHandler = new Handler() {
 
@@ -97,12 +101,13 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shelf_search_layout);
         app=EReaderApplication.getInstance();
+        app.initReadSettings();
         controller = AppController.getController(this);
         downloadManager = DownloadService.getDownloadManager(SearchBuyActivity.this);
         findView();
-//        init();
+        init();
         initView();
-
+//        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 
 
     }
@@ -116,7 +121,6 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
         st = new SkyUtility(this);
         st.makeSetup();
         this.registerFonts();
-//        this.makeLayout();
         this.reload();
         Setting.prepare();
 
@@ -146,7 +150,7 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
         main_top_title.setHint("请输入你要搜索的关键词");
 
         gridv_book_search.setOnItemClickListener(this);
-        gridv_book_search.setOnItemLongClickListener(this);
+//        gridv_book_search.setOnItemLongClickListener(this);
         getshelfBuyBooks();
 
     }
@@ -253,13 +257,14 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
                 SearchBuyActivity.this.finish();
             } else {
                 if (book.isDownloaded()) {//已经下载
-                    Intent it = new Intent();
-                    it.setClass(SearchBuyActivity.this, ReadActivity.class);
-                    String path = book.getDownloadInfo().getFileSavePath();
-                    ToastUtil.showToast(SearchBuyActivity.this, "position=" + position + ";path=" + path, ToastUtil.LENGTH_LONG);
-                    LogUtil.Log("position=" + position + ";path=" + path);
-                    it.putExtra(getString(R.string.bpath), path);
-                    startActivity(it);
+                    openBook(book);
+//                    Intent it = new Intent();
+//                    it.setClass(SearchBuyActivity.this, ReadActivity.class);
+//                    String path = book.getDownloadInfo().getFileSavePath();
+//                    ToastUtil.showToast(SearchBuyActivity.this, "position=" + position + ";path=" + path, ToastUtil.LENGTH_LONG);
+//                    LogUtil.Log("position=" + position + ";path=" + path);
+//                    it.putExtra(getString(R.string.bpath), path);
+//                    startActivity(it);
 
                 } else {//未下载
 
@@ -280,13 +285,70 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
 
     }
 
+    private void openBook(BookShowWithDownloadInfo book){
+        if (SkySetting.getStorageDirectory()==null) {
+            SkySetting.setStorageDirectory(Constant.ROOT_OUTPATH,Constant.FOLDER_NAME);
+        }
+        List<BookInformation> readlists = new ArrayList<BookInformation>();
+        readlists=app.bis;//阅读数据库
+        int code =Integer.parseInt(book.getBook_id());
+        DownloadInfo down=book.getDownloadInfo();
+        BookInformation bi=null;//需要打开的图书对象
+        if(null!=down){
+            int isExit=app.isExistByCodeId(readlists,code);
+            if(isExit>=0){//打开
+            //TODO
+                bi=app.bis.get(isExit);
+                Log.e("已经存在了：书", bi.fileName + ":::" + SkySetting.storageDirectory + ":::" + bi.source + ":::" + bi.getBook().baseDirectory);
+            }else {//添加图书
+                //ToDo  down.getFileSavePath() Constant.BOOKS
+                app.installBook(Constant.BOOKS+"book.epub", code);
+                for (int i = 0; i <app.bis.size() ; i++) {
+                    if(code==app.bis.get(i).bookCode){
+                        bi=app.bis.get(i);
+                        break;
+                    }
+                }
+            }
+        }else{
+            ToastUtil.showToast(SearchBuyActivity.this, "并没有下载", ToastUtil.LENGTH_SHORT);
+        }
+        if(null!=bi) {
+            Log.e("eeeeee", bi.fileName + ":::" + SkySetting.storageDirectory + ":::" + bi.source + ":::" + bi.getBook().baseDirectory);
+            app.openEpub(SearchBuyActivity.this,bi);
+        }else
+            ToastUtil.showToast(SearchBuyActivity.this, "打开图书失败", ToastUtil.LENGTH_SHORT);
+
+	/*	SkyProvider sky=new SkyProvider();
+		//
+		//BookInformation bi=new BookInformation("alice.epub", context.getFilesDir().getAbsolutePath().toString(),sky);
+		bi=new BookInformation("book.epub", Constant.BOOKS,sky);
+		bi.isFixedLayout=false;
+		bi.isDownloaded=true;
+		bi.code=0;
+
+		//
+		bi.setFileName("book.epub");
+		bi.setBaseDirectory(Constant.DOWNLOAD);
+		bi.setContentProvider(sky);
+		sky.setBook(bi.getBook());
+//		sky.setKeyListener(new KeyDelegate());
+//		bi.makeInformation();
+		//
+
+//		app.initReadSettings();
+		app.sd.insertEmptyBook("iii", "uu", "111", "222", 0);
+		app.sd.updateBook(bi);*/
+
+    }
+
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
         BookShowWithDownloadInfo book = adapter.getItem(position);
         if (null != book && !book.isDownloading()) {
             adapter.setIsShowDelete(!adapter.isShowDelete());
         }
-        return true;
+        return false;
     }
 
     @Override

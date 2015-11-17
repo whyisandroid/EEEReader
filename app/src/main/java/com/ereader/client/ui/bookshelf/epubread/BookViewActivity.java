@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 import com.ereader.client.EReaderApplication;
+import com.ereader.common.util.ToastUtil;
 import com.skytree.epub.Book;
 import com.skytree.epub.BookmarkListener;
 import com.skytree.epub.Caret;
@@ -118,7 +119,7 @@ public class BookViewActivity extends Activity {
  	ImageButton listButton;
  	ImageButton fontButton;
  	ImageButton searchButton;	
- 	ImageButton restoreButton; // 임시  
+ 	ImageButton restoreButton; //
  	Rect bookmarkRect;
  	Rect bookmarkedRect;
  	
@@ -136,8 +137,9 @@ public class BookViewActivity extends Activity {
  	
  	SkyBox menuBox;
  	Button highlightMenuButton;
- 	Button noteMenuButton; 
- 	Rect boxFrame;
+ 	Button noteMenuButton;
+	Button translateMenuButton;
+	Rect boxFrame;
  	
  	SkyBox highlightBox;
  	ImageButton colorButtonInHighlightBox;
@@ -819,9 +821,9 @@ public class BookViewActivity extends Activity {
 		    	}else if (button.getId()==5001) {
 		    		button.setTextColor(Color.BLUE);
 		    		button.setTextSize(20);		    		
-		    	}else if (button.getId()==6000 || button.getId()==6001) {
+		    	}else if (button.getId()==6000 || button.getId()==6001|| button.getId()==6006) {
 		    		button.setTextSize(17);
-		    		button.setTextColor(Color.YELLOW);
+		    		button.setTextColor(Color.WHITE);
 		    	}else if (button.getId()==3001){
 		    		button.setTextColor(Color.BLACK);
 		    	}
@@ -832,9 +834,9 @@ public class BookViewActivity extends Activity {
 		    	}else if (button.getId()==5001) {
 		    		button.setTextColor(Color.BLACK);
 		    		button.setTextSize(18);		    		
-		    	}else if (button.getId()==6000 || button.getId()==6001) {
+		    	}else if (button.getId()==6000 || button.getId()==6001|| button.getId()==6006) {
 		    		button.setTextSize(15);
-		    		button.setTextColor(Color.WHITE);
+		    		button.setTextColor(Color.LTGRAY);
 		    	}else if (button.getId()==3001) {
 		    		button.setTextColor(Color.DKGRAY);
 		    	}
@@ -871,7 +873,7 @@ public class BookViewActivity extends Activity {
 				LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT); // width,height
 		menuBox = new SkyBox(this);
-		menuBox.setBoxColor(Color.DKGRAY);
+		menuBox.setBoxColor(Color.YELLOW);//DKGRAY
 		menuBox.setArrowHeight(ps(25));
 		menuBox.setArrowDirection(true);
 		param.leftMargin = ps(100);
@@ -881,25 +883,37 @@ public class BookViewActivity extends Activity {
 		menuBox.setLayoutParams(param);	
 		menuBox.setArrowDirection(false);
 		highlightMenuButton = new Button(this);
-		highlightMenuButton.setText("Highlight");
+		highlightMenuButton.setText("标注");
 		highlightMenuButton.setId(6000);
 		highlightMenuButton.setBackgroundColor(Color.TRANSPARENT);
 		highlightMenuButton.setTextColor(Color.LTGRAY);
 		highlightMenuButton.setTextSize(15);
 		highlightMenuButton.setOnClickListener(listener);
 		highlightMenuButton.setOnTouchListener(new ButtonHighlighterOnTouchListener(highlightMenuButton));
-		this.setFrame(highlightMenuButton, ps(20),ps(0), ps(130), ps(65));
+		this.setFrame(highlightMenuButton, ps(20), ps(0), ps(80), ps(65));
 		menuBox.contentView.addView(highlightMenuButton);
+		//笔记
 		noteMenuButton = new Button(this);
-		noteMenuButton.setText("Note");
+		noteMenuButton.setText("笔记");
 		noteMenuButton.setId(6001);
 		noteMenuButton.setBackgroundColor(Color.TRANSPARENT);
 		noteMenuButton.setTextColor(Color.LTGRAY);
 		noteMenuButton.setTextSize(15);
 		noteMenuButton.setOnClickListener(listener);
 		noteMenuButton.setOnTouchListener(new ButtonHighlighterOnTouchListener(noteMenuButton));
-		this.setFrame(noteMenuButton, ps(150),ps(0), ps(130), ps(65));
+		this.setFrame(noteMenuButton, ps(100),ps(0), ps(80), ps(65));
 		menuBox.contentView.addView(noteMenuButton);
+		//翻译
+		 translateMenuButton = new Button(this);
+		translateMenuButton.setText("翻译");
+		translateMenuButton.setId(6006);
+		translateMenuButton.setBackgroundColor(Color.TRANSPARENT);
+		translateMenuButton.setTextColor(Color.LTGRAY);
+		translateMenuButton.setTextSize(15);
+		translateMenuButton.setOnClickListener(listener);
+		translateMenuButton.setOnTouchListener(new ButtonHighlighterOnTouchListener(translateMenuButton));
+		this.setFrame(translateMenuButton, ps(180),ps(0), ps(80), ps(65));
+		menuBox.contentView.addView(translateMenuButton);
 //		rv.customView.addView(menuBox);
 		ePubView.addView(menuBox);
 		this.hideMenuBox();		
@@ -3054,10 +3068,13 @@ public class BookViewActivity extends Activity {
 				hideMenuBox();
 				showHighlightBox();
 			}else if (arg.getId()==6001) {
+				//笔记
 				mark();
 				hideMenuBox();
 				if (!rv.isPaging()) showNoteBox();
-			}	
+			}else if(arg.getId()==6006){
+				ToastUtil.showToast(BookViewActivity.this,"翻译...",ToastUtil.LENGTH_SHORT);
+			}
 			
 			if (arg.getId()==6002) {
 				// Color Chooser 

@@ -4,9 +4,9 @@
     <string name="hello">Hello World, EPubTestActivity!</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="hello_world">Hello world!</string>
-    <string name="open_epub">Open</string>
-    <string name="see_details">See Details</string>
-    <string name="delete_epub">Delete</string>
+    <string name="open_epub">打开</string>
+    <string name="see_details">详情</string>
+    <string name="delete_epub">删除</string>
     <string name="book_title">Adventure</string>
     <string name="book_author">Loweice</string>
     <string name="sortOption">Sort Books</string>
@@ -14,8 +14,8 @@
     <string name="sortByAuthor">By Author</string>
     <string name="sortByLastRead">By Last Read</string>
     <string name="sortByDownload">No Sort</string>
-    <string name="setting">Setting</string>
-    <string name="network">Network</string>
+    <string name="setting">设置</string>
+    <string name="network">网路</string>
     <string name="allow3g4g">3G/4G Download</string>
     <string name="theme">Theme</string>
     <string name="themewhite">Theme White</string>
@@ -34,14 +34,14 @@
     <string name="title_activity_setting">Setting</string>
     <string name="globalPagination">Global Pagination</string>
     <string name="searchhint">Type Words To Search</string>    
-    <string name="contents">contents</string>
-    <string name="bookmark">bookmark</string>
-    <string name="highlight">highlight</string>
+    <string name="contents">目录</string>
+    <string name="bookmark">书签</string>
+    <string name="highlight">高亮</string>
     <string name="ok">Ok</string>
-    <string name="cancel">Cancel</string>
+    <string name="cancel">取消</string>
     <string name="chara">A</string>    
     <string name="searchmore">Search More</string>
     <string name="searchfinished">Search Finished</string>
     <string name="searchfound">found</string>    
-	<string name="delete">Delete</string>
+	<string name="delete">删除</string>
 </resources>

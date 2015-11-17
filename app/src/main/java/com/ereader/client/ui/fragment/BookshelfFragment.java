@@ -9,18 +9,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
@@ -40,18 +36,15 @@ import com.ereader.client.R;
 import com.ereader.client.entities.BookShow;
 import com.ereader.client.entities.BookShowWithDownloadInfo;
 import com.ereader.client.service.AppController;
+import com.ereader.client.ui.adapter.BookLocalPagerAdapter;
 import com.ereader.client.ui.adapter.BookPagerAdapter;
 import com.ereader.client.ui.adapter.BookShelfAdapter;
-import com.ereader.client.ui.bookshelf.Read;
 import com.ereader.client.ui.bookshelf.ReadActivity;
 import com.ereader.client.ui.bookshelf.SearchBuyActivity;
 import com.ereader.client.ui.bookshelf.epubread.CustomFont;
-import com.ereader.client.ui.bookshelf.epubread.LocalService;
 import com.ereader.client.ui.bookshelf.epubread.SkySetting;
 import com.ereader.client.ui.bookshelf.epubread.SkyUtility;
-import com.ereader.client.ui.bookshelf.read.EpubNavigator;
 import com.ereader.client.ui.bookshelf.read.LocalBook;
-import com.ereader.client.ui.dialog.DialogUtil;
 import com.ereader.client.ui.login.LoginActivity;
 import com.ereader.client.ui.view.LoopViewPager;
 import com.ereader.client.ui.view.PointView;
@@ -60,8 +53,8 @@ import com.ereader.common.util.IntentUtil;
 import com.ereader.common.util.LogUtil;
 import com.ereader.common.util.ToastUtil;
 import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.db.sqlite.Selector;
 import com.lidroid.xutils.exception.DbException;
+import com.skytree.epub.BookInformation;
 import com.skytree.epub.Setting;
 
 public class BookshelfFragment extends Fragment {
@@ -102,9 +95,9 @@ public class BookshelfFragment extends Fragment {
         controller = AppController.getController(getActivity());
         mContext = getActivity();
         app = EReaderApplication.getInstance();
+        app.initReadSettings();
         findView();
         initView();
-
         initRead();
         return view;
     }
@@ -126,9 +119,9 @@ public class BookshelfFragment extends Fragment {
     }
 
     public void reload() {
-//        app.reloadBookInformations();
+        //app.reloadBookInformations();
         //TODO   清除数据重新加载
-        //
+
 
     }
 
@@ -176,25 +169,41 @@ public class BookshelfFragment extends Fragment {
         gridv_book.setOnItemClickListener(gridItemListener);
         gridv_book.setOnItemLongClickListener(longListener);
 
-
-        List<String> listPager = new ArrayList<String>();
-        listPager.add("");
-        listPager.add("");
-        listPager.add("");
-
-        BookPagerAdapter pageAdapter = new BookPagerAdapter(mContext, listPager);
-        viewpager.setAdapter(pageAdapter);
-        viewpager.setCurrentItem(0);
-        viewpager.setOnPageChangeListener(viewpagerListener);
-
-        pointView = new PointView(getActivity(), listPager.size());
-        pointlayout.removeAllViews();
-        pointlayout.addView(pointView);
-        pointView.setPosition(0);
-        pointlayout.postInvalidate();
+        initBannerPager();
 
     }
 
+    private void initBannerPager() {
+        // 最近阅读的信息
+        ArrayList<BookInformation> listPager = app.bis;
+        LogUtil.LogError("listPager",listPager.size()+"");
+        if (null != listPager && listPager.size() > 0) {
+            BookPagerAdapter pageAdapter = new BookPagerAdapter(mContext, listPager,app);
+            viewpager.setAdapter(pageAdapter);
+            viewpager.setCurrentItem(0);
+            viewpager.setOnPageChangeListener(viewpagerListener);
+
+            pointView = new PointView(getActivity(), (listPager.size()+1)/2);
+            pointlayout.removeAllViews();
+            pointlayout.addView(pointView);
+            pointView.setPosition(0);
+            pointlayout.postInvalidate();
+        } else {//最近阅读－没有数据：
+            List<String> localListPager = new ArrayList<String>();
+            localListPager.add("");
+            BookLocalPagerAdapter pageAdapter = new BookLocalPagerAdapter(mContext, localListPager);
+            viewpager.setAdapter(pageAdapter);
+            viewpager.setCurrentItem(0);
+            viewpager.setOnPageChangeListener(viewpagerListener);
+
+            pointView = new PointView(getActivity(), localListPager.size());
+            pointlayout.removeAllViews();
+            pointlayout.addView(pointView);
+            pointView.setPosition(0);
+            pointlayout.postInvalidate();
+        }
+
+    }
 
     @Override
     public void onResume() {
@@ -316,69 +325,7 @@ public class BookshelfFragment extends Fragment {
 
         @Override
         protected String doInBackground(String... params) {
-          /*  if (!isInit) {
-                File path = mContext.getFilesDir();
-                String[] strings = getResources()
-                        .getStringArray(R.array.bookid);// 获取assets目录下的文件列表
-                for (int i = 0; i < strings.length; i++) {
-                    try {
-                        FileOutputStream out = new FileOutputStream(path + "/"
-                                + strings[i]);
-                        BufferedInputStream bufferedIn = new BufferedInputStream(
-                                getResources().openRawResource(R.raw.book + i));
-                        BufferedOutputStream bufferedOut = new BufferedOutputStream(
-                                out);
-                        byte[] data = new byte[2048];
-                        int length = 0;
-                        while ((length = bufferedIn.read(data)) != -1) {
-                            bufferedOut.write(data, 0, length);
-                        }
-                        // 将缓冲区中的数据全部写出
-                        bufferedOut.flush();
-                        // 关闭流
-                        bufferedIn.close();
-                        bufferedOut.close();
-                        sp.edit().putBoolean("isInit", true).commit();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
 
-                ArrayList<HashMap<String, String>> insertList = new ArrayList<HashMap<String, String>>();
-                File[] f1 = path.listFiles();
-                int len = f1.length;
-                for (int i = 0; i < len; i++) {
-                    if (f1[i].isFile()) {
-                        if (f1[i].toString().contains(".epub")) {
-                            HashMap<String, String> insertMap = new HashMap<String, String>();
-                            insertMap.put("parent", f1[i].getParent());
-                            insertMap.put("path", f1[i].toString());
-                            insertList.add(insertMap);
-                        }
-                    }
-                }
-//                SQLiteDatabase db = localbook.getWritableDatabase();
-//                db.delete("localbook", "type='" + 2 + "'", null);
-//
-//                for (int i = 0; i < insertList.size(); i++) {
-//                    try {
-//                        if (insertList.get(i) != null) {
-//                            String s = insertList.get(i).get("parent");
-//                            String s1 = insertList.get(i).get("path");
-//                            String sql1 = "insert into " + "localbook"
-//                                    + " (parent,path" + ", type"
-//                                    + ",now,ready) values('" + s + "','" + s1
-//                                    + "',2,0,null" + ");";
-//                            db.execSQL(sql1);
-//                        }
-//                    } catch (SQLException e) {
-//                        Log.e(TAG, "setApprove SQLException", e);
-//                    } catch (Exception e) {
-//                        Log.e(TAG, "setApprove Exception", e);
-//                    }
-//                }
-//                db.close();
-            }*/
             if (!isInit) {
 
                 File path = new File(Constant.BOOKS);//mContext.getFilesDir();
@@ -487,6 +434,40 @@ public class BookshelfFragment extends Fragment {
         adapter = new BookShelfAdapter(mContext, list);
         gridv_book.setAdapter(adapter);
     }
+
+
+    //打开书
+    private void openBookViewer(BookInformation bi){
+
+        if (SkySetting.getStorageDirectory()==null) {
+            SkySetting.setStorageDirectory(Constant.ROOT_OUTPATH,Constant.FOLDER_NAME);
+        }
+
+	/*	SkyProvider sky=new SkyProvider();
+		//
+		//BookInformation bi=new BookInformation("alice.epub", context.getFilesDir().getAbsolutePath().toString(),sky);
+		bi=new BookInformation("book.epub", Constant.BOOKS,sky);
+		bi.isFixedLayout=false;
+		bi.isDownloaded=true;
+		bi.code=0;
+
+		//
+		bi.setFileName("book.epub");
+		bi.setBaseDirectory(Constant.DOWNLOAD);
+		bi.setContentProvider(sky);
+		sky.setBook(bi.getBook());
+//		sky.setKeyListener(new KeyDelegate());
+//		bi.makeInformation();
+		//
+
+//		app.initReadSettings();
+		app.sd.insertEmptyBook("iii", "uu", "111", "222", 0);
+		app.sd.updateBook(bi);*/
+        Log.e("eeeeee", bi.fileName + ":::" + SkySetting.storageDirectory + ":::" + bi.source + ":::" + bi.getBook().baseDirectory);
+        app.openEpub(mContext,bi);
+
+    }
+
 
     /**
      * 本地书库载入
