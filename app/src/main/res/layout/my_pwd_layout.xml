@@ -3,53 +3,93 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <include layout="@layout/main_top_layout" />
 
-    <EditText
-        android:id="@+id/pwd_et_pwd"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="@dimen/dimen_xnormal"
-        android:layout_marginRight="@dimen/dimen_xnormal"
-        android:textColor="@color/new_color_2"
-        android:textColorHint="@color/new_color_4"
-        android:textSize="@dimen/new_size_3"
-        android:hint="当前密码"
-        android:ems="10" >
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="@dimen/dimen_xnormal">
 
-        <requestFocus />
-    </EditText>
-    <EditText
-        android:id="@+id/pwd_et_pwd1"
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="当前密码:" />
+
+        <EditText
+            android:id="@+id/pwd_et_pwd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dimen_xnormal"
+            android:layout_toRightOf="@+id/textView1"
+
+            android:ems="10"
+            android:textColor="@color/new_color_2"
+            android:textColorHint="@color/new_color_4"
+            android:textSize="@dimen/new_size_3">
+
+            <requestFocus />
+        </EditText>
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="@dimen/dimen_xnormal"
-        android:layout_marginRight="@dimen/dimen_xnormal"
-        android:textColor="@color/new_color_2"
-        android:textColorHint="@color/new_color_4"
-        android:textSize="@dimen/new_size_3"
-        android:hint="新密码"
-        android:inputType="textPassword"
-        android:ems="10" >
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="@dimen/dimen_xnormal">
 
-    </EditText>
-    <EditText
-        android:id="@+id/pwd_et_pwd2"
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="新的密码:" />
+
+        <EditText
+            android:id="@+id/pwd_et_pwd1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dimen_xnormal"
+            android:layout_toRightOf="@+id/textView2"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:textColor="@color/new_color_2"
+            android:textColorHint="@color/new_color_4"
+            android:textSize="@dimen/new_size_3">
+
+        </EditText>
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="@dimen/dimen_xnormal"
-        android:layout_marginRight="@dimen/dimen_xnormal"
-        android:textColor="@color/new_color_2"
-        android:textColorHint="@color/new_color_4"
-        android:textSize="@dimen/new_size_3"
-        android:hint="确认新密码"
-        android:inputType="textPassword"
-        android:ems="10" >
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="@dimen/dimen_xnormal">
 
-    </EditText>
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="确认密码:" />
+
+        <EditText
+            android:id="@+id/pwd_et_pwd2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dimen_xnormal"
+            android:ems="10"
+            android:layout_toRightOf="@+id/textView3"
+            android:inputType="textPassword"
+            android:textColor="@color/new_color_2"
+            android:textColorHint="@color/new_color_4"
+            android:textSize="@dimen/new_size_3">
+
+        </EditText>
+    </RelativeLayout>
 </LinearLayout>

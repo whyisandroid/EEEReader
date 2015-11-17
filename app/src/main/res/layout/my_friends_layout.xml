@@ -3,28 +3,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical" >
+    android:orientation="vertical">
+
     <include layout="@layout/main_top_layout" />
 
-    <EditText
+    <FrameLayout
+        android:id="@+id/friends_fl_send"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:visibility="visible"
-        android:id="@+id/friends_et_send" />
+        android:background="@color/main_bg"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/friends_et_send"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:paddingLeft="8dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/m_03"
+            android:visibility="visible" />
+
+    </FrameLayout>
 
     <ListView
         android:id="@+id/lv_my_friends"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
+        android:layout_height="wrap_content"
         android:divider="@color/window_bg"
-        android:dividerHeight="2dp"
-        >
-    </ListView>
+        android:dividerHeight="2dp"></ListView>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/window_bg"
-        />
+        android:background="@color/window_bg" />
 </LinearLayout>

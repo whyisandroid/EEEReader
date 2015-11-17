@@ -99,7 +99,7 @@ public class PhoneActivity extends BaseActivity implements OnClickListener {
 				}
 				String loginPhone = EReaderApplication.getInstance().getLogin().getPhone();
 				if(phone.equals(loginPhone)){
-					ToastUtil.showToast(PhoneActivity.this,StringUtil.moblie(phone),ToastUtil.LENGTH_LONG);
+					ToastUtil.showToast(PhoneActivity.this,"该手机号已存在",ToastUtil.LENGTH_LONG);
 					return;
 				}
 

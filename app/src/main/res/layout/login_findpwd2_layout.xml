@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <include layout="@layout/main_top_layout" />
 
@@ -11,42 +11,43 @@
         android:id="@+id/et_findpwd_code1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:layout_marginLeft="@dimen/dimen_xnormal"
         android:layout_marginRight="@dimen/dimen_xnormal"
+        android:layout_marginTop="15dp"
+        android:ems="10"
+        android:hint="密码"
+        android:inputType="textPassword"
         android:textColor="@color/new_color_2"
         android:textColorHint="@color/new_color_4"
-        android:textSize="@dimen/new_size_3"
-        android:hint="密码"
-        android:ems="10" >
+        android:textSize="@dimen/new_size_3">
 
         <requestFocus />
     </EditText>
 
- <EditText
+    <EditText
         android:id="@+id/et_findpwd_code2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:layout_marginLeft="@dimen/dimen_xnormal"
         android:layout_marginRight="@dimen/dimen_xnormal"
+        android:layout_marginTop="15dp"
+        android:ems="10"
+        android:hint="确认密码"
+        android:inputType="textPassword"
         android:textColor="@color/new_color_2"
         android:textColorHint="@color/new_color_4"
-        android:textSize="@dimen/new_size_3"
-        android:hint="确认密码"
-        android:ems="10" >
-    </EditText>
+        android:textSize="@dimen/new_size_3"></EditText>
 
     <Button
         android:id="@+id/bt_findpwd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
         android:layout_marginLeft="@dimen/dimen_xnormal"
         android:layout_marginRight="@dimen/dimen_xnormal"
-        android:textColor="@color/main_bar"
-        android:textSize="@dimen/new_size_5"
+        android:layout_marginTop="25dp"
         android:background="@drawable/bt12_03"
-        android:text="提交" />
+        android:text="提交"
+        android:textColor="@color/main_bar"
+        android:textSize="@dimen/new_size_5" />
 
 </LinearLayout>
