@@ -16,6 +16,7 @@ import com.ereader.client.service.AppController;
 import com.ereader.client.ui.pay.alipay.PayResult;
 import com.ereader.client.ui.pay.alipay.SignUtils;
 import com.ereader.common.util.LogUtil;
+import com.ereader.common.util.ProgressDialogUtil;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -98,6 +99,7 @@ public class Alipay {
                     break;
                 }
                 case SDK_CHECK_FLAG:
+                    ProgressDialogUtil.closeProgressDialog();
                     if ("true".equals(msg.obj.toString())) {
                         payHandler.obtainMessage(RechargeActivity.GET_ORDER).sendToTarget();
                     } else {
@@ -105,6 +107,7 @@ public class Alipay {
                     }
                     break;
                 case SDK_PAY_CHECK_FLAG:
+                    ProgressDialogUtil.closeProgressDialog();
                     LogUtil.Log("Alipay",msg.obj.toString());
                     if ("true".equals(msg.obj.toString())) {
                         Toast.makeText(mContext, "支付失败",
@@ -203,9 +206,10 @@ public class Alipay {
                 mHandler.sendMessage(msg);
             }
         };
-
+        ProgressDialogUtil.showProgressDialog(mContext, "", false);
         Thread checkThread = new Thread(checkRunnable);
         checkThread.start();
+
     }
 
     /**
