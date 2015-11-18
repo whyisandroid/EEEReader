@@ -280,7 +280,9 @@ public class BuyCarActivity extends BaseActivity implements OnClickListener {
 		PayCarList pList = new PayCarList();
 		for (int i = 0 ; i < mList.size(); i++){
 			Book book = mList.get(i);
-			pList.getmPayCarList().add(new PayCar(book.getInfo().getProduct_id()));
+			if(book.isSelect()){
+				pList.getmPayCarList().add(new PayCar(book.getInfo().getProduct_id()));
+			}
 		}
 		String jsonData = Json_U.objToJsonStr(pList);
 		return jsonData.substring(15,jsonData.length()-1);
