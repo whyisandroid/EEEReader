@@ -12,9 +12,7 @@
 
         <ImageView
             android:id="@+id/iv_recommend"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/b1_03" />
+            style="@style/myBookImage" />
 
         <TextView
             android:id="@+id/tv_recommend_name"

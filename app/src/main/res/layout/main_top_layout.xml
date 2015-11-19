@@ -35,7 +35,7 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="@dimen/dimen_normal"
         android:background="@null"
-        android:textColor="@drawable/text_top_xml"
+        android:textColor="@color/white"
         android:textSize="@dimen/new_size_4"
          />
 

@@ -19,11 +19,9 @@
 
         <ImageView
             android:id="@+id/iv_book"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/myBookImage"
             android:layout_toRightOf="@+id/cbox_buy_choose"
-            
-            android:src="@drawable/b1_03" />
+            />
 
         <TextView
             android:id="@+id/tv_book_name"

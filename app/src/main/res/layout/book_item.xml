@@ -12,18 +12,15 @@
 
         <ImageView
             android:id="@+id/iv_book"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-        android:src="@drawable/b1_03"
-        />
+            style="@style/myBookImage" />
 
 
         <TextView
             android:id="@+id/tv_book_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/iv_book"
             android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/iv_book"
             android:text="永远不要找别人要安全感"
             android:textColor="@color/new_color_2"
             android:textSize="@dimen/new_size_4" />
@@ -32,9 +29,9 @@
             android:id="@+id/tv_book_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/iv_book"
             android:layout_below="@+id/tv_book_name"
             android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/iv_book"
             android:text="(美)加布瑞艾拉"
             android:textColor="@color/new_color_2"
             android:textSize="@dimen/new_size_3" />
@@ -43,10 +40,10 @@
             android:id="@+id/tv_book_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/iv_book"
             android:layout_below="@+id/tv_book_author"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="8dp"
+            android:layout_toRightOf="@+id/iv_book"
             android:maxLines="2"
             android:text="岛上书店是建伟多利风格的酒店，岛上书店是建伟多利风格的酒店，"
             android:textColor="@color/new_color_3"
