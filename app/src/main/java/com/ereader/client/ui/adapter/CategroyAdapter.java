@@ -39,7 +39,6 @@ public class CategroyAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public Object getGroup(int groupPosition) {
-		// TODO Auto-generated method stub
 		return sList.get(groupPosition);
 	}
 
@@ -50,19 +49,16 @@ public class CategroyAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public long getGroupId(int groupPosition) {
-		// TODO Auto-generated method stub
 		return groupPosition;
 	}
 
 	@Override
 	public long getChildId(int groupPosition, int childPosition) {
-		// TODO Auto-generated method stub
 		return childPosition;
 	}
 
 	@Override
 	public boolean hasStableIds() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

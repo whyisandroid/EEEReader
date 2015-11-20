@@ -81,12 +81,13 @@ public class AppServiceImpl implements AppService {
 		String pwd = context.getStringData("regisrerPwd");
 		String email = context.getStringData("regisrerEmail");
 		String code = context.getStringData("code");
+		String regisrerName = context.getStringData("regisrerName");
 		Request<BaseResp> request = new Request<BaseResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("phone", phone));
 		nameValuePairs.add(new BasicNameValuePair("password", pwd));
 		nameValuePairs.add(new BasicNameValuePair("email", email));
-		nameValuePairs.add(new BasicNameValuePair("nickname", phone == null ? email : phone));
+		nameValuePairs.add(new BasicNameValuePair("nickname", regisrerName));
 		nameValuePairs.add(new BasicNameValuePair("vcode", code));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 		request.setUrl(Config.HTTP_REGISTER);
@@ -204,7 +205,6 @@ public class AppServiceImpl implements AppService {
 
 	@Override
 	public void discount() throws BusinessException {
-
 		Request<DisCategoryResp> request = new Request<DisCategoryResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
@@ -216,7 +216,6 @@ public class AppServiceImpl implements AppService {
 		} else {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
-
 	}
 
 	@Override
@@ -524,13 +523,11 @@ public class AppServiceImpl implements AppService {
 
 	@Override
 	public void loginExit() throws BusinessException {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void user() throws BusinessException {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -1012,7 +1009,6 @@ public class AppServiceImpl implements AppService {
 			result= "";
 		}
 		return result;
-
 	}
 }
 

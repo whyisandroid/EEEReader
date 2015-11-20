@@ -2,6 +2,7 @@ package com.ereader.client.ui.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -91,7 +92,10 @@ public class OrderItemAdapter extends BaseAdapter {
 		holder.tv_book_price.setText(orderBook.getPrice());
 		holder.tv_book_time.setText(mOrderList.getUpdated_at());
 		holder.tv_book_name.setText(orderBook.getName());
-		EReaderApplication.imageLoader.displayImage(orderBook.getInfo().getImage_url(), holder.iv_book, EReaderApplication.options);
+
+		if(orderBook.getInfo() != null && !TextUtils.isEmpty(orderBook.getInfo().getImage_url())){
+			EReaderApplication.imageLoader.displayImage(orderBook.getInfo().getImage_url(), holder.iv_book, EReaderApplication.options);
+		}
 
 
 		holder.tv_order_right.setOnClickListener(new OnClickListener() {

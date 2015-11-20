@@ -3,40 +3,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/window_bg"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <include layout="@layout/main_top_layout" />
 
-   
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:paddingLeft="@dimen/dimen_xnormal"
-        android:paddingRight="@dimen/dimen_xnormal" 
-        android:paddingTop="15dp"
-        >
+        android:paddingRight="@dimen/dimen_xnormal"
+        android:paddingTop="15dp">
 
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
+            android:gravity="center"
+            android:layout_centerVertical="true"
             android:text="姓名：" />
-        
-         <EditText
-        android:id="@+id/et_account_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/tv_name"
-        android:textColor="@color/new_color_2"
-        android:textSize="@dimen/new_size_3"
-        android:text=""
-        android:ems="10" >
 
-        <requestFocus />
-    </EditText>
+        <EditText
+            android:id="@+id/et_account_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_name"
+            android:ems="10"
+            android:textColor="@color/new_color_2"
+            android:background="@null"
+            android:textSize="@dimen/new_size_3">
+
+            <requestFocus />
+        </EditText>
     </RelativeLayout>
 
 </LinearLayout>

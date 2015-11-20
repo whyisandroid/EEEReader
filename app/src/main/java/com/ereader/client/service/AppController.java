@@ -198,7 +198,7 @@ public class AppController {
 	public void categroyItem(Handler mHandler, String id) {
 		try {
 			service.categroyItem(id);
-			mHandler.obtainMessage(BookActivity.BOOK).sendToTarget();
+			mHandler.obtainMessage(BookActivity.BOOK_CATE).sendToTarget();
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}catch (Exception e) {

@@ -3,18 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <include layout="@layout/main_top_layout" />
 
     <RadioGroup
         android:id="@+id/rg_register"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" 
-        android:orientation="horizontal"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dimen_xnormal"
         android:layout_marginTop="15dp"
-        >
+        android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/rb_register_phone"
@@ -31,6 +30,23 @@
     </RadioGroup>
 
     <EditText
+        android:id="@+id/et_register_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen_xnormal"
+        android:layout_marginRight="@dimen/dimen_xnormal"
+        android:layout_marginTop="15dp"
+        android:ems="10"
+        android:hint="姓名"
+        android:singleLine="true"
+        android:textColor="@color/new_color_2"
+        android:textColorHint="@color/new_color_4"
+        android:textSize="@dimen/new_size_3">
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
         android:id="@+id/et_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,9 +58,8 @@
         android:singleLine="true"
         android:textColor="@color/new_color_2"
         android:textColorHint="@color/new_color_4"
-        android:textSize="@dimen/new_size_3" >
+        android:textSize="@dimen/new_size_3">
 
-        <requestFocus />
     </EditText>
 
     <RelativeLayout
@@ -53,7 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dimen_xnormal"
         android:layout_marginRight="@dimen/dimen_xnormal"
-        android:layout_marginTop="15dp" >
+        android:layout_marginTop="15dp">
 
         <EditText
             android:id="@+id/et_register_code"
@@ -82,8 +97,8 @@
             android:textColor="@color/white"
             android:textSize="@dimen/new_size_3" />
     </RelativeLayout>
-    
-    
+
+
     <EditText
         android:id="@+id/et_register_pwd1"
         android:layout_width="match_parent"
@@ -97,8 +112,8 @@
         android:singleLine="true"
         android:textColor="@color/new_color_2"
         android:textColorHint="@color/new_color_4"
-        android:textSize="@dimen/new_size_3" >
-    </EditText>
+        android:textSize="@dimen/new_size_3"></EditText>
+
     <EditText
         android:id="@+id/et_register_pwd2"
         android:layout_width="match_parent"
@@ -112,8 +127,35 @@
         android:singleLine="true"
         android:textColor="@color/new_color_2"
         android:textColorHint="@color/new_color_4"
-        android:textSize="@dimen/new_size_3" >
-    </EditText>
+        android:textSize="@dimen/new_size_3"></EditText>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginLeft="@dimen/dimen_xnormal"
+        android:layout_height="wrap_content">
+
+        <CheckBox
+            android:id="@+id/register_ckb_report"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:textColor="@color/new_color_2"
+            android:textSize="@dimen/new_size_3"
+            android:text="我已阅读并同意"
+            />
+
+        <TextView
+            android:id="@+id/register_tv_report"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/register_ckb_report"
+            android:text="《用户注册协议》"
+            android:textSize="@dimen/new_size_3"
+            android:textColor="@color/new_color_7"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+    </RelativeLayout>
 
     <Button
         android:id="@+id/bt_register"

@@ -39,6 +39,7 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	private Page page;
 	
 	public static final int BOOK =  0; // 更新页面数据 书本
+	public static final int BOOK_CATE =  10; // 更新页面数据 书本
 	public static final int BOOK_DIS =  -1; // 更新页面数据 书本 ....... 多个
 	public static final int REFRESH_DOWN_OK = 1; // 向下刷新
 	public static final int REFRESH_UP_OK = 2;  //向上拉
@@ -53,6 +54,15 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 				page = bookResp.getData().getPage();
 				adapter.notifyDataSetChanged();
 				break;
+				case BOOK_CATE:
+					// 更新页面数据
+					mList.clear();
+					String id = getIntent().getExtras().getString("categroyItem_id");
+					BookResp bookResp2 =  (BookResp)controller.getContext().getBusinessData("BookFeaturedResp"+id);
+					mList.addAll(bookResp2.getData().getData());
+					page = bookResp2.getData().getPage();
+					adapter.notifyDataSetChanged();
+					break;
 			case REFRESH_DOWN_OK:
 				ToastUtil.showToast(BookActivity.this, "刷新成功！", ToastUtil.LENGTH_LONG);
 				pull_refresh_book.onHeaderRefreshComplete();
