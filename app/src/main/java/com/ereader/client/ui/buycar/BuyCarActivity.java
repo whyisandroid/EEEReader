@@ -138,6 +138,7 @@ public class BuyCarActivity extends BaseActivity implements OnClickListener {
 	private void getCar() {
 		if (!EReaderApplication.getInstance().isLogin()) {
 			IntentUtil.intent(BuyCarActivity.this, LoginActivity.class);
+			this.finish();
 		} else {
 			ProgressDialogUtil.showProgressDialog(this, "", false);
 			new Thread(new Runnable() {

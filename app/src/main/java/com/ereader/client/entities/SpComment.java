@@ -1,6 +1,8 @@
 package com.ereader.client.entities;
 
-public class SpComment {
+import java.io.Serializable;
+
+public class SpComment implements Serializable {
 	 /* "comment_id": 1,
       "user_id": 1,
       "product_id": 2,

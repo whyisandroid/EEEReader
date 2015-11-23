@@ -13,7 +13,7 @@
         android:layout_marginLeft="@dimen/dimen_small"
         android:background="@null"
         android:textSize="@dimen/new_size_4"
-        android:textColor="@drawable/text_top_xml"
+        android:textColor="@color/white"
         tools:ignore="ContentDescription" />
 
     <TextView

@@ -83,7 +83,7 @@ public class AddCarSuccessActivity extends BaseActivity implements View.OnClickL
         AddBuy buy = (AddBuy)controller.getContext().getBusinessData("AddBuyResp");
         String countHtml = "购物车已有"+"<font color = \"#43a8d7\">"+buy.getTotal_product_count()+"</font>" +"件商品";
         addcar_tv_count.setText(Html.fromHtml(countHtml));
-        String priceHtml = "应付金额："+"<font color = \"#43a8d7\">"+buy.getTotal_price()+"</font>";
+        String priceHtml = "应付金额：¥ "+"<font color = \"#43a8d7\">"+buy.getTotal_price()+"</font>";
         addcar_tv_count_money.setText(Html.fromHtml(priceHtml));
 
         addcar_bt_pay.setOnClickListener(this);

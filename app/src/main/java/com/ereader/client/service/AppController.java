@@ -370,9 +370,9 @@ public class AppController {
 			service.addBuyCar(mBook.getInfo().getProduct_id());
 			mHandler.obtainMessage(1).sendToTarget();
 			Bundle bundle = new Bundle();
-			bundle.putString("name",mBook.getInfo().getName());
-			bundle.putString("coust",mBook.getPrice());
-			IntentUtil.intent(currentActivity,bundle,AddCarSuccessActivity.class,false);
+			bundle.putString("name", mBook.getInfo().getName());
+			bundle.putString("coust", mBook.getPrice());
+			IntentUtil.intent(currentActivity, bundle, AddCarSuccessActivity.class, false);
 
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
@@ -495,6 +495,15 @@ public class AppController {
 			}
 	}
 
+	public void verifyCode(Handler mHandler,String phone,String code,String type) {
+		try {
+			service.verifyCode(phone, code, type);
+			mHandler.obtainMessage(FindPwdActivity.VERIFY_OK).sendToTarget();
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}catch (Exception e) {
+		}
+	}
 	public void findCode() {
 		try {
 			service.findCode();

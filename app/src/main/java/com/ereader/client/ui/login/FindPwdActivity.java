@@ -30,7 +30,8 @@ public class FindPwdActivity extends BaseActivity implements OnClickListener {
 	private RegisterCountDownTimer timer;
 	private boolean is_validate_tip = true;
 	public static final int CODE_OK = 5;  //验证码  成功
-	
+	public static final int VERIFY_OK = 6;  //验证码  验证 成功
+
 	private Handler mHandler = new Handler(){
 			
 			public void handleMessage(Message msg) {
@@ -41,6 +42,12 @@ public class FindPwdActivity extends BaseActivity implements OnClickListener {
 					timer.onTick(59000);
 					timer.start();
 					break;
+					case VERIFY_OK:
+						Bundle bundle = new Bundle();
+						bundle.putString("phone", et_findpwd_phone.getText().toString());
+						bundle.putString("code",et_findpwd_code.getText().toString());
+						IntentUtil.intent(FindPwdActivity.this,bundle, FindPwd2Activity.class,false);
+						break;
 				default:
 					break;
 				}
@@ -105,12 +112,16 @@ public class FindPwdActivity extends BaseActivity implements OnClickListener {
 				ToastUtil.showToast(FindPwdActivity.this,"验证码不能为空",ToastUtil.LENGTH_LONG);
 				return;
 			}
-			controller.getContext().addBusinessData("phone",et_findpwd_phone.getText().toString());
-			controller.getContext().addBusinessData("vcode",et_findpwd_code.getText().toString());
-			Bundle bundle = new Bundle();
-			bundle.putString("phone", et_findpwd_phone.getText().toString());
-			bundle.putString("code",et_findpwd_code.getText().toString());
-			IntentUtil.intent(this,bundle, FindPwd2Activity.class,false);
+			controller.getContext().addBusinessData("phone", et_findpwd_phone.getText().toString());
+			controller.getContext().addBusinessData("vcode", et_findpwd_code.getText().toString());
+			ProgressDialogUtil.showProgressDialog(this, "", false);
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					controller.verifyCode(mHandler, et_findpwd_phone.getText().toString(),et_findpwd_code.getText().toString(),"rest_password");
+					ProgressDialogUtil.closeProgressDialog();
+				}
+			}).start();
 			break;
 		default:
 			break;

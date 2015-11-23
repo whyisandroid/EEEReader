@@ -38,6 +38,8 @@ public interface AppService {
 	public void search(String value)throws BusinessException;
 	/**获取验证码**/
 	public void getCode(String phone,String type)throws BusinessException;
+	/**验证验证码**/
+	public void verifyCode(String phone,String code,String type)throws BusinessException;
 	/**添加到收藏夹**/
 	public void addCollection(String id)throws BusinessException;
 	/**添我的书评**/

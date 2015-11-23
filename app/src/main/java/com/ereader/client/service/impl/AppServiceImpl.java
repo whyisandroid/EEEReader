@@ -117,6 +117,23 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
+	public void verifyCode(String phone, String code, String type) throws BusinessException {
+		Request<BaseResp> request = new Request<BaseResp>();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("phone", phone));
+		nameValuePairs.add(new BasicNameValuePair("vcode", code));
+		nameValuePairs.add(new BasicNameValuePair("type", type));
+		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+		request.setUrl(Config.HTTP_CODE_VERIFY);
+		request.setR_calzz(BaseResp.class);
+		BaseResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+		} else {
+			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+		}
+	}
+
+	@Override
 	public void findCode() throws BusinessException {
 		String pwd = context.getStringData("pwdCode");
 		String phone = context.getStringData("phone");

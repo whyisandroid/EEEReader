@@ -31,6 +31,7 @@ public class MySPActivity extends BaseActivity implements OnClickListener {
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
 			case 0:
+				mList.clear();
 				SPResp sp = (SPResp)controller.getContext().getBusinessData("SPResp");
 				mList.addAll(sp.getData().getData());
 				page = sp.getData().getPage();

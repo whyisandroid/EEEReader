@@ -55,6 +55,8 @@ public class PayActivity extends BaseActivity implements OnClickListener {
     private RelativeLayout rl_pay_point;
 
     private Order order;
+    private String pointPay = "0"; //积分折扣的金额
+
 
     public static final int SUCCESS = 1;
     private Handler mHandler = new Handler() {
@@ -157,6 +159,7 @@ public class PayActivity extends BaseActivity implements OnClickListener {
 
             @Override
             public void afterTextChanged(Editable s) {
+
                 if(TextUtils.isEmpty(s)){
                     tv_pay_point_sum.setText("-¥0.00");
                     return;
@@ -164,9 +167,12 @@ public class PayActivity extends BaseActivity implements OnClickListener {
                 if (Double.valueOf(StringUtil.subtractionMoney(wallet.getPoint(), s.toString())) < 0) {
                     ToastUtil.showToast(PayActivity.this, "没有这么多积分", ToastUtil.LENGTH_LONG);
                     et_pay_point.setText(wallet.getPoint());
+                    pointPay = StringUtil.div(wallet.getPoint(), wallet.getP2e_exchange_rate(), 2);
+                }else{
+                    pointPay = StringUtil.div(s.toString(), wallet.getP2e_exchange_rate(), 2);
                 }
-                String pointPay = StringUtil.div(s.toString(), wallet.getP2e_exchange_rate(), 2);
                 tv_pay_point_sum.setText("-¥" + pointPay);
+                tv_pay_all_money.setText("¥ " + StringUtil.div(order.getPay_total(), pointPay, 2));
             }
         });
     }
@@ -195,7 +201,7 @@ public class PayActivity extends BaseActivity implements OnClickListener {
                 }
                 WalletData wallet = (WalletData) controller.getContext().getBusinessData("WalletResp");
                 String pointPay = StringUtil.div(point, wallet.getP2e_exchange_rate(), 2);
-                if(Double.valueOf(pointPay) > Double.valueOf(order.getPay_total())){
+                if(Double.valueOf(pointPay) >= Double.valueOf(order.getPay_total())){
                     payMoney = "0";
                 }else{
                     payMoney = StringUtil.subtractionMoney(order.getPay_total(),pointPay);

@@ -21,7 +21,7 @@
             android:drawableLeft="@drawable/m9_03"
             android:drawablePadding="5dp"
             android:gravity="center"
-            android:text="商品成功添加至购物车"
+            android:text="商品成功添加至购物车!"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/new_color_2"
             android:textSize="@dimen/new_size_4" />
