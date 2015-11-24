@@ -138,9 +138,10 @@ public class PayActivity extends BaseActivity implements OnClickListener {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-
+                    point(et_pay_point.getText().toString());
                     rl_pay_point.setVisibility(View.VISIBLE);
                 } else {
+                    tv_pay_all_money.setText("¥ " + money);
                     rl_pay_point.setVisibility(View.GONE);
                 }
             }
@@ -159,22 +160,27 @@ public class PayActivity extends BaseActivity implements OnClickListener {
 
             @Override
             public void afterTextChanged(Editable s) {
-
-                if(TextUtils.isEmpty(s)){
-                    tv_pay_point_sum.setText("-¥0.00");
-                    return;
-                }
-                if (Double.valueOf(StringUtil.subtractionMoney(wallet.getPoint(), s.toString())) < 0) {
-                    ToastUtil.showToast(PayActivity.this, "没有这么多积分", ToastUtil.LENGTH_LONG);
-                    et_pay_point.setText(wallet.getPoint());
-                    pointPay = StringUtil.div(wallet.getPoint(), wallet.getP2e_exchange_rate(), 2);
-                }else{
-                    pointPay = StringUtil.div(s.toString(), wallet.getP2e_exchange_rate(), 2);
-                }
-                tv_pay_point_sum.setText("-¥" + pointPay);
-                tv_pay_all_money.setText("¥ " + StringUtil.div(order.getPay_total(), pointPay, 2));
+                point(s.toString());
             }
         });
+    }
+
+    // 处理分数
+    private void point(String s){
+        WalletData wallet = (WalletData) controller.getContext().getBusinessData("WalletResp");
+        if(TextUtils.isEmpty(s)){
+            tv_pay_point_sum.setText("-¥0.00");
+            return;
+        }
+        if (Double.valueOf(StringUtil.subtractionMoney(wallet.getPoint(), s.toString())) < 0) {
+            ToastUtil.showToast(PayActivity.this, "没有这么多积分", ToastUtil.LENGTH_LONG);
+            et_pay_point.setText(wallet.getPoint());
+            pointPay = StringUtil.div(wallet.getPoint(), wallet.getP2e_exchange_rate(), 2);
+        }else{
+            pointPay = StringUtil.div(s.toString(), wallet.getP2e_exchange_rate(), 2);
+        }
+        tv_pay_point_sum.setText("-¥" + pointPay);
+        tv_pay_all_money.setText("¥ " + StringUtil.subtractionMoney(order.getPay_total(), pointPay));
     }
 
     @Override

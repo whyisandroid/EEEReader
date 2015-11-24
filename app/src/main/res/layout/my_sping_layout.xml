@@ -3,16 +3,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/window_bg"
-    android:orientation="vertical" >
+    android:orientation="vertical">
+
     <include layout="@layout/main_top_layout" />
 
-    <ListView
-        android:id="@+id/lv_sp"
+    <com.ereader.client.ui.view.PullToRefreshView
+        android:id="@+id/pull_refresh_sp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        android:divider="@color/window_bg"
-        android:dividerHeight="5dp"
-        >
-    </ListView>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
+        <ListView
+            android:id="@+id/lv_sp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/window_bg"
+            android:dividerHeight="5dp"></ListView>
+    </com.ereader.client.ui.view.PullToRefreshView>
 </LinearLayout>

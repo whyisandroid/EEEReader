@@ -26,6 +26,7 @@ import com.ereader.client.ui.my.CouponsFragment;
 import com.ereader.client.ui.my.MessageFragment;
 import com.ereader.client.ui.my.MessageFriendApplyFragment;
 import com.ereader.client.ui.my.MessageSystemFragment;
+import com.ereader.client.ui.my.MySPActivity;
 import com.ereader.client.ui.my.OrderFragment;
 import com.ereader.client.ui.my.RecommendActivity;
 import com.ereader.client.ui.pay.PayActivity;
@@ -332,8 +333,9 @@ public class AppController {
 
 		try {
 			service.getSP();
-			mHandler.obtainMessage(0).sendToTarget();
+			mHandler.obtainMessage(MySPActivity.REFRESH_DOWN_OK).sendToTarget();
 		} catch (BusinessException e) {
+			mHandler.obtainMessage(MySPActivity.REFRESH_ERROR).sendToTarget();
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}catch (Exception e) {
 		}

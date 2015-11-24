@@ -18,17 +18,32 @@
         android:padding="5dp"
         tools:ignore="ContentDescription" />
 
-
+    <FrameLayout
+        android:id="@+id/friends_fl_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
     <EditText
         android:id="@+id/et_book_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/b4_03"
         android:hint="搜索书名/作者"
         android:singleLine="true"
         android:textColor="@color/black"
         android:textSize="@dimen/new_size_4" />
-
-
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/m14_07" />
+    </FrameLayout>
 </LinearLayout>

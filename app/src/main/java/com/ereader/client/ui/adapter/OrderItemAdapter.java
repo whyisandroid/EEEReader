@@ -1,6 +1,7 @@
 package com.ereader.client.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -72,11 +73,13 @@ public class OrderItemAdapter extends BaseAdapter {
 		//订单状态 未支付0 已支付1  已取消2
         if("0".equals(mOrderList.getPay_status())){
 			holder.tv_order_type.setText("尚未支付");
+			holder.tv_order_type.setTextColor(Color.RED);
 			holder.tv_order_right.setVisibility(View.INVISIBLE);
 			holder.tv_order_left.setVisibility(View.INVISIBLE);
 
 		}else if("1".equals(mOrderList.getPay_status())){
 			holder.tv_order_type.setText("交易成功");
+			holder.tv_order_type.setTextColor(Color.GREEN);
 			if("1".equals(orderBook.getIsComment())){
 				holder.tv_order_right.setVisibility(View.GONE);
 			}else{
@@ -86,6 +89,7 @@ public class OrderItemAdapter extends BaseAdapter {
 			holder.tv_order_left.setText("立即阅读");
 		}else if("2".equals(mOrderList.getPay_status())){
 			holder.tv_order_type.setText("已取消 ");
+			holder.tv_order_type.setTextColor(Color.GRAY);
 			holder.tv_order_right.setVisibility(View.INVISIBLE);
 			holder.tv_order_left.setVisibility(View.INVISIBLE);
 		}

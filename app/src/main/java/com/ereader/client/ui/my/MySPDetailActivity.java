@@ -19,7 +19,7 @@ public class MySPDetailActivity extends BaseActivity implements OnClickListener 
 	private TextView tv_book_content;
 	private TextView tv_book_date;
 	private RatingBar rbar_sp_star;
-	
+
 	private Handler mHandler = new Handler(){
 			
 			public void handleMessage(android.os.Message msg) {

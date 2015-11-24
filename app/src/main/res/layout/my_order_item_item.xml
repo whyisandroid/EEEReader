@@ -59,9 +59,10 @@
 
             <TextView
                 android:id="@+id/tv_order_type"
-                android:layout_width="wrap_content"
+                android:layout_width="57dp"
                 android:layout_height="wrap_content"
                 android:text="交易成功"
+                android:gravity="center"
                 android:layout_centerVertical="true"
                 android:textColor="@color/holo_green_dark"
                 android:textSize="@dimen/new_size_2" />

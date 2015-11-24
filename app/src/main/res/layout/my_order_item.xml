@@ -38,8 +38,8 @@
                 android:layout_width="60dp"
                 android:layout_height="32dp"
                 android:text="支付"
-                android:textColor="@color/main_bar"
-                android:background="@drawable/b_14"
+                android:textColor="@color/red"
+                android:background="@drawable/m6_09"
                 android:layout_toLeftOf="@+id/tv_order_right"
                 android:textSize="@dimen/new_size_2" />
             
@@ -49,8 +49,8 @@
                 android:layout_height="32dp"
                 android:layout_marginLeft="10dp"
                 android:text="取消"
-                android:textColor="@color/new_color_5"
-                android:background="@drawable/b_16"
+                android:textColor="@color/new_color_1"
+                android:background="@drawable/b_18"
                 android:layout_alignParentRight="true"
                 android:textSize="@dimen/new_size_2" />
         </RelativeLayout>
