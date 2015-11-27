@@ -11,6 +11,7 @@ import com.ereader.client.R;
 import com.ereader.client.entities.AddBuy;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.BaseActivity;
+import com.ereader.client.ui.MainFragmentActivity;
 import com.ereader.client.ui.buycar.BuyCarActivity;
 import com.ereader.common.util.IntentUtil;
 import com.ereader.common.util.ProgressDialogUtil;
@@ -42,7 +43,7 @@ public class PaySuccessActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_car_layout);
+        setContentView(R.layout.pay_success_layout);
         controller = AppController.getController(this);
         findView();
         initView();
@@ -77,10 +78,10 @@ public class PaySuccessActivity extends BaseActivity implements View.OnClickList
 
         switch (v.getId()) {
             case R.id.pay_success_bt_buy:
-                IntentUtil.intent(this, BuyCarActivity.class);
+                IntentUtil.intent(this, MainFragmentActivity.class);
                 break;
             case R.id.pay_success_bt_read:
-                this.finish();
+
                 break;
             default:
                 break;

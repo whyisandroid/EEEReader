@@ -405,10 +405,9 @@ public class AppController {
 			
 	}
 
-	public void addFriends(Handler mHandler,String id) {
+	public void addFriends(String id) {
 		try {
 			service.addFriends(id);
-			mHandler.obtainMessage(1).sendToTarget();
 			ToastUtil.showToast(currentActivity, "好友申请已发送！", ToastUtil.LENGTH_LONG);
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();

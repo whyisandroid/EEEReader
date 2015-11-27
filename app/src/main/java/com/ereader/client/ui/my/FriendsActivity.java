@@ -178,7 +178,7 @@ public class FriendsActivity extends BaseActivity implements OnClickListener {
                                     @Override
                                     public void run() {
                                         dailog.dismiss();
-                                        controller.addFriends(mHandler, et_add_friends.getText().toString());
+                                        controller.addFriends(et_add_friends.getText().toString());
                                         ProgressDialogUtil.closeProgressDialog();
                                     }
                                 }).start();

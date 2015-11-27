@@ -64,8 +64,8 @@ public class PayActivity extends BaseActivity implements OnClickListener {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case SUCCESS:
-                    ToastUtil.showToast(PayActivity.this, "购买成功", ToastUtil.LENGTH_LONG);
-                    IntentUtil.intent(PayActivity.this, OrderActivity.class);
+                   // ToastUtil.showToast(PayActivity.this, "购买成功", ToastUtil.LENGTH_LONG);
+                    IntentUtil.intent(PayActivity.this, PaySuccessActivity.class);
                     break;
                 default:
                     break;
@@ -169,15 +169,15 @@ public class PayActivity extends BaseActivity implements OnClickListener {
     private void point(String s){
         WalletData wallet = (WalletData) controller.getContext().getBusinessData("WalletResp");
         if(TextUtils.isEmpty(s)){
-            tv_pay_point_sum.setText("-¥0.00");
-            return;
-        }
-        if (Double.valueOf(StringUtil.subtractionMoney(wallet.getPoint(), s.toString())) < 0) {
-            ToastUtil.showToast(PayActivity.this, "没有这么多积分", ToastUtil.LENGTH_LONG);
-            et_pay_point.setText(wallet.getPoint());
-            pointPay = StringUtil.div(wallet.getPoint(), wallet.getP2e_exchange_rate(), 2);
-        }else{
-            pointPay = StringUtil.div(s.toString(), wallet.getP2e_exchange_rate(), 2);
+            pointPay = "0.00";
+        }else {
+            if (Double.valueOf(StringUtil.subtractionMoney(wallet.getPoint(), s.toString())) < 0) {
+                ToastUtil.showToast(PayActivity.this, "没有这么多积分", ToastUtil.LENGTH_LONG);
+                et_pay_point.setText(wallet.getPoint());
+                pointPay = StringUtil.div(wallet.getPoint(), wallet.getP2e_exchange_rate(), 2);
+            } else {
+                pointPay = StringUtil.div(s.toString(), wallet.getP2e_exchange_rate(), 2);
+            }
         }
         tv_pay_point_sum.setText("-¥" + pointPay);
         tv_pay_all_money.setText("¥ " + StringUtil.subtractionMoney(order.getPay_total(), pointPay));
