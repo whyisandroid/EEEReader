@@ -80,12 +80,13 @@ public class OrderItemAdapter extends BaseAdapter {
 		}else if("1".equals(mOrderList.getPay_status())){
 			holder.tv_order_type.setText("交易成功");
 			holder.tv_order_type.setTextColor(Color.GREEN);
+			holder.tv_order_right.setVisibility(View.VISIBLE);
 			if("1".equals(orderBook.getIsComment())){
-				holder.tv_order_right.setVisibility(View.GONE);
+				holder.tv_order_right.setText("已评论");
+				holder.tv_order_right.setEnabled(false);
 			}else{
-				holder.tv_order_right.setVisibility(View.VISIBLE);
+				holder.tv_order_right.setText("写书评");
 			}
-			holder.tv_order_right.setText("写书评");
 			holder.tv_order_left.setText("立即阅读");
 		}else if("2".equals(mOrderList.getPay_status())){
 			holder.tv_order_type.setText("已取消 ");

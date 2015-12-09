@@ -67,6 +67,7 @@ public class CollectionAdapter extends BaseAdapter {
 		holder.tv_book_name.setText(book.getInfo().getName());
 		holder.tv_book_time.setText("收藏时间："+book.getUpdated_at());
 		holder.tv_book_price.setText("￥"+book.getPrice());
+		holder.tv_order_right.setVisibility("0".equals(book.getOnsale_status()) ? View.GONE : View.VISIBLE);
 		EReaderApplication.imageLoader.displayImage(book.getInfo().getImage_url(), holder.iv_book, EReaderApplication.options);
 		holder.tv_book_name.setOnClickListener(new OnClickListener() {
 			@Override
@@ -138,6 +139,7 @@ public class CollectionAdapter extends BaseAdapter {
 		private TextView tv_book_name;
 		private TextView tv_book_time;
 		private TextView tv_book_price;
+		private TextView tv_order_right;
 		private ImageView iv_book;
 		public void findView(View view){
 			tv_collection_buycar = (Button)view.findViewById(R.id.tv_collection_buycar);
@@ -145,6 +147,7 @@ public class CollectionAdapter extends BaseAdapter {
 			tv_book_name = (TextView)view.findViewById(R.id.tv_book_name);
 			tv_book_time = (TextView)view.findViewById(R.id.tv_book_time); 
 			tv_book_price = (TextView)view.findViewById(R.id.tv_book_price);
+			tv_order_right = (TextView)view.findViewById(R.id.tv_order_right);
 			iv_book = (ImageView)view.findViewById(R.id.iv_book);
 		}
 	}

@@ -23,7 +23,7 @@ public class Config {
     // 正式环境
     //public final static String MY_SERVICE = "http://10.106.4.56:5050";
     // 测试环境
-    public final static String MY_SERVICE = "http://bookshop.0ett.com";
+    public final static String MY_SERVICE = "http://bookshop.z1d.cn";
 
     /**
      * 临时文件保存路径.

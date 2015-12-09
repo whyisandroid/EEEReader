@@ -48,7 +48,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:maxLines="2"
                 android:text="$2.00"
                 android:textColor="@color/main_bar"
                 android:textSize="@dimen/new_size_2" />
@@ -65,7 +64,6 @@
                 android:layout_height="36dp"
                 android:layout_toLeftOf="@+id/tv_collection_buycar"
                 android:gravity="center"
-                android:maxLines="2"
                 android:text="已下架"
                 android:visibility="gone"
                 android:textColor="@color/new_color_3"
@@ -77,7 +75,6 @@
                 android:layout_height="32dp"
                 android:layout_toLeftOf="@+id/tv_order_delete"
                 android:background="@drawable/m7_03"
-                android:maxLines="2"
                 android:text="+购物车"
                 android:textColor="@color/main_bar"
                 android:textSize="@dimen/new_size_2" />
@@ -88,7 +85,6 @@
                 android:layout_height="36dp"
                 android:layout_alignParentRight="true"
                 android:gravity="center"
-                android:maxLines="2"
                 android:text="删除"
                 android:textColor="@color/new_color_2"
                 android:textSize="@dimen/new_size_2" />

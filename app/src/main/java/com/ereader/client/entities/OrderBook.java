@@ -33,7 +33,7 @@ public class OrderBook {
     private String product_discount_id;
     private String price;
     private String quantity;
-    private String isComment;
+    private String is_comment;
     private String cStar;
     private String cTitle;
     private String cContent;
@@ -102,11 +102,11 @@ public class OrderBook {
     }
 
     public String getIsComment() {
-        return isComment;
+        return is_comment;
     }
 
     public void setIsComment(String isComment) {
-        this.isComment = isComment;
+        this.is_comment = isComment;
     }
 
     public String getcStar() {
