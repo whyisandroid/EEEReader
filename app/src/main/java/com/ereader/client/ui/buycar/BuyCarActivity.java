@@ -50,6 +50,8 @@ public class BuyCarActivity extends BaseActivity implements OnClickListener {
 
 	public static final int  ORDER_SUCCESS = 4 ;
 
+	public static boolean isFresh = true;
+
 	private Handler mHandler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
@@ -132,7 +134,11 @@ public class BuyCarActivity extends BaseActivity implements OnClickListener {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		getCar();
+		if(isFresh){
+			getCar();
+		}else{
+			isFresh = true;
+		}
 	}
 
 	private void getCar() {

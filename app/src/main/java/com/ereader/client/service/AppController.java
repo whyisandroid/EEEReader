@@ -678,7 +678,8 @@ public class AppController {
 	public void addComment(float rating,String orderId,String id, String title, String comment) {
 		try {
 			service.addComment(rating,orderId,id, title, comment);
-			currentActivity.finish();
+			currentActivity.setResult(0);
+			AppManager.getAppManager().finishActivity(currentActivity);
 			IntentUtil.popFromLeft(currentActivity);
 			appHandler.obtainMessage(HANDLER_TOAST,"提交成功").sendToTarget();
 		} catch (BusinessException e) {

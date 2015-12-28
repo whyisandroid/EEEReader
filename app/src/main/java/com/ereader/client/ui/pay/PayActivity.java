@@ -1,7 +1,6 @@
 package com.ereader.client.ui.pay;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,30 +13,21 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.alipay.sdk.app.PayTask;
 import com.ereader.client.R;
 import com.ereader.client.entities.Order;
 import com.ereader.client.entities.json.WalletData;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.BaseActivity;
-import com.ereader.client.ui.my.OrderActivity;
-import com.ereader.client.ui.pay.alipay.PayResult;
-import com.ereader.client.ui.pay.alipay.SignUtils;
+import com.ereader.client.ui.buycar.BuyCarActivity;
+import com.ereader.client.ui.my.FriendsActivity;
 import com.ereader.common.util.IntentUtil;
 import com.ereader.common.util.ProgressDialogUtil;
 import com.ereader.common.util.StringUtil;
 import com.ereader.common.util.ToastUtil;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Random;
 
 public class PayActivity extends BaseActivity implements OnClickListener {
     private AppController controller;
@@ -50,12 +40,15 @@ public class PayActivity extends BaseActivity implements OnClickListener {
     private TextView tv_pay_point;
     private TextView tv_pay_point_sum;
     private Button main_top_right;
+    private ImageButton main_top_left;
     private Button bt_pay_go; //支付
     private String money;
     private RelativeLayout rl_pay_point;
+    private RelativeLayout rl_pay_friend;
 
     private Order order;
     private String pointPay = "0"; //积分折扣的金额
+    private String payFriendID = "";// 送朋友的 ID
 
 
     public static final int SUCCESS = 1;
@@ -99,8 +92,10 @@ public class PayActivity extends BaseActivity implements OnClickListener {
         tv_pay_point = (TextView) findViewById(R.id.tv_pay_point);
         tv_pay_point_sum = (TextView) findViewById(R.id.tv_pay_point_sum);
         main_top_right = (Button) findViewById(R.id.main_top_right);
+        main_top_left = (ImageButton) findViewById(R.id.main_top_left);
         bt_pay_go = (Button) findViewById(R.id.bt_pay_go);
         rl_pay_point = (RelativeLayout) findViewById(R.id.rl_pay_point);
+        rl_pay_friend = (RelativeLayout) findViewById(R.id.rl_pay_friend);
     }
 
     /**
@@ -113,6 +108,7 @@ public class PayActivity extends BaseActivity implements OnClickListener {
         final WalletData wallet = (WalletData) controller.getContext().getBusinessData("WalletResp");
         ((TextView) findViewById(R.id.tv_main_top_title)).setText("支付");
         main_top_right.setOnClickListener(this);
+        main_top_left.setOnClickListener(this);
         bt_pay_go.setOnClickListener(this);
         main_top_right.setText("充值");
         order = (Order) controller.getContext().getBusinessData("OrderResp");
@@ -121,19 +117,29 @@ public class PayActivity extends BaseActivity implements OnClickListener {
         tv_pay_point.setText("(可用" + wallet.getPoint() + "点)");
         tv_pay_point_sum.setText("-¥ 0.00");
 
-
-
-
         ck_pay_friend.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     et_pay_friend.setVisibility(View.VISIBLE);
+                    et_pay_friend.setFocusable(true);
+                    et_pay_friend.setFocusableInTouchMode(true);
+                    et_pay_friend.requestFocus();
                 } else {
                     et_pay_friend.setVisibility(View.GONE);
                 }
             }
         });
+
+        et_pay_friend.setOnClickListener(new OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 Intent intent = new Intent(PayActivity.this, FriendsActivity.class);
+                 FriendsActivity.mFriendsSend = 2;
+                 startActivityForResult(intent, 0);
+             }
+        });
+
         ck_pay_point.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -190,12 +196,23 @@ public class PayActivity extends BaseActivity implements OnClickListener {
         tv_pay_money.setText("¥ " + wallet.getEcoin());
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == 1){
+            et_pay_friend.setText(data.getExtras().getString("friendName"));
+            et_pay_friend.setTag(data.getExtras().getString("friendId"));
+        }
+    }
+
     String point = "0";
     String payMoney = "0";
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case  R.id.main_top_left:
+                onBackPressed();
+                break;
             case R.id.main_top_right:
                 IntentUtil.intent(PayActivity.this, RechargeActivity.class);
                 break;
@@ -212,17 +229,28 @@ public class PayActivity extends BaseActivity implements OnClickListener {
                 }else{
                     payMoney = StringUtil.subtractionMoney(order.getPay_total(),pointPay);
                 }
+                if(ck_pay_friend.isChecked()){
+                    payFriendID = TextUtils.isEmpty(et_pay_friend.getText().toString())?"":et_pay_friend.getTag().toString();
+                }else {
+                    payFriendID = "";
+                }
 
                 ProgressDialogUtil.showProgressDialog(this, "", false);
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        controller.pay(mHandler, order.getOrder_id(), payMoney, point, "");
+                        controller.pay(mHandler, order.getOrder_id(), payMoney, point, payFriendID);
                         ProgressDialogUtil.closeProgressDialog();
                     }
                 }).start();
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        BuyCarActivity.isFresh = false;
     }
 }

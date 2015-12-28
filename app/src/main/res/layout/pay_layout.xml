@@ -159,15 +159,17 @@
             android:textSize="@dimen/new_size_3" />
 
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/rl_pay_friend"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom" >
 
             <EditText
                 android:id="@+id/et_pay_friend"
                 android:layout_width="200dp"
+                android:visibility="gone"
                 android:layout_height="wrap_content"
-                android:hint="请输入好友用户名"
+                android:hint="请选择好友用户名"
                 android:singleLine="true"
                 android:textColor="@color/new_color_2"
                 android:textSize="@dimen/new_size_3" >

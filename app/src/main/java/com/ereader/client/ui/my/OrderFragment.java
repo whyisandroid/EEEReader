@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -110,6 +111,13 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	public void onResume() {
 		super.onResume();
 		getOrderList();
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(resultCode == 0){
+
+		}
 	}
 
 	public void getOrderList() {

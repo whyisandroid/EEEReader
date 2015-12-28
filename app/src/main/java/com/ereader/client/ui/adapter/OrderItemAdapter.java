@@ -1,6 +1,9 @@
 package com.ereader.client.ui.adapter;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ereader.client.EReaderApplication;
@@ -19,10 +21,7 @@ import com.ereader.client.R;
 import com.ereader.client.entities.OrderBook;
 import com.ereader.client.entities.OrderList;
 import com.ereader.client.ui.my.SPActivity;
-import com.ereader.common.util.IntentUtil;
 import com.ereader.common.util.LogUtil;
-
-import java.util.List;
 
 public class OrderItemAdapter extends BaseAdapter {
 	private LayoutInflater inflater;
@@ -105,13 +104,16 @@ public class OrderItemAdapter extends BaseAdapter {
 
 		holder.tv_order_right.setOnClickListener(new OnClickListener() {
 			
+			@SuppressLint("NewApi")
 			@Override
 			public void onClick(View v) {
+				Intent intent = new Intent(mContext,SPActivity.class);
 				Bundle bundle = new Bundle();
 				bundle.putString("name",orderBook.getName());
 				bundle.putString("id",orderBook.getInfo().getProduct_id());
-				bundle.putString("orderId",mOrderList.getOrder_id());
-				IntentUtil.intent(mContext,bundle,SPActivity.class,false);
+				bundle.putString("orderId", mOrderList.getOrder_id());
+				intent.putExtras(bundle);
+				((Activity)mContext).startActivityForResult(intent, 0);
 			}
 		});
 		

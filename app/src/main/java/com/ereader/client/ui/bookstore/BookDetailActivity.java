@@ -284,7 +284,7 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 				}
 				//  推荐给好友
 				controller.getContext().addBusinessData("bookSendId",bt_book_add_friends.getTag().toString());
-				FriendsActivity.mFriendsSend = true;
+				FriendsActivity.mFriendsSend = 1;
 				IntentUtil.intent(BookDetailActivity.this,FriendsActivity.class);
 				break;
 		default:
