@@ -1,4 +1,15 @@
+/epublib/build
+/epublib/epublib.iml
+/local.properties
+/EReader.iml
+/EEEReader2222.iml
+/glviewsdk/glviewsdk.iml
+/glviewsdk/build
 /app/build/*
 /app/app.iml
 /.idea/*
 /build/*
+/build
+/app/build
+/.gradle
+/.idea
