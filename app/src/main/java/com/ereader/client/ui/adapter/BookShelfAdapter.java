@@ -1,7 +1,5 @@
 package com.ereader.client.ui.adapter;
 
-import java.util.List;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,12 +9,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.ereader.client.R;
-import com.ereader.client.entities.BookShow;
 import com.ereader.client.entities.BookShowWithDownloadInfo;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
+import java.util.List;
 
 public class BookShelfAdapter extends BaseAdapter {
     private Context mContext;

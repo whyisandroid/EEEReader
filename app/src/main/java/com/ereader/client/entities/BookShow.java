@@ -1,10 +1,8 @@
 package com.ereader.client.entities;
 
-import com.ereader.client.service.download.DownloadInfo;
 import com.lidroid.xutils.db.annotation.Column;
-import com.lidroid.xutils.db.annotation.Table;
-import com.lidroid.xutils.db.annotation.Transient;
 import com.lidroid.xutils.db.annotation.Id;
+import com.lidroid.xutils.db.annotation.Table;
 
 import java.io.Serializable;
 
@@ -14,21 +12,21 @@ import java.io.Serializable;
 @Table(name="shelfbooks")
 public class BookShow implements Serializable {
     @Id(column = "book_id")
-    private String book_id;
+    public String book_id;
 
     @Column(column = "name")
-    private String name;
+    public String name;
     @Column(column = "author")
-    private String author;
+    public String author;
     // Transient使这个列被忽略，不存入数据库
     @Column(column = "version")
-    private String version;
+    public String version;
     @Column(column = "cover_front_url")
-    private String cover_front_url;
+    public String cover_front_url;
     @Column(column = "isDownloading")
-    private boolean isDownloading = false;//是否正在下载
+    public boolean isDownloading = false;//是否正在下载
     @Column(column = "isDownloaded")
-    private boolean isDownloaded = false;
+    public boolean isDownloaded = false;
 //    @Column(column = "localpath")
 //    private String localpath;//在downloadInfo里找
 

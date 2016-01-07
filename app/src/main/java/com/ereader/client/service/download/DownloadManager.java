@@ -63,7 +63,7 @@ public class DownloadManager {
                                final RequestCallBack<File> callback) throws DbException {
         final DownloadInfo downloadInfo = new DownloadInfo();
         LogUtil.LogError("下载","bookid="+bookid+";downUrl="+url);
-        downloadInfo.setId(bookid);
+        downloadInfo.setBook_id(bookid+"");
         downloadInfo.setDownloadUrl(url);
         downloadInfo.setAutoRename(autoRename);
         downloadInfo.setAutoResume(autoResume);

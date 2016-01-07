@@ -1,9 +1,5 @@
 package com.ereader.client.ui.adapter;
 
-import java.io.File;
-import java.lang.ref.WeakReference;
-import java.util.List;
-
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -11,10 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.ereader.client.R;
-import com.ereader.client.entities.BookShow;
 import com.ereader.client.entities.BookShowWithDownloadInfo;
 import com.ereader.client.service.AppController;
 import com.ereader.client.service.download.DownloadInfo;
@@ -31,6 +27,10 @@ import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
+import java.io.File;
+import java.lang.ref.WeakReference;
+import java.util.List;
 
 public class ShelfSearchAdapter extends BaseAdapter {
     private Context mContext;
@@ -192,14 +192,16 @@ public class ShelfSearchAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        BookShow book = (BookShowWithDownloadInfo) getItem(position);
+        BookShowWithDownloadInfo book = getItem(position);
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.book_shelf_item, null);
-            holder = new ViewHolder();
+            holder = new ViewHolder(book);
             holder.findView(convertView);
             convertView.setTag(holder);
+            holder.refresh();
         } else {
             holder = (ViewHolder) convertView.getTag();
+            holder.update(book);
         }
         imageLoader.displayImage(book.getCover_front_url(), holder.iv_book_shelf, options);
         if (isShowDelete) {
@@ -207,29 +209,29 @@ public class ShelfSearchAdapter extends BaseAdapter {
         } else {
             holder.iv_book_delete.setVisibility(View.GONE);
         }
-        if (book.isDownloaded()) {
-            holder.iv_book_status_ok.setVisibility(View.VISIBLE);
-        } else {
-            holder.iv_book_status_ok.setVisibility(View.GONE);
-            if (book.isDownloading()) {
-                holder.ll_item.setVisibility(View.VISIBLE);
-            } else {
-                holder.ll_item.setVisibility(View.GONE);
-            }
-        }
-//        if(null!=book.getDownloadInfo()){
-//            HttpHandler<File> handler = book.getDownloadInfo().getHandler();
-//            if (handler != null) {
-//                RequestCallBack callBack = handler.getRequestCallBack();
-//                if (callBack instanceof DownloadManager.ManagerCallBack) {
-//                    DownloadManager.ManagerCallBack managerCallBack = (DownloadManager.ManagerCallBack) callBack;
-//                    if (managerCallBack.getBaseCallBack() == null) {
-//                        managerCallBack.setBaseCallBack(new DownloadRequestCallBack());
-//                    }
-//                }
-//                callBack.setUserTag(new WeakReference<ViewHolder>(holder));
+//        if (book.isDownloaded()) {
+//            holder.iv_book_status_ok.setVisibility(View.VISIBLE);
+//        } else {
+//            holder.iv_book_status_ok.setVisibility(View.GONE);
+//            if (book.isDownloading()) {
+//                holder.ll_item.setVisibility(View.VISIBLE);
+//            } else {
+//                holder.ll_item.setVisibility(View.GONE);
 //            }
 //        }
+        if(null!=book.getDownloadInfo()){
+            HttpHandler<File> handler = book.getDownloadInfo().getHandler();
+            if (handler != null) {
+                RequestCallBack callBack = handler.getRequestCallBack();
+                if (callBack instanceof DownloadManager.ManagerCallBack) {
+                    DownloadManager.ManagerCallBack managerCallBack = (DownloadManager.ManagerCallBack) callBack;
+                    if (managerCallBack.getBaseCallBack() == null) {
+                        managerCallBack.setBaseCallBack(new DownloadRequestCallBack());
+                    }
+                }
+                callBack.setUserTag(new WeakReference<ViewHolder>(holder));
+            }
+        }
 
 
         return convertView;
@@ -238,14 +240,23 @@ public class ShelfSearchAdapter extends BaseAdapter {
     class ViewHolder {
         private ImageView iv_book_shelf;
 
-        private ImageView iv_book_delete;
+        private ImageView iv_book_delete;//取消下载
 
         private ImageView iv_book_status_ing;
 
-        private ImageView iv_book_status_ok;
+        private ImageView iv_book_status_ok;//状态：下载完成
 
         private RelativeLayout ll_item;
 
+        private ProgressBar progressBar;//进度条
+
+        private BookShowWithDownloadInfo book;//
+        private DownloadInfo downInfo;
+
+        public ViewHolder (BookShowWithDownloadInfo mBook){
+            this.book=mBook;
+            this.downInfo=book.getDownloadInfo();
+        }
 
         public void findView(View view) {
             iv_book_shelf = (ImageView) view.findViewById(R.id.iv_book_shelf);
@@ -253,45 +264,95 @@ public class ShelfSearchAdapter extends BaseAdapter {
             iv_book_status_ing = (ImageView) view.findViewById(R.id.book_status);
             iv_book_status_ok = (ImageView) view.findViewById(R.id.book_status_ok);
             ll_item = (RelativeLayout) view.findViewById(R.id.ll_item);
+            progressBar=(ProgressBar)view.findViewById(R.id.download_pb);
+        }
+        public void update(BookShowWithDownloadInfo mBook){
+            this.book=mBook;
+            this.downInfo=book.getDownloadInfo();
+            refresh();
+        }
+        public void refresh() {
+
+            if(null!=downInfo){
+                HttpHandler.State state = downInfo.getState();
+                if(null!=state){
+                    switch (state) {
+                        case WAITING:
+                        case STARTED:
+                        case LOADING:
+                            iv_book_status_ok.setVisibility(View.GONE);
+                            ll_item.setVisibility(View.VISIBLE);
+                            if (downInfo.getFileLength() > 0) {
+                                progressBar.setProgress((int) (downInfo.getProgress() * 100 / downInfo.getFileLength()));
+                            } else {
+                                progressBar.setProgress(0);
+                            }
+                            break;
+                        case CANCELLED:
+                            iv_book_status_ok.setVisibility(View.GONE);
+                            ll_item.setVisibility(View.GONE);
+                            break;
+                        case SUCCESS:
+                            iv_book_status_ok.setVisibility(View.VISIBLE);
+                            ll_item.setVisibility(View.GONE);
+                            break;
+                        case FAILURE:
+                            iv_book_status_ok.setVisibility(View.GONE);
+                            ll_item.setVisibility(View.GONE);
+                            ToastUtil.showToast(mContext,"下载图书<"+book.name+">失败！",ToastUtil.LENGTH_SHORT);
+                            break;
+                        default:
+                            iv_book_status_ok.setVisibility(View.GONE);
+                            ll_item.setVisibility(View.GONE);
+                            break;
+                    }
+                }
+            }
+
+
         }
     }
 
     private class DownloadRequestCallBack extends RequestCallBack<File> {
 
-//        @SuppressWarnings("unchecked")
-//        private void refreshListItem() {
-//            if (userTag == null) return;
-//            WeakReference<ViewHolder> tag = (WeakReference<ViewHolder>) userTag;
-//            ViewHolder holder = tag.get();
-//            if (holder != null) {
-//                holder.refresh();
-//            }
-//        }
+        @SuppressWarnings("unchecked")
+        private void refreshListItem() {
+            if (userTag == null) return;
+            WeakReference<ViewHolder> tag = (WeakReference<ViewHolder>) userTag;
+            ViewHolder holder = tag.get();
+            if (holder != null) {
+                holder.refresh();
+            }
+        }
 
         @Override
         public void onStart() {
-            ToastUtil.showToast(mContext, "开始下载", ToastUtil.LENGTH_SHORT);
+//            ToastUtil.showToast(mContext, "开始下载", ToastUtil.LENGTH_SHORT);
+            refreshListItem();
         }
 
         @Override
         public void onLoading(long total, long current, boolean isUploading) {
             //进度条在这里处理
-            //ToastUtil.showToast(mContext, "正在下载...", ToastUtil.LENGTH_SHORT);
+            refreshListItem();
         }
 
         @Override
         public void onSuccess(ResponseInfo<File> responseInfo) {
             ToastUtil.showToast(mContext, "下载成功", ToastUtil.LENGTH_SHORT);
+            refreshListItem();
         }
 
         @Override
         public void onFailure(HttpException error, String msg) {
             ToastUtil.showToast(mContext,"下载失败～原因:"+msg,ToastUtil.LENGTH_SHORT);
+            refreshListItem();
         }
 
         @Override
         public void onCancelled() {
             ToastUtil.showToast(mContext,"取消下载",ToastUtil.LENGTH_SHORT);
+            refreshListItem();
         }
     }
 

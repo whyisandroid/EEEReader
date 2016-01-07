@@ -1,25 +1,14 @@
 package com.ereader.client.ui.fragment;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -37,14 +26,8 @@ import com.ereader.client.entities.BookShow;
 import com.ereader.client.entities.BookShowWithDownloadInfo;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.adapter.BookLocalPagerAdapter;
-import com.ereader.client.ui.adapter.BookPagerAdapter;
 import com.ereader.client.ui.adapter.BookShelfAdapter;
-import com.ereader.client.ui.bookshelf.ReadActivity;
 import com.ereader.client.ui.bookshelf.SearchBuyActivity;
-import com.ereader.client.ui.bookshelf.epubread.CustomFont;
-import com.ereader.client.ui.bookshelf.epubread.SkySetting;
-import com.ereader.client.ui.bookshelf.epubread.SkyUtility;
-import com.ereader.client.ui.bookshelf.read.LocalBook;
 import com.ereader.client.ui.login.LoginActivity;
 import com.ereader.client.ui.view.LoopViewPager;
 import com.ereader.client.ui.view.PointView;
@@ -54,12 +37,18 @@ import com.ereader.common.util.LogUtil;
 import com.ereader.common.util.ToastUtil;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
-import com.skytree.epub.BookInformation;
-import com.skytree.epub.Setting;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class BookshelfFragment extends Fragment {
     private static final String TAG = "BookshelfFragment";
-
     private View view;
     private Context mContext;
     private AppController controller;
@@ -72,14 +61,12 @@ public class BookshelfFragment extends Fragment {
     private HashMap<String, Object> map = null;
     private Map<String, Integer[]> map2;// 存放本地推荐目录的小封面图片引用
     private SharedPreferences sp;
-    private LocalBook localbook;
+//    private LocalBook localbook;
     private boolean isInit = false;
     private PointView pointView;
     private BookShelfAdapter adapter;
-
-    private EReaderApplication app;
+    private ProgressDialog mLoadingDialog;
     private DbUtils db;
-    private SkyUtility st;
 
     public static final int requestCode_addBook = 1000;
 
@@ -94,8 +81,6 @@ public class BookshelfFragment extends Fragment {
         view = inflater.inflate(R.layout.book_shelf_fragment, container, false);
         controller = AppController.getController(getActivity());
         mContext = getActivity();
-        app = EReaderApplication.getInstance();
-        app.initReadSettings();
         findView();
         initView();
         initRead();
@@ -105,52 +90,52 @@ public class BookshelfFragment extends Fragment {
     //初始化阅读设置
     private void init() {
 
-        if (SkySetting.getStorageDirectory() == null) {
-
-            SkySetting.setStorageDirectory(Constant.ROOT_OUTPATH, Constant.FOLDER_NAME);
-        }
-        st = new SkyUtility(mContext);
-        st.makeSetup();
-        this.registerFonts();
-//        this.makeLayout();
-        this.reload();
-        Setting.prepare();
-
-    }
-
-    public void reload() {
-        //app.reloadBookInformations();
-        //TODO   清除数据重新加载
-
+//        if (SkySetting.getStorageDirectory() == null) {
+//
+//            SkySetting.setStorageDirectory(Constant.ROOT_OUTPATH, Constant.FOLDER_NAME);
+//        }
+//        st = new SkyUtility(mContext);
+//        st.makeSetup();
+//        this.registerFonts();
+//        this.reload();
+//        Setting.prepare();
 
     }
 
-    public void registerFonts() {
-        this.registerCustomFont("Underwood", "uwch.ttf");
-        this.registerCustomFont("Mayflower", "Mayflower Antique.ttf");
-    }
-
-    public void registerCustomFont(String fontFaceName, String fontFileName) {
-        st.copyFontToDevice(fontFileName);
-        app.customFonts.add(new CustomFont(fontFaceName, fontFileName));
-    }
+//    public void reload() {
+//
+//    }
+//
+//    public void registerFonts() {
+//        this.registerCustomFont("Underwood", "uwch.ttf");
+//        this.registerCustomFont("Mayflower", "Mayflower Antique.ttf");
+//    }
+//
+//    public void registerCustomFont(String fontFaceName, String fontFileName) {
+//        st.copyFontToDevice(fontFileName);
+////        app.customFonts.add(new CustomFont(fontFaceName, fontFileName));
+//    }
 
     private void initRead() {
         //阅读的设置
-        init();
-
+//        init();
+        sp = mContext.getSharedPreferences("reader", Context.MODE_PRIVATE);
+        isInit=sp.getBoolean("isInit", false);
         //sample图书
         if (!isInit) {
+            showLoading();
             new AsyncSetApprove().execute("");
         }
-        // 读取名为"mark"的sharedpreferences
+
+
+    /*    // 读取名为"mark"的sharedpreferences
         sp = mContext.getSharedPreferences("mark", mContext.MODE_PRIVATE);
-        localbook = new LocalBook(mContext, "localbook");
+//        localbook = new LocalBook(mContext, "localbook");
         map2 = new HashMap<String, Integer[]>();
         String[] bookids = getResources().getStringArray(R.array.bookid);
         for (int i = 0; i < bookids.length; i++) {
             map2.put(bookids[i], new Integer[]{R.drawable.book0 + i});
-        }
+        }*/
 
     }
 
@@ -170,25 +155,24 @@ public class BookshelfFragment extends Fragment {
         gridv_book.setOnItemLongClickListener(longListener);
 
         initBannerPager();
-
     }
 
     private void initBannerPager() {
         // 最近阅读的信息
-        ArrayList<BookInformation> listPager = app.bis;
-        LogUtil.LogError("listPager",listPager.size()+"");
-        if (null != listPager && listPager.size() > 0) {
-            BookPagerAdapter pageAdapter = new BookPagerAdapter(mContext, listPager,app);
-            viewpager.setAdapter(pageAdapter);
-            viewpager.setCurrentItem(0);
-            viewpager.setOnPageChangeListener(viewpagerListener);
-
-            pointView = new PointView(getActivity(), (listPager.size()+1)/2);
-            pointlayout.removeAllViews();
-            pointlayout.addView(pointView);
-            pointView.setPosition(0);
-            pointlayout.postInvalidate();
-        } else {//最近阅读－没有数据：
+//        ArrayList<BookInformation> listPager = app.bis;
+//        LogUtil.LogError("listPager",listPager.size()+"");
+//        if (null != listPager && listPager.size() > 0) {
+//            BookPagerAdapter pageAdapter = new BookPagerAdapter(mContext, listPager,app);
+//            viewpager.setAdapter(pageAdapter);
+//            viewpager.setCurrentItem(0);
+//            viewpager.setOnPageChangeListener(viewpagerListener);
+//
+//            pointView = new PointView(getActivity(), (listPager.size()+1)/2);
+//            pointlayout.removeAllViews();
+//            pointlayout.addView(pointView);
+//            pointView.setPosition(0);
+//            pointlayout.postInvalidate();
+//        } else {//最近阅读－没有数据：
             List<String> localListPager = new ArrayList<String>();
             localListPager.add("");
             BookLocalPagerAdapter pageAdapter = new BookLocalPagerAdapter(mContext, localListPager);
@@ -201,7 +185,7 @@ public class BookshelfFragment extends Fragment {
             pointlayout.addView(pointView);
             pointView.setPosition(0);
             pointlayout.postInvalidate();
-        }
+//        }
 
     }
 
@@ -268,15 +252,15 @@ public class BookshelfFragment extends Fragment {
                 } else {
 
                     if (book.isDownloaded()) {//已经下载
-                        Intent it = new Intent();
-                        it.setClass(mContext, ReadActivity.class);
-                        //          getResources().openRawResource(R.raw.book0);
-                        String path = getActivity().getFilesDir().getAbsolutePath() + "/book.epub";
-                        //(String) listItem.get(0).get("path");
-                        ToastUtil.showToast(mContext, "position=" + position + ";path=" + path, ToastUtil.LENGTH_LONG);
-                        //it.putExtra("aaa", path);getString(R.string.bpath)
-                        it.putExtra(getString(R.string.bpath), path);
-                        startActivity(it);
+//                        Intent it = new Intent();
+//                        it.setClass(mContext, ReadActivity.class);
+//                        //          getResources().openRawResource(R.raw.book0);
+//                        String path = getActivity().getFilesDir().getAbsolutePath() + "/book.epub";
+//                        //(String) listItem.get(0).get("path");
+//                        ToastUtil.showToast(mContext, "position=" + position + ";path=" + path, ToastUtil.LENGTH_LONG);
+//                        //it.putExtra("aaa", path);getString(R.string.bpath)
+//                        it.putExtra(getString(R.string.bpath), path);
+//                        startActivity(it);
 
                     } else {//未下载
 
@@ -369,6 +353,7 @@ public class BookshelfFragment extends Fragment {
         protected void onPostExecute(String result) {
             // local();
             super.onPostExecute(result);
+            cancelLoading();
         }
     }
 
@@ -380,7 +365,7 @@ public class BookshelfFragment extends Fragment {
     public String getSDPath() {
         File sdDir = null;
         boolean sdCardExist = Environment.getExternalStorageState().equals(
-                android.os.Environment.MEDIA_MOUNTED); // 判断sd卡是否存在
+                Environment.MEDIA_MOUNTED); // 判断sd卡是否存在
         if (sdCardExist) {
             sdDir = Environment.getExternalStorageDirectory();// 获取跟目录
         }
@@ -436,133 +421,102 @@ public class BookshelfFragment extends Fragment {
     }
 
 
-    //打开书
-    private void openBookViewer(BookInformation bi){
 
-        if (SkySetting.getStorageDirectory()==null) {
-            SkySetting.setStorageDirectory(Constant.ROOT_OUTPATH,Constant.FOLDER_NAME);
-        }
-
-	/*	SkyProvider sky=new SkyProvider();
-		//
-		//BookInformation bi=new BookInformation("alice.epub", context.getFilesDir().getAbsolutePath().toString(),sky);
-		bi=new BookInformation("book.epub", Constant.BOOKS,sky);
-		bi.isFixedLayout=false;
-		bi.isDownloaded=true;
-		bi.code=0;
-
-		//
-		bi.setFileName("book.epub");
-		bi.setBaseDirectory(Constant.DOWNLOAD);
-		bi.setContentProvider(sky);
-		sky.setBook(bi.getBook());
-//		sky.setKeyListener(new KeyDelegate());
-//		bi.makeInformation();
-		//
-
-//		app.initReadSettings();
-		app.sd.insertEmptyBook("iii", "uu", "111", "222", 0);
-		app.sd.updateBook(bi);*/
-        Log.e("eeeeee", bi.fileName + ":::" + SkySetting.storageDirectory + ":::" + bi.source + ":::" + bi.getBook().baseDirectory);
-        app.openEpub(mContext,bi);
-
-    }
-
-
-    /**
-     * 本地书库载入
-     */
-    public void local() {
-        SQLiteDatabase db = localbook.getReadableDatabase();
-        String col[] = {"path"};
-        Cursor cur = db.query("localbook", col, "type=1", null, null, null,
-                null);
-        Cursor cur1 = db.query("localbook", col, "type=2", null, null, null,
-                null);
-        Integer num = cur.getCount();
-        Integer num1 = cur1.getCount();
-        ArrayList<String> arraylist = new ArrayList<String>();
-        while (cur1.moveToNext()) {
-            String s = cur1.getString(cur1.getColumnIndex("path"));
-            arraylist.add(s);
-        }
-        while (cur.moveToNext()) {
-            String s = cur.getString(cur.getColumnIndex("path"));
-            arraylist.add(s);
-        }
-        db.close();
-        cur.close();
-        cur1.close();
-        if (listItem == null)
-            listItem = new ArrayList<HashMap<String, Object>>();
-        listItem.clear();
-        String[] bookids = getResources().getStringArray(R.array.bookid);
-        String[] booknames = getResources().getStringArray(R.array.bookname);
-        String[] bookauthors = getResources()
-                .getStringArray(R.array.bookauthor);
-        Map<String, String[]> maps = new HashMap<String, String[]>();
-        for (int i = 0; i < bookids.length; i++) {
-            String[] value = new String[2];
-            value[0] = booknames[i];
-            value[1] = bookauthors[i];
-            maps.put(bookids[i], value);
-        }
-        for (int i = 0; i < num + num1; i++) {
-            if (i < num1) {
-                File file1 = new File(arraylist.get(i));
-                String m = file1.getName().substring(0,
-                        file1.getName().length() - 4);
-                if (m.length() > 8) {
-                    m = m.substring(0, 8) + "...";
-                }
-                String id = arraylist.get(i).substring(
-                        arraylist.get(i).lastIndexOf("/") + 1);
-                String[] array = maps.get(id);
-                String auther = array != null && array[1] == null ? "未知"
-                        : array[1];
-                String name = array[0] == null ? m : array[0];
-                map = new HashMap<String, Object>();
-
-                if (i == 0) {
-                    map.put("itemback", R.drawable.itemback);
-                } else if ((i % 2) == 0) {
-                    map.put("itemback", R.drawable.itemback);
-                }
-                map.put("ItemImage",
-                        map2 != null ? map2.get(file1.getName())[0]
-                                : R.drawable.cover);
-                map.put("BookName", "");
-                map.put("ItemTitle", name == null ? m : name);
-                map.put("ItemTitle1", "作者：" + auther);
-                map.put("LastImage", "推荐书目");
-                map.put("path", file1.getPath());
-                map.put("com", 0 + file1.getName());// 单独用于排序
-                listItem.add(map);
-            } else {
-                map = new HashMap<String, Object>();
-
-                File file1 = new File(arraylist.get(i));
-                String m = file1.getName().substring(0,
-                        file1.getName().length() - 4);
-                if (m.length() > 8) {
-                    m = m.substring(0, 8) + "...";
-                }
-                if (i == 0) {
-                    map.put("itemback", R.drawable.itemback);
-                } else if ((i % 2) == 0) {
-                    map.put("itemback", R.drawable.itemback);
-                }
-                map.put("ItemImage", R.drawable.cover);
-                map.put("BookName", m);
-                map.put("ItemTitle", m);
-                map.put("ItemTitle1", "作者：未知");
-                map.put("LastImage", "本地导入");
-                map.put("path", file1.getPath());
-                map.put("com", "1");
-                listItem.add(map);
-            }
-        }
-    }
+//
+//    /**
+//     * 本地书库载入
+//     */
+//    public void local() {
+//        SQLiteDatabase db = localbook.getReadableDatabase();
+//        String col[] = {"path"};
+//        Cursor cur = db.query("localbook", col, "type=1", null, null, null,
+//                null);
+//        Cursor cur1 = db.query("localbook", col, "type=2", null, null, null,
+//                null);
+//        Integer num = cur.getCount();
+//        Integer num1 = cur1.getCount();
+//        ArrayList<String> arraylist = new ArrayList<String>();
+//        while (cur1.moveToNext()) {
+//            String s = cur1.getString(cur1.getColumnIndex("path"));
+//            arraylist.add(s);
+//        }
+//        while (cur.moveToNext()) {
+//            String s = cur.getString(cur.getColumnIndex("path"));
+//            arraylist.add(s);
+//        }
+//        db.close();
+//        cur.close();
+//        cur1.close();
+//        if (listItem == null)
+//            listItem = new ArrayList<HashMap<String, Object>>();
+//        listItem.clear();
+//        String[] bookids = getResources().getStringArray(R.array.bookid);
+//        String[] booknames = getResources().getStringArray(R.array.bookname);
+//        String[] bookauthors = getResources()
+//                .getStringArray(R.array.bookauthor);
+//        Map<String, String[]> maps = new HashMap<String, String[]>();
+//        for (int i = 0; i < bookids.length; i++) {
+//            String[] value = new String[2];
+//            value[0] = booknames[i];
+//            value[1] = bookauthors[i];
+//            maps.put(bookids[i], value);
+//        }
+//        for (int i = 0; i < num + num1; i++) {
+//            if (i < num1) {
+//                File file1 = new File(arraylist.get(i));
+//                String m = file1.getName().substring(0,
+//                        file1.getName().length() - 4);
+//                if (m.length() > 8) {
+//                    m = m.substring(0, 8) + "...";
+//                }
+//                String id = arraylist.get(i).substring(
+//                        arraylist.get(i).lastIndexOf("/") + 1);
+//                String[] array = maps.get(id);
+//                String auther = array != null && array[1] == null ? "未知"
+//                        : array[1];
+//                String name = array[0] == null ? m : array[0];
+//                map = new HashMap<String, Object>();
+//
+//                if (i == 0) {
+//                    map.put("itemback", R.drawable.itemback);
+//                } else if ((i % 2) == 0) {
+//                    map.put("itemback", R.drawable.itemback);
+//                }
+//                map.put("ItemImage",
+//                        map2 != null ? map2.get(file1.getName())[0]
+//                                : R.drawable.cover);
+//                map.put("BookName", "");
+//                map.put("ItemTitle", name == null ? m : name);
+//                map.put("ItemTitle1", "作者：" + auther);
+//                map.put("LastImage", "推荐书目");
+//                map.put("path", file1.getPath());
+//                map.put("com", 0 + file1.getName());// 单独用于排序
+//                listItem.add(map);
+//            } else {
+//                map = new HashMap<String, Object>();
+//
+//                File file1 = new File(arraylist.get(i));
+//                String m = file1.getName().substring(0,
+//                        file1.getName().length() - 4);
+//                if (m.length() > 8) {
+//                    m = m.substring(0, 8) + "...";
+//                }
+//                if (i == 0) {
+//                    map.put("itemback", R.drawable.itemback);
+//                } else if ((i % 2) == 0) {
+//                    map.put("itemback", R.drawable.itemback);
+//                }
+//                map.put("ItemImage", R.drawable.cover);
+//                map.put("BookName", m);
+//                map.put("ItemTitle", m);
+//                map.put("ItemTitle1", "作者：未知");
+//                map.put("LastImage", "本地导入");
+//                map.put("path", file1.getPath());
+//                map.put("com", "1");
+//                listItem.add(map);
+//            }
+//        }
+//    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -584,10 +538,26 @@ public class BookshelfFragment extends Fragment {
 
         }
     }
+    private void showLoading() {
+        cancelLoading();
+        mLoadingDialog = new ProgressDialog(mContext);
+        mLoadingDialog.setMessage(getResources().getText(R.string.initialing));
+        mLoadingDialog.setCancelable(false);
+        mLoadingDialog.show();
+    }
 
+    private void cancelLoading() {
+        if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
+            try {
+                mLoadingDialog.dismiss();
+            } catch(Throwable tr) {}
+            mLoadingDialog = null;
+        }
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();
+        cancelLoading();
         if (null != db) {
             db.close();
             db = null;

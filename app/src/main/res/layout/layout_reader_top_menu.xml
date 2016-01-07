@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.ereader.reader.view.TopMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:glview="http://schemas.android.com/apk/res-auto"
+    glview:id="@+id/top_menu"
+    glview:layout_width="match_parent"
+    glview:layout_height="60dp"
+    glview:background="@color/main_bar"
+    glview:layout_gravity="top"
+    glview:orientation="horizontal"
+    glview:visibility="gone" >
+    <ImageView 
+        glview:id="@+id/back"
+        glview:layout_width="wrap_content"
+        glview:layout_height="wrap_content"
+        glview:layout_gravity="center_vertical|left"
+        glview:clickable="true"
+        android:layout_marginLeft="@dimen/dimen_normal"
+        glview:paddingLeft="@dimen/dimen_normal"
+        glview:paddingRight="@dimen/dimen_normal"
+        glview:src="@drawable/bookshelf" />
+    <ImageButton
+        glview:id="@+id/bookmark"
+        glview:layout_width="wrap_content"
+        glview:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/dimen_normal"
+        glview:paddingRight="@dimen/dimen_normal"
+        glview:paddingLeft="@dimen/dimen_normal"
+        glview:layout_gravity="center_vertical|right"
+        glview:clickable="true"
+        glview:src="@drawable/bookmark"
+        />
+</com.ereader.reader.view.TopMenuLayout>

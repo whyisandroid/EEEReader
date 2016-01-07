@@ -1,52 +1,35 @@
 package com.ereader.client.ui.bookshelf;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Debug;
-import android.os.Environment;
 import android.os.Handler;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.Toast;
 
-import com.ereader.client.EReaderApplication;
 import com.ereader.client.R;
 import com.ereader.client.entities.BookShow;
 import com.ereader.client.entities.BookShowInfo;
 import com.ereader.client.entities.BookShowWithDownloadInfo;
-import com.ereader.client.entities.json.BookShowResp;
 import com.ereader.client.service.AppController;
 import com.ereader.client.service.download.DownloadInfo;
 import com.ereader.client.service.download.DownloadManager;
 import com.ereader.client.service.download.DownloadService;
 import com.ereader.client.ui.BaseActivity;
 import com.ereader.client.ui.adapter.ShelfSearchAdapter;
-import com.ereader.client.ui.bookshelf.epubread.CustomFont;
-import com.ereader.client.ui.bookshelf.epubread.LocalService;
-import com.ereader.client.ui.bookshelf.epubread.SkySetting;
-import com.ereader.client.ui.bookshelf.epubread.SkyUtility;
 import com.ereader.client.ui.dialog.DialogUtil;
 import com.ereader.common.constant.Constant;
-import com.ereader.common.util.IntentUtil;
 import com.ereader.common.util.LogUtil;
 import com.ereader.common.util.ProgressDialogUtil;
-import com.ereader.common.util.ToastUtil;
+import com.ereader.reader.activity.ReaderActivity;
+import com.ereader.reader.model.StoreBook;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
-import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.HttpHandler;
-import com.lidroid.xutils.http.ResponseInfo;
-import com.lidroid.xutils.http.callback.RequestCallBack;
-import com.skytree.epub.BookInformation;
-import com.skytree.epub.Setting;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SearchBuyActivity extends BaseActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
     private AppController controller;
@@ -55,7 +38,7 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
     private ShelfSearchAdapter adapter;
     private DownloadManager downloadManager;
 
-    private EReaderApplication app;
+//    private EReaderApplication app;
     public final static int _OK = 1000;
     public final static int _DELETE = 1001;
 
@@ -65,8 +48,8 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
     private static int operation = OPERATION_CUSTOM;//默认OPERATION_CUSTOM
 
     private DbUtils db;
-    private SkyUtility  st;
-    private LocalService ls = null;
+//    private SkyUtility  st;
+//    private LocalService ls = null;
 
     private Handler mHandler = new Handler() {
 
@@ -100,18 +83,18 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
         LogUtil.LogError("onCreate", "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shelf_search_layout);
-        app=EReaderApplication.getInstance();
-        app.initReadSettings();
+//        app=EReaderApplication.getInstance();
+//        app.initReadSettings();
         controller = AppController.getController(this);
         downloadManager = DownloadService.getDownloadManager(SearchBuyActivity.this);
         findView();
-        init();
+//        init();
         initView();
 //        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 
 
     }
-    //初始化阅读设置
+  /*  //初始化阅读设置
     private void init(){
 
         if (SkySetting.getStorageDirectory()==null) {
@@ -139,7 +122,7 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
     public void registerCustomFont(String fontFaceName,String fontFileName) {
         st.copyFontToDevice(fontFileName);
         app.customFonts.add(new CustomFont(fontFaceName,fontFileName));
-    }
+    }*/
     private void findView() {
         main_top_title = (EditText) findViewById(R.id.et_book_search);
         gridv_book_search = (GridView) findViewById(R.id.gridv_book_search);
@@ -162,7 +145,7 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
         List<BookShowWithDownloadInfo> datas = null;
         //获取下载数据库里的内容
         int downinfoCount = downloadManager.getDownloadInfoListCount();
-        LogUtil.LogError("downinfoCount=",downinfoCount+"");
+        LogUtil.LogError("downinfoCount=", downinfoCount + "");
         if (null != booksGet && null != booksGet.getData()) {
             list = booksGet.getData();
             //=============================
@@ -286,7 +269,19 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
     }
 
     private void openBook(BookShowWithDownloadInfo book){
-        if (SkySetting.getStorageDirectory()==null) {
+        //TODO 只是demo
+        Intent intent = new Intent(SearchBuyActivity.this, ReaderActivity.class);
+        StoreBook bookSample=new StoreBook();
+        bookSample.book_id="10";
+        bookSample.id=10;
+        bookSample.name="test";
+        bookSample.type="epub";
+        bookSample.file=Constant.BOOKS+"book.epub";
+        bookSample.presetFile=Constant.BOOKS+"book.epub";
+        LogUtil.LogError("presetFile",bookSample.presetFile);
+        intent.putExtra("storeBook", bookSample);
+        startActivity(intent);
+    /*    if (SkySetting.getStorageDirectory()==null) {
             SkySetting.setStorageDirectory(Constant.ROOT_OUTPATH,Constant.FOLDER_NAME);
         }
         List<BookInformation> readlists = new ArrayList<BookInformation>();
@@ -317,28 +312,7 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
             Log.e("eeeeee", bi.fileName + ":::" + SkySetting.storageDirectory + ":::" + bi.source + ":::" + bi.getBook().baseDirectory);
             app.openEpub(SearchBuyActivity.this,bi);
         }else
-            ToastUtil.showToast(SearchBuyActivity.this, "打开图书失败", ToastUtil.LENGTH_SHORT);
-
-	/*	SkyProvider sky=new SkyProvider();
-		//
-		//BookInformation bi=new BookInformation("alice.epub", context.getFilesDir().getAbsolutePath().toString(),sky);
-		bi=new BookInformation("book.epub", Constant.BOOKS,sky);
-		bi.isFixedLayout=false;
-		bi.isDownloaded=true;
-		bi.code=0;
-
-		//
-		bi.setFileName("book.epub");
-		bi.setBaseDirectory(Constant.DOWNLOAD);
-		bi.setContentProvider(sky);
-		sky.setBook(bi.getBook());
-//		sky.setKeyListener(new KeyDelegate());
-//		bi.makeInformation();
-		//
-
-//		app.initReadSettings();
-		app.sd.insertEmptyBook("iii", "uu", "111", "222", 0);
-		app.sd.updateBook(bi);*/
+            ToastUtil.showToast(SearchBuyActivity.this, "打开图书失败", ToastUtil.LENGTH_SHORT);*/
 
     }
 

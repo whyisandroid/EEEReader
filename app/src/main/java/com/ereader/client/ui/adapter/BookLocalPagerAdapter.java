@@ -1,35 +1,27 @@
 package com.ereader.client.ui.adapter;
 
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
-import android.os.Environment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ereader.client.EReaderApplication;
 import com.ereader.client.R;
-import com.ereader.client.ui.adapter.BookAdapter.ViewHolder;
-import com.ereader.client.ui.bookshelf.ReadActivity;
-import com.ereader.client.ui.bookshelf.epubread.BookViewActivity;
-import com.ereader.client.ui.bookshelf.epubread.MagazineActivity;
-import com.ereader.client.ui.bookshelf.epubread.SkySetting;
 import com.ereader.common.constant.Constant;
+import com.ereader.common.util.LogUtil;
+import com.ereader.reader.activity.ReaderActivity;
+import com.ereader.reader.model.StoreBook;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.skytree.epub.BookInformation;
-import com.skytree.epub.Setting;
-import com.skytree.epub.SkyProvider;
+
+import java.util.List;
 
 public class BookLocalPagerAdapter extends PagerAdapter {
 
@@ -92,7 +84,6 @@ public class BookLocalPagerAdapter extends PagerAdapter {
 
 	@Override
 	public void destroyItem(ViewGroup container, int position, Object object) {
-		// TODO Auto-generated method stub
 		((ViewPager) container).removeView((View) object);
 	}
 
@@ -105,17 +96,13 @@ public class BookLocalPagerAdapter extends PagerAdapter {
 		rl_index1.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent it = new Intent();
-				it.setClass(context, ReadActivity.class);
-				String path = context.getFilesDir().getAbsolutePath() + "/book.epub";
-				it.putExtra(context.getString(R.string.bpath), path);
-				context.startActivity(it);
+				openBook(position);
 			}
 		});
 		rl_index2.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				openBookViewer();
+				openBook(position);
 			}
 		});
 		((ViewPager) view).addView(imageLayout, 0);
@@ -123,62 +110,18 @@ public class BookLocalPagerAdapter extends PagerAdapter {
 	}
 
 	//打开书
-	private void openBookViewer(){
-
-		if (SkySetting.getStorageDirectory()==null) {
-			SkySetting.setStorageDirectory(Constant.ROOT_OUTPATH,Constant.FOLDER_NAME);
-		}
-
-		SkyProvider sky=new SkyProvider();
-		//
-		//BookInformation bi=new BookInformation("alice.epub", context.getFilesDir().getAbsolutePath().toString(),sky);
-		BookInformation bi=new BookInformation("book.epub", Constant.BOOKS,sky);
-		bi.isFixedLayout=false;
-		bi.isDownloaded=true;
-		bi.code=0;
-
-		//
-		bi.setFileName("book.epub");
-		bi.setBaseDirectory(Constant.DOWNLOAD);
-		bi.setContentProvider(sky);
-		sky.setBook(bi.getBook());
-//		sky.setKeyListener(new KeyDelegate());
-//		bi.makeInformation();
-		//
-
-		app.initReadSettings();
-		app.sd.insertEmptyBook("iii", "uu", "111", "222", 0);
-		app.sd.updateBook(bi);
-
-		Log.e("eeeeee",bi.fileName+":::"+ SkySetting.storageDirectory);
-		if (!bi.isDownloaded) {
-			return;
-		}
-		Intent intent;
-		if (!bi.isFixedLayout) {
-			intent = new Intent(context,BookViewActivity.class);
-		}else {
-			intent = new Intent(context,MagazineActivity.class);
-		}
-		intent.putExtra("BOOKCODE",bi.bookCode);//bi.bookCode
-		intent.putExtra("TITLE",bi.title);
-		intent.putExtra("AUTHOR", bi.creator);
-		intent.putExtra("BOOKNAME",bi.fileName);
-		if (bi.isRTL && !bi.isRead) {
-			intent.putExtra("POSITION",(double)1);
-		}else {
-			intent.putExtra("POSITION",bi.position);
-		}
-		intent.putExtra("THEMEINDEX",app.setting.theme);//app.setting.theme
-		intent.putExtra("DOUBLEPAGED",app.setting.doublePaged);//app.setting.doublePaged
-		intent.putExtra("transitionType",app.setting.transitionType);//app.setting.transitionType
-		intent.putExtra("GLOBALPAGINATION",app.setting.globalPagination);//app.setting.globalPagination
-		intent.putExtra("RTL",bi.isRTL);
-		intent.putExtra("VERTICALWRITING",bi.isVerticalWriting);
-
-		intent.putExtra("SPREAD", bi.spread);
-		intent.putExtra("ORIENTATION", bi.orientation);
-
+	private void openBook(int position){
+		//TODO 只是demo
+		Intent intent = new Intent(context, ReaderActivity.class);
+		StoreBook book=new StoreBook();
+		book.book_id="10";
+		book.id=10;
+		book.name="test";
+		book.type="epub";
+		book.file=Constant.BOOKS+"book.epub";
+		book.presetFile=Constant.BOOKS+"book.epub";
+		LogUtil.LogError("presetFile",book.presetFile);
+		intent.putExtra("storeBook", book);
 		context.startActivity(intent);
 	}
 }

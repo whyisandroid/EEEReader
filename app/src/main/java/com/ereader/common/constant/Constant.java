@@ -22,4 +22,6 @@ public class Constant {
 
     public final static String SUFFIX_EPUB= ".epub";
 
+    public final static String ASSET_PATH = "books/";
+
 }

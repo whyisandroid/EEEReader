@@ -24,12 +24,13 @@
 
     <!-- 定义标准颜色 -->
     <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
     <!-- 纯黑 -->
-    <color name="red">#d72839</color>
-    <color name="holo_green_dark">#ff669900</color>
-    <color name="transparent_color">#00000000</color>
-    <!-- 透明色 -->
+    <!--   <color name="black">#000000</color>
+
+      <color name="red">#d72839</color>-->
+      <color name="holo_green_dark">#ff669900</color>
+      <color name="transparent_color">#00000000</color>
+      <!-- 透明色 -->
     <color name="_transparent_color">#30000000</color>
     <!-- 半透明色 -->
     <color name="window_bg">#F2F2F2</color>
@@ -41,4 +42,21 @@
     <color name="dark_grey">#696969</color>
     <color name="read2">#EE8124</color>
     <color name="read3">#BD8253</color>
+
+
+    <color name="black">#ff030303</color>
+    <color name="red">#ffff0000</color>
+
+    <color name="text_color_1">#ff999999</color>
+    <color name="text_color_2">#ffffffff</color>
+
+    <color name="divider_1">#33313131</color>
+    <color name="divider_2">#33ffffff</color>
+
+    <color name="eye_protection">#22441100</color>
+
+    <color name="bright_off_color">#ff959595</color>
+    <color name="bright_on_color">#ffe8554d</color>
+    <color name="eye_protection_off_color">#ff959595</color>
+    <color name="eye_protection_on_color">#ff85a84d</color>
 </resources>

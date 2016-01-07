@@ -37,9 +37,9 @@ public interface AppService {
 	/**2.2.1搜索列表**/
 	public void search(String value)throws BusinessException;
 	/**获取验证码**/
-	public void getCode(String phone,String type)throws BusinessException;
+	public void getCode(String phone, String type)throws BusinessException;
 	/**验证验证码**/
-	public void verifyCode(String phone,String code,String type)throws BusinessException;
+	public void verifyCode(String phone, String code, String type)throws BusinessException;
 	/**添加到收藏夹**/
 	public void addCollection(String id)throws BusinessException;
 	/**添我的书评**/
@@ -74,7 +74,7 @@ public interface AppService {
 	/***我的账单列表*/
 	public void bill() throws BusinessException;
 	/***我的积分列表*/
-	public void getPointList(String balance,String type) throws BusinessException;
+	public void getPointList(String balance, String type) throws BusinessException;
 	/***我的订单列表*/
 	public void orderList(String type) throws BusinessException;
 	/***取消订单*/
@@ -84,7 +84,7 @@ public interface AppService {
 	/***使用充值券*/
 	public void useCard(String card) throws BusinessException;
 	/***商品评论数据*/
-	public void addComment(float rating, String orderId,String id, String title, String comment) throws BusinessException;
+	public void addComment(float rating, String orderId, String id, String title, String comment) throws BusinessException;
 
 	/***创建支付订单*/
 	public void createOrder(String value) throws BusinessException;
@@ -94,7 +94,7 @@ public interface AppService {
 	/***2.4.2.	设置订单支付方式*/
 	public void payType() throws BusinessException;
 	/***使用电子币支付*/
-	public void pay(String orderId,String money,String point,String frinedName) throws BusinessException;
+	public void pay(String orderId, String money, String point, String frinedName) throws BusinessException;
 	
 	//other
 	/**帮助中心***/
@@ -128,7 +128,7 @@ public interface AppService {
 	/**修改姓名***/
 	public void updateName(String name)throws BusinessException;
 	/**修改邮箱***/
-	public void updateEmail(String emali,String pwd)throws BusinessException;
+	public void updateEmail(String emali, String pwd)throws BusinessException;
 
 	public String getDownUrl();
 

@@ -1,38 +1,6 @@
 package com.ereader.client.ui.adapter;
 
-import java.util.List;
-
-import android.content.Context;
-import android.content.Intent;
-import android.os.Environment;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
-import com.ereader.client.EReaderApplication;
-import com.ereader.client.R;
-import com.ereader.client.entities.BookInfo;
-import com.ereader.client.ui.adapter.BookAdapter.ViewHolder;
-import com.ereader.client.ui.bookshelf.ReadActivity;
-import com.ereader.client.ui.bookshelf.epubread.BookViewActivity;
-import com.ereader.client.ui.bookshelf.epubread.MagazineActivity;
-import com.ereader.client.ui.bookshelf.epubread.SkySetting;
-import com.ereader.common.constant.Constant;
-import com.ereader.common.util.LogUtil;
-import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.skytree.epub.BookInformation;
-import com.skytree.epub.Setting;
-import com.skytree.epub.SkyProvider;
-
+/*
 public class BookPagerAdapter extends PagerAdapter {
 
 	private Context context;
@@ -60,13 +28,13 @@ public class BookPagerAdapter extends PagerAdapter {
 		}
 	}
 
-	/**
+	*//**
 	 * 
 	 * 方法描述：设置imageloader的options
 	 * 
 	 * @author: qm
 	 * @time: 2014-12-5 上午11:54:04
-	 */
+	 *//*
 	@SuppressWarnings("deprecation")
 	private void getImageOptions() {
 		// TODO Auto-generated method stub
@@ -119,11 +87,11 @@ public class BookPagerAdapter extends PagerAdapter {
 			@Override
 			public void onClick(View v) {
 				//
-				/*Intent it = new Intent();
+				*//*Intent it = new Intent();
 				it.setClass(context, ReadActivity.class);
 				String path = context.getFilesDir().getAbsolutePath() + "/book.epub";
 				it.putExtra(context.getString(R.string.bpath), path);
-				context.startActivity(it);*/
+				context.startActivity(it);*//*
 				openBookViewer(book_left);
 			}
 		});
@@ -157,7 +125,7 @@ public class BookPagerAdapter extends PagerAdapter {
 			SkySetting.setStorageDirectory(Constant.ROOT_OUTPATH,Constant.FOLDER_NAME);
 		}
 
-	/*	SkyProvider sky=new SkyProvider();
+	*//*	SkyProvider sky=new SkyProvider();
 		//
 		//BookInformation bi=new BookInformation("alice.epub", context.getFilesDir().getAbsolutePath().toString(),sky);
 		bi=new BookInformation("book.epub", Constant.BOOKS,sky);
@@ -176,7 +144,7 @@ public class BookPagerAdapter extends PagerAdapter {
 
 //		app.initReadSettings();
 		app.sd.insertEmptyBook("iii", "uu", "111", "222", 0);
-		app.sd.updateBook(bi);*/
+		app.sd.updateBook(bi);*//*
 		Log.e("eeeeee",bi.fileName+":::"+ SkySetting.storageDirectory+":::"+bi.source+":::"+bi.getBook().baseDirectory);
 		app.openEpub(context,bi);
 //		Log.e("eeeeee",bi.fileName+":::"+ SkySetting.storageDirectory);
@@ -210,4 +178,4 @@ public class BookPagerAdapter extends PagerAdapter {
 //
 //		context.startActivity(intent);
 	}
-}
+}*/

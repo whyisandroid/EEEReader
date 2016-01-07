@@ -21,7 +21,7 @@ public class BasicDialog extends Dialog {
 		super(context, style);
 		setCanceledOnTouchOutside(false);
 		Window window = getWindow();
-		WindowManager.LayoutParams params = window.getAttributes();
+		LayoutParams params = window.getAttributes();
 		params.height = LayoutParams.WRAP_CONTENT;
 		params.width = LayoutParams.MATCH_PARENT;
 		// }
@@ -43,7 +43,7 @@ public class BasicDialog extends Dialog {
 
 		setCanceledOnTouchOutside(false);
 		Window window = getWindow();
-		WindowManager.LayoutParams params = window.getAttributes();
+		LayoutParams params = window.getAttributes();
 		params.height = LayoutParams.WRAP_CONTENT;
 		params.width = LayoutParams.MATCH_PARENT;
 		// }
@@ -64,7 +64,7 @@ public class BasicDialog extends Dialog {
 
 		setCanceledOnTouchOutside(false);
 		Window window = getWindow();
-		WindowManager.LayoutParams params = window.getAttributes();
+		LayoutParams params = window.getAttributes();
 		params.height = context.getResources().getDimensionPixelSize(
 				heightDimen);
 		params.gravity = Gravity.CENTER;

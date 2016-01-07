@@ -21,7 +21,8 @@ public class DownloadService extends Service {
 
     public static DownloadManager getDownloadManager(Context appContext) {
         if (!DownloadService.isServiceRunning(appContext)) {
-            Intent downloadSvr = new Intent("download.service.action");
+            Intent downloadSvr = new Intent(appContext,DownloadService.class);//"download.service.action"
+//            downloadSvr.setAction("download.service.action");
             appContext.startService(downloadSvr);
         }
         if (DownloadService.DOWNLOAD_MANAGER == null) {

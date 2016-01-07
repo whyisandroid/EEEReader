@@ -1,15 +1,25 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
+    compileSdkVersion 21
     buildToolsVersion "22.0.1"
 
     defaultConfig {
         applicationId "com.ereader.client"
-        minSdkVersion 14
-        targetSdkVersion 18
+        minSdkVersion 17
+        targetSdkVersion 21
+
+        multiDexEnabled true
     }
 
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+// 忽略编译 lint 报错，必须加上。
+    lintOptions {
+        abortOnError false
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -19,13 +29,15 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:18.0.0'
+//    compile 'com.android.support:support-v4:21.0.0'
     compile 'com.google.code.gson:gson:2.2.4'
-    compile 'com.android.support:gridlayout-v7:18.0.0'
+//    compile 'com.android.support:gridlayout-v7:21.0.0'
     compile files('libs/universal-image-loader-1.9.3.jar')
     compile files('libs/xUtils-2.6.14.jar')
-    compile files('libs/epublib-core-latest.jar')
-    compile files('libs/slf4j-android-1.6.1-RC1.jar')
+//    compile files('libs/epublib-core-latest.jar')
+//    compile files('libs/slf4j-android-1.6.1-RC1.jar')
     compile files('libs/alipaySDK-20150818.jar')
-    compile files('libs/skyepub.jar')
+//    compile files('libs/skyepub.jar')
+    compile project(':glviewsdk')
+    compile project(':epublib')
 }

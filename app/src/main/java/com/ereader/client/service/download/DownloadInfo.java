@@ -1,52 +1,51 @@
 package com.ereader.client.service.download;
 
+import com.ereader.client.entities.BookShow;
 import com.lidroid.xutils.db.annotation.Table;
-import com.lidroid.xutils.db.annotation.Transient;
 import com.lidroid.xutils.http.HttpHandler;
 
 import java.io.File;
-import com.lidroid.xutils.db.annotation.Id;
 /**
  * Author: Xutils
  * Date: 13-11-10
  * Time: 下午8:11
  */
 @Table(name="downloadbooks")
-public class DownloadInfo {
+public class DownloadInfo extends BookShow{
 
     public DownloadInfo() {
     }
 
-    public DownloadInfo(long bookid) {
-        this.id=bookid;
+    public DownloadInfo(String bookid) {
+        setBook_id(bookid+"");
+        this.id=Integer.parseInt(bookid);
     }
-    @Id(column = "id")
-    private long id;
-    @Transient
-    private HttpHandler<File> handler;
+    public int id;
+//    @Transient
+    public HttpHandler<File> handler;
 
-    private HttpHandler.State state;
+    public HttpHandler.State state;
 
-    private String downloadUrl;
+    public String downloadUrl;
 
-    private String fileName;
+    public String fileName;
 
-    private String fileSavePath;
+    public String fileSavePath;
 
-    private long progress;
+    public long progress;
 
-    private long fileLength;
+    public long fileLength;
 
-    private boolean autoResume;
+    public boolean autoResume;
 
-    private boolean autoRename;
+    public boolean autoRename;
 
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -129,7 +128,7 @@ public class DownloadInfo {
 
         DownloadInfo that = (DownloadInfo) o;
 
-        if (id != that.id) return false;
+        if (!book_id.equals(that.book_id) ) return false;
 
         return true;
     }
