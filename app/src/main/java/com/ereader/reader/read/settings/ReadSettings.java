@@ -14,10 +14,10 @@ public class ReadSettings {
 	private final static int MIN_FONT_SIZE = 20;
 	
 	public final static String THEME = "theme";
-	private final static Theme DEFAULT_THEME = Theme.PARCHMENT;
+	private final static Theme DEFAULT_THEME = Theme.BOOKFLAVOR;//Theme.PARCHMENT;阅读背景默认
 	
 	public final static String PAGE_STYLE = "page_style";
-	private final static PageStyle DEFAULT_PAGE_STYLE = PageStyle.LAYOVER;
+	private final static PageStyle DEFAULT_PAGE_STYLE = PageStyle.RIPPLE;//PageStyle.LAYOVER;阅读翻页效果默认
 	
 	public final static String EYE_PROTECTION = "eye_protection";
 	private final static boolean DEFAULT_EYE_PROTECTION = false;

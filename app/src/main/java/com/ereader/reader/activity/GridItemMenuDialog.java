@@ -1,31 +1,14 @@
 package com.ereader.reader.activity;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.os.Bundle;
-import android.view.Gravity;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
-
-import com.ereader.client.R;
-import com.ereader.reader.db.BookDBHelper;
-import com.ereader.reader.model.StoreBook;
-import com.ereader.reader.read.cache.LocalCache;
-import com.ereader.reader.utils.FileUtils;
-
-import java.io.File;
-
-public class GridItemMenuDialog extends Dialog implements View.OnClickListener {
+/*public class GridItemMenuDialog extends Dialog implements View.OnClickListener {
 
 	MainActivity mActivity = null;
 	StoreBook mStoreBook;
-	
+
 	Button mOpen, mDelete, mCancel;
-	
+
 	AlertDialog mDeleteConformDialog;
-	
+
 	public GridItemMenuDialog(MainActivity activity, StoreBook storeBook) {
 		super(activity, R.style.GridItemMenuTheme);
 		mActivity = activity;
@@ -42,7 +25,7 @@ public class GridItemMenuDialog extends Dialog implements View.OnClickListener {
 		lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 		getWindow().setAttributes(lp);
 		getWindow().getDecorView().setPadding(0, 0, 0, 0);
-		
+
 		setContentView(R.layout.layout_grid_item_menu);
 		mOpen = (Button) findViewById(R.id.open);
 		mOpen.setOnClickListener(this);
@@ -51,7 +34,7 @@ public class GridItemMenuDialog extends Dialog implements View.OnClickListener {
 		mCancel = (Button) findViewById(R.id.cancel);
 		mCancel.setOnClickListener(this);
 	}
-	
+
 	@Override
 	public void onClick(View v) {
 		dismiss();
@@ -62,7 +45,7 @@ public class GridItemMenuDialog extends Dialog implements View.OnClickListener {
 		} else if (v == mCancel) {
 		}
 	}
-	
+
 	private void conformDelete() {
 		if (mDeleteConformDialog != null && mDeleteConformDialog.isShowing()) {
 			try {
@@ -93,7 +76,7 @@ public class GridItemMenuDialog extends Dialog implements View.OnClickListener {
 		})
 		.show();
 	}
-	
+
 	@Override
 	public void dismiss() {
 		if (isShowing()) {
@@ -106,4 +89,4 @@ public class GridItemMenuDialog extends Dialog implements View.OnClickListener {
 			} catch(Throwable tr) {}
 		}
 	}
-}
+}*/

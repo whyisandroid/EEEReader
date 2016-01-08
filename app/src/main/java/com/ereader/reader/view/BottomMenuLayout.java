@@ -14,14 +14,14 @@ import com.ereader.reader.activity.ChaptersDialog;
 
 public class BottomMenuLayout extends LinearLayout implements OnClickListener, OnSeekBarChangeListener {
 	
-	private View mChapterIcon;
+	private View mChapterIcon;//目录
 //	private View mChapterPrevious;//上一章
 //	private View mChapterNext;//下一章
-	private SeekBar mChapterSeek;
+	private SeekBar mChapterSeek;//进度条
 	
-	private View mBrightMenuIcon;
-	private View mPageStyleMenuIcon;
-	private View mFontMenuIcon;
+	private View mBrightMenuIcon;//亮度调节
+	private View mPageStyleMenuIcon;//翻页方式
+	private View mFontMenuIcon;//阅读设置
 	
 	ChaptersDialog mChaptersDialog;
 	

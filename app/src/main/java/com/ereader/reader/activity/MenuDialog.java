@@ -2,7 +2,6 @@ package com.ereader.reader.activity;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -37,12 +36,6 @@ public class MenuDialog extends Dialog implements View.OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		if (v == mAbout) {
-			Intent intent = new Intent(getContext(), AbountActivity.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			getContext().startActivity(intent);
-			dismiss();
-		}
 	}
 	
 	@Override

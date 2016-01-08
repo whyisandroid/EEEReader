@@ -18,9 +18,9 @@ import com.ereader.reader.read.settings.Theme;
 
 public class FontMenuLayout extends LinearLayout implements OnClickListener, OnLongClickListener, OnTouchListener {
 	
-	private View mFontSizeMinus;
-	private View mFontSizePlus;
-	private TextView mFontSizeText;
+	private View mFontSizeMinus;//字号-
+	private View mFontSizePlus;//字号+
+	private TextView mFontSizeText;//大小
 	
 	int mFontSize = -1;
 	
