@@ -3,13 +3,13 @@
     xmlns:glview="http://schemas.android.com/apk/res-auto"
     glview:id="@+id/bottom_menu_font"
     glview:layout_width="match_parent"
-    glview:layout_height="160dp"
+    glview:layout_height="90dp"
     glview:layout_gravity="bottom"
-    glview:background="@color/main_bar"
+    glview:background="@color/white"
     glview:orientation="vertical"
     glview:visibility="gone" >
 
-    <LinearLayout
+    <!--<LinearLayout
         glview:layout_width="match_parent"
         glview:layout_height="70dp"
         glview:gravity="center"
@@ -51,7 +51,7 @@
         glview:layout_width="match_parent"
         glview:layout_height="wrap_content"
         glview:scaleType="fitXY"
-        glview:src="@drawable/line_h" />
+        glview:src="@drawable/line_h" />-->
     
     <com.ereader.reader.view.ReaderHorizontalScrollView
         glview:id="@+id/theme_scroll"

@@ -20,11 +20,13 @@ import com.ereader.reader.utils.MimeType;
 import com.ereader.reader.view.BookReadView;
 import com.glview.view.View;
 import com.glview.view.View.OnClickListener;
+import com.glview.widget.ImageButton;
+import com.glview.widget.ImageView;
 import com.glview.widget.Toast;
 
 import java.io.File;
 
-public class ReaderActivity extends BaseActivity {
+public class ReaderActivity extends BaseActivity implements OnClickListener{
 	
 	final static String TAG = Constant.TAG;
 	
@@ -32,6 +34,10 @@ public class ReaderActivity extends BaseActivity {
 
 	private BookReadView mReadView;
 	BookPageManager mBookPageManager;
+
+	private ImageView back;
+	private ImageButton bookMark;
+//	private ImageButton setting_reading;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -149,12 +155,18 @@ public class ReaderActivity extends BaseActivity {
 		mReadView = (BookReadView) content.findViewById(R.id.book_read_view);
 		mBookPageManager = new BookPageManager(this, mReadView);
 		mReadView.setBootPageManager(mBookPageManager);
-		content.findViewById(R.id.back).setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				finish();
-			}
-		});
+		back=(ImageView)content.findViewById(R.id.back);
+		back.setOnClickListener(this);
+		bookMark=(ImageButton)content.findViewById(R.id.bookmark);
+		bookMark.setOnClickListener(this);
+//		setting_reading=(ImageButton)content.findViewById(R.id.setting_reading);
+//		setting_reading.setOnClickListener(this);
+//		.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				finish();
+//			}
+//		});
 	}
 	
 	@Override
@@ -198,5 +210,17 @@ public class ReaderActivity extends BaseActivity {
 			} catch(Throwable tr) {}
 			mLoadingDialog = null;
 		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		if( v == back ){//书架／返回
+			ReaderActivity.this.finish();
+		}else if( v == bookMark ){//书签
+			Toast.showToast(this,"TODO：还是记个百分比，字体大小～",Toast.LENGTH_SHORT);
+		}
+//		else if( v == setting_reading ){
+//
+//		}
 	}
 }

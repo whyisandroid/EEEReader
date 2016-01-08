@@ -5,7 +5,7 @@
     glview:layout_width="match_parent"
     glview:layout_height="90dp"
     glview:layout_gravity="bottom"
-    glview:background="@color/main_bar"
+    glview:background="@color/white"
     glview:visibility="gone" >
 
     <com.ereader.reader.view.ReaderHorizontalScrollView

@@ -24,7 +24,9 @@ import java.util.List;
 //import com.tencent.android.tpush.XGPushManager;
 //import com.tencent.android.tpush.XGPushNotifactionCallback;
 //import com.tencent.bugly.crashreport.CrashReport;
-
+/**
+ * @deprecated TODO
+ */
 public class ReaderApplication extends GLApplication {
 
 	final static String TAG = Constant.TAG;

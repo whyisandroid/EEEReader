@@ -14,6 +14,7 @@ import com.glview.thread.Looper;
 import com.glview.view.GestureDetector.OnGestureListener;
 import com.glview.view.View;
 import com.glview.widget.FrameLayout;
+import com.glview.widget.ImageButton;
 
 import java.lang.reflect.Field;
 
@@ -26,7 +27,9 @@ public class ReaderLayout extends FrameLayout implements OnGestureListener {
 	private BrightMenuLayout mBrightMenu;
 	private PageStyleLayout mPageStyleLayout;
 	private FontMenuLayout mFontMenu;
-	
+
+	private ImageButton setting_reading;
+
 	GestureDetector mGestureDetector;
 	
 	boolean mIsMenuShown = false;
@@ -73,6 +76,9 @@ public class ReaderLayout extends FrameLayout implements OnGestureListener {
 		mBrightMenu = (BrightMenuLayout) findViewById(R.id.bottom_menu_bright);
 		mPageStyleLayout = (PageStyleLayout) findViewById(R.id.bottom_menu_pagestyle);
 		mFontMenu = (FontMenuLayout) findViewById(R.id.bottom_menu_font);
+
+		setting_reading=(ImageButton)findViewById(R.id.setting_reading);
+		setting_reading.setOnClickListener(onSettingClickListener);
 	}
 	
 	public BookReadView getBookReadView() {
@@ -202,5 +208,10 @@ public class ReaderLayout extends FrameLayout implements OnGestureListener {
 		}
 		return mBookReadView.onFling(e1, e2, velocityX, velocityY);
 	}
-
+	private OnClickListener onSettingClickListener=new OnClickListener() {
+		  @Override
+		  public void onClick(View v) {
+			  mBottomMenu.showBottomSetting();
+		  }
+	};
 }

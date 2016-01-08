@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
+import com.ereader.reader.read.settings.ReadSettings;
 import com.glview.view.View;
 import com.glview.view.View.OnClickListener;
 import com.glview.widget.LinearLayout;
@@ -11,8 +12,9 @@ import com.glview.widget.SeekBar;
 import com.glview.widget.SeekBar.OnSeekBarChangeListener;
 import com.ereader.client.R;
 import com.ereader.reader.activity.ChaptersDialog;
+import com.glview.widget.TextView;
 
-public class BottomMenuLayout extends LinearLayout implements OnClickListener, OnSeekBarChangeListener {
+public class BottomMenuLayout extends LinearLayout implements OnClickListener, View.OnLongClickListener, OnSeekBarChangeListener , View.OnTouchListener {
 	
 	private View mChapterIcon;//目录
 //	private View mChapterPrevious;//上一章
@@ -22,6 +24,18 @@ public class BottomMenuLayout extends LinearLayout implements OnClickListener, O
 	private View mBrightMenuIcon;//亮度调节
 	private View mPageStyleMenuIcon;//翻页方式
 	private View mFontMenuIcon;//阅读设置
+
+	//=========
+	private View mFontSizeMinus;//字号-
+	private View mFontSizePlus;//字号+
+	private TextView mFontSizeText;//大小
+
+	int mFontSize = -1;
+
+	private LinearLayout read_setting;
+
+	private LinearLayout read_base;
+	//=========
 	
 	ChaptersDialog mChaptersDialog;
 	
@@ -71,6 +85,19 @@ public class BottomMenuLayout extends LinearLayout implements OnClickListener, O
 		
 		mFontMenuIcon = findViewById(R.id.menu_font);
 		mFontMenuIcon.setOnClickListener(this);
+		//字体
+		mFontSizeMinus = findViewById(R.id.font_size_minus);
+		mFontSizeMinus.setOnClickListener(this);
+		mFontSizeMinus.setOnLongClickListener(this);
+		mFontSizeMinus.setOnTouchListener(this);
+		mFontSizePlus = findViewById(R.id.font_size_plus);
+		mFontSizePlus.setOnClickListener(this);
+		mFontSizePlus.setOnLongClickListener(this);
+		mFontSizePlus.setOnTouchListener(this);
+		mFontSizeText = (TextView) findViewById(R.id.font_size_value);
+		read_setting=(LinearLayout)findViewById(R.id.read_setting);
+		read_base=(LinearLayout)findViewById(R.id.read_base);
+
 	}
 	
 	@Override
@@ -80,8 +107,17 @@ public class BottomMenuLayout extends LinearLayout implements OnClickListener, O
 	}
 	
 	public void show() {
+		read_base.setVisibility(View.VISIBLE);
+		read_setting.setVisibility(View.GONE);
 		Fade.fadeIn(this, Fade.BOTTOM);
 		loadCurrentProgress();
+	}
+	public void showBottomSetting() {
+		read_base.setVisibility(View.GONE);
+		read_setting.setVisibility(View.VISIBLE);
+		Fade.fadeIn(this, Fade.BOTTOM);
+		mFontSizeText.setText(String.valueOf(ReadSettings.getFontSize(getContext())));//初始化字体大小
+		//loadCurrentProgress();
 	}
 	
 	public void hide() {
@@ -99,7 +135,8 @@ public class BottomMenuLayout extends LinearLayout implements OnClickListener, O
 				if (mChaptersDialog != null && mChaptersDialog.isShowing()) {
 					try {
 						mChaptersDialog.dismiss();
-					} catch(Throwable tr) {}
+					} catch (Throwable tr) {
+					}
 					mChaptersDialog = null;
 				}
 			}
@@ -141,6 +178,10 @@ public class BottomMenuLayout extends LinearLayout implements OnClickListener, O
 			mReaderLayout.showPageStyleMenu();
 		} else if (v == mFontMenuIcon) {
 			mReaderLayout.showFontMenu();
+		}else if (v == mFontSizeMinus) {
+			changeFontSize(false);
+		} else if (v == mFontSizePlus) {
+			changeFontSize(true);
 		}
 	}
 
@@ -160,5 +201,57 @@ public class BottomMenuLayout extends LinearLayout implements OnClickListener, O
 		float p = ((float) progress) / max;
 		mBookReadView.getBookPageManager().seekTo(p);
 	}
+	@Override
+	public boolean onLongClick(View v) {
+		if (v == mFontSizeMinus) {
+			mFontSizeMinusRunnable.run();
+		} else if (v == mFontSizePlus) {
+			mFontSizePlusRunnable.run();
+		}
+		return true;
+	}
 
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		if (v == mFontSizeMinus || v == mFontSizePlus) {
+			if (event.getAction() == MotionEvent.ACTION_UP) {
+				removeCallbacks(mFontSizeMinusRunnable);
+				removeCallbacks(mFontSizePlusRunnable);
+			}
+		}
+		return false;
+	}
+
+
+	private void changeFontSize(boolean plus) {
+		if (mFontSize == -1) {
+			mFontSize = ReadSettings.getFontSize(getContext());
+		}
+		mFontSize = ReadSettings.checkFontSize(plus ? mFontSize + 1 : mFontSize - 1);
+		mFontSizeText.setText(String.valueOf(mFontSize));
+		removeCallbacks(mChangeFontSizeRunnable);
+		postDelayed(mChangeFontSizeRunnable, 200);
+	}
+
+	Runnable mChangeFontSizeRunnable = new Runnable() {
+		@Override
+		public void run() {
+			ReadSettings.setFontSize(getContext(), mFontSize);
+		}
+	};
+	Runnable mFontSizeMinusRunnable = new Runnable() {
+		@Override
+		public void run() {
+			changeFontSize(false);
+			postDelayed(this, 100);
+		}
+	};
+
+	Runnable mFontSizePlusRunnable = new Runnable() {
+		@Override
+		public void run() {
+			changeFontSize(true);
+			postDelayed(this, 100);
+		}
+	};
 }

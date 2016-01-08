@@ -8,25 +8,46 @@
     glview:layout_gravity="top"
     glview:orientation="horizontal"
     glview:visibility="gone" >
-    <ImageView 
-        glview:id="@+id/back"
-        glview:layout_width="wrap_content"
-        glview:layout_height="wrap_content"
-        glview:layout_gravity="center_vertical|left"
-        glview:clickable="true"
-        android:layout_marginLeft="@dimen/dimen_normal"
-        glview:paddingLeft="@dimen/dimen_normal"
-        glview:paddingRight="@dimen/dimen_normal"
-        glview:src="@drawable/bookshelf" />
-    <ImageButton
-        glview:id="@+id/bookmark"
-        glview:layout_width="wrap_content"
-        glview:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/dimen_normal"
-        glview:paddingRight="@dimen/dimen_normal"
-        glview:paddingLeft="@dimen/dimen_normal"
-        glview:layout_gravity="center_vertical|right"
-        glview:clickable="true"
-        glview:src="@drawable/bookmark"
-        />
+    <RelativeLayout
+        glview:layout_width="match_parent"
+        glview:layout_height="match_parent"
+        >
+        <ImageView
+            glview:id="@+id/back"
+            glview:layout_width="wrap_content"
+            glview:layout_height="wrap_content"
+            glview:layout_alignParentLeft="true"
+            glview:layout_centerVertical="true"
+            glview:clickable="true"
+            android:layout_marginLeft="@dimen/dimen_normal"
+            glview:paddingLeft="@dimen/dimen_normal"
+            glview:paddingRight="@dimen/dimen_normal"
+            glview:src="@drawable/bookshelf" />
+        <ImageButton
+            glview:id="@+id/bookmark"
+            glview:layout_width="wrap_content"
+            glview:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dimen_normal"
+            glview:paddingRight="@dimen/dimen_normal"
+            glview:paddingLeft="@dimen/dimen_normal"
+            glview:layout_alignParentRight="true"
+            glview:layout_centerVertical="true"
+            glview:clickable="true"
+            glview:src="@drawable/bookmark"
+            />
+        <ImageButton
+            glview:id="@+id/setting_reading"
+            glview:layout_width="wrap_content"
+            glview:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dimen_normal"
+            glview:paddingRight="@dimen/dimen_normal"
+            glview:paddingLeft="@dimen/dimen_normal"
+            glview:layout_toLeftOf="@id/bookmark"
+            glview:layout_centerVertical="true"
+            glview:clickable="true"
+            glview:src="@drawable/font"
+            />
+
+    </RelativeLayout>
+
 </com.ereader.reader.view.TopMenuLayout>

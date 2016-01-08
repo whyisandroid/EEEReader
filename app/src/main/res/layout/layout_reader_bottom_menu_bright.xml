@@ -5,7 +5,7 @@
     glview:layout_width="match_parent"
     glview:layout_height="160dp"
     glview:layout_gravity="bottom"
-    glview:background="@color/main_bar"
+    glview:background="@color/white"
     glview:orientation="vertical"
     glview:visibility="gone" >
 
@@ -39,7 +39,7 @@
 		    glview:layout_width="wrap_content"
 		    glview:layout_height="match_parent"
 		    glview:scaleType="fitXY"
-		    glview:alpha="0.3"
+		    glview:alpha="0.5"
 		    glview:src="@drawable/line_v" />
 		<LinearLayout 
 		    glview:id="@+id/bright_system"
