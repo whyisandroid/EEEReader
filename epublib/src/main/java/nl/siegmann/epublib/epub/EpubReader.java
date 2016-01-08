@@ -144,7 +144,9 @@ public class EpubReader {
 		}
 		try {
 			Document document = ResourceUtil.getAsDocument(containerResource);
-			Element rootFileElement = (Element) ((Element) document.getDocumentElement().getElementsByTagName("rootfiles").item(0)).getElementsByTagName("rootfile").item(0);
+//			Element rootFileElement = (Element) ((Element) document.getDocumentElement().getElementsByTagName("rootfiles").item(0)).getElementsByTagName("rootfile").item(0);
+			Element rootFileElement = (Element) ((Element) document.getDocumentElement().getElementsByTagName("rootbooks").item(0)).getElementsByTagName("rootfile").item(0);
+
 			result = rootFileElement.getAttribute("full-path");
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

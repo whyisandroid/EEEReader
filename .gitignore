@@ -1,3 +1,4 @@
+/EEEReaderNew.iml
 /epublib/build
 /epublib/epublib.iml
 /local.properties
@@ -7,9 +8,12 @@
 /glviewsdk/build
 /app/build/*
 /app/app.iml
+/gradle
+/import-summary.txt
 /.idea/*
 /build/*
 /build
 /app/build
 /.gradle
 /.idea
+/EReader.jks
