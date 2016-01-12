@@ -53,6 +53,8 @@
             android:id="@+id/download_pb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_normal"
+            android:layout_marginRight="@dimen/dimen_normal"
             android:layout_centerInParent="true"
             style="?android:attr/progressBarStyleHorizontal"
             android:focusable="false"

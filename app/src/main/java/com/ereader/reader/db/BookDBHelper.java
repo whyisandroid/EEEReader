@@ -44,7 +44,7 @@ public class BookDBHelper extends SQLiteOpenHelper {
 	private final static String TABLE_SETTINGS_VALUE = "value";
 	
 	private final static String TABLE_BOOK_TABLE = "books";
-	private final static String TABLE_BOOK_BOOK_ID = "id";
+	private final static String TABLE_BOOK_BOOK_ID = "book_id";
 	private final static String TABLE_BOOK_BOOK_TITLE = "book_title";
 	private final static String TABLE_BOOK_BOOK_FILE = "book_file";
 	private final static String TABLE_BOOK_BOOK_PRESET_FILE = "book_file_preset";
@@ -107,8 +107,9 @@ public class BookDBHelper extends SQLiteOpenHelper {
 	/** save the storeBook info to database */
 	public int insertBook(StoreBook storeBook) {
 		Log.d(TAG, "insert the storeBook into database");
-		if (queryBook(storeBook.file) == null) {
+		if (null == queryBookById(storeBook.book_id)) {
 			ContentValues values = new ContentValues();
+			values.put(TABLE_BOOK_BOOK_ID, storeBook.book_id);
 			values.put(TABLE_BOOK_BOOK_FILE, storeBook.file);
 			values.put(TABLE_BOOK_BOOK_PRESET_FILE, storeBook.presetFile);
 			values.put(TABLE_BOOK_BOOK_TITLE, storeBook.name);
@@ -119,8 +120,10 @@ public class BookDBHelper extends SQLiteOpenHelper {
 			long time = System.currentTimeMillis();
 			values.put(TABLE_BOOK_ADD_TIME, time);
 			values.put(TABLE_BOOK_READ_TIME, time);
-			storeBook.id = (int) getDatabase().insert(TABLE_BOOK_TABLE, null, values);
-			return storeBook.id;
+			storeBook.book_id = (int) getDatabase().insert(TABLE_BOOK_TABLE, null, values);
+			return storeBook.book_id;
+		}else{
+			updateReadTime(storeBook);//更新阅读时间
 		}
 		return -1;
 	}
@@ -132,7 +135,7 @@ public class BookDBHelper extends SQLiteOpenHelper {
 		Cursor cur = getDatabase().query(TABLE_BOOK_TABLE, col, TABLE_BOOK_BOOK_FILE + "=?", new String[]{file}, null, null, null);
 		if (cur.moveToFirst()) {
 			StoreBook storeBook = new StoreBook();
-			storeBook.id = cur.getInt(0);
+			storeBook.book_id = cur.getInt(0);
 			storeBook.file = cur.getString(1);
 			storeBook.presetFile = cur.getString(2);
 			storeBook.name = cur.getString(3);
@@ -145,7 +148,26 @@ public class BookDBHelper extends SQLiteOpenHelper {
 		}
 		return null;
 	}
-	
+	public StoreBook queryBookById(int book_id) {
+		Log.d(TAG, "query the book form database");
+		Log.d(TAG, "query the book file:" + book_id);
+		String[] col = new String[] {TABLE_BOOK_BOOK_ID, TABLE_BOOK_BOOK_FILE, TABLE_BOOK_BOOK_PRESET_FILE, TABLE_BOOK_BOOK_TITLE, TABLE_BOOK_BOOK_TYPE, TABLE_BOOK_BOOK_COVER, TABLE_BOOK_READ_POSITION, TABLE_BOOK_FILE_SIGN};
+		Cursor cur = getDatabase().query(TABLE_BOOK_TABLE, col, TABLE_BOOK_BOOK_ID + "=?", new String[]{book_id+""}, null, null, null);
+		if (cur.moveToFirst()) {
+			StoreBook storeBook = new StoreBook();
+			storeBook.book_id = cur.getInt(0);
+			storeBook.file = cur.getString(1);
+			storeBook.presetFile = cur.getString(2);
+			storeBook.name = cur.getString(3);
+			storeBook.type = cur.getString(4);
+			storeBook.cover = cur.getString(5);
+			storeBook.readPosition = cur.getDouble(6);
+			storeBook.fileSign = cur.getLong(7);
+			cur.close();
+			return storeBook;
+		}
+		return null;
+	}
 	public int updateBook(StoreBook storeBook) {
 		ContentValues values = new ContentValues();
 		values.put(TABLE_BOOK_BOOK_FILE, storeBook.file);
@@ -155,13 +177,13 @@ public class BookDBHelper extends SQLiteOpenHelper {
 		values.put(TABLE_BOOK_BOOK_COVER, storeBook.cover);
 		values.put(TABLE_BOOK_READ_POSITION, storeBook.readPosition);
 		values.put(TABLE_BOOK_FILE_SIGN, storeBook.fileSign);
-		return getDatabase().update(TABLE_BOOK_TABLE, values, TABLE_BOOK_BOOK_ID + "=?", new String[]{String.valueOf(storeBook.id)});
+		return getDatabase().update(TABLE_BOOK_TABLE, values, TABLE_BOOK_BOOK_ID + "=?", new String[]{String.valueOf(storeBook.book_id)});
 	}
 	
 	public int updateReadTime(StoreBook storeBook) {
 		ContentValues values = new ContentValues();
 		values.put(TABLE_BOOK_READ_TIME, System.currentTimeMillis());
-		return getDatabase().update(TABLE_BOOK_TABLE, values, TABLE_BOOK_BOOK_ID + "=?", new String[]{String.valueOf(storeBook.id)});
+		return getDatabase().update(TABLE_BOOK_TABLE, values, TABLE_BOOK_BOOK_ID + "=?", new String[]{String.valueOf(storeBook.book_id)});
 	}
 	
 	public List<StoreBook> queryAllBooks() {
@@ -171,7 +193,7 @@ public class BookDBHelper extends SQLiteOpenHelper {
 		Cursor cur = getDatabase().query(TABLE_BOOK_TABLE, col, null, null, null, null, TABLE_BOOK_READ_TIME + " desc");
 		while (cur.moveToNext()) {
 			StoreBook storeBook = new StoreBook();
-			storeBook.id = cur.getInt(0);
+			storeBook.book_id = cur.getInt(0);
 			storeBook.file = cur.getString(1);
 			storeBook.presetFile = cur.getString(2);
 			storeBook.name = cur.getString(3);
@@ -192,7 +214,7 @@ public class BookDBHelper extends SQLiteOpenHelper {
 		Cursor cur = getDatabase().query(TABLE_BOOK_TABLE, col, TABLE_BOOK_BOOK_PRESET_FILE + " is not null", null, null, null, TABLE_BOOK_READ_TIME + " desc");
 		while (cur.moveToNext()) {
 			StoreBook storeBook = new StoreBook();
-			storeBook.id = cur.getInt(0);
+			storeBook.book_id = cur.getInt(0);
 			storeBook.file = cur.getString(1);
 			storeBook.presetFile = cur.getString(2);
 			storeBook.name = cur.getString(3);
@@ -207,11 +229,11 @@ public class BookDBHelper extends SQLiteOpenHelper {
 	}
 	
 	public int deleteBook(StoreBook storeBook) {
-		return deleteBook(storeBook.id);
+		return deleteBook(storeBook.book_id);
 	}
 	
-	public int deleteBook(int id) {
-		return getDatabase().delete(TABLE_BOOK_TABLE, TABLE_BOOK_BOOK_ID + "=?", new String[]{String.valueOf(id)});
+	public int deleteBook(int book_id) {
+		return getDatabase().delete(TABLE_BOOK_TABLE, TABLE_BOOK_BOOK_ID + "=?", new String[]{String.valueOf(book_id)});
 	}
 	
 	public String getSettingsValue(String key) {

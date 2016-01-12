@@ -58,12 +58,12 @@ public class DownloadManager {
         return downloadInfoList.get(index);
     }
 
-    public void addNewDownload(long bookid,String url, String fileName, String target,
+    public void addNewDownload(int bookid,String url, String fileName, String target,
                                boolean autoResume, boolean autoRename,
                                final RequestCallBack<File> callback) throws DbException {
         final DownloadInfo downloadInfo = new DownloadInfo();
         LogUtil.LogError("下载","bookid="+bookid+";downUrl="+url);
-        downloadInfo.setBook_id(bookid+"");
+        downloadInfo.setBook_id(bookid);
         downloadInfo.setDownloadUrl(url);
         downloadInfo.setAutoRename(autoRename);
         downloadInfo.setAutoResume(autoResume);
@@ -75,7 +75,7 @@ public class DownloadManager {
         downloadInfo.setHandler(handler);
         downloadInfo.setState(handler.getState());
         downloadInfoList.add(downloadInfo);
-        db.save(downloadInfo);
+        db.saveBindingId(downloadInfo);
     }
 
     public void resumeDownload(int index, final RequestCallBack<File> callback) throws DbException {

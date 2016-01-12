@@ -1,6 +1,5 @@
 package com.ereader.client.service.download;
 
-import com.ereader.client.entities.BookShow;
 import com.lidroid.xutils.db.annotation.Table;
 import com.lidroid.xutils.http.HttpHandler;
 
@@ -11,17 +10,17 @@ import java.io.File;
  * Time: 下午8:11
  */
 @Table(name="downloadbooks")
-public class DownloadInfo extends BookShow{
+public class DownloadInfo {//extends BookShow
 
     public DownloadInfo() {
     }
 
-    public DownloadInfo(String bookid) {
-        setBook_id(bookid+"");
-        this.id=Integer.parseInt(bookid);
-    }
+//    public DownloadInfo() {//String bookid
+////        setBook_id(bookid+"");
+////        this.id=Integer.parseInt(bookid);
+//    }
     public int id;
-//    @Transient
+    public int book_id;
     public HttpHandler<File> handler;
 
     public HttpHandler.State state;
@@ -40,14 +39,22 @@ public class DownloadInfo extends BookShow{
 
     public boolean autoRename;
 
-
-    public int getId() {
-        return id;
+    public int getBook_id() {
+        return book_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setBook_id(int book_id) {
+        this.id=book_id;
+        this.book_id = book_id;
     }
+
+//    public int getId() {
+//        return book_id;
+//    }
+//
+//    public void setId(int book_id) {
+//        this.book_id = book_id;
+//    }
 
     public HttpHandler<File> getHandler() {
         return handler;
@@ -128,13 +135,13 @@ public class DownloadInfo extends BookShow{
 
         DownloadInfo that = (DownloadInfo) o;
 
-        if (!book_id.equals(that.book_id) ) return false;
+        if (book_id!=that.book_id ) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return (int) (id ^ (id >>> 32));
+        return (int) (book_id ^ (book_id >>> 32));
     }
 }

@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.ereader.client.EReaderApplication;
 import com.ereader.client.R;
 import com.ereader.common.constant.Constant;
-import com.ereader.common.util.LogUtil;
 import com.ereader.reader.activity.ReaderActivity;
 import com.ereader.reader.model.StoreBook;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
@@ -114,13 +113,11 @@ public class BookLocalPagerAdapter extends PagerAdapter {
 		//TODO 只是demo
 		Intent intent = new Intent(context, ReaderActivity.class);
 		StoreBook book=new StoreBook();
-		book.book_id="10";
-		book.id=10;
-		book.name="test";
+		book.book_id=position+10000;
+		book.name="test"+position;
 		book.type="epub";
 		book.file=Constant.BOOKS+"book.epub";
 		book.presetFile=Constant.BOOKS+"book.epub";
-		LogUtil.LogError("presetFile",book.presetFile);
 		intent.putExtra("storeBook", book);
 		context.startActivity(intent);
 	}

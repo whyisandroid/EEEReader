@@ -3,6 +3,7 @@ package com.ereader.client.ui.bookshelf;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -22,8 +23,10 @@ import com.ereader.client.ui.dialog.DialogUtil;
 import com.ereader.common.constant.Constant;
 import com.ereader.common.util.LogUtil;
 import com.ereader.common.util.ProgressDialogUtil;
+import com.ereader.common.util.ToastUtil;
 import com.ereader.reader.activity.ReaderActivity;
 import com.ereader.reader.model.StoreBook;
+import com.glview.widget.Toast;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
 import com.lidroid.xutils.http.HttpHandler;
@@ -48,8 +51,6 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
     private static int operation = OPERATION_CUSTOM;//默认OPERATION_CUSTOM
 
     private DbUtils db;
-//    private SkyUtility  st;
-//    private LocalService ls = null;
 
     private Handler mHandler = new Handler() {
 
@@ -83,46 +84,13 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
         LogUtil.LogError("onCreate", "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shelf_search_layout);
-//        app=EReaderApplication.getInstance();
-//        app.initReadSettings();
         controller = AppController.getController(this);
         downloadManager = DownloadService.getDownloadManager(SearchBuyActivity.this);
         findView();
-//        init();
         initView();
-//        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 
 
     }
-  /*  //初始化阅读设置
-    private void init(){
-
-        if (SkySetting.getStorageDirectory()==null) {
-
-            SkySetting.setStorageDirectory(Constant.ROOT_OUTPATH,Constant.FOLDER_NAME);
-        }
-        st = new SkyUtility(this);
-        st.makeSetup();
-        this.registerFonts();
-        this.reload();
-        Setting.prepare();
-
-    }
-    public void reload() {
-        app.reloadBookInformations();
-        //TODO   清除数据重新加载
-        //
-
-    }
-    public void registerFonts() {
-        this.registerCustomFont("Underwood","uwch.ttf");
-        this.registerCustomFont("Mayflower","Mayflower Antique.ttf");
-    }
-
-    public void registerCustomFont(String fontFaceName,String fontFileName) {
-        st.copyFontToDevice(fontFileName);
-        app.customFonts.add(new CustomFont(fontFaceName,fontFileName));
-    }*/
     private void findView() {
         main_top_title = (EditText) findViewById(R.id.et_book_search);
         gridv_book_search = (GridView) findViewById(R.id.gridv_book_search);
@@ -135,11 +103,9 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
         gridv_book_search.setOnItemClickListener(this);
 //        gridv_book_search.setOnItemLongClickListener(this);
         getshelfBuyBooks();
-
     }
 
     private void setupData() {
-
         BookShowInfo booksGet = (BookShowInfo) controller.getContext().getBusinessData("BookShowResp");
         List<BookShow> list = null;
         List<BookShowWithDownloadInfo> datas = null;
@@ -156,7 +122,7 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
                 data=new BookShowWithDownloadInfo(list.get(i));
                 for (int j = 0; j < downinfoCount; j++) {
                     downinfo = downloadManager.getDownloadInfo(j);
-                    if (String.valueOf(downinfo.getId()).equals(data.getBook_id())) {
+                    if (String.valueOf(downinfo.getBook_id()).equals(data.getBook_id())) {
                         data.setDownloadInfo(downinfo);
                         if (downinfo.getState() == HttpHandler.State.SUCCESS) {
                             data.setIsDownloaded(true);
@@ -226,10 +192,11 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
             if (operation == OPERATION_CHOOSE) {//添加图书
                 //Todo 添加本地图书
                 try {
+                    StoreBook b=new StoreBook(book);
                     db = DbUtils.create(SearchBuyActivity.this, Constant.OUTPATH, Constant.DBNAME);
                     db.configAllowTransaction(true);
                     db.configDebug(true);
-                    db.save(book);
+                    db.saveBindingId(b);
                 } catch (DbException e) {
                     LogUtil.LogError("添加本地图书-DbException", e.toString());
                 } finally {
@@ -241,18 +208,7 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
             } else {
                 if (book.isDownloaded()) {//已经下载
                     openBook(book);
-//                    Intent it = new Intent();
-//                    it.setClass(SearchBuyActivity.this, ReadActivity.class);
-//                    String path = book.getDownloadInfo().getFileSavePath();
-//                    ToastUtil.showToast(SearchBuyActivity.this, "position=" + position + ";path=" + path, ToastUtil.LENGTH_LONG);
-//                    LogUtil.Log("position=" + position + ";path=" + path);
-//                    it.putExtra(getString(R.string.bpath), path);
-//                    startActivity(it);
-
                 } else {//未下载
-
-//                    adapter.startDown(controller, position);
-                    //ToastUtil.showToast(SearchBuyActivity.this,"下载...", Toast.LENGTH_SHORT);
                     if (book.isDownloading()) {//正在下载之取消下载
                         //TODO
                         adapter.setDownloadStatusNById(position, false);
@@ -270,50 +226,26 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
 
     private void openBook(BookShowWithDownloadInfo book){
         //TODO 只是demo
+        String downfile="";
+        DownloadInfo down=book.getDownloadInfo();
+        if(null!=down){
+            downfile=down.getFileSavePath();
+        }
+        if(TextUtils.isEmpty(downfile)){
+            ToastUtil.showToast(SearchBuyActivity.this,"请先下载～", Toast.LENGTH_SHORT);
+            return;
+        }
         Intent intent = new Intent(SearchBuyActivity.this, ReaderActivity.class);
         StoreBook bookSample=new StoreBook();
-        bookSample.book_id="10";
-        bookSample.id=10;
-        bookSample.name="test";
+        bookSample.book_id=Integer.parseInt(book.getBook_id());
+        bookSample.name=book.getName();
         bookSample.type="epub";
-        bookSample.file=Constant.BOOKS+"book.epub";
+        bookSample.file=downfile;
+        bookSample.cover=book.getCover_front_url();
         bookSample.presetFile=Constant.BOOKS+"book.epub";
         LogUtil.LogError("presetFile",bookSample.presetFile);
         intent.putExtra("storeBook", bookSample);
         startActivity(intent);
-    /*    if (SkySetting.getStorageDirectory()==null) {
-            SkySetting.setStorageDirectory(Constant.ROOT_OUTPATH,Constant.FOLDER_NAME);
-        }
-        List<BookInformation> readlists = new ArrayList<BookInformation>();
-        readlists=app.bis;//阅读数据库
-        int code =Integer.parseInt(book.getBook_id());
-        DownloadInfo down=book.getDownloadInfo();
-        BookInformation bi=null;//需要打开的图书对象
-        if(null!=down){
-            int isExit=app.isExistByCodeId(readlists,code);
-            if(isExit>=0){//打开
-            //TODO
-                bi=app.bis.get(isExit);
-                Log.e("已经存在了：书", bi.fileName + ":::" + SkySetting.storageDirectory + ":::" + bi.source + ":::" + bi.getBook().baseDirectory);
-            }else {//添加图书
-                //ToDo  down.getFileSavePath() Constant.BOOKS
-                app.installBook(Constant.BOOKS+"book.epub", code);
-                for (int i = 0; i <app.bis.size() ; i++) {
-                    if(code==app.bis.get(i).bookCode){
-                        bi=app.bis.get(i);
-                        break;
-                    }
-                }
-            }
-        }else{
-            ToastUtil.showToast(SearchBuyActivity.this, "并没有下载", ToastUtil.LENGTH_SHORT);
-        }
-        if(null!=bi) {
-            Log.e("eeeeee", bi.fileName + ":::" + SkySetting.storageDirectory + ":::" + bi.source + ":::" + bi.getBook().baseDirectory);
-            app.openEpub(SearchBuyActivity.this,bi);
-        }else
-            ToastUtil.showToast(SearchBuyActivity.this, "打开图书失败", ToastUtil.LENGTH_SHORT);*/
-
     }
 
     @Override

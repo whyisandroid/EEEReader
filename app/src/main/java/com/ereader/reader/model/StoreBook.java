@@ -1,19 +1,22 @@
 package com.ereader.reader.model;
 
 import com.ereader.client.R;
-import com.ereader.client.service.download.DownloadInfo;
+import com.ereader.client.entities.BookShowWithDownloadInfo;
 import com.ereader.reader.utils.MimeType;
+import com.lidroid.xutils.db.annotation.Id;
+import com.lidroid.xutils.db.annotation.NoAutoIncrement;
 
 import java.io.Serializable;
 
-public class StoreBook extends DownloadInfo implements Serializable {
+public class StoreBook implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
 	public final static String PRESET_PREFIX = "preset://";
-	
-//	public int book_id;
-//	public String name;
+	@Id(column = "book_id")
+	@NoAutoIncrement // int,long类型的id默认自增，不想使用自增时添加此注解
+	public int book_id;
+	public String name;
 	public String file;
 	public String presetFile;
 	public String type;
@@ -24,6 +27,18 @@ public class StoreBook extends DownloadInfo implements Serializable {
 	public long fileSign;
 
 	public StoreBook(){
+	}
+	public StoreBook(BookShowWithDownloadInfo book){
+		this.book_id=Integer.parseInt(book.getBook_id());
+		this.name=book.getName();
+		if(null!=book.getDownloadInfo()){
+			this.file=book.getDownloadInfo().getFileSavePath();
+			this.presetFile=book.getDownloadInfo().getFileSavePath();
+			this.fileSign=book.getDownloadInfo().getFileLength();
+		}
+		this.cover=book.getCover_front_url();
+		this.type= "epub";
+
 	}
 
 	public int getIconRes()

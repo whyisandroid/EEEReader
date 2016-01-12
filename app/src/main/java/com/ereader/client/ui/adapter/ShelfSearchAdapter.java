@@ -65,7 +65,7 @@ public class ShelfSearchAdapter extends BaseAdapter {
         String downUrl = controller.getDownUrl();
         if (!TextUtils.isEmpty(downUrl)) {
             try {
-                downloadManager.addNewDownload(Long.parseLong(book.getBook_id()),//book_id
+                downloadManager.addNewDownload(Integer.parseInt(book.getBook_id()),//book_id
                         downUrl,//下载的URL
                         book.getName(),//文件名字
                         target,
@@ -135,6 +135,7 @@ public class ShelfSearchAdapter extends BaseAdapter {
     public void setDownloadStatusNById(int position, boolean status) {
         mList.get(position).setIsDownloading(status);
         notifyDataSetChanged();
+
     }
 
     public void deleteByPostion(int position) {
@@ -209,16 +210,16 @@ public class ShelfSearchAdapter extends BaseAdapter {
         } else {
             holder.iv_book_delete.setVisibility(View.GONE);
         }
-//        if (book.isDownloaded()) {
-//            holder.iv_book_status_ok.setVisibility(View.VISIBLE);
-//        } else {
-//            holder.iv_book_status_ok.setVisibility(View.GONE);
-//            if (book.isDownloading()) {
-//                holder.ll_item.setVisibility(View.VISIBLE);
-//            } else {
-//                holder.ll_item.setVisibility(View.GONE);
-//            }
-//        }
+        if (book.isDownloaded()) {
+            holder.iv_book_status_ok.setVisibility(View.VISIBLE);
+        } else{
+            holder.iv_book_status_ok.setVisibility(View.GONE);
+            if (book.isDownloading()) {
+                holder.ll_item.setVisibility(View.VISIBLE);
+            } else {
+                holder.ll_item.setVisibility(View.GONE);
+            }
+        }
         if(null!=book.getDownloadInfo()){
             HttpHandler<File> handler = book.getDownloadInfo().getHandler();
             if (handler != null) {
@@ -280,6 +281,7 @@ public class ShelfSearchAdapter extends BaseAdapter {
                         case WAITING:
                         case STARTED:
                         case LOADING:
+                            book.setIsDownloaded(true);
                             iv_book_status_ok.setVisibility(View.GONE);
                             ll_item.setVisibility(View.VISIBLE);
                             if (downInfo.getFileLength() > 0) {
@@ -293,6 +295,7 @@ public class ShelfSearchAdapter extends BaseAdapter {
                             ll_item.setVisibility(View.GONE);
                             break;
                         case SUCCESS:
+                            book.setIsDownloaded(true);
                             iv_book_status_ok.setVisibility(View.VISIBLE);
                             ll_item.setVisibility(View.GONE);
                             break;
@@ -308,8 +311,6 @@ public class ShelfSearchAdapter extends BaseAdapter {
                     }
                 }
             }
-
-
         }
     }
 

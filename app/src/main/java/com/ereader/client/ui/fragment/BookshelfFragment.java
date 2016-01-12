@@ -23,7 +23,6 @@ import android.widget.TextView;
 import com.ereader.client.EReaderApplication;
 import com.ereader.client.R;
 import com.ereader.client.entities.BookShow;
-import com.ereader.client.entities.BookShowWithDownloadInfo;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.adapter.BookLocalPagerAdapter;
 import com.ereader.client.ui.adapter.BookShelfAdapter;
@@ -35,6 +34,7 @@ import com.ereader.common.constant.Constant;
 import com.ereader.common.util.IntentUtil;
 import com.ereader.common.util.LogUtil;
 import com.ereader.common.util.ToastUtil;
+import com.ereader.reader.model.StoreBook;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
 
@@ -72,7 +72,7 @@ public class BookshelfFragment extends Fragment {
 
     public static final int requestCode_login = 1001;
 
-    private List<BookShowWithDownloadInfo> list = new ArrayList<BookShowWithDownloadInfo>();
+    private List<StoreBook> list = new ArrayList<StoreBook>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -231,45 +231,37 @@ public class BookshelfFragment extends Fragment {
                 }
 
             } else {
-                BookShowWithDownloadInfo book = adapter.getItem(position);
+                StoreBook book = adapter.getItem(position);
                 if (null == book) {
                     //TODO 无效的显示
                     return;
                 }
                 if (adapter.isShowDelete()) {//删除
                     //TODO:删除数据库／本地文件
-
-                    if (DbDeleteBook(book)) {
-                        if (book.isDownloaded() && null != book.getDownloadInfo()) {//已经下载
-                            new File(book.getDownloadInfo().getFileSavePath()).delete();
-                        }
-                        adapter.deleteByPostion(position);
-                        ToastUtil.showToast(getActivity(), "删除《" + book.getName() + "》成功！", ToastUtil.LENGTH_SHORT);
-                    } else {
-                        ToastUtil.showToast(getActivity(), "删除《" + book.getName() + "》失败！", ToastUtil.LENGTH_SHORT);
-                    }
+                    adapter.deleteByPostion(position);
+                    ToastUtil.showToast(getActivity(), "删除《" + book.name + "》成功！", ToastUtil.LENGTH_SHORT);
+//                    if (DbDeleteBook(book)) {
+//                        if (book.isDownloaded() && null != book.getDownloadInfo()) {//已经下载
+//                            new File(book.getDownloadInfo().getFileSavePath()).delete();
+//                        }
+//                        adapter.deleteByPostion(position);
+//                        ToastUtil.showToast(getActivity(), "删除《" + book.getName() + "》成功！", ToastUtil.LENGTH_SHORT);
+//                    } else {
+//                        ToastUtil.showToast(getActivity(), "删除《" + book.getName() + "》失败！", ToastUtil.LENGTH_SHORT);
+//                    }
 
                 } else {
-
-                    if (book.isDownloaded()) {//已经下载
-//                        Intent it = new Intent();
-//                        it.setClass(mContext, ReadActivity.class);
-//                        //          getResources().openRawResource(R.raw.book0);
-//                        String path = getActivity().getFilesDir().getAbsolutePath() + "/book.epub";
-//                        //(String) listItem.get(0).get("path");
-//                        ToastUtil.showToast(mContext, "position=" + position + ";path=" + path, ToastUtil.LENGTH_LONG);
-//                        //it.putExtra("aaa", path);getString(R.string.bpath)
-//                        it.putExtra(getString(R.string.bpath), path);
-//                        startActivity(it);
-
-                    } else {//未下载
-
-                        if (book.isDownloading()) {//正在下载之取消下载
-                            adapter.setDownloadStatusNById(position, false);
-                        } else {//正在下载之开始下载
-                            adapter.setDownloadStatusNById(position, true);
-                        }
-                    }
+                    adapter.open(position);
+//                    if (book.isDownloaded()) {//已经下载
+//                        adapter.open(position);
+//                    } else {//未下载
+//
+//                        if (book.isDownloading()) {//正在下载之取消下载
+//                            adapter.setDownloadStatusNById(position, false);
+//                        } else {//正在下载之开始下载
+//                            adapter.setDownloadStatusNById(position, true);
+//                        }
+//                    }
 
                 }
             }
@@ -283,8 +275,8 @@ public class BookshelfFragment extends Fragment {
             if (position == parent.getAdapter().getCount() - 1) {
 
             } else {
-                BookShowWithDownloadInfo book = (BookShowWithDownloadInfo) parent.getAdapter().getItem(position);
-                if (null != book && !book.isDownloading()) {
+                StoreBook book = (StoreBook) parent.getAdapter().getItem(position);
+                if (null != book ) {
                     adapter.setIsShowDelete(!adapter.isShowDelete());
                 }
             }
@@ -401,7 +393,7 @@ public class BookshelfFragment extends Fragment {
                 db = DbUtils.create(getActivity(), Constant.OUTPATH, Constant.DBNAME);
                 db.configAllowTransaction(true);
                 db.configDebug(true);
-                list = db.findAll(BookShowWithDownloadInfo.class);
+                list = db.findAll(StoreBook.class);
                 setupData(list);
             } catch (DbException e) {
                 LogUtil.LogError("获取数据－DbException", e.toString());
@@ -412,111 +404,13 @@ public class BookshelfFragment extends Fragment {
 
     }
 
-    private void setupData(List<BookShowWithDownloadInfo> list) {
+    private void setupData(List<StoreBook> list) {
         if (null == list) {
-            list = new ArrayList<BookShowWithDownloadInfo>();
+            list = new ArrayList<StoreBook>();
         }
         adapter = new BookShelfAdapter(mContext, list);
         gridv_book.setAdapter(adapter);
     }
-
-
-
-//
-//    /**
-//     * 本地书库载入
-//     */
-//    public void local() {
-//        SQLiteDatabase db = localbook.getReadableDatabase();
-//        String col[] = {"path"};
-//        Cursor cur = db.query("localbook", col, "type=1", null, null, null,
-//                null);
-//        Cursor cur1 = db.query("localbook", col, "type=2", null, null, null,
-//                null);
-//        Integer num = cur.getCount();
-//        Integer num1 = cur1.getCount();
-//        ArrayList<String> arraylist = new ArrayList<String>();
-//        while (cur1.moveToNext()) {
-//            String s = cur1.getString(cur1.getColumnIndex("path"));
-//            arraylist.add(s);
-//        }
-//        while (cur.moveToNext()) {
-//            String s = cur.getString(cur.getColumnIndex("path"));
-//            arraylist.add(s);
-//        }
-//        db.close();
-//        cur.close();
-//        cur1.close();
-//        if (listItem == null)
-//            listItem = new ArrayList<HashMap<String, Object>>();
-//        listItem.clear();
-//        String[] bookids = getResources().getStringArray(R.array.bookid);
-//        String[] booknames = getResources().getStringArray(R.array.bookname);
-//        String[] bookauthors = getResources()
-//                .getStringArray(R.array.bookauthor);
-//        Map<String, String[]> maps = new HashMap<String, String[]>();
-//        for (int i = 0; i < bookids.length; i++) {
-//            String[] value = new String[2];
-//            value[0] = booknames[i];
-//            value[1] = bookauthors[i];
-//            maps.put(bookids[i], value);
-//        }
-//        for (int i = 0; i < num + num1; i++) {
-//            if (i < num1) {
-//                File file1 = new File(arraylist.get(i));
-//                String m = file1.getName().substring(0,
-//                        file1.getName().length() - 4);
-//                if (m.length() > 8) {
-//                    m = m.substring(0, 8) + "...";
-//                }
-//                String id = arraylist.get(i).substring(
-//                        arraylist.get(i).lastIndexOf("/") + 1);
-//                String[] array = maps.get(id);
-//                String auther = array != null && array[1] == null ? "未知"
-//                        : array[1];
-//                String name = array[0] == null ? m : array[0];
-//                map = new HashMap<String, Object>();
-//
-//                if (i == 0) {
-//                    map.put("itemback", R.drawable.itemback);
-//                } else if ((i % 2) == 0) {
-//                    map.put("itemback", R.drawable.itemback);
-//                }
-//                map.put("ItemImage",
-//                        map2 != null ? map2.get(file1.getName())[0]
-//                                : R.drawable.cover);
-//                map.put("BookName", "");
-//                map.put("ItemTitle", name == null ? m : name);
-//                map.put("ItemTitle1", "作者：" + auther);
-//                map.put("LastImage", "推荐书目");
-//                map.put("path", file1.getPath());
-//                map.put("com", 0 + file1.getName());// 单独用于排序
-//                listItem.add(map);
-//            } else {
-//                map = new HashMap<String, Object>();
-//
-//                File file1 = new File(arraylist.get(i));
-//                String m = file1.getName().substring(0,
-//                        file1.getName().length() - 4);
-//                if (m.length() > 8) {
-//                    m = m.substring(0, 8) + "...";
-//                }
-//                if (i == 0) {
-//                    map.put("itemback", R.drawable.itemback);
-//                } else if ((i % 2) == 0) {
-//                    map.put("itemback", R.drawable.itemback);
-//                }
-//                map.put("ItemImage", R.drawable.cover);
-//                map.put("BookName", m);
-//                map.put("ItemTitle", m);
-//                map.put("ItemTitle1", "作者：未知");
-//                map.put("LastImage", "本地导入");
-//                map.put("path", file1.getPath());
-//                map.put("com", "1");
-//                listItem.add(map);
-//            }
-//        }
-//    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

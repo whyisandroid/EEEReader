@@ -1,6 +1,8 @@
 package com.ereader.client.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,26 +11,28 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.ereader.client.R;
-import com.ereader.client.entities.BookShowWithDownloadInfo;
+import com.ereader.common.util.ToastUtil;
+import com.ereader.reader.activity.ReaderActivity;
+import com.ereader.reader.model.StoreBook;
+import com.glview.widget.Toast;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import java.io.File;
 import java.util.List;
 
 public class BookShelfAdapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater inflater;
-    private List<BookShowWithDownloadInfo> mList;
+    private List<StoreBook> mList;
 
     private boolean isShowDelete = false;
-
-
     private ImageLoader imageLoader = null;
     private ImageLoaderConfiguration configuration = null;
     private DisplayImageOptions options;
-    public BookShelfAdapter(Context mContext, List<BookShowWithDownloadInfo> list) {
+    public BookShelfAdapter(Context mContext, List<StoreBook> list) {
         this.mContext=mContext;
         this.mList = list;
 
@@ -39,17 +43,17 @@ public class BookShelfAdapter extends BaseAdapter {
             this.imageLoader.init(configuration);
         }
     }
-    public void setDownloadStatusNById(int position, boolean status) {
+ /*   public void setDownloadStatusNById(int position, boolean status) {
         mList.get(position).setIsDownloading(status);
         notifyDataSetChanged();
-    }
+    }*/
 
     public void deleteByPostion(int position){
         mList.remove(position);
         notifyDataSetChanged();
     }
 
-    public void setData(List<BookShowWithDownloadInfo> list) {
+    public void setData(List<StoreBook> list) {
         this.mList = list;
         notifyDataSetChanged();
     }
@@ -86,7 +90,7 @@ public class BookShelfAdapter extends BaseAdapter {
     }
 
     @Override
-    public BookShowWithDownloadInfo getItem(int position) {
+    public StoreBook getItem(int position) {
         if(position==getCount()-1){
             return null;
         }
@@ -102,7 +106,7 @@ public class BookShelfAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder holder;
-        BookShowWithDownloadInfo book = (BookShowWithDownloadInfo) getItem(position);
+        StoreBook book = (StoreBook) getItem(position);
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.book_shelf_item, null);
             holder = new ViewHolder();
@@ -112,7 +116,7 @@ public class BookShelfAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         if(null!=book){
-            imageLoader.displayImage(book.getCover_front_url(), holder.iv_book_shelf, options);
+           /* imageLoader.displayImage(book.getCover_front_url(), holder.iv_book_shelf, options);
             if (isShowDelete) {
                 holder.iv_book_delete.setVisibility(View.VISIBLE);
             } else {
@@ -127,7 +131,14 @@ public class BookShelfAdapter extends BaseAdapter {
                 } else {
                     holder.ll_item.setVisibility(View.GONE);
                 }
+            }*/
+            imageLoader.displayImage(book.cover, holder.iv_book_shelf, options);
+            if (isShowDelete) {
+                holder.iv_book_delete.setVisibility(View.VISIBLE);
+            } else {
+                holder.iv_book_delete.setVisibility(View.GONE);
             }
+            holder.iv_book_status_ok.setVisibility(View.GONE);
         }
         if (position == getCount()-1) {//加号
             holder.iv_book_delete.setVisibility(View.GONE);
@@ -156,6 +167,26 @@ public class BookShelfAdapter extends BaseAdapter {
             iv_book_status_ok = (ImageView) view.findViewById(R.id.book_status_ok);
             ll_item = (RelativeLayout) view.findViewById(R.id.ll_item);
         }
+    }
+
+    public void open(int position){
+        if(position==getCount()-1){
+            return;
+        }else{
+            openBook(mList.get(position));
+        }
+
+    }
+
+    private void openBook(StoreBook book){
+
+        if(TextUtils.isEmpty(book.file)||!new File(book.file).exists()){
+            ToastUtil.showToast(mContext, "请先下载～", Toast.LENGTH_SHORT);
+            return;
+        }
+        Intent intent = new Intent(mContext, ReaderActivity.class);
+        intent.putExtra("storeBook", book);
+        mContext.startActivity(intent);
     }
 
 }
