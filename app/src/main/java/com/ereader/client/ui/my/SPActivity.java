@@ -96,4 +96,10 @@ public class SPActivity extends BaseActivity implements OnClickListener {
                 break;
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        setResult(0,getIntent());
+        this.finish();
+    }
 }

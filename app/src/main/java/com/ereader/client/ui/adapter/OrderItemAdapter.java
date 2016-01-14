@@ -113,7 +113,7 @@ public class OrderItemAdapter extends BaseAdapter {
 				bundle.putString("id",orderBook.getInfo().getProduct_id());
 				bundle.putString("orderId", mOrderList.getOrder_id());
 				intent.putExtras(bundle);
-				((Activity)mContext).startActivityForResult(intent, 0);
+				((Activity)mContext).startActivityForResult(intent, -1);
 			}
 		});
 		
