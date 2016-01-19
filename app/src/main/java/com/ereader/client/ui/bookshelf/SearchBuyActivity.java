@@ -142,7 +142,6 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
         }
         if (null == adapter) {
             adapter = new ShelfSearchAdapter(SearchBuyActivity.this, datas,downloadManager);
-            adapter = new ShelfSearchAdapter(SearchBuyActivity.this, datas,downloadManager);
             gridv_book_search.setAdapter(adapter);
         } else {
             adapter.setData(datas);
@@ -189,7 +188,7 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
             DialogUtil.delBookById(SearchBuyActivity.this, book, mHandler);
 
         } else {
-            if (operation == OPERATION_CHOOSE) {//添加图书
+            if (operation == OPERATION_CHOOSE&&book.isDownloaded()) {//添加图书
                 //Todo 添加本地图书
                 try {
                     StoreBook b=new StoreBook(book);
@@ -211,12 +210,14 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
                 } else {//未下载
                     if (book.isDownloading()) {//正在下载之取消下载
                         //TODO
-                        adapter.setDownloadStatusNById(position, false);
                         adapter.stopDownload(position);
+                        adapter.setDownloadStatusNById(position, false);
+
 
                     } else {//正在下载之开始下载
-                        adapter.setDownloadStatusNById(position, true);
                         adapter.startDown(controller, position);
+                        adapter.setDownloadStatusNById(position, true);
+
                     }
                 }
             }
