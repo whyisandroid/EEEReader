@@ -25,6 +25,7 @@ import com.ereader.client.R;
 import com.ereader.client.entities.BookShow;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.adapter.BookLocalPagerAdapter;
+import com.ereader.client.ui.adapter.BookPagerAdapter;
 import com.ereader.client.ui.adapter.BookShelfAdapter;
 import com.ereader.client.ui.bookshelf.SearchBuyActivity;
 import com.ereader.client.ui.login.LoginActivity;
@@ -34,6 +35,7 @@ import com.ereader.common.constant.Constant;
 import com.ereader.common.util.IntentUtil;
 import com.ereader.common.util.LogUtil;
 import com.ereader.common.util.ToastUtil;
+import com.ereader.reader.db.BookDBHelper;
 import com.ereader.reader.model.StoreBook;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
@@ -159,6 +161,9 @@ public class BookshelfFragment extends Fragment {
 
     private void initBannerPager() {
         // 最近阅读的信息
+        List<StoreBook> listPager=  BookDBHelper.get(mContext).queryAllBooks();
+
+
 //        ArrayList<BookInformation> listPager = app.bis;
 //        LogUtil.LogError("listPager",listPager.size()+"");
 //        if (null != listPager && listPager.size() > 0) {
@@ -173,6 +178,20 @@ public class BookshelfFragment extends Fragment {
 //            pointView.setPosition(0);
 //            pointlayout.postInvalidate();
 //        } else {//最近阅读－没有数据：
+
+
+        if (null != listPager && listPager.size() > 0) {
+            BookPagerAdapter pageAdapter = new BookPagerAdapter(mContext, listPager);
+            viewpager.setAdapter(pageAdapter);
+            viewpager.setCurrentItem(0);
+            viewpager.setOnPageChangeListener(viewpagerListener);
+
+            pointView = new PointView(getActivity(), (listPager.size()+1)/2);
+            pointlayout.removeAllViews();
+            pointlayout.addView(pointView);
+            pointView.setPosition(0);
+            pointlayout.postInvalidate();
+        } else {//最近阅读－没有数据：
             List<String> localListPager = new ArrayList<String>();
             localListPager.add("");
             BookLocalPagerAdapter pageAdapter = new BookLocalPagerAdapter(mContext, localListPager);
@@ -185,7 +204,7 @@ public class BookshelfFragment extends Fragment {
             pointlayout.addView(pointView);
             pointView.setPosition(0);
             pointlayout.postInvalidate();
-//        }
+        }
 
     }
 

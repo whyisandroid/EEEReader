@@ -65,13 +65,27 @@ public class ShelfSearchAdapter extends BaseAdapter {
         String downUrl = controller.getDownUrl();
         if (!TextUtils.isEmpty(downUrl)) {
             try {
+                DownloadRequestCallBack callback =new DownloadRequestCallBack();
+
                 downloadManager.addNewDownload(Integer.parseInt(book.getBook_id()),//book_id
                         downUrl,//下载的URL
                         book.getName(),//文件名字
                         target,
                         true, // 如果目标文件存在，接着未完成的部分继续下载。服务器不支持RANGE时将从新下载。
                         false, //如果从请求返回信息中获取到文件名，下载完成后自动重命名。
-                        new DownloadRequestCallBack());
+                        callback);
+//                HttpHandler<File> handler = downloadInfo.getHandler();
+//                if (handler != null) {
+//                    RequestCallBack callBack = handler.getRequestCallBack();
+//                    if (callBack instanceof DownloadManager.ManagerCallBack) {
+//                        DownloadManager.ManagerCallBack managerCallBack = (DownloadManager.ManagerCallBack) callBack;
+//                        if (managerCallBack.getBaseCallBack() == null) {
+//                            managerCallBack.setBaseCallBack(new DownloadRequestCallBack());
+//                        }
+//                    }
+//                    callBack.setUserTag(new WeakReference<ViewHolder>(holder));
+//                }
+
             } catch (DbException e) {
                 LogUtil.LogError("下载－DbException", e.toString());
             }
@@ -291,6 +305,8 @@ public class ShelfSearchAdapter extends BaseAdapter {
                             }
                             break;
                         case CANCELLED:
+                            book.setIsDownloaded(false);
+                            book.setIsDownloading(false);
                             iv_book_status_ok.setVisibility(View.GONE);
                             ll_item.setVisibility(View.GONE);
                             break;
@@ -300,9 +316,11 @@ public class ShelfSearchAdapter extends BaseAdapter {
                             ll_item.setVisibility(View.GONE);
                             break;
                         case FAILURE:
+                            book.setIsDownloaded(false);
+                            book.setIsDownloading(false);
                             iv_book_status_ok.setVisibility(View.GONE);
                             ll_item.setVisibility(View.GONE);
-                            ToastUtil.showToast(mContext,"下载图书<"+book.name+">失败！",ToastUtil.LENGTH_SHORT);
+                            LogUtil.LogError("debug", "debug:下载图书<" + book.name + ">失败！");
                             break;
                         default:
                             iv_book_status_ok.setVisibility(View.GONE);
@@ -340,19 +358,20 @@ public class ShelfSearchAdapter extends BaseAdapter {
 
         @Override
         public void onSuccess(ResponseInfo<File> responseInfo) {
-            ToastUtil.showToast(mContext, "下载成功", ToastUtil.LENGTH_SHORT);
+            ToastUtil.showToast(mContext, "debug:下载成功", ToastUtil.LENGTH_SHORT);
             refreshListItem();
         }
 
         @Override
         public void onFailure(HttpException error, String msg) {
-            ToastUtil.showToast(mContext,"下载失败～原因:"+msg,ToastUtil.LENGTH_SHORT);
+//            ToastUtil.showToast(mContext,"debug:下载失败～原因:"+msg,ToastUtil.LENGTH_SHORT);
+            LogUtil.LogError("error","debug:下载失败～原因:"+msg);
             refreshListItem();
         }
 
         @Override
         public void onCancelled() {
-            ToastUtil.showToast(mContext,"取消下载",ToastUtil.LENGTH_SHORT);
+//            ToastUtil.showToast(mContext,"取消下载",ToastUtil.LENGTH_SHORT);
             refreshListItem();
         }
     }
