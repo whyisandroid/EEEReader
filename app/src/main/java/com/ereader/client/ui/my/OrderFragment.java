@@ -116,7 +116,7 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if(resultCode == 0){
-
+			String orderId = data.getExtras().getString("orderId");
 		}
 	}
 

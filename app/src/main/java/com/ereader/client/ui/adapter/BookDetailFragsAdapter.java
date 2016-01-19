@@ -18,7 +18,7 @@ public class BookDetailFragsAdapter extends FragmentStatePagerAdapter {
 		super(fm);
 		fragments = new ArrayList<Fragment>();
 		fragments.add(new BookDetailFragment(book.getExtra().getContents())); 
-		fragments.add(new BookDetailFragment(book.getInfo().getDescription()));
+		fragments.add(new BookDetailFragment(book.getExtra().getSummary()));
 		fragments.add(new BookDetailFragment(book.getExtra().getAuthor_info()));
 		fragments.add(new BookSPFragment(book));
 	}

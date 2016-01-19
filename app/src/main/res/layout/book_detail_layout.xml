@@ -20,6 +20,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="永远不要找别人要安全感"
+            android:layout_toLeftOf="@+id/tv_book_collection"
+            android:layout_alignParentLeft="true"
+            android:maxLines="2"
             android:textColor="@color/new_color_2"
             android:textSize="@dimen/new_size_4" />
 
@@ -28,6 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
             android:text="收藏"
             android:textColor="@color/main_bar"
             android:textSize="@dimen/new_size_4" />

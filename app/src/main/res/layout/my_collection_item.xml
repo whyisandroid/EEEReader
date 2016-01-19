@@ -21,6 +21,7 @@
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/iv_book"
             android:textColor="@color/new_color_2"
+            android:maxLines="2"
             android:textSize="@dimen/new_size_4" />
 
         <TextView
