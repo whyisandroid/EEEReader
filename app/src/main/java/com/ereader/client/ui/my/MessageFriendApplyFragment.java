@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.ereader.client.R;
-import com.ereader.client.entities.Category;
 import com.ereader.client.entities.MessageFriends;
 import com.ereader.client.entities.json.MessageData;
 import com.ereader.client.service.AppController;
@@ -21,12 +20,13 @@ import com.ereader.client.ui.view.PullToRefreshView;
 import com.ereader.client.ui.view.PullToRefreshView.OnFooterRefreshListener;
 import com.ereader.client.ui.view.PullToRefreshView.OnHeaderRefreshListener;
 import com.ereader.common.util.ProgressDialogUtil;
+import com.ereader.common.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @SuppressLint("ValidFragment")
-public class MessageFriendApplyFragment extends Fragment implements OnClickListener,
+public class MessageFriendApplyFragment extends MesFragment implements OnClickListener,
 
 OnHeaderRefreshListener, OnFooterRefreshListener{
 	private View view;
@@ -82,6 +82,14 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 		initView();
 		return view;
 	}
+
+	@Override
+	public void delete() {
+		mList.clear();
+		adapter.notifyDataSetChanged();
+		ToastUtil.showToast(getActivity(),"清理成功",ToastUtil.LENGTH_LONG);
+	}
+
 	private void findView() {
 		lv_message_friends= (ListView)view.findViewById(R.id.lv_message_friends);
 		pull_refresh_message_friends = (PullToRefreshView)view.findViewById(R.id.pull_refresh_message_friends);

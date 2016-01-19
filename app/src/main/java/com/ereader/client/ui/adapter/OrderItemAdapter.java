@@ -93,9 +93,9 @@ public class OrderItemAdapter extends BaseAdapter {
 			holder.tv_order_right.setVisibility(View.INVISIBLE);
 			holder.tv_order_left.setVisibility(View.INVISIBLE);
 		}
-		holder.tv_book_price.setText(orderBook.getPrice());
+		holder.tv_book_price.setText("¥"+orderBook.getPrice());
 		holder.tv_book_time.setText(mOrderList.getUpdated_at());
-		holder.tv_book_name.setText(orderBook.getName());
+		holder.tv_book_name.setText(orderBook.getInfo().getName());
 
 		if(orderBook.getInfo() != null && !TextUtils.isEmpty(orderBook.getInfo().getImage_url())){
 			EReaderApplication.imageLoader.displayImage(orderBook.getInfo().getImage_url(), holder.iv_book, EReaderApplication.options);
@@ -109,7 +109,7 @@ public class OrderItemAdapter extends BaseAdapter {
 			public void onClick(View v) {
 				Intent intent = new Intent(mContext,SPActivity.class);
 				Bundle bundle = new Bundle();
-				bundle.putString("name",orderBook.getName());
+				bundle.putString("name",orderBook.getInfo().getName());
 				bundle.putString("id",orderBook.getInfo().getProduct_id());
 				bundle.putString("orderId", mOrderList.getOrder_id());
 				intent.putExtras(bundle);

@@ -28,7 +28,7 @@ import com.ereader.common.util.ProgressDialogUtil;
 import com.ereader.common.util.ToastUtil;
 
 @SuppressLint("ValidFragment")
-public class MessageFragment extends Fragment implements OnClickListener,
+public class MessageFragment extends MesFragment implements OnClickListener,
 OnHeaderRefreshListener, OnFooterRefreshListener{
 	private View view;
 	private Context mContext;
@@ -71,6 +71,14 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 		initView();
 		return view;
 	}
+
+	@Override
+	public void delete() {
+		mList.clear();
+		adapter.notifyDataSetChanged();
+		ToastUtil.showToast(getActivity(), "清理成功", ToastUtil.LENGTH_LONG);
+	}
+
 	private void findView() {
 		lv_message= (ListView)view.findViewById(R.id.lv_message);
 		pull_refresh_message = (PullToRefreshView)view.findViewById(R.id.pull_refresh_message);

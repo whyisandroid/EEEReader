@@ -24,12 +24,13 @@ import com.ereader.client.ui.view.PullToRefreshView;
 import com.ereader.client.ui.view.PullToRefreshView.OnFooterRefreshListener;
 import com.ereader.client.ui.view.PullToRefreshView.OnHeaderRefreshListener;
 import com.ereader.common.util.ProgressDialogUtil;
+import com.ereader.common.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @SuppressLint("ValidFragment")
-public class MessageSystemFragment extends Fragment implements OnClickListener,
+public class MessageSystemFragment extends MesFragment implements OnClickListener,
 OnHeaderRefreshListener, OnFooterRefreshListener{
 	private View view;
 	private Context mContext;
@@ -72,6 +73,14 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 		initView();
 		return view;
 	}
+
+	@Override
+	public void delete() {
+		mList.clear();
+		adapter.notifyDataSetChanged();
+		ToastUtil.showToast(getActivity(), "清理成功", ToastUtil.LENGTH_LONG);
+	}
+
 	private void findView() {
 		lv_message= (ListView)view.findViewById(R.id.lv_message);
 		pull_refresh_message = (PullToRefreshView)view.findViewById(R.id.pull_refresh_message);
@@ -83,11 +92,11 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 		lv_message.setAdapter(adapter);
 		message();
 	}
-	
-	
+
+
 	@Override
 	public void onClick(View v) {
-		
+
 	}
 	@Override
 	public void onFooterRefresh(PullToRefreshView view) {

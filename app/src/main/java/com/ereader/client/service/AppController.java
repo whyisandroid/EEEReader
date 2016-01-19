@@ -467,6 +467,16 @@ public class AppController {
 		}catch (Exception e) {
 		}
 	}
+	public void deleteMessage(Handler mhandler,int type) {
+		try {
+			service.deleteMessage(type);
+			mhandler.obtainMessage(type).sendToTarget();
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}
+	}
+
+
 	public void getFriendsApply(Handler mhandler) {
 		try {
 			service.getFriendsApply();

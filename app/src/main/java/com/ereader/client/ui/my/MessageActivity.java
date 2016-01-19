@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,7 +19,7 @@ import com.ereader.client.ui.BaseFragmentActivity;
 import com.ereader.client.ui.adapter.BookTabsAdapter;
 import com.ereader.client.ui.adapter.MessageFragsAdapter;
 import com.ereader.client.ui.view.ScrollingTabsView;
-import com.ereader.common.util.ToastUtil;
+import com.ereader.common.util.ProgressDialogUtil;
 // 我的消息
 public class MessageActivity extends BaseFragmentActivity implements OnClickListener {
 	private AppController controller;
@@ -25,6 +27,24 @@ public class MessageActivity extends BaseFragmentActivity implements OnClickList
 	private ViewPager vpager_message;
 	private Button main_top_right;
 	private List<Category> mListTitle;
+
+	private Handler mHandler = new Handler(){
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what){
+				case 1:
+					((MessageFragsAdapter)vpager_message.getAdapter()).getItem(0).delete();
+				break;
+				case 2:
+					((MessageFragsAdapter)vpager_message.getAdapter()).getItem(1).delete();
+					break;
+				case 0:
+					((MessageFragsAdapter)vpager_message.getAdapter()).getItem(2).delete();
+					break;
+			}
+
+		}
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +54,8 @@ public class MessageActivity extends BaseFragmentActivity implements OnClickList
 		findView();
 		initView();
 	}
+
+
 	/**
 	 * 
 	  * 方法描述：FindView
@@ -60,7 +82,6 @@ public class MessageActivity extends BaseFragmentActivity implements OnClickList
 		mListTitle = new ArrayList<Category>();
 			mListTitle.add(new Category("好友消息","1"));
 			mListTitle.add(new Category("好友推荐","2"));
-		//	mListTitle.add(new Category("连载更新","3"));
 			mListTitle.add(new Category("系统消息","0"));
 		MessageFragsAdapter orderAdapter = new MessageFragsAdapter(getSupportFragmentManager(),mListTitle);
 		vpager_message.setAdapter(orderAdapter);
@@ -74,13 +95,35 @@ public class MessageActivity extends BaseFragmentActivity implements OnClickList
 		BookTabsAdapter adapter = new BookTabsAdapter(this,mListTitle);
 		stabs_message.setAdapter(adapter);
 		stabs_message.setViewPager(vpager_message);
+
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case  R.id.main_top_right:
-			ToastUtil.showToast(MessageActivity.this, "清空成功", ToastUtil.LENGTH_LONG);
+			ProgressDialogUtil.showProgressDialog(MessageActivity.this, "", false);
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					int current = 0;
+					switch (vpager_message.getCurrentItem()){
+						case 0:
+							current= 1;
+							break;
+						case 1:
+							current= 2;
+							break;
+						case 2:
+							current= 0;
+							break;
+					}
+
+					controller.deleteMessage(mHandler,current);
+					ProgressDialogUtil.closeProgressDialog();
+				}
+			}).start();
+			//ToastUtil.showToast(MessageActivity.this, "清空成功", ToastUtil.LENGTH_LONG);
 			break;
 		default:
 			break;

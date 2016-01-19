@@ -72,11 +72,19 @@ public class SPActivity extends BaseActivity implements OnClickListener {
                     ToastUtil.showLongToast(SPActivity.this,"标题不能为空");
                     return;
                 }
+                if(title.length()>= 50){
+                    ToastUtil.showLongToast(SPActivity.this,"标题最多50个字符");
+                    return;
+                }
 
 
                 final String comment = et_sp_comment.getText().toString();
                 if(TextUtils.isEmpty(comment)){
                     ToastUtil.showLongToast(SPActivity.this,"内容不能为空");
+                    return;
+                }
+                if(comment.length()>= 1500){
+                    ToastUtil.showLongToast(SPActivity.this,"内容最多1500个字符");
                     return;
                 }
 

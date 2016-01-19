@@ -101,6 +101,7 @@ public class Config {
     public final static String HTTP_MY_MESSAGE = MY_SERVICE + "/api/user/message"; // 我的消息列表
     public final static String HTTP_MY_MESSAGE_APPLY = MY_SERVICE + "/api/user/friendApplyMessage"; // 好友申请列表
     public final static String HTTP_MY_MESSAGE_FRIENDS = MY_SERVICE + "/api/user/friendRecommendMessage"; // 好友推荐消息列表
+    public final static String HTTP_MY_MESSAGE_DETELETE = MY_SERVICE + "/api/user/delMessage"; // delete消息列表
     public final static String HTTP_MY_MESSAGE_SYSTEM = MY_SERVICE + "/api/user/message"; // 系统消息列表
     public final static String HTTP_MY_TO_FRIEND = MY_SERVICE + "/api/user/tellToFriend"; // 向好友推荐商品
 
