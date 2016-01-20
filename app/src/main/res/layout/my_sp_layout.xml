@@ -53,12 +53,12 @@
 
     <EditText
         android:id="@+id/et_sp_title"
+        style="@style/EText_basic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dimen_xnormal"
         android:layout_marginRight="@dimen/dimen_xnormal"
         android:layout_marginTop="15dp"
-        android:background="@color/white"
         android:ems="10"
         android:hint="标题或摘要（必填）"
         android:paddingBottom="5dp"
@@ -79,7 +79,7 @@
         android:layout_marginLeft="@dimen/dimen_xnormal"
         android:layout_marginRight="@dimen/dimen_xnormal"
         android:layout_marginTop="15dp"
-        android:background="@color/white"
+        style="@style/EText_basic"
         android:ems="10"
         android:gravity="top"
         android:hint="您的评论对其他买家很重要，评论商品赚积分(1500字以内，必填)"

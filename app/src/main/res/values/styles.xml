@@ -91,4 +91,9 @@
             <item name="android:windowExitAnimation">@anim/bottom_fade_out_a</item>
         </style>
 
+        <style name="EText_basic">
+            <item name="android:background">@drawable/bg_03</item>
+            <item name="android:paddingLeft">5dp</item>
+        </style>
+
 </resources>

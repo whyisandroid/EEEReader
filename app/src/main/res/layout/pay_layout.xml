@@ -64,6 +64,7 @@
 
             <EditText
                 android:id="@+id/et_pay_point"
+                style="@style/EText_basic"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -166,6 +167,7 @@
 
             <EditText
                 android:id="@+id/et_pay_friend"
+                style="@style/EText_basic"
                 android:layout_width="200dp"
                 android:visibility="gone"
                 android:layout_height="wrap_content"

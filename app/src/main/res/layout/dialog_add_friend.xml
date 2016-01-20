@@ -31,6 +31,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:ems="10"
+            style="@style/EText_basic"
             android:hint="手机号或者邮箱"
             android:textColor="@color/new_color_2"
             android:textColorHint="@color/new_color_4"

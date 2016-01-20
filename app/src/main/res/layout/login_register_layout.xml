@@ -31,6 +31,7 @@
 
     <EditText
         android:id="@+id/et_register_name"
+        style="@style/EText_basic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dimen_xnormal"
@@ -48,6 +49,7 @@
 
     <EditText
         android:id="@+id/et_register"
+        style="@style/EText_basic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dimen_xnormal"
@@ -72,6 +74,7 @@
 
         <EditText
             android:id="@+id/et_register_code"
+            style="@style/EText_basic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -101,6 +104,7 @@
 
     <EditText
         android:id="@+id/et_register_pwd1"
+        style="@style/EText_basic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dimen_xnormal"
@@ -116,6 +120,7 @@
 
     <EditText
         android:id="@+id/et_register_pwd2"
+        style="@style/EText_basic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dimen_xnormal"
@@ -132,18 +137,17 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_marginLeft="@dimen/dimen_xnormal"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen_xnormal">
 
         <CheckBox
             android:id="@+id/register_ckb_report"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:textColor="@color/new_color_2"
-            android:textSize="@dimen/new_size_3"
             android:text="我已阅读并同意"
-            />
+            android:textColor="@color/new_color_2"
+            android:textSize="@dimen/new_size_3" />
 
         <TextView
             android:id="@+id/register_tv_report"
@@ -152,9 +156,9 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/register_ckb_report"
             android:text="《用户注册协议》"
-            android:textSize="@dimen/new_size_3"
+            android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/read3"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:textSize="@dimen/new_size_3" />
     </RelativeLayout>
 
     <Button

@@ -9,6 +9,7 @@
 
     <EditText
         android:id="@+id/et_account_phone"
+        style="@style/EText_basic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -25,6 +26,7 @@
     </EditText>
      <EditText
         android:id="@+id/phone_et_new_phone"
+         style="@style/EText_basic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -50,6 +52,7 @@
 
       <EditText
         android:id="@+id/phone_et_code"
+          style="@style/EText_basic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/new_color_2"

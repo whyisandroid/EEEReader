@@ -18,13 +18,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:hint="当前密码:" />
+            android:hint="当前密码 :" />
 
         <EditText
             android:id="@+id/pwd_et_pwd"
+            style="@style/EText_basic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/dimen_xnormal"
+            android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/textView1"
 
             android:ems="10"
@@ -48,13 +50,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:hint="新的密码:" />
+            android:hint="新的密码 :" />
 
         <EditText
             android:id="@+id/pwd_et_pwd1"
+            style="@style/EText_basic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/dimen_xnormal"
+            android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/textView2"
             android:ems="10"
             android:inputType="textPassword"
@@ -76,13 +80,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:hint="确认密码:" />
+            android:hint="确认密码 :" />
 
         <EditText
             android:id="@+id/pwd_et_pwd2"
+            style="@style/EText_basic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/dimen_xnormal"
+            android:layout_marginLeft="5dp"
             android:ems="10"
             android:layout_toRightOf="@+id/textView3"
             android:inputType="textPassword"

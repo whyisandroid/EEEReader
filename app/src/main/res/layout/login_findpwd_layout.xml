@@ -9,6 +9,7 @@
 
     <EditText
         android:id="@+id/et_findpwd_phone"
+        style="@style/EText_basic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -40,6 +41,7 @@
         android:textColorHint="@color/new_color_4"
         android:textSize="@dimen/new_size_3"
         android:hint="验证码"
+          style="@style/EText_basic"
         android:ems="10" />
 
         <TextView

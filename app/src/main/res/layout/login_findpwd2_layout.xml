@@ -15,6 +15,7 @@
         android:layout_marginRight="@dimen/dimen_xnormal"
         android:layout_marginTop="15dp"
         android:ems="10"
+        style="@style/EText_basic"
         android:hint="密码"
         android:inputType="textPassword"
         android:textColor="@color/new_color_2"
@@ -26,6 +27,7 @@
 
     <EditText
         android:id="@+id/et_findpwd_code2"
+        style="@style/EText_basic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dimen_xnormal"

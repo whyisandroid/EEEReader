@@ -9,6 +9,7 @@
 
     <EditText
         android:id="@+id/et_account_email"
+        style="@style/EText_basic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -25,6 +26,7 @@
     </EditText>
     <EditText
         android:id="@+id/email_et_new"
+        style="@style/EText_basic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -39,6 +41,7 @@
     </EditText>
     <EditText
         android:id="@+id/email_et_new2"
+        style="@style/EText_basic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -53,6 +56,7 @@
     </EditText>
     <EditText
         android:id="@+id/email_et_pwd"
+        style="@style/EText_basic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
