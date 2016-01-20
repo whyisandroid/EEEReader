@@ -156,7 +156,7 @@ public class BookshelfFragment extends Fragment {
         gridv_book.setOnItemClickListener(gridItemListener);
         gridv_book.setOnItemLongClickListener(longListener);
 
-        initBannerPager();
+//        initBannerPager();
     }
 
     private void initBannerPager() {
@@ -180,7 +180,7 @@ public class BookshelfFragment extends Fragment {
 //        } else {//最近阅读－没有数据：
 
 
-        if (null != listPager && listPager.size() > 0) {
+        if (null != listPager && listPager.size() > 0&&EReaderApplication.getInstance().isLogin()) {
             BookPagerAdapter pageAdapter = new BookPagerAdapter(mContext, listPager);
             viewpager.setAdapter(pageAdapter);
             viewpager.setCurrentItem(0);
@@ -212,6 +212,7 @@ public class BookshelfFragment extends Fragment {
     public void onResume() {
         super.onResume();
         localCustom();
+        initBannerPager();
 
     }
 

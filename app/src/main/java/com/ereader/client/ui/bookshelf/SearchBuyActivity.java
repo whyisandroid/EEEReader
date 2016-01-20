@@ -188,22 +188,29 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
             DialogUtil.delBookById(SearchBuyActivity.this, book, mHandler);
 
         } else {
-            if (operation == OPERATION_CHOOSE&&book.isDownloaded()) {//添加图书
-                //Todo 添加本地图书
-                try {
-                    StoreBook b=new StoreBook(book);
-                    db = DbUtils.create(SearchBuyActivity.this, Constant.OUTPATH, Constant.DBNAME);
-                    db.configAllowTransaction(true);
-                    db.configDebug(true);
-                    db.saveBindingId(b);
-                } catch (DbException e) {
-                    LogUtil.LogError("添加本地图书-DbException", e.toString());
-                } finally {
-                    db.close();
-                }
+            if (operation == OPERATION_CHOOSE) {//添加图书
+                if(book.isDownloaded()){
+                    //Todo 添加本地图书
+                    try {
+                        StoreBook b=new StoreBook(book);
+                        db = DbUtils.create(SearchBuyActivity.this, Constant.OUTPATH, Constant.DBNAME);
+                        db.configAllowTransaction(true);
+                        db.configDebug(true);
+                        db.saveBindingId(b);
+                    } catch (DbException e) {
+                        LogUtil.LogError("添加本地图书-DbException", e.toString());
+                    } finally {
+                        db.close();
+                    }
 //
-                setResult(100);
-                SearchBuyActivity.this.finish();
+                    setResult(100);
+                    SearchBuyActivity.this.finish();
+                }else if(book.isDownloading()){
+                    ToastUtil.showToast(SearchBuyActivity.this,"正在下载...", Toast.LENGTH_SHORT);
+                } else {//正在下载之开始下载
+                adapter.startDown(controller, position);
+                adapter.setDownloadStatusNById(position, true);
+                }
             } else {
                 if (book.isDownloaded()) {//已经下载
                     openBook(book);
@@ -212,7 +219,6 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
                         //TODO
                         adapter.stopDownload(position);
                         adapter.setDownloadStatusNById(position, false);
-
 
                     } else {//正在下载之开始下载
                         adapter.startDown(controller, position);

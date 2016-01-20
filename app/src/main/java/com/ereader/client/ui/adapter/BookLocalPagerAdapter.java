@@ -92,12 +92,16 @@ public class BookLocalPagerAdapter extends PagerAdapter {
 		final TextView textView1= (TextView) imageLayout.findViewById(R.id.textView1);
 		final RelativeLayout rl_index1=(RelativeLayout)imageLayout.findViewById(R.id.rl_index1);
 		RelativeLayout rl_index2=(RelativeLayout)imageLayout.findViewById(R.id.rl_index2);
-		rl_index1.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				openBook(position);
-			}
-		});
+
+		imageLayout.findViewById(R.id.tv_recommend_read1).setVisibility(View.VISIBLE);
+		imageLayout.findViewById(R.id.tv_recommend_read2).setVisibility(View.VISIBLE);
+
+				rl_index1.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						openBook(position);
+					}
+				});
 		rl_index2.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

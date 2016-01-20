@@ -11,10 +11,14 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.ereader.client.R;
+import com.ereader.common.constant.Constant;
+import com.ereader.common.util.LogUtil;
 import com.ereader.common.util.ToastUtil;
 import com.ereader.reader.activity.ReaderActivity;
 import com.ereader.reader.model.StoreBook;
 import com.glview.widget.Toast;
+import com.lidroid.xutils.DbUtils;
+import com.lidroid.xutils.exception.DbException;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -27,7 +31,7 @@ public class BookShelfAdapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater inflater;
     private List<StoreBook> mList;
-
+    private DbUtils db;
     private boolean isShowDelete = false;
     private ImageLoader imageLoader = null;
     private ImageLoaderConfiguration configuration = null;
@@ -49,6 +53,17 @@ public class BookShelfAdapter extends BaseAdapter {
     }*/
 
     public void deleteByPostion(int position){
+        try {
+            db = DbUtils.create(mContext, Constant.OUTPATH, Constant.DBNAME);
+//            db.configAllowTransaction(true);
+//            db.configDebug(true);
+//            db.saveBindingId(b);
+            db.delete(mList.get(position));
+        } catch (DbException e) {
+            LogUtil.LogError("添加本地图书-DbException", e.toString());
+        } finally {
+            db.close();
+        }
         mList.remove(position);
         notifyDataSetChanged();
     }

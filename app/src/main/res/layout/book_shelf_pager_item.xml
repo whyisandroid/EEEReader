@@ -17,17 +17,17 @@
             android:id="@+id/imageView1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/b1_03" />
+            android:src="@drawable/b1_03"/>
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/tv_recommend_read1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:visibility="gone"
             android:background="@color/new_color_1"
             android:padding="5dp"
-            android:text="最近阅读"
+            android:text="推荐阅读"
             android:textColor="@color/white" />
     </RelativeLayout>
 
@@ -41,17 +41,17 @@
             android:id="@+id/imageView2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/b1_03" />
+            android:src="@drawable/b1_03"/>
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/tv_recommend_read2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:background="@color/new_color_1"
             android:visibility="gone"
             android:padding="5dp"
-            android:text="最近阅读"
+            android:text="推荐阅读"
             android:textColor="@color/white" />
     </RelativeLayout>
 

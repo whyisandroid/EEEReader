@@ -3,8 +3,11 @@ package com.ereader.client.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,31 +19,29 @@ import com.ereader.client.R;
 import com.ereader.common.util.LogUtil;
 import com.ereader.reader.activity.ReaderActivity;
 import com.ereader.reader.model.StoreBook;
-import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.List;
+import java.util.WeakHashMap;
 
 public class BookPagerAdapter extends PagerAdapter {
 
 	private Context context;
 	private List<StoreBook> list;
 	private LayoutInflater inflater;
-	private ImageLoader imageLoader = null;
-	private ImageLoaderConfiguration configuration = null;
+	WeakHashMap<Object, Bitmap> mCovers = new WeakHashMap<Object, Bitmap>();
+//	private ImageLoader imageLoader = null;
+//	private ImageLoaderConfiguration configuration = null;
 
-	private DisplayImageOptions options;
+//	private DisplayImageOptions options;
 	public BookPagerAdapter(Context context, List<StoreBook> list) {
 		this.context = context;
 		this.list = list;
 		this.inflater = LayoutInflater.from(context);
-		this.imageLoader = ImageLoader.getInstance();
-		getImageOptions();
-		if (!this.imageLoader.isInited()) {
-			this.imageLoader.init(configuration);
-		}
+//		this.imageLoader = ImageLoader.getInstance();
+//		getImageOptions();
+//		if (!this.imageLoader.isInited()) {
+//			this.imageLoader.init(configuration);
+//		}
 	}
 
 	/**
@@ -53,19 +54,19 @@ public class BookPagerAdapter extends PagerAdapter {
 	@SuppressWarnings("deprecation")
 	private void getImageOptions() {
 		// TODO Auto-generated method stub
-		this.options = new DisplayImageOptions.Builder()
-				.showStubImage(R.drawable.b1_03) // 设置图片下载期间显示的图片
-				.showImageForEmptyUri(R.drawable.b1_03) // 设置图片Uri为空或是错误的时候显示的图片
-				.showImageOnFail(R.drawable.b1_03) // 设置图片加载或解码过程中发生错误显示的图片
-				.cacheInMemory(true) // 设置下载的图片是否缓存在内存中
-				.cacheOnDisc(true) // 设置下载的图片是否缓存在SD卡中
-				.build();
-
-		this.configuration = new ImageLoaderConfiguration.Builder(context)
-				.threadPoolSize(3).denyCacheImageMultipleSizesInMemory()
-				.memoryCache(new WeakMemoryCache())
-				.defaultDisplayImageOptions(DisplayImageOptions.createSimple())
-				.build();
+//		this.options = new DisplayImageOptions.Builder()
+//				.showStubImage(R.drawable.b1_03) // 设置图片下载期间显示的图片
+//				.showImageForEmptyUri(R.drawable.b1_03) // 设置图片Uri为空或是错误的时候显示的图片
+//				.showImageOnFail(R.drawable.b1_03) // 设置图片加载或解码过程中发生错误显示的图片
+//				.cacheInMemory(true) // 设置下载的图片是否缓存在内存中
+//				.cacheOnDisc(true) // 设置下载的图片是否缓存在SD卡中
+//				.build();
+//
+//		this.configuration = new ImageLoaderConfiguration.Builder(context)
+//				.threadPoolSize(3).denyCacheImageMultipleSizesInMemory()
+//				.memoryCache(new WeakMemoryCache())
+//				.defaultDisplayImageOptions(DisplayImageOptions.createSimple())
+//				.build();
 	}
 
 	@Override
@@ -95,8 +96,13 @@ public class BookPagerAdapter extends PagerAdapter {
 		//1
 		final StoreBook book_left=list.get(index_left);
 		final TextView textView1= (TextView) imageLayout.findViewById(R.id.textView1);
-		final ImageView imageView1= (ImageView) imageLayout.findViewById(R.id.imageView1);
-		imageLoader.displayImage(book_left.cover, imageView1, options);
+		if(!TextUtils.isEmpty(book_left.cover)){
+			LogUtil.LogError("book_left.cover",book_left.cover );
+			final ImageView imageView1= (ImageView) imageLayout.findViewById(R.id.imageView1);
+//			imageLoader.displayImage(book_left.cover, imageView1, options);
+			setCover(imageView1,book_left.cover);
+		}
+
 
 		final RelativeLayout rl_index1=(RelativeLayout)imageLayout.findViewById(R.id.rl_index1);
 		rl_index1.setOnClickListener(new View.OnClickListener() {
@@ -112,8 +118,12 @@ public class BookPagerAdapter extends PagerAdapter {
 		RelativeLayout rl_index2=(RelativeLayout)imageLayout.findViewById(R.id.rl_index2);
 		if(index_right<=list.size()){
 			final StoreBook book_right=list.get(index_left);
-			final ImageView imageView2= (ImageView) imageLayout.findViewById(R.id.imageView2);
-			imageLoader.displayImage(book_right.cover, imageView2, options);
+			if(!TextUtils.isEmpty(book_left.cover)){
+				final ImageView imageView2= (ImageView) imageLayout.findViewById(R.id.imageView2);
+//				imageLoader.displayImage(book_right.cover, imageView2, options);
+				setCover(imageView2,book_right.cover);
+			}
+
 			rl_index2.setVisibility(View.VISIBLE);
 			rl_index2.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -134,5 +144,24 @@ public class BookPagerAdapter extends PagerAdapter {
 		Intent intent = new Intent(context, ReaderActivity.class);
 		intent.putExtra("storeBook", book);
 		context.startActivity(intent);
+	}
+
+
+	private void setCover(ImageView view,String cover){
+		Bitmap bmp = null;
+		if (cover != null) {
+			bmp = mCovers.get(cover);
+			if ( bmp == null) {
+				bmp = BitmapFactory.decodeFile(cover);
+			}
+		}
+		if (bmp != null) {
+			view.setImageBitmap(bmp);
+
+		} else {
+			view.setImageResource(R.drawable.b1_03);
+		}
+
+
 	}
 }
