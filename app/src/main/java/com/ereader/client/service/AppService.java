@@ -107,6 +107,8 @@ public interface AppService {
 	public void getFriendsApply()throws Exception;
 	/**好友推荐消息**/
 	public void getFriendsMessage()throws Exception;
+	/**删除消息**/
+	public void deleteMessage(int type)throws BusinessException;
 	/**系统消息***/
 	public void getSystemMessage()throws Exception;
 	/**向好友推荐商品***/
