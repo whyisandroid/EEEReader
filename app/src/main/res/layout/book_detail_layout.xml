@@ -22,7 +22,6 @@
             android:text="永远不要找别人要安全感"
             android:layout_toLeftOf="@+id/tv_book_collection"
             android:layout_alignParentLeft="true"
-            android:maxLines="2"
             android:textColor="@color/new_color_2"
             android:textSize="@dimen/new_size_4" />
 

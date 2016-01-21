@@ -57,7 +57,7 @@ public class CouponsAdapter extends BaseAdapter {
 		}else {
 			holder=(ViewHolder) convertView.getTag();
 		}
-		holder.tv_coupons_key.setText("优惠码："	+gift.getCode());
+		holder.tv_coupons_key.setText("充值码："	+gift.getCode());
 		holder.tv_coupons_endtime.setText("有效期："+gift.getCreated_at()+"至"+gift.getExpire_at());
 		holder.tv_coupons_money.setText(gift.getTotal());
 		//status=1 可用，2已用，3已过期

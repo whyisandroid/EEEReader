@@ -32,7 +32,7 @@ import android.widget.LinearLayout;
 import com.ereader.client.R;
 
 // http://www.it165.net/pro/html/201410/24734.html
-public class ScrollingTabsView extends HorizontalScrollView implements OnPageChangeListener {
+public class ScrollingTabsView extends LinearLayout implements OnPageChangeListener {
 	
 	@SuppressWarnings("unused")
 	private static final String TAG = "com.astuetz.viewpager.extensions";
@@ -225,7 +225,7 @@ public class ScrollingTabsView extends HorizontalScrollView implements OnPageCha
 			
 			final int x = l - this.getWidth() / 2 + w / 2;
 			
-			smoothScrollTo(x, this.getScrollY());
+			//smoothScrollTo(x, this.getScrollY());
 		
 		}
 		

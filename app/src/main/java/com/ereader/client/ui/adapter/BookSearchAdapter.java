@@ -53,7 +53,7 @@ public class BookSearchAdapter extends BaseAdapter {
         }
         holder.tv_book_author.setText(book.getExtra().getAuthor());
         holder.tv_book_name.setText(book.getInfo().getName());
-        holder.tv_book_info.setText(book.getInfo().getDescription());
+        holder.tv_book_info.setText(book.getExtra().getSummary());
         EReaderApplication.imageLoader.displayImage(book.getInfo().getImage_url(), holder.iv_book, EReaderApplication.options);
         return convertView;
     }

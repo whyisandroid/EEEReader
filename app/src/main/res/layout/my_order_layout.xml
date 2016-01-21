@@ -13,7 +13,7 @@
         android:id="@+id/st_order"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
+        android:gravity="center"
         android:background="@drawable/tab_unselected_holo"
         app:dividerDrawable="@android:color/white"
         />
