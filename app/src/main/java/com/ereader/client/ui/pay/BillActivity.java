@@ -16,13 +16,15 @@ import com.ereader.client.service.AppController;
 import com.ereader.client.ui.BaseFragmentActivity;
 import com.ereader.client.ui.adapter.BillFragsAdapter;
 import com.ereader.client.ui.adapter.BookTabsAdapter;
+import com.ereader.client.ui.adapter.ThreeTabsAdapter;
 import com.ereader.client.ui.view.ScrollingTabsView;
+import com.ereader.client.ui.view.TabsView;
 
 
 // 我的账单
 public class BillActivity extends BaseFragmentActivity implements OnClickListener {
 	private AppController controller;
-	private ScrollingTabsView stabs_bill;
+	private TabsView stabs_bill;
 	private ViewPager vpager_bill;
 	private Button main_top_right;
 	private List<Category> mListTitle = new ArrayList<Category>();
@@ -43,7 +45,7 @@ public class BillActivity extends BaseFragmentActivity implements OnClickListene
 	 */
 	private void findView() {
 		main_top_right = (Button)findViewById(R.id.main_top_right);
-		stabs_bill = (ScrollingTabsView)findViewById(R.id.stabs_bill);
+		stabs_bill = (TabsView)findViewById(R.id.stabs_bill);
 		vpager_bill = (ViewPager)findViewById(R.id.vpager_bill);
 	}
 	
@@ -68,9 +70,12 @@ public class BillActivity extends BaseFragmentActivity implements OnClickListene
 		vpager_bill.setOffscreenPageLimit(2);
 		vpager_bill.setCurrentItem(0);
 		vpager_bill.setPageMargin(4);
-		
-		
-		BookTabsAdapter adapter = new BookTabsAdapter(this,mListTitle);
+
+		List<String> mlist = new ArrayList<>();
+		mlist.add("全部");
+		mlist.add("购书");
+		mlist.add("充值");
+		ThreeTabsAdapter adapter = new ThreeTabsAdapter(this,mlist);
 		stabs_bill.setAdapter(adapter);
 		stabs_bill.setViewPager(vpager_bill);
 	}

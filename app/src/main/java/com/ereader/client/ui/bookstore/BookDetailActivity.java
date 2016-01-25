@@ -24,13 +24,12 @@ import com.ereader.client.entities.json.BookOnlyResp;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.BaseFragmentActivity;
 import com.ereader.client.ui.adapter.BookDetailFragsAdapter;
-import com.ereader.client.ui.adapter.BookDetailTabsAdapter;
+import com.ereader.client.ui.adapter.ForTabsAdapter;
 import com.ereader.client.ui.buycar.BuyCarActivity;
 import com.ereader.client.ui.login.LoginActivity;
-import com.ereader.client.ui.my.CollectionActivity;
 import com.ereader.client.ui.my.FriendsActivity;
 import com.ereader.client.ui.pay.PayActivity;
-import com.ereader.client.ui.view.ScrollingTabsView;
+import com.ereader.client.ui.view.TabsView;
 import com.ereader.common.exception.BusinessException;
 import com.ereader.common.util.IntentUtil;
 import com.ereader.common.util.Json_U;
@@ -39,7 +38,7 @@ import com.ereader.common.util.RegExpUtil;
 import com.ereader.common.util.ToastUtil;
 
 public class BookDetailActivity extends BaseFragmentActivity implements OnClickListener {
-	private ScrollingTabsView st_book_detail;
+	private TabsView st_book_detail;
 	private ViewPager vp_book_store;
 	private AppController controller;
 	private Button main_top_right;
@@ -120,7 +119,7 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
         book_detail_bt_buy = (Button)findViewById(R.id.book_detail_bt_buy);
 		bt_book_add_buy = (Button)findViewById(R.id.bt_book_add_buy);
 		bt_book_add_friends = (Button)findViewById(R.id.bt_book_add_friends);
-		st_book_detail = (ScrollingTabsView)findViewById(R.id.st_book_detail);
+		st_book_detail = (TabsView)findViewById(R.id.st_book_detail);
 		vp_book_store = (ViewPager)findViewById(R.id.vp_book_store);
 		tv_book_collection = (TextView)findViewById(R.id.tv_book_collection);
 		tv_book_name = (TextView)findViewById(R.id.tv_book_name);
@@ -176,7 +175,7 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 		vp_book_store.setPageMargin(4);
 		
 		
-		BookDetailTabsAdapter adapter = new BookDetailTabsAdapter(this,mListTitle);
+		ForTabsAdapter adapter = new ForTabsAdapter(this,mListTitle);
 		st_book_detail.setAdapter(adapter);
 		st_book_detail.setViewPager(vp_book_store);
 		setBook(mBook);

@@ -142,7 +142,7 @@
             android:textSize="@dimen/new_size_2" />
     </LinearLayout>
 
-    <com.ereader.client.ui.view.ScrollingTabsView
+    <com.ereader.client.ui.view.TabsView
         android:id="@+id/st_book_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

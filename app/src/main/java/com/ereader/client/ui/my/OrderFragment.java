@@ -13,8 +13,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.ereader.client.R;
@@ -32,6 +34,7 @@ import com.ereader.client.ui.view.PullToRefreshView.OnHeaderRefreshListener;
 import com.ereader.common.util.IntentUtil;
 import com.ereader.common.util.ProgressDialogUtil;
 import com.ereader.common.util.ToastUtil;
+import com.glview.widget.Toast;
 
 @SuppressLint("ValidFragment")
 public class OrderFragment extends Fragment implements OnClickListener,
@@ -39,6 +42,7 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	private View view;
 	private Context mContext;
 	private AppController controller;
+
 	private ListView lv_order;
 	private PullToRefreshView pull_refresh_order;
 	private List<OrderList> mOrderList = new ArrayList<OrderList>();
@@ -104,7 +108,6 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 		adapter = new OrderAdapter(mContext, mOrderList,mhandler);
 		lv_order.setAdapter(adapter);
 		lv_order.setOnItemClickListener(orderItemListener);
-
 	}
 
 	@Override
@@ -144,7 +147,6 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	
 	@Override
 	public void onClick(View v) {
-		
 	}
 	@Override
 	public void onFooterRefresh(PullToRefreshView view) {

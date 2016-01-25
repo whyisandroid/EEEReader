@@ -12,7 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -38,6 +40,7 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	private Context mContext;
 	private AppController controller;
 	private ListView lv_book;
+	private ImageView iv_book_up;
 	private PullToRefreshView pull_refresh_book;
 	private List<Book> mList = new ArrayList<Book>();
 	private BookAdapter adapter;
@@ -139,8 +142,10 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	}
 
 	private void findView() {
+		iv_book_up= (ImageView)view.findViewById(R.id.iv_book_up);
 		lv_book= (ListView)view.findViewById(R.id.lv_book);
 		pull_refresh_book = (PullToRefreshView)view.findViewById(R.id.pull_refresh_book);
+		iv_book_up.setOnClickListener(this);
 	}
 	private void initView() {
 		pull_refresh_book.setOnHeaderRefreshListener(this);
@@ -148,6 +153,17 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 		adapter = new BookAdapter(mContext, mList);
 		lv_book.setAdapter(adapter);
 		lv_book.setOnItemClickListener(bookItemListener);
+		lv_book.setOnScrollListener(new AbsListView.OnScrollListener() {
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+				ToastUtil.showToast(getActivity(), "scrollState: " + scrollState, ToastUtil.LENGTH_LONG);
+			}
+
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+				ToastUtil.showToast(getActivity(), "firstVisibleItem: " + firstVisibleItem + "visibleItemCount: " + visibleItemCount + "totalItemCount: " + totalItemCount, ToastUtil.LENGTH_LONG);
+			}
+		});
 	}
 	
 	private OnItemClickListener bookItemListener = new OnItemClickListener() {
@@ -181,7 +197,12 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	
 	@Override
 	public void onClick(View v) {
-		
+		switch (v.getId()){
+			case R.id.iv_book_up:
+
+				ToastUtil.showToast(getActivity(),"aaaaaaaaaa",ToastUtil.LENGTH_LONG);
+				break;
+		}
 	}
 	@Override
 	public void onFooterRefresh(PullToRefreshView view) {

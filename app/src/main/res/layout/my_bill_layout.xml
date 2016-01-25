@@ -9,7 +9,7 @@
 
     <include layout="@layout/main_top_layout" />
 
-    <com.ereader.client.ui.view.ScrollingTabsView
+    <com.ereader.client.ui.view.TabsView
         android:id="@+id/stabs_bill"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

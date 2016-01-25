@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:padding="15dp" >
+    android:gravity="center"
+    android:background="@color/white"
+    android:padding="15dp"
+    >
 
         <ImageView
             android:id="@+id/iv_book"
@@ -21,9 +18,13 @@
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/iv_book"
             android:text="永远不要找别人要安全感"
+            android:lines="2"
+            android:ellipsize="end"
             android:textColor="@color/new_color_2"
             android:textSize="@dimen/new_size_4" />
         <RelativeLayout
+
+            android:id="@+id/rl_book_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_book_name"
@@ -52,9 +53,11 @@
         </RelativeLayout>
         
          <RelativeLayout
+             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/iv_book"
+            android:layout_below="@+id/rl_book_time"
+             android:paddingBottom="5dp"
              >
 
             <TextView
@@ -89,5 +92,3 @@
                 android:textSize="@dimen/new_size_2" />
         </RelativeLayout>
     </RelativeLayout>
-
-</LinearLayout>

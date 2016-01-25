@@ -5,7 +5,9 @@
     android:background="@color/window_bg"
     android:gravity="center"
     android:orientation="vertical" >
-
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
        <com.ereader.client.ui.view.PullToRefreshView
         android:id="@+id/pull_refresh_book"
         android:layout_width="match_parent"
@@ -22,4 +24,16 @@
              >
         </ListView>
     </com.ereader.client.ui.view.PullToRefreshView>
+
+        <ImageView
+            android:id="@+id/iv_book_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/b7_07"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="30dp"
+            android:layout_marginRight="30dp"
+            />
+
+    </FrameLayout>
 </LinearLayout>

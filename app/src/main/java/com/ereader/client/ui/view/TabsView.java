@@ -26,13 +26,12 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 
 import com.ereader.client.R;
 
 // http://www.it165.net/pro/html/201410/24734.html
-public class ScrollingTabsView extends HorizontalScrollView implements OnPageChangeListener {
+public class TabsView extends LinearLayout implements OnPageChangeListener {
 
 	@SuppressWarnings("unused")
 	private static final String TAG = "com.astuetz.viewpager.extensions";
@@ -56,15 +55,15 @@ public class ScrollingTabsView extends HorizontalScrollView implements OnPageCha
 	private int mDividerMarginBottom = 12;
 	private int mDividerWidth = 1;
 
-	public ScrollingTabsView(Context context) {
+	public TabsView(Context context) {
 		this(context, null);
 	}
 
-	public ScrollingTabsView(Context context, AttributeSet attrs) {
+	public TabsView(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
 	}
 
-	public ScrollingTabsView(Context context, AttributeSet attrs, int defStyle) {
+	public TabsView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs);
 
 		this.mContext = context;
@@ -79,7 +78,7 @@ public class ScrollingTabsView extends HorizontalScrollView implements OnPageCha
 
 		mDividerMarginTop = a.getDimensionPixelSize(R.styleable.ViewPagerExtensions_dividerMarginTop, mDividerMarginTop);
 		mDividerMarginBottom = a.getDimensionPixelSize(R.styleable.ViewPagerExtensions_dividerMarginBottom,
-		    mDividerMarginBottom);
+				mDividerMarginBottom);
 
 		mDividerDrawable = a.getDrawable(R.styleable.ViewPagerExtensions_dividerDrawable);
 
@@ -89,7 +88,7 @@ public class ScrollingTabsView extends HorizontalScrollView implements OnPageCha
 		this.setHorizontalFadingEdgeEnabled(false);
 
 		mContainer = new LinearLayout(context);
-		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		mContainer.setLayoutParams(params);
 		mContainer.setOrientation(LinearLayout.HORIZONTAL);
 		mContainer.setGravity(Gravity.CENTER);
@@ -181,7 +180,9 @@ public class ScrollingTabsView extends HorizontalScrollView implements OnPageCha
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
 		super.onLayout(changed, l, t, r, b);
 
-		if (changed) selectTab(mPager.getCurrentItem());
+		if(mPager != null){
+			if (changed) selectTab(mPager.getCurrentItem());
+		}
 	}
 
 	/**
@@ -192,47 +193,47 @@ public class ScrollingTabsView extends HorizontalScrollView implements OnPageCha
 	private View getSeparator() {
 		View v = new View(mContext);
 
-		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mDividerWidth, LayoutParams.FILL_PARENT);
+		LayoutParams params = new LayoutParams(mDividerWidth, LayoutParams.FILL_PARENT);
 		params.setMargins(0, mDividerMarginTop, 0, mDividerMarginBottom);
 		v.setLayoutParams(params);
 		
 		/*if (mDividerDrawable != null) v.setBackgroundDrawable(mDividerDrawable);
 		else v.setBackgroundColor(mDividerColor);*/
-
+		
 		return v;
 	}
-
-
+	
+	
 	/**
 	 * Runs through all tabs and sets if they are currently selected.
-	 *
+	 * 
 	 * @param position
 	 *          The position of the currently selected tab.
 	 */
 	private void selectTab(int position) {
-
+		
 		for (int i = 0, pos = 0; i < mContainer.getChildCount(); i += 2, pos++) {
 			View tab = mContainer.getChildAt(i);
 			tab.setSelected(pos == position);
 		}
-
+		
 		View selectedTab = mContainer.getChildAt(position * 2);
-
+		
 		if (selectedTab != null) {
-
+		
 			final int w = selectedTab.getMeasuredWidth();
 			final int l = selectedTab.getLeft();
-
+			
 			final int x = l - this.getWidth() / 2 + w / 2;
-
-			smoothScrollTo(x, this.getScrollY());
-
+			
+			//smoothScrollTo(x, this.getScrollY());
+		
 		}
-
+		
 	}
-
+	
 	public interface TabClickListener {
 		public void onClick(int position);
 	}
-
+	
 }

@@ -15,12 +15,15 @@ import com.ereader.client.entities.Category;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.BaseFragmentActivity;
 import com.ereader.client.ui.adapter.BookTabsAdapter;
+import com.ereader.client.ui.adapter.ForTabsAdapter;
 import com.ereader.client.ui.adapter.OrderFragsAdapter;
 import com.ereader.client.ui.view.ScrollingTabsView;
+import com.ereader.client.ui.view.TabsView;
+
 // 订单
 public class OrderActivity extends BaseFragmentActivity implements OnClickListener {
 	private AppController controller;
-	private ScrollingTabsView st_order;
+	private TabsView st_order;
 	private ViewPager vp_order;
 	private Button main_top_right;
 	private List<Category> mListTitle;
@@ -41,7 +44,7 @@ public class OrderActivity extends BaseFragmentActivity implements OnClickListen
 	 */
 	private void findView() {
 		main_top_right = (Button)findViewById(R.id.main_top_right);
-		st_order = (ScrollingTabsView)findViewById(R.id.st_order);
+		st_order = (TabsView)findViewById(R.id.st_order);
 		vp_order = (ViewPager)findViewById(R.id.vp_order);
 	}
 	
@@ -67,8 +70,12 @@ public class OrderActivity extends BaseFragmentActivity implements OnClickListen
 		vp_order.setCurrentItem(0);
 		vp_order.setPageMargin(4);
 
-
-		BookTabsAdapter adapter = new BookTabsAdapter(this, mListTitle);
+		List<String> mlist = new ArrayList<>();
+		mlist.add("全部");
+		mlist.add("已完成");
+		mlist.add("未支付");
+		mlist.add("已取消");
+		ForTabsAdapter adapter = new ForTabsAdapter(this, mlist);
 		st_order.setAdapter(adapter);
 		st_order.setViewPager(vp_order);
 	}

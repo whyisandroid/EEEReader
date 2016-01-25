@@ -16,12 +16,14 @@ import com.ereader.client.service.AppController;
 import com.ereader.client.ui.BaseFragmentActivity;
 import com.ereader.client.ui.adapter.BookTabsAdapter;
 import com.ereader.client.ui.adapter.PointsFragsAdapter;
+import com.ereader.client.ui.adapter.ThreeTabsAdapter;
 import com.ereader.client.ui.view.ScrollingTabsView;
+import com.ereader.client.ui.view.TabsView;
 
 // 我的积分
 public class PointsActivity extends BaseFragmentActivity implements OnClickListener {
 	private AppController controller;
-	private ScrollingTabsView stabs_points;
+	private TabsView stabs_points;
 	private ViewPager vpager_points;
 	private Button main_top_right;
 	private List<Category> mListTitle;
@@ -42,7 +44,7 @@ public class PointsActivity extends BaseFragmentActivity implements OnClickListe
 	 */
 	private void findView() {
 		main_top_right = (Button)findViewById(R.id.main_top_right);
-		stabs_points = (ScrollingTabsView)findViewById(R.id.stabs_points);
+		stabs_points = (TabsView)findViewById(R.id.stabs_points);
 		vpager_points = (ViewPager)findViewById(R.id.vpager_points);
 	}
 	
@@ -58,7 +60,7 @@ public class PointsActivity extends BaseFragmentActivity implements OnClickListe
 		mListTitle = new ArrayList<Category>();
 			mListTitle.add(new Category("全部","all"));
 			mListTitle.add(new Category("积分收入","income"));
-			mListTitle.add(new Category("积分支出","outlay"));
+			mListTitle.add(new Category("积分支出", "outlay"));
 		PointsFragsAdapter orderAdapter = new PointsFragsAdapter(getSupportFragmentManager(),mListTitle);
 		vpager_points.setAdapter(orderAdapter);
 		
@@ -66,9 +68,12 @@ public class PointsActivity extends BaseFragmentActivity implements OnClickListe
 		vpager_points.setOffscreenPageLimit(2);
 		vpager_points.setCurrentItem(0);
 		vpager_points.setPageMargin(4);
-		
-		
-		BookTabsAdapter adapter = new BookTabsAdapter(this,mListTitle);
+
+		List<String> mlist = new ArrayList<>();
+		mlist.add("全部");
+		mlist.add("积分收入");
+		mlist.add("积分支出");
+		ThreeTabsAdapter adapter = new ThreeTabsAdapter(this,mlist);
 		stabs_points.setAdapter(adapter);
 		stabs_points.setViewPager(vpager_points);
 	}

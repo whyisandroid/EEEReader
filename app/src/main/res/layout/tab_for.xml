@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Button xmlns:android="http://schemas.android.com/apk/res/android"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:background="@drawable/tab_holo"
     android:gravity="center"
+    android:layout_weight="1"
     android:paddingBottom="8dp"
-    android:paddingLeft="15dip"
-    android:paddingRight="15dip"
+    android:paddingLeft="@dimen/dimen_middle"
+    android:paddingRight="@dimen/dimen_middle"
     android:paddingTop="8dp"
     android:textColor="@color/tabs_title_color"
     android:textSize="16sp" />

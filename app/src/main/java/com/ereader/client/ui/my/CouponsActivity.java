@@ -16,11 +16,14 @@ import com.ereader.client.service.AppController;
 import com.ereader.client.ui.BaseFragmentActivity;
 import com.ereader.client.ui.adapter.BookTabsAdapter;
 import com.ereader.client.ui.adapter.CouponsFragsAdapter;
+import com.ereader.client.ui.adapter.ForTabsAdapter;
 import com.ereader.client.ui.view.ScrollingTabsView;
+import com.ereader.client.ui.view.TabsView;
+
 // 电子充值卡
 public class CouponsActivity extends BaseFragmentActivity implements OnClickListener {
 	private AppController controller;
-	private ScrollingTabsView stabs_coupons;
+	private TabsView stabs_coupons;
 	private ViewPager vpager_coupons;
 	private Button main_top_right;
 	private List<Category> mListTitle;
@@ -41,7 +44,7 @@ public class CouponsActivity extends BaseFragmentActivity implements OnClickList
 	 */
 	private void findView() {
 		main_top_right = (Button)findViewById(R.id.main_top_right);
-		stabs_coupons = (ScrollingTabsView)findViewById(R.id.stabs_coupons);
+		stabs_coupons = (TabsView)findViewById(R.id.stabs_coupons);
 		vpager_coupons = (ViewPager)findViewById(R.id.vpager_coupons);
 	}
 	
@@ -68,7 +71,12 @@ public class CouponsActivity extends BaseFragmentActivity implements OnClickList
 		vpager_coupons.setPageMargin(4);
 
 
-		BookTabsAdapter adapter = new BookTabsAdapter(this, mListTitle);
+		List<String> mlist = new ArrayList<>();
+		mlist.add("全部");
+		mlist.add("可用");
+		mlist.add("已使用");
+		mlist.add("已过期");
+		ForTabsAdapter adapter = new ForTabsAdapter(this, mlist);
 		stabs_coupons.setAdapter(adapter);
 		stabs_coupons.setViewPager(vpager_coupons);
 	}
