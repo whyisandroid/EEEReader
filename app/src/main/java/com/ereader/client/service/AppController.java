@@ -10,6 +10,7 @@ import com.ereader.client.EReaderApplication;
 import com.ereader.client.entities.Book;
 import com.ereader.client.entities.DisCategory;
 import com.ereader.client.entities.Login;
+import com.ereader.client.entities.PageRq;
 import com.ereader.client.service.impl.AppServiceImpl;
 import com.ereader.client.ui.bookshelf.SearchBuyActivity;
 import com.ereader.client.ui.bookstore.BookActivity;
@@ -176,9 +177,9 @@ public class AppController {
 		}
 	}
 
-	public void featuredList(Handler mHandler) {
+	public void featuredList(Handler mHandler,PageRq pageRq) {
 		try {
-			service.featuredList();
+			service.featuredList(pageRq);
 			mHandler.obtainMessage(BookActivity.BOOK).sendToTarget();
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
@@ -186,9 +187,9 @@ public class AppController {
 		}
 	}
 
-	public void recommend(Handler mHandler) {
+	public void recommend(Handler mHandler,PageRq pageRq) {
 		try {
-			service.recommend();
+			service.recommend(pageRq);
 			mHandler.obtainMessage(BookActivity.BOOK).sendToTarget();
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
@@ -196,9 +197,9 @@ public class AppController {
 		}
 	}
 
-	public void categroyItem(Handler mHandler, String id) {
+	public void categroyItem(Handler mHandler, String id,PageRq pageRq) {
 		try {
-			service.categroyItem(id);
+			service.categroyItem(id,pageRq);
 			mHandler.obtainMessage(BookActivity.BOOK_CATE).sendToTarget();
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
@@ -241,9 +242,9 @@ public class AppController {
 		}
 	}
 
-	public void bookList(Handler mHandler,String cate_id) {
+	public void bookList(Handler mHandler,String cate_id,PageRq pageRq) {
 		try {
-			service.latest(cate_id);
+			service.latest(cate_id,pageRq);
 			mHandler.obtainMessage(BookActivity.BOOK).sendToTarget();
 		} catch (BusinessException e) {
 			mHandler.obtainMessage(BookActivity.REFRESH_ERROR).sendToTarget();
@@ -264,10 +265,10 @@ public class AppController {
 	
 	}
 
-	public void booDiskList(Handler mHandler, DisCategory mDisCate) {
+	public void booDiskList(Handler mHandler, DisCategory mDisCate,PageRq mPageRq) {
 
 		try {
-			service.discountBook(mDisCate);
+			service.discountBook(mDisCate,mPageRq);
 			mHandler.obtainMessage(BookActivity.BOOK_DIS).sendToTarget();
 		} catch (BusinessException e) {
 			mHandler.obtainMessage(BookActivity.REFRESH_ERROR).sendToTarget();

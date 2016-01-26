@@ -117,17 +117,6 @@ public class ReportActivity extends BaseActivity implements OnClickListener {
 
 	}
 
-	private void getList() {
-		ProgressDialogUtil.showProgressDialog(this, "努力加载中…", false);
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				controller.featuredList(mHandler);
-				ProgressDialogUtil.closeProgressDialog();
-			}
-		}).start();
-	}
-
 	@Override
 	public void onClick(View v) {
 

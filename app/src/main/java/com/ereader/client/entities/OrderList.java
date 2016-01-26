@@ -33,7 +33,16 @@ public class OrderList {
     private String pay_status;
     private String created_at;
     private String updated_at;
+    private ToUser to_user;
     private List<OrderBook> order_products;
+
+    public void setTo_user(ToUser to_user) {
+        this.to_user = to_user;
+    }
+
+    public ToUser getTo_user() {
+        return to_user;
+    }
 
     public String getOrder_id() {
         return order_id;

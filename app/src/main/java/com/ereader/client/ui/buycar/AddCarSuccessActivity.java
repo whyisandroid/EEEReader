@@ -90,17 +90,6 @@ public class AddCarSuccessActivity extends BaseActivity implements View.OnClickL
         addcar_bt_goto.setOnClickListener(this);
     }
 
-    private void getList() {
-        ProgressDialogUtil.showProgressDialog(this, "", false);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                controller.featuredList(mHandler);
-                ProgressDialogUtil.closeProgressDialog();
-            }
-        }).start();
-    }
-
     @Override
     public void onClick(View v) {
 

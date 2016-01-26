@@ -2,6 +2,7 @@ package com.ereader.client.service;
 
 
 import com.ereader.client.entities.DisCategory;
+import com.ereader.client.entities.PageRq;
 import com.ereader.common.exception.BusinessException;
 
 public interface AppService {
@@ -13,19 +14,19 @@ public interface AppService {
 	public void login() throws BusinessException;
 
 	/**经典热销**/
-	public void featuredList()throws BusinessException;
+	public void featuredList(PageRq pageRq)throws BusinessException;
 	/**推荐阅读**/
-	public void recommend()throws BusinessException ;
+	public void recommend(PageRq pageRq)throws BusinessException ;
 	/**注册**/
 	public void register()throws BusinessException ;
 	/**最新上架类别**/
 	public void latest()throws BusinessException ;
 	/**=获取书**/
-	public void latest(String cate_id)throws BusinessException;
+	public void latest(String cate_id,PageRq pageRq)throws BusinessException;
 	/**特价专区类别**/
 	public void discount()throws BusinessException;
 	/**特价专区类书**/
-	public void discountBook(DisCategory mDisCate)throws BusinessException;
+	public void discountBook(DisCategory mDisCate,PageRq mPageRq)throws BusinessException;
 	/**获取收藏夹**/
 	public void getCollection()throws BusinessException;
 	/**删除收藏夹**/
@@ -33,7 +34,7 @@ public interface AppService {
 	/**2.2.1.	商品分类**/
 	public void getCategory()throws BusinessException;
 	/**2.2.1.	商品分类 books**/
-	public void categroyItem(String id)throws BusinessException;
+	public void categroyItem(String id,PageRq pageRq)throws BusinessException;
 	/**2.2.1搜索列表**/
 	public void search(String value)throws BusinessException;
 	/**获取验证码**/

@@ -23,6 +23,7 @@ import com.ereader.client.entities.Book;
 import com.ereader.client.entities.Category;
 import com.ereader.client.entities.DisCategory;
 import com.ereader.client.entities.Page;
+import com.ereader.client.entities.PageRq;
 import com.ereader.client.entities.json.BookResp;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.adapter.BookAdapter;
@@ -30,6 +31,7 @@ import com.ereader.client.ui.view.PullToRefreshView;
 import com.ereader.client.ui.view.PullToRefreshView.OnFooterRefreshListener;
 import com.ereader.client.ui.view.PullToRefreshView.OnHeaderRefreshListener;
 import com.ereader.common.util.IntentUtil;
+import com.ereader.common.util.LogUtil;
 import com.ereader.common.util.ProgressDialogUtil;
 import com.ereader.common.util.ToastUtil;
 
@@ -47,6 +49,7 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	private Category mCate;
 	private DisCategory mDisCate;
 	private Page page;
+	private PageRq mPageRq;
 	private int categroy = 0;
 	
 	
@@ -145,7 +148,7 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 		iv_book_up= (ImageView)view.findViewById(R.id.iv_book_up);
 		lv_book= (ListView)view.findViewById(R.id.lv_book);
 		pull_refresh_book = (PullToRefreshView)view.findViewById(R.id.pull_refresh_book);
-		iv_book_up.setOnClickListener(this);
+
 	}
 	private void initView() {
 		pull_refresh_book.setOnHeaderRefreshListener(this);
@@ -153,15 +156,20 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 		adapter = new BookAdapter(mContext, mList);
 		lv_book.setAdapter(adapter);
 		lv_book.setOnItemClickListener(bookItemListener);
+		iv_book_up.setOnClickListener(this);
 		lv_book.setOnScrollListener(new AbsListView.OnScrollListener() {
 			@Override
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
-				ToastUtil.showToast(getActivity(), "scrollState: " + scrollState, ToastUtil.LENGTH_LONG);
+
 			}
 
 			@Override
 			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-				ToastUtil.showToast(getActivity(), "firstVisibleItem: " + firstVisibleItem + "visibleItemCount: " + visibleItemCount + "totalItemCount: " + totalItemCount, ToastUtil.LENGTH_LONG);
+				if (firstVisibleItem != 0) {
+					iv_book_up.setVisibility(View.VISIBLE);
+				}else {
+					iv_book_up.setVisibility(View.GONE);
+				}
 			}
 		});
 	}
@@ -176,21 +184,21 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 			IntentUtil.intent(mContext, bundle,BookDetailActivity.class,false);
 		}
 	};
-	private void getBookList() {
+	private void getBookList(final PageRq pageRq) {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				controller.bookList(mhandler,mCate.getCategory_id());
+				controller.bookList(mhandler,mCate.getCategory_id(),pageRq);
 			}
 		}).start();
 	}
 	
 	
-	private void getDisBookList() {
+	private void getDisBookList(final PageRq pageRq) {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				controller.booDiskList(mhandler,mDisCate);
+				controller.booDiskList(mhandler,mDisCate,pageRq);
 			}
 		}).start();
 	}
@@ -199,25 +207,32 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	public void onClick(View v) {
 		switch (v.getId()){
 			case R.id.iv_book_up:
-
-				ToastUtil.showToast(getActivity(),"aaaaaaaaaa",ToastUtil.LENGTH_LONG);
+				lv_book.setSelection(0);
 				break;
 		}
 	}
 	@Override
 	public void onFooterRefresh(PullToRefreshView view) {
+		mPageRq = new PageRq();
+		if(page.getCurrent_page() == page.getLast_page()){
+			ToastUtil.showToast(getActivity(),"没有更多了",ToastUtil.LENGTH_LONG);
+			pull_refresh_book.onFooterRefreshComplete();
+			return;
+		}
+		mPageRq.setPage(page.getCurrent_page()+1);
 		if(categroy == 0){
-			getBookList();
+			getBookList(mPageRq);
 		}else{
-			getDisBookList();
+			getDisBookList(mPageRq);
 		}
 	}
 	@Override
 	public void onHeaderRefresh(PullToRefreshView view) {
+		mPageRq = new PageRq();
 		if(categroy == 0){
-			getBookList();
+			getBookList(mPageRq);
 		}else{
-			getDisBookList();
+			getDisBookList(mPageRq);
 		}
 	}
 }

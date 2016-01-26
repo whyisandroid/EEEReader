@@ -101,6 +101,11 @@ public class OrderItemAdapter extends BaseAdapter {
 			EReaderApplication.imageLoader.displayImage(orderBook.getInfo().getImage_url(), holder.iv_book, EReaderApplication.options);
 		}
 
+		if(mOrderList.getTo_user() != null && !TextUtils.isEmpty(mOrderList.getTo_user().getNickname())){
+			holder.tv_book_friend.setVisibility(View.VISIBLE);
+			holder.tv_book_friend.setText("送给好友："+mOrderList.getTo_user().getNickname());
+		}
+
 
 		holder.tv_order_right.setOnClickListener(new OnClickListener() {
 			
@@ -126,6 +131,7 @@ public class OrderItemAdapter extends BaseAdapter {
 		private TextView tv_book_name;
 		private TextView tv_book_time;
 		private TextView tv_order_type;
+		private TextView tv_book_friend;
 		private ImageView iv_book;
 
 		public void findView(View view){
@@ -134,6 +140,7 @@ public class OrderItemAdapter extends BaseAdapter {
 			tv_order_left = (Button)view.findViewById(R.id.tv_order_left);
 			tv_book_name = (TextView)view.findViewById(R.id.tv_book_name);
 			tv_book_price = (TextView)view.findViewById(R.id.tv_book_price);
+			tv_book_friend = (TextView)view.findViewById(R.id.tv_book_friend);
 			tv_book_time = (TextView)view.findViewById(R.id.tv_book_time);
 			tv_order_type = (TextView)view.findViewById(R.id.tv_order_type);
 		}

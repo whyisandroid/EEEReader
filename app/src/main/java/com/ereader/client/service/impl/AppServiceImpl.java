@@ -4,6 +4,7 @@ package com.ereader.client.service.impl;
 import com.ereader.client.EReaderApplication;
 import com.ereader.client.entities.DisCategory;
 import com.ereader.client.entities.Login;
+import com.ereader.client.entities.PageRq;
 import com.ereader.client.entities.json.AddBuyResp;
 import com.ereader.client.entities.json.ArticleDetailResp;
 import com.ereader.client.entities.json.ArticleResp;
@@ -155,11 +156,11 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void featuredList() throws BusinessException {
+	public void featuredList(PageRq pageRq) throws BusinessException {
 		Request<BookResp> request = new Request<BookResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-		nameValuePairs.add(new BasicNameValuePair("page", "1"));
-		nameValuePairs.add(new BasicNameValuePair("per_page", "20"));
+		nameValuePairs.add(new BasicNameValuePair("page", pageRq.getPage()+""));
+		nameValuePairs.add(new BasicNameValuePair("per_page", pageRq.getPer_page()+""));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 		request.setUrl(Config.HTTP_BOOK_FEATURED);
 		request.setR_calzz(BookResp.class);
@@ -171,11 +172,11 @@ public class AppServiceImpl implements AppService {
 		}
 	}
 	@Override
-	public void recommend() throws BusinessException {
+	public void recommend(PageRq pageRq) throws BusinessException {
 		Request<BookResp> request = new Request<BookResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-		nameValuePairs.add(new BasicNameValuePair("page", "1"));
-		nameValuePairs.add(new BasicNameValuePair("per_page", "20"));
+		nameValuePairs.add(new BasicNameValuePair("page", pageRq.getPage()+""));
+		nameValuePairs.add(new BasicNameValuePair("per_page", pageRq.getPer_page()+""));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 		request.setUrl(Config.HTTP_BOOK_RECOMMEND);
 		request.setR_calzz(BookResp.class);
@@ -202,13 +203,13 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void latest(String cate_id) throws BusinessException {
+	public void latest(String cate_id,PageRq pageRq) throws BusinessException {
 
 		Request<BookResp> request = new Request<BookResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("category_id", cate_id));
-		nameValuePairs.add(new BasicNameValuePair("page", "1"));
-		nameValuePairs.add(new BasicNameValuePair("per_page", "10"));
+		nameValuePairs.add(new BasicNameValuePair("page", pageRq.getPage()+""));
+		nameValuePairs.add(new BasicNameValuePair("per_page", pageRq.getPer_page()+""));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 		request.setUrl(Config.HTTP_BOOK_LATEST);
 		request.setR_calzz(BookResp.class);
@@ -236,13 +237,13 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void discountBook(DisCategory mDisCate) throws BusinessException {
+	public void discountBook(DisCategory mDisCate,PageRq mPageRq) throws BusinessException {
 		Request<BookResp> request = new Request<BookResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("min", mDisCate.getMin()));
 		nameValuePairs.add(new BasicNameValuePair("max", mDisCate.getMax()));
-		nameValuePairs.add(new BasicNameValuePair("page", "1"));
-		nameValuePairs.add(new BasicNameValuePair("per_page", "10"));
+		nameValuePairs.add(new BasicNameValuePair("page", mPageRq.getPage()+""));
+		nameValuePairs.add(new BasicNameValuePair("per_page", mPageRq.getPer_page()+""));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 		request.setUrl(Config.HTTP_BOOK_DISCOUNT);
 		request.setR_calzz(BookResp.class);
@@ -306,12 +307,12 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void categroyItem(String id) throws BusinessException {
+	public void categroyItem(String id,PageRq pageRq) throws BusinessException {
 		Request<BookResp> request = new Request<BookResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("category_id", id));
-		nameValuePairs.add(new BasicNameValuePair("page", "1"));
-		nameValuePairs.add(new BasicNameValuePair("per_page", "20"));
+		nameValuePairs.add(new BasicNameValuePair("page", pageRq.getPage()+""));
+		nameValuePairs.add(new BasicNameValuePair("per_page", pageRq.getPer_page()+""));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 		request.setUrl(Config.HTTP_BOOK_SEARCH);
 		request.setR_calzz(BookResp.class);

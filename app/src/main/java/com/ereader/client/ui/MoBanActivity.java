@@ -65,7 +65,7 @@ public class MoBanActivity extends BaseActivity implements OnClickListener {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				controller.featuredList(mHandler);
+				//controller.featuredList(mHandler);
 				ProgressDialogUtil.closeProgressDialog();
 			}
 		}).start();
