@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.ereader.client.R;
 import com.ereader.client.entities.Article;
+import com.ereader.client.entities.ArticleDetail;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.BaseActivity;
 
@@ -41,15 +42,8 @@ public class NoticeDetailActivity extends BaseActivity implements OnClickListene
 	  * @time: 2015-2-10 下午1:37:06
 	 */
 	private void initView() {
-		Article article = (Article)controller.getContext().getBusinessData("ArticleDetailResp");
-		String title = "";
-		if("10".equals(article.getParent_id())){
-			title = "公告";
-		}else if("20".equals(article.getParent_id())){
-			title = "购物指南";
-		}else{
-			title = "支付方式";
-		}
+		ArticleDetail article = (ArticleDetail)controller.getContext().getBusinessData("ArticleDetailResp");
+		String title = article.getTitle();
 		((TextView) findViewById(R.id.tv_main_top_title)).setText(title);
 		tv_notice_title.setText(article.getTitle());
 		tv_notice_detail.setText(article.getContent());

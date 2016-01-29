@@ -14,6 +14,7 @@ import com.ereader.client.ui.BaseActivity;
 import com.ereader.client.ui.dialog.DialogUtil;
 import com.ereader.client.ui.login.LoginActivity;
 import com.ereader.common.util.IntentUtil;
+import com.ereader.common.util.ProgressDialogUtil;
 
 public class MoreActivity  extends BaseActivity implements OnClickListener {
 	private AppController controller;
@@ -88,7 +89,15 @@ public class MoreActivity  extends BaseActivity implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case  R.id.rl_more_help:
-			IntentUtil.intent(this, HelpActivity.class);
+
+			ProgressDialogUtil.showProgressDialog(this, "", false);
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					controller.getArticle();
+					ProgressDialogUtil.closeProgressDialog();
+				}
+			}).start();
 			break;
 		case R.id.rl_more_exit:
 			DialogUtil.exit(MoreActivity.this,mHandler);

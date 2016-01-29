@@ -21,10 +21,19 @@ public class Gift {
     private String is_use;
     private String use_user_id;
     private String expire_at;
+    private String available_at;
     private String created_at;
     private String updated_at;
     private String is_expire;
     private String status;
+
+    public void setAvailable_at(String available_at) {
+        this.available_at = available_at;
+    }
+
+    public String getAvailable_at() {
+        return available_at;
+    }
 
     public void setStatus(String status) {
         this.status = status;

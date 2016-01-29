@@ -21,6 +21,7 @@ import com.ereader.client.ui.dialog.DialogUtil;
 import com.ereader.client.ui.login.FindPwdActivity;
 import com.ereader.client.ui.login.LoginActivity;
 import com.ereader.client.ui.login.RegisterActivity;
+import com.ereader.client.ui.more.HelpActivity;
 import com.ereader.client.ui.more.NoticeActivity;
 import com.ereader.client.ui.more.NoticeDetailActivity;
 import com.ereader.client.ui.my.CouponsFragment;
@@ -199,7 +200,7 @@ public class AppController {
 
 	public void categroyItem(Handler mHandler, String id,PageRq pageRq) {
 		try {
-			service.categroyItem(id,pageRq);
+			service.categroyItem(id, pageRq);
 			mHandler.obtainMessage(BookActivity.BOOK_CATE).sendToTarget();
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
@@ -268,7 +269,7 @@ public class AppController {
 	public void booDiskList(Handler mHandler, DisCategory mDisCate,PageRq mPageRq) {
 
 		try {
-			service.discountBook(mDisCate,mPageRq);
+			service.discountBook(mDisCate, mPageRq);
 			mHandler.obtainMessage(BookActivity.BOOK_DIS).sendToTarget();
 		} catch (BusinessException e) {
 			mHandler.obtainMessage(BookActivity.REFRESH_ERROR).sendToTarget();
@@ -437,12 +438,10 @@ public class AppController {
 		}
 	}
 
-	public void getArticle(String id) {
+	public void getArticle() {
 		try {
-			service.helpType(id);
-			Bundle bundle = new Bundle();
-			bundle.putString("id", id);
-			IntentUtil.intent(currentActivity, bundle, NoticeActivity.class, false);
+			service.helpType();
+			IntentUtil.intent(currentActivity, HelpActivity.class);
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}catch (Exception e) {
@@ -458,6 +457,28 @@ public class AppController {
 		}catch (Exception e) {
 		}
 	}
+
+	public void getNotice(PageRq pageRq) {
+		try {
+			service.notice(pageRq);
+			IntentUtil.intent(currentActivity, NoticeActivity.class);
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}catch (Exception e) {
+		}
+	}
+
+
+	public void getNoticeDetail(String article_id) {
+		try {
+			service.noticeDetail(article_id);
+			IntentUtil.intent(currentActivity, NoticeDetailActivity.class);
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}catch (Exception e) {
+		}
+	}
+
 
 	public void getFriendsMessage(Handler mhandler) {
 		try {
@@ -600,9 +621,9 @@ public class AppController {
 		}
 	}
 
-	public void useCard(String card,Handler mHandler,int position) {
+	public void useCard(String card,Handler mHandler,int position,String type) {
 		try {
-			service.useCard(card);
+			service.useCard(card,type);
 			if(mHandler != null){
 				mHandler.obtainMessage(CouponsFragment.INPUT_OK,position).sendToTarget();
 			}

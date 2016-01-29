@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.ereader.client.R;
 import com.ereader.client.entities.Article;
 import com.ereader.client.entities.json.ArticleData;
+import com.ereader.client.entities.json.ArticleList;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.BaseActivity;
 import com.ereader.client.ui.adapter.NoticeAdapter;
@@ -50,21 +51,12 @@ public class NoticeActivity extends BaseActivity implements OnClickListener {
 	  * @time: 2015-2-10 下午1:37:06
 	 */
 	private void initView() {
-		String id = getIntent().getExtras().getString("id");
-		String title = "";
-		if("10".equals(id)){
-			title = "公告";
-		}else if("20".equals(id)){
-			title = "购物指南";
-		}else{
-			title = "支付方式";
-		}
+		ArticleList articleList = (ArticleList)getIntent().getExtras().getSerializable("ArticleList");
+		String title = articleList.getCategory();
 		((TextView) findViewById(R.id.tv_main_top_title)).setText(title);
-		
-		ArticleData data = (ArticleData)controller.getContext().getBusinessData("ArticleResp");
 		mList.clear();
-		mList = data.getData();
-		NoticeAdapter adapter = new NoticeAdapter(this,data.getData());
+		mList = articleList.getData();
+		NoticeAdapter adapter = new NoticeAdapter(this,mList);
 		lv_more_notice.setAdapter(adapter);
 		lv_more_notice.setOnItemClickListener(noticeItemListener);
 	}
@@ -74,7 +66,7 @@ public class NoticeActivity extends BaseActivity implements OnClickListener {
 		public void onItemClick(AdapterView<?> arg0, View arg1,final int arg2,
 				long arg3) {
 			
-				ProgressDialogUtil.showProgressDialog(NoticeActivity.this, "通信中…", false);
+				ProgressDialogUtil.showProgressDialog(NoticeActivity.this, "", false);
 				new Thread(new Runnable() {
 					@Override
 					public void run() {

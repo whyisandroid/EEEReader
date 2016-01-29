@@ -183,7 +183,7 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 					new Thread(new Runnable() {
 						@Override
 						public void run() {
-							controller.useCard(card,null,-1);
+							controller.useCard(card,null,-1,"C");
 							ProgressDialogUtil.closeProgressDialog();
 						}
 					}).start();

@@ -3,15 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <include layout="@layout/main_top_layout" />
-     <ListView
-        android:id="@+id/lv_more_notice"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:divider="@color/window_bg"
-        android:dividerHeight="2dp" >
-    </ListView>
 
+    <com.ereader.client.ui.view.PullToRefreshView
+        android:id="@+id/pull_refresh_book"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/dimen_normal"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/lv_more_notice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@color/window_bg"
+            android:dividerHeight="2dp"></ListView>
+    </com.ereader.client.ui.view.PullToRefreshView>
 </LinearLayout>

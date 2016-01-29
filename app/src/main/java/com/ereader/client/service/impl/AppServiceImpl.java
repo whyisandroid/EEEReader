@@ -21,6 +21,8 @@ import com.ereader.client.entities.json.GiftResp;
 import com.ereader.client.entities.json.LoginResp;
 import com.ereader.client.entities.json.MessageResp;
 import com.ereader.client.entities.json.MessageSystemResp;
+import com.ereader.client.entities.json.NoticeDetailResp;
+import com.ereader.client.entities.json.NoticeResp;
 import com.ereader.client.entities.json.OrderListResp;
 import com.ereader.client.entities.json.OrderRechargeResp;
 import com.ereader.client.entities.json.OrderResp;
@@ -652,13 +654,13 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void useCard(String card) throws BusinessException {
+	public void useCard(String card,String type) throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		Request<BaseResp> request = new Request<BaseResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("_token_", token));
 		nameValuePairs.add(new BasicNameValuePair("code", card));
-		nameValuePairs.add(new BasicNameValuePair("type", "C"));
+		nameValuePairs.add(new BasicNameValuePair("type", type));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 		request.setUrl(Config.HTTP_GIFT_USE);
 		request.setR_calzz(BaseResp.class);
@@ -742,7 +744,7 @@ public class AppServiceImpl implements AppService {
 		nameValuePairs.add(new BasicNameValuePair("out_trade_no", orderId));
 		nameValuePairs.add(new BasicNameValuePair("total_fee", money));
 		nameValuePairs.add(new BasicNameValuePair("total_point", point));
-		//nameValuePairs.add(new BasicNameValuePair("remark", frinedName));
+		nameValuePairs.add(new BasicNameValuePair("to_user_id", frinedName));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 		request.setUrl(Config.HTTP_PAY);
 		request.setR_calzz(BaseResp.class);
@@ -755,14 +757,10 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void helpType(String type) throws BusinessException {
+	public void helpType() throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		Request<ArticleResp> request = new Request<ArticleResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-		nameValuePairs.add(new BasicNameValuePair("_token_", token));
-		nameValuePairs.add(new BasicNameValuePair("parent_id", type));
-		nameValuePairs.add(new BasicNameValuePair("page", "1"));
-		nameValuePairs.add(new BasicNameValuePair("per_page", "30"));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 		request.setUrl(Config.HTTP_MORE_HELP);
 		request.setR_calzz(ArticleResp.class);
@@ -782,6 +780,40 @@ public class AppServiceImpl implements AppService {
 		nameValuePairs.add(new BasicNameValuePair("article_id", id));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 		request.setUrl(Config.HTTP_MORE_HELP_DETAIL);
+		request.setR_calzz(ArticleDetailResp.class);
+		ArticleDetailResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+			context.addBusinessData("ArticleDetailResp", resp.getData());
+		} else {
+			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+		}
+	}
+
+	@Override
+	public void notice(PageRq pageRq) throws BusinessException {
+		Request<NoticeResp> request = new Request<NoticeResp>();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("page", pageRq.getPage()+""));
+		nameValuePairs.add(new BasicNameValuePair("per_page", pageRq.getPer_page()+""));
+		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+		request.setUrl(Config.HTTP_MORE_HELP_NOTICE);
+		request.setR_calzz(NoticeResp.class);
+		NoticeResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+			context.addBusinessData("NoticeResp", resp.getData());
+		} else {
+			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+		}
+	}
+
+
+	@Override
+	public void noticeDetail(String notice_id) throws BusinessException {
+		Request<ArticleDetailResp> request = new Request<ArticleDetailResp>();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("notice_id", notice_id));
+		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+		request.setUrl(Config.HTTP_MORE_HELP_NOTICEDETAIL);
 		request.setR_calzz(ArticleDetailResp.class);
 		ArticleDetailResp resp = EReaderApplication.getAppSocket().shortConnect(request);
 		if (BaseResp.SUCCESS.equals(resp.getStatus())) {

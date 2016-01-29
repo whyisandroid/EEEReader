@@ -83,7 +83,7 @@ public interface AppService {
 	/***我的充值劵*/
 	public void gift(String type) throws BusinessException;
 	/***使用充值券*/
-	public void useCard(String card) throws BusinessException;
+	public void useCard(String card,String type) throws BusinessException;
 	/***商品评论数据*/
 	public void addComment(float rating, String orderId, String id, String title, String comment) throws BusinessException;
 
@@ -99,9 +99,13 @@ public interface AppService {
 	
 	//other
 	/**帮助中心***/
-	public void helpType(String type)throws BusinessException;
+	public void helpType()throws BusinessException;
 	/**帮助中心详情***/
 	public void helpDetail(String type)throws BusinessException;
+	/**公告列表***/
+	public void notice(PageRq pageRq)throws BusinessException;
+	/**公告详情***/
+	public void noticeDetail(String notice_id)throws BusinessException;
 	/**我的消息***/
 	public void getMessage(String type)throws Exception;
 	/**好友申请消息***/

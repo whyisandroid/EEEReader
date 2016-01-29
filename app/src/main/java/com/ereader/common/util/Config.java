@@ -97,6 +97,8 @@ public class Config {
     // TODO　reader
     public final static String HTTP_MORE_HELP = MY_SERVICE + "/api/article/lists"; //  帮助中心
     public final static String HTTP_MORE_HELP_DETAIL = MY_SERVICE + "/api/article/detail"; //  帮助中心内容详情
+    public final static String HTTP_MORE_HELP_NOTICE = MY_SERVICE + "/api/index/noticeList"; //  公告列表
+    public final static String HTTP_MORE_HELP_NOTICEDETAIL = MY_SERVICE + "/api/index/noticeDetail"; //  公告详情
 
     public final static String HTTP_MY_MESSAGE = MY_SERVICE + "/api/user/message"; // 我的消息列表
     public final static String HTTP_MY_MESSAGE_APPLY = MY_SERVICE + "/api/user/friendApplyMessage"; // 好友申请列表

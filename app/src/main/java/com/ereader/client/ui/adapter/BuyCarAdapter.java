@@ -14,6 +14,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ereader.client.EReaderApplication;
 import com.ereader.client.R;
 import com.ereader.client.entities.Book;
 
@@ -59,16 +60,17 @@ public class BuyCarAdapter extends BaseAdapter {
 		holder.tv_book_name.setText(book.getInfo().getName());
 		holder.tv_book_money.setText("￥"+book.getPrice());
 		holder.cbox_buy_choose.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
+
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if(isChecked){
-					mHandler.obtainMessage(1,position).sendToTarget();
-				}else{
-					mHandler.obtainMessage(2,position).sendToTarget();
+				if (isChecked) {
+					mHandler.obtainMessage(1, position).sendToTarget();
+				} else {
+					mHandler.obtainMessage(2, position).sendToTarget();
 				}
 			}
 		});
+		EReaderApplication.imageLoader.displayImage(book.getInfo().getImage_url(), holder.iv_book, EReaderApplication.options);
 		return convertView;
 	}
 	class ViewHolder{

@@ -2,12 +2,21 @@ package com.ereader.client.entities;
 
 import java.io.Serializable;
 
-public class Article implements Serializable {
+public class ArticleDetail implements Serializable {
 
     private String article_id;
 	private String title;
 	private String type;
 	private String updated_at;
+	private String content;
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getContent() {
+		return content;
+	}
 
 	public String getArticle_id() {
 		return article_id;

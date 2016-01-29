@@ -6,26 +6,18 @@ import com.ereader.client.entities.Article;
 import com.ereader.client.entities.Page;
 
 public class ArticleData{
-	private List<Article> data;
-	private Page page;
-	
-	public void setPage(Page page) {
-		this.page = page;
-	}
-	
-	public Page getPage() {
-		return page;
-	}
+	private List<ArticleList> data;
+
 	/**
 	 * @return the data
 	 */
-	public List<Article> getData() {
+	public List<ArticleList> getData() {
 		return data;
 	}
 	/**
 	 * @param data the data to set
 	 */
-	public void setData(List<Article> data) {
+	public void setData(List<ArticleList> data) {
 		this.data = data;
 	}
 }

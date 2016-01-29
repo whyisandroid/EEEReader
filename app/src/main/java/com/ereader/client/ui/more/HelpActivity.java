@@ -4,20 +4,29 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ereader.client.R;
+import com.ereader.client.entities.Page;
+import com.ereader.client.entities.PageRq;
+import com.ereader.client.entities.json.ArticleData;
+import com.ereader.client.entities.json.ArticleList;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.BaseActivity;
+import com.ereader.client.ui.adapter.HelpAdapter;
 import com.ereader.common.util.IntentUtil;
 import com.ereader.common.util.ProgressDialogUtil;
+
+import java.util.List;
 
 public class HelpActivity extends BaseActivity implements OnClickListener {
 	private AppController controller;
 	private RelativeLayout rl_help_info;
-	private RelativeLayout rl_help_buy;
-	private RelativeLayout rl_help_pay;
+	private ListView lv_help;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +46,19 @@ public class HelpActivity extends BaseActivity implements OnClickListener {
 	 */
 	private void findView() {
 		rl_help_info = (RelativeLayout) findViewById(R.id.rl_help_info);
-		rl_help_buy = (RelativeLayout) findViewById(R.id.rl_help_buy);
-		rl_help_pay = (RelativeLayout) findViewById(R.id.rl_help_pay);
+		lv_help = (ListView)findViewById(R.id.lv_help);
+
+		final List<ArticleList> dataList  = (List<ArticleList>)controller.getContext().getBusinessData("ArticleResp");
+		HelpAdapter adapter = new HelpAdapter(this,dataList);
+		lv_help.setAdapter(adapter);
+		lv_help.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Bundle bundle = new Bundle();
+				bundle.putSerializable("ArticleList", dataList.get(position));
+				IntentUtil.intent(HelpActivity.this, bundle, NoticeActivity.class, false);
+			}
+		});
 	}
 
 	/**
@@ -51,34 +71,25 @@ public class HelpActivity extends BaseActivity implements OnClickListener {
 	private void initView() {
 		((TextView) findViewById(R.id.tv_main_top_title)).setText("帮助中心");
 		rl_help_info.setOnClickListener(this);
-		rl_help_buy.setOnClickListener(this);
-		rl_help_pay.setOnClickListener(this);
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.rl_help_info:
-			getArticle("10"); 
-			break;
-		case R.id.rl_help_buy:
-			getArticle("20"); 
-			break;
-		case R.id.rl_help_pay:
-			getArticle("30"); 
-			break;
+			case R.id.rl_help_info:
+				ProgressDialogUtil.showProgressDialog(this, "", false);
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						PageRq page = new PageRq();
+						controller.getNotice(page);
+						ProgressDialogUtil.closeProgressDialog();
+					}
+				}).start();
+
+				break;
 		default:
 			break;
 		}
-	}
-	private void getArticle(final String id) {
-		ProgressDialogUtil.showProgressDialog(this, "通信中…", false);
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				controller.getArticle(id);
-				ProgressDialogUtil.closeProgressDialog();
-			}
-		}).start();
 	}
 }

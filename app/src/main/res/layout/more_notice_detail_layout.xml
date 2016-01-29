@@ -3,34 +3,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/window_bg"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <include layout="@layout/main_top_layout" />
 
-    <TextView
-        android:id="@+id/tv_notice_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp"
-        android:text="购物流程及配送方式"
-        android:textColor="@color/new_color_2"
-        android:textSize="@dimen/new_size_4"
-         />
-    <TextView
-        android:id="@+id/tv_notice_detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp"
-        android:textColor="@color/new_color_2"
-        android:textSize="@dimen/new_size_3"
-        android:text="	谢顿不安地咬着下唇，这个猜测与实情简直太吻合了。与此同时，谢顿突然发觉有外人走近。
-　　由于光线过度柔和与分散，来人并未投射出仟何阴影。只是他的眼角捕捉到一个动作，动作瞬时停住。 谢顿不安地咬着下唇，这个猜测与实情简直太吻合了。与此同时，谢顿突然发觉有外人走近。
-　　由于光线过度柔和与分散，来人并未投射出仟何阴影。只是他的眼角捕捉到一个动作，动作瞬时停住。 谢顿不安地咬着下唇，这个猜测与实情简直太吻合了。与此同时，谢顿突然发觉有外人走近。
-　　由于光线过度柔和与分散，来人并未投射出仟何阴影。只是他的眼角捕捉到一个动作，动作瞬时停住。 谢顿不安地咬着下唇，这个猜测与实情简直太吻合了。与此同时，谢顿突然发觉有外人走近。
-　　由于光线过度柔和与分散，来人并未投射出仟何阴影。 " />
+    <ScrollView
+        android:id="@+id/scrollView3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/tv_notice_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:text="购物流程及配送方式"
+            android:textColor="@color/new_color_2"
+            android:textSize="@dimen/new_size_4"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_notice_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:text="	谢顿不安地咬着下唇，这个猜测与实情简直太吻合了。与此同时，谢顿突然发觉有外人走近。
+　　由于光线过度柔和与分散，来人并未投射出仟何阴影。只是他的眼角捕捉到一个动作，动作瞬时停住。 谢顿不安地咬着下唇，这个猜测与实情简直太吻合了。与此同时，谢顿突然发觉有外人走近。
+　　由于光线过度柔和与分散，来人并未投射出仟何阴影。只是他的眼角捕捉到一个动作，动作瞬时停住。 谢顿不安地咬着下唇，这个猜测与实情简直太吻合了。与此同时，谢顿突然发觉有外人走近。
+　　由于光线过度柔和与分散，来人并未投射出仟何阴影。只是他的眼角捕捉到一个动作，动作瞬时停住。 谢顿不安地咬着下唇，这个猜测与实情简直太吻合了。与此同时，谢顿突然发觉有外人走近。
+　　由于光线过度柔和与分散，来人并未投射出仟何阴影。 "
+            android:textColor="@color/new_color_2"
+            android:textSize="@dimen/new_size_3" />
+    </ScrollView>
 </LinearLayout>
