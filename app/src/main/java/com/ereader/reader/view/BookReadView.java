@@ -5,12 +5,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 
-import com.glview.hwui.GLCanvas;
-import com.glview.view.GestureDetector.OnGestureListener;
-import com.glview.view.View;
-import com.glview.widget.Toast;
-import com.ereader.reader.Constant;
 import com.ereader.client.R;
+import com.ereader.reader.Constant;
 import com.ereader.reader.read.BitmapPage;
 import com.ereader.reader.read.BookPageManager;
 import com.ereader.reader.read.effect.LayoverEffect;
@@ -21,6 +17,10 @@ import com.ereader.reader.read.effect.PageSwitchEffect.SwitchState;
 import com.ereader.reader.read.settings.PageStyle;
 import com.ereader.reader.read.settings.ReadSettings;
 import com.ereader.reader.read.settings.SettingsObserver;
+import com.glview.hwui.GLCanvas;
+import com.glview.view.GestureDetector.OnGestureListener;
+import com.glview.view.View;
+import com.glview.widget.Toast;
 
 public class BookReadView extends View implements PageSwitchListener, OnGestureListener, SettingsObserver {
 	
@@ -238,5 +238,17 @@ public class BookReadView extends View implements PageSwitchListener, OnGestureL
 			resetPageStyle();
 		}
 	}
+//长按事件的按钮处理
+	private boolean isMenuShown=false;
+	private void showContentMenu(){
+		isMenuShown=true;
+
+
+	}
+	private void hideContentMenu(){
+		isMenuShown=false;
+
+	}
+
 
 }

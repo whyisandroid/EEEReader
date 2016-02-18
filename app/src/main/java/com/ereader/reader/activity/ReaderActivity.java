@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.WindowManager;
 
 import com.ereader.client.R;
+import com.ereader.common.util.IntentUtil;
 import com.ereader.reader.Constant;
 import com.ereader.reader.db.BookDBHelper;
 import com.ereader.reader.exception.BookException;
@@ -22,6 +23,7 @@ import com.glview.view.View;
 import com.glview.view.View.OnClickListener;
 import com.glview.widget.ImageButton;
 import com.glview.widget.ImageView;
+import com.glview.widget.TextView;
 import com.glview.widget.Toast;
 
 import java.io.File;
@@ -38,6 +40,10 @@ public class ReaderActivity extends BaseActivity implements OnClickListener{
 	private ImageView back;
 	private ImageButton bookMark;
 //	private ImageButton setting_reading;
+
+	private TextView read_share;
+	private TextView read_note;
+	StoreBook storeBook = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +76,7 @@ public class ReaderActivity extends BaseActivity implements OnClickListener{
 	private void init() {
 		showLoading();
 		Intent intent = getIntent();
-		StoreBook storeBook = null;
+
 		MimeType type = null;
 		try {
 			storeBook = (StoreBook) intent.getSerializableExtra("storeBook");
@@ -159,6 +165,11 @@ public class ReaderActivity extends BaseActivity implements OnClickListener{
 		back.setOnClickListener(this);
 		bookMark=(ImageButton)content.findViewById(R.id.bookmark);
 		bookMark.setOnClickListener(this);
+
+		read_share=(TextView)content.findViewById(R.id.read_share);
+		read_note=(TextView)content.findViewById(R.id.read_note);
+		read_share.setOnClickListener(this);
+		read_note.setOnClickListener(this);
 //		setting_reading=(ImageButton)content.findViewById(R.id.setting_reading);
 //		setting_reading.setOnClickListener(this);
 //		.setOnClickListener(new OnClickListener() {
@@ -218,9 +229,17 @@ public class ReaderActivity extends BaseActivity implements OnClickListener{
 			ReaderActivity.this.finish();
 		}else if( v == bookMark ){//书签
 			Toast.showToast(this,"TODO：还是记个百分比，字体大小～",Toast.LENGTH_SHORT);
+		} else if( v ==read_note ){
+			IntentUtil.intent(ReaderActivity.this,NoteActivity.class,false);
+
+		}else if( v ==read_share ){
+			String title = storeBook.name;
+			String textToShare = "快来阅读《"+title+"》,来自"+ getResources().getString(R.string.app_name);
+			Intent intent = new Intent(Intent.ACTION_SEND);
+			intent.setType("text/plain");
+			intent.putExtra(Intent.EXTRA_SUBJECT, "Trecho do livro \"" + title + "\"");
+			intent.putExtra(Intent.EXTRA_TEXT, textToShare);
+			startActivity(intent);
 		}
-//		else if( v == setting_reading ){
-//
-//		}
 	}
 }
