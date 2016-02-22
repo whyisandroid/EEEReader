@@ -181,6 +181,11 @@ public class BookshelfFragment extends Fragment {
 
 
         if (null != listPager && listPager.size() > 0&&EReaderApplication.getInstance().isLogin()) {
+            //限制
+            if(listPager.size()>6){
+                listPager=listPager.subList(0,5);
+            }
+
             BookPagerAdapter pageAdapter = new BookPagerAdapter(mContext, listPager);
             viewpager.setAdapter(pageAdapter);
             viewpager.setCurrentItem(0);
