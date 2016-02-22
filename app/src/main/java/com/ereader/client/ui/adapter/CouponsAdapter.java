@@ -59,14 +59,14 @@ public class CouponsAdapter extends BaseAdapter {
 		}
 		holder.tv_coupons_key.setText("充值码："	+gift.getCode());
 		holder.tv_coupons_endtime.setText("有效期："+gift.getAvailable_at()+"至"+gift.getExpire_at());
-		holder.tv_coupons_money.setText(gift.getTotal());
+		holder.tv_coupons_money.setText("￥"+gift.getTotal());
 		//status=1 可用，2已用，3已过期
 		if("1".equals(gift.getStatus())){
 			holder.tv_coupons_status.setText("可用");
 			holder.tv_coupons_status.setTextColor(Color.GREEN);
 			holder.bt_coupons_add.setVisibility(View.VISIBLE);
 		}else if("2".equals(gift.getStatus())){
-			holder.tv_coupons_status.setText("已用");
+			holder.tv_coupons_status.setText("已使用");
 			holder.tv_coupons_status.setTextColor(Color.RED);
 			holder.bt_coupons_add.setVisibility(View.GONE);
 		}else if("3".equals(gift.getStatus())){

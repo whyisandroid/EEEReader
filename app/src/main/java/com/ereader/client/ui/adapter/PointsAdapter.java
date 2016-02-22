@@ -63,6 +63,7 @@ public class PointsAdapter extends BaseAdapter {
 			holder.tv_points_num.setText("-"+bill.getCarry());
 			holder.tv_points_num.setTextColor(Color.RED);
 		}else{
+			holder.tv_points_num.setTextColor(Color.GREEN);
 			holder.tv_points_num.setText("+"+bill.getCarry());
 		}
 

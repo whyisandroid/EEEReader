@@ -53,10 +53,8 @@
             
             <TextView
                 android:id="@+id/tv_book_price"
-                android:layout_marginTop="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_book_time"
                 android:text="$2.00"
                 android:textColor="@color/main_bar"
                 android:layout_alignParentRight="true"

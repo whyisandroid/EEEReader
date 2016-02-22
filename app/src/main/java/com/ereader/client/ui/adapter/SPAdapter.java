@@ -12,6 +12,7 @@ import android.view.ViewTreeObserver;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ereader.client.R;
@@ -72,7 +73,8 @@ public class SPAdapter extends BaseAdapter {
 				int lineCount = holder.tv_book_content.getLineCount();
 				if(lineCount >= 5){
 					holder.iv_sp_max.setVisibility(View.VISIBLE);
-					holder.tv_book_content.setOnClickListener(new OnClickListener() {
+
+					holder.rl_sp_item.setOnClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View v) {
 							Bundle bundle = new Bundle();
@@ -88,11 +90,12 @@ public class SPAdapter extends BaseAdapter {
 		});
 
 		holder.tv_book_date.setText(sp.getCreated_at());
-		holder.tv_book_name.setText(sp.getProduct_name());
+		holder.tv_book_name.setText("《"+sp.getProduct_name()+"》");
 		holder.rbar_sp_star.setRating(Float.valueOf(sp.getScore()));
 		return convertView;
 	}
 	class ViewHolder{
+		private RelativeLayout rl_sp_item;
 		private TextView tv_sp_name;
 		private TextView tv_book_content;
 		private TextView tv_book_date;
@@ -100,6 +103,7 @@ public class SPAdapter extends BaseAdapter {
 		private RatingBar rbar_sp_star;
 		private ImageView iv_sp_max;
 		public void findView(View view){
+			rl_sp_item = (RelativeLayout)view.findViewById(R.id.rl_sp_item);
 			tv_sp_name = (TextView)view.findViewById(R.id.tv_sp_name);
 			tv_book_content = (TextView)view.findViewById(R.id.tv_book_content);
 			tv_book_date = (TextView)view.findViewById(R.id.tv_book_date);

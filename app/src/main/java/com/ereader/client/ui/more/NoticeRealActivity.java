@@ -10,12 +10,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ereader.client.R;
-import com.ereader.client.entities.Article;
-import com.ereader.client.entities.Book;
 import com.ereader.client.entities.Notice;
 import com.ereader.client.entities.Page;
-import com.ereader.client.entities.json.ArticleList;
-import com.ereader.client.entities.json.BookResp;
 import com.ereader.client.entities.json.NoticeData;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.BaseActivity;
@@ -23,7 +19,6 @@ import com.ereader.client.ui.adapter.BookAdapter;
 import com.ereader.client.ui.adapter.NoticeAdapter;
 import com.ereader.client.ui.view.PullToRefreshView;
 import com.ereader.common.util.ProgressDialogUtil;
-import com.ereader.common.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
