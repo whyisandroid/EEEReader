@@ -71,7 +71,16 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
                 if(resp == null){
                     resp = new BookOnlyResp();
                 }
-				resp.getData().add(mBook);
+				boolean flag = true;
+				for(int i = 0;i<resp.getData().size();i++){
+					if(mBook.getProduct_id().equals(resp.getData().get(i).getProduct_id())){
+						flag = false;
+					}
+				}
+				if(flag){
+					resp.getData().add(mBook);
+				}
+
 				EReaderApplication.getInstance().saveBuyCar(resp);
 
 				buyNum = Integer.valueOf(((AddBuy) controller.getContext().getBusinessData("AddBuyResp")).getTotal_product_count());

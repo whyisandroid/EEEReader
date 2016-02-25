@@ -17,7 +17,7 @@
         <ListView
             android:id="@+id/lv_more_notice"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:divider="@color/window_bg"
             android:dividerHeight="2dp"></ListView>
     </com.ereader.client.ui.view.PullToRefreshView>

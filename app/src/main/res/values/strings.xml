@@ -43,6 +43,10 @@
     <string name="pull_to_refresh_footer_pull_label">上拉加载更多</string>
     <string name="pull_to_refresh_footer_refreshing_label">加载中\u2026</string>
 
+    <string name="web_view_invalid_url">无效的链接地址，请返回重试</string>
+    <string name="web_view_server_error">页面加载异常，请返回重试</string>
+    <string name="web_view_not_find_browser">打开浏览器失败，请确认安装了浏览器，再重试</string>
+
     <!-- bookpop.xml -->
     <string name="bookpop_size">字体</string>
     <string name="bookpop_light">亮度</string>

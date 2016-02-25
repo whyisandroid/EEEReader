@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ereader.client.R;
+import com.ereader.client.entities.CardInfo;
 import com.ereader.client.entities.RechargeOrder;
 import com.ereader.client.entities.json.WalletData;
 import com.ereader.client.service.AppController;
@@ -38,6 +39,8 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 	private EditText mRechCard;
 	public static final int GET_ORDER = 1;
 	public static final int ORDER_SUCCESS = 2;
+	public static final int SUCCESS = 3;
+	public static final int FAILE = 4;
 
 	private  Alipay pay;
 
@@ -68,6 +71,14 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 							ProgressDialogUtil.closeProgressDialog();
 						}
 					}).start();
+					break;
+				case SUCCESS:
+					CardInfo cardInfo = (CardInfo)controller.getContext().getBusinessData("CardInfoResp");
+					recharge_tv_money.setText("￥" + cardInfo.total);
+					break;
+				case FAILE:
+
+
 					break;
 				default:
 					break;
@@ -150,9 +161,37 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				recharge_tv_money.setText("￥"+s);
+				recharge_tv_money.setText("￥" + s);
 			}
 		});
+
+		mRechCard.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				if(s.length() == 12){
+					getRechCard(s.toString());
+				}
+			}
+		});
+	}
+
+	private void getRechCard(final String card){
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				controller.getRechCard(mHander,card);
+			}
+		}).start();
 	}
 
 	@Override

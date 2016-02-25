@@ -133,7 +133,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 				ToastUtil.showToast(RegisterActivity.this, "姓名不能为空", ToastUtil.LENGTH_LONG);
 				return;
 			}else{
-				controller.getContext().addBusinessData("regisrerName",et_register.getText().toString());
+				controller.getContext().addBusinessData("regisrerName",et_register_name.getText().toString());
 			}
 
 			if(!StringUtil.isMoblieInput(et_register.getText().toString())){

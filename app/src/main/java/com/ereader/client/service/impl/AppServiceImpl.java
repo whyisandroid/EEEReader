@@ -13,6 +13,7 @@ import com.ereader.client.entities.json.BookOnlyResp;
 import com.ereader.client.entities.json.BookResp;
 import com.ereader.client.entities.json.BookSearchResp;
 import com.ereader.client.entities.json.BookShowResp;
+import com.ereader.client.entities.json.CardInfoResp;
 import com.ereader.client.entities.json.CategoryResp;
 import com.ereader.client.entities.json.CommentResp;
 import com.ereader.client.entities.json.DisCategoryResp;
@@ -667,6 +668,23 @@ public class AppServiceImpl implements AppService {
 		BaseResp resp = EReaderApplication.getAppSocket().shortConnect(request);
 		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
 
+		} else {
+			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+		}
+	}
+	@Override
+	public void getRechCard(String card) throws BusinessException {
+		String token = EReaderApplication.getInstance().getLogin().getToken();
+		Request<CardInfoResp> request = new Request<CardInfoResp>();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("_token_", token));
+		nameValuePairs.add(new BasicNameValuePair("code", card));
+		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+		request.setUrl(Config.HTTP_GIFT_USE);
+		request.setR_calzz(CardInfoResp.class);
+		CardInfoResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+			context.addBusinessData("CardInfoResp", resp.getData());
 		} else {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}

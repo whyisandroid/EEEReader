@@ -84,6 +84,9 @@ public interface AppService {
 	public void gift(String type) throws BusinessException;
 	/***使用充值券*/
 	public void useCard(String card,String type) throws BusinessException;
+
+	/***获取充值券信息*/
+	public void getRechCard(String card) throws BusinessException;
 	/***商品评论数据*/
 	public void addComment(float rating, String orderId, String id, String title, String comment) throws BusinessException;
 

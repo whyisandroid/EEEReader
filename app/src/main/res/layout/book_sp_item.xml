@@ -51,9 +51,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:maxLines="5"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
+        android:maxLines="5"
+        android:ellipsize="end"
         android:text="这本书真不错 值得购买。这本书真不错 值得购买。这本书真不错 值得购买。这本书真不错 值得购买。这本书真不错 值得购买。这本书真不错 值得购买。"
         android:textColor="@color/new_color_2"
         android:textSize="@dimen/new_size_3" />

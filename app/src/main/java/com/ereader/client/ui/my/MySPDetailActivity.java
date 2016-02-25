@@ -62,7 +62,7 @@ public class MySPDetailActivity extends BaseActivity implements OnClickListener 
 	  * @time: 2015-2-10 下午1:37:06
 	 */
 	private void initView() {
-		((TextView) findViewById(R.id.tv_main_top_title)).setText("我的书评");
+		((TextView) findViewById(R.id.tv_main_top_title)).setText("书评");
 		SpComment sp = (SpComment)getIntent().getExtras().getSerializable("sp");
 		tv_sp_name.setText(sp.getTitle());
 		tv_book_content.setText(sp.getContent());

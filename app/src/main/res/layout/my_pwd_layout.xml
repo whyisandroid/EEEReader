@@ -11,16 +11,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="@dimen/dimen_xnormal">
+        android:background="@drawable/bg_03"
+        android:layout_marginLeft="@dimen/dimen_xnormal"
+        android:layout_marginRight="@dimen/dimen_xnormal">
 
         <TextView
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
             android:hint="当前密码 :" />
 
         <EditText
+            android:layout_marginTop="10dp"
+            android:background="@null"
             android:id="@+id/pwd_et_pwd"
             style="@style/EText_basic"
             android:layout_width="match_parent"
@@ -43,6 +48,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:background="@drawable/bg_03"
+        android:layout_marginRight="@dimen/dimen_xnormal"
         android:layout_marginLeft="@dimen/dimen_xnormal">
 
         <TextView
@@ -50,11 +57,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
             android:hint="新的密码 :" />
 
         <EditText
             android:id="@+id/pwd_et_pwd1"
             style="@style/EText_basic"
+            android:layout_marginTop="10dp"
+            android:background="@null"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/dimen_xnormal"
@@ -73,6 +83,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:layout_marginRight="@dimen/dimen_xnormal"
+        android:background="@drawable/bg_03"
         android:layout_marginLeft="@dimen/dimen_xnormal">
 
         <TextView
@@ -80,11 +92,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
             android:hint="确认密码 :" />
 
         <EditText
             android:id="@+id/pwd_et_pwd2"
             style="@style/EText_basic"
+            android:layout_marginTop="10dp"
+            android:background="@null"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/dimen_xnormal"

@@ -3,21 +3,27 @@ package com.ereader.client.ui.adapter;
 import java.util.List;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.BaseAdapter;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.ereader.client.R;
 import com.ereader.client.entities.Comment;
+import com.ereader.client.ui.my.MySPDetailActivity;
+import com.ereader.common.util.IntentUtil;
 
 public class BookSPAdapter extends BaseAdapter {
 	private LayoutInflater inflater;
 	private List<Comment> mList ;
+	private Context mContext;
 
 	public BookSPAdapter(Context mContext,List<Comment> list) {
+		this.mContext = mContext;
 		inflater=LayoutInflater.from(mContext);
 		mList = list;
 	}
@@ -40,7 +46,7 @@ public class BookSPAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		Comment comment = mList.get(position);
-		ViewHolder holder;
+		final ViewHolder holder;
 		if(convertView == null){
 			convertView =inflater.inflate(R.layout.book_sp_item, null);
 			holder = new ViewHolder();
@@ -52,11 +58,33 @@ public class BookSPAdapter extends BaseAdapter {
 		holder.rb_book_star.setRating(Float.valueOf(comment.getScore()));
 		holder.tv_mybook_cate.setText(comment.getNickname());
 		holder.tv_mybook_title.setText(comment.getTitle());
+		final String sp = comment.getContent();
 		holder.tv_book_sp_content.setText(comment.getContent());
-		
-		if(holder.tv_book_sp_content.getLineCount() == 5){
-			holder.tv_book_sp_more.setVisibility(View.VISIBLE);
-		}
+
+
+		ViewTreeObserver vto = holder.tv_book_sp_content.getViewTreeObserver();
+		vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+			@Override
+			public boolean onPreDraw() {
+				int lineCount = holder.tv_book_sp_content.getLineCount();
+				if (lineCount >= 5) {
+					holder.tv_book_sp_more.setVisibility(View.VISIBLE);
+
+					holder.tv_book_sp_more.setOnClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							Bundle bundle = new Bundle();
+							bundle.putSerializable("sp",sp);
+							IntentUtil.intent(mContext, bundle, MySPDetailActivity.class, false);
+						}
+					});
+				} else {
+					holder.tv_book_sp_more.setVisibility(View.GONE);
+				}
+				return true;
+			}
+		});
+
 		
 		return convertView;
 	}

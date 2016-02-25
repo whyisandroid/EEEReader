@@ -564,7 +564,7 @@ public class AppController {
 				service.updatePwd();
 				appHandler.obtainMessage(HANDLER_TOAST,"密码修改成功").sendToTarget();
 				EReaderApplication.getInstance().setLogin(false);
-				IntentUtil.intent(currentActivity,LoginActivity.class);
+				IntentUtil.intent(currentActivity, LoginActivity.class);
 				currentActivity.finish();
 			} catch (BusinessException e) {
 				appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
@@ -623,7 +623,7 @@ public class AppController {
 
 	public void useCard(String card,Handler mHandler,int position,String type) {
 		try {
-			service.useCard(card,type);
+			service.useCard(card, type);
 			if(mHandler != null){
 				mHandler.obtainMessage(CouponsFragment.INPUT_OK,position).sendToTarget();
 			}
@@ -746,6 +746,15 @@ public class AppController {
 		try {
 			service.myRecommend();
 			mHandler.obtainMessage(RecommendActivity.SUCCESS).sendToTarget();
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}
+	}
+
+	public void getRechCard(Handler mHandler,String card) {
+		try {
+			service.getRechCard(card);
+			mHandler.obtainMessage(RechargeActivity.SUCCESS).sendToTarget();
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}

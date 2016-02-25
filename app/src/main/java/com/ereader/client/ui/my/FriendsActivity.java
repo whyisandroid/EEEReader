@@ -129,26 +129,9 @@ public class FriendsActivity extends BaseActivity implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.main_top_right:
-                String friendName1 = friends_et_send.getText().toString();
-
-                if (TextUtils.isEmpty(friendName1)) {
-                    ToastUtil.showToast(FriendsActivity.this, "推荐好友不能为空", ToastUtil.LENGTH_LONG);
-                    return;
-                }
-                boolean flag1 = false;
-                for (int i = 0; i < mList.size(); i++) {
-                    Friend friend2 = mList.get(i);
-                    if (friend2.getNickname().equals(friendName1)) {
-                        flag1 = true;
-                        mFriendId = friend2.getFriend_id();
-                    }
-                }
-                if (!flag1) {
-                    ToastUtil.showToast(FriendsActivity.this, "推荐人不在好友列表内", ToastUtil.LENGTH_LONG);
-                    return;
-                }
 
                 if(mFriendsSend == 2){
+                    String friendName1 = friends_et_send.getText().toString();
                     Intent mIntent = new Intent();
                     mIntent.putExtra("friendName", friendName1);
                     mIntent.putExtra("friendId", friends_et_send.getTag().toString());

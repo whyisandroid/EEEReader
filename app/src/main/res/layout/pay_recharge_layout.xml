@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/window_bg"
@@ -86,6 +87,7 @@
                 android:ems="10"
                 android:hint="请输入充值码"
                 android:inputType="number"
+                android:maxLength="12"
                 android:textSize="@dimen/new_size_3"></EditText>
 
             <TextView
