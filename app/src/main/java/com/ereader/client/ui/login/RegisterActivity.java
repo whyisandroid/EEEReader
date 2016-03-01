@@ -143,7 +143,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 				controller.getContext().addBusinessData("regisrerPhone",et_register.getText().toString());
 			}
 			
-			ProgressDialogUtil.showProgressDialog(this, "通信中…", false);
+			ProgressDialogUtil.showProgressDialog(this, "", false);
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
@@ -157,7 +157,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 				ToastUtil.showToast(RegisterActivity.this, "姓名不能为空", ToastUtil.LENGTH_LONG);
 				return;
 			}else{
-				controller.getContext().addBusinessData("regisrerName",et_register.getText().toString());
+				controller.getContext().addBusinessData("regisrerName",et_register_name.getText().toString());
 			}
 			if(phoneRegister){
 				if(!StringUtil.isMoblieInput(et_register.getText().toString())){

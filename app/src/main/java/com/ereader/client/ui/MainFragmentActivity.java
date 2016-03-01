@@ -28,7 +28,7 @@ import com.ereader.client.ui.fragment.MyBookFragment;
 public class MainFragmentActivity extends BaseFragmentActivity {
 	@SuppressWarnings("unused")
 	private static final String TAG = "MainFragmentActivity";
-	private static int CurrentTab = 0; // 当前活动页
+	private static int CurrentTab = 1; // 当前活动页
 
 	private AppController controller; 
 	private FragmentTabHost fTabHost;

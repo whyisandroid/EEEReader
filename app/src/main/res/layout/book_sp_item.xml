@@ -39,10 +39,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:maxLines="1"
         android:paddingLeft="15dp"
+        android:singleLine="true"
         android:paddingRight="15dp"
-        android:text="值得购买的书"
+        android:text="值得购买的书1"
         android:textColor="@color/new_color_2"
         android:textSize="@dimen/new_size_5" />
 

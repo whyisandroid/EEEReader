@@ -25,9 +25,7 @@ public class MySPDetailActivity extends BaseActivity implements OnClickListener 
 			public void handleMessage(android.os.Message msg) {
 				switch (msg.what) {
 				case 0:
-					
 					break;
-	
 				default:
 					break;
 				}
@@ -62,8 +60,7 @@ public class MySPDetailActivity extends BaseActivity implements OnClickListener 
 	  * @time: 2015-2-10 下午1:37:06
 	 */
 	private void initView() {
-		((TextView) findViewById(R.id.tv_main_top_title)).setText("书评");
-		SpComment sp = (SpComment)getIntent().getExtras().getSerializable("sp");
+		((TextView) findViewById(R.id.tv_main_top_title)).setText("书评");		SpComment sp = (SpComment)getIntent().getExtras().getSerializable("sp");
 		tv_sp_name.setText(sp.getTitle());
 		tv_book_content.setText(sp.getContent());
 		tv_book_date.setText(sp.getCreated_at());
