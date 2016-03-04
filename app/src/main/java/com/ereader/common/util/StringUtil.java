@@ -210,6 +210,22 @@ public class StringUtil {
     }
 
     /**
+     * 验证密码
+     *
+     * @param s
+     * @return
+     */
+    public static String name(String s) {
+        String validation = "";
+        if (TextUtils.isEmpty(s)) {
+            validation = "请输入姓名";
+        } else if (s.length() > 10 || s.length() < 1) {
+            validation = "姓名必须（1-10位字符）";
+        }
+        return validation;
+    }
+
+    /**
      * 手机号码验证
      *
      * @param s

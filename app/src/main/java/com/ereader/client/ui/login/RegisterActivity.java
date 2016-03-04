@@ -129,8 +129,10 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 
 		switch (v.getId()) {
 		case  R.id.tv_regisrer_code:
-			if(TextUtils.isEmpty(et_register_name.getText().toString())){
-				ToastUtil.showToast(RegisterActivity.this, "姓名不能为空", ToastUtil.LENGTH_LONG);
+
+			String nameCheck = StringUtil.name(et_register_name.getText().toString());
+			if(!TextUtils.isEmpty(nameCheck)){
+				ToastUtil.showToast(RegisterActivity.this, nameCheck, ToastUtil.LENGTH_LONG);
 				return;
 			}else{
 				controller.getContext().addBusinessData("regisrerName",et_register_name.getText().toString());
@@ -153,8 +155,9 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 			}).start();
 			break;
 		case R.id.bt_register:
-			if(TextUtils.isEmpty(et_register_name.getText().toString())){
-				ToastUtil.showToast(RegisterActivity.this, "姓名不能为空", ToastUtil.LENGTH_LONG);
+			String nameCheck1 = StringUtil.name(et_register_name.getText().toString());
+			if(!TextUtils.isEmpty(nameCheck1)){
+				ToastUtil.showToast(RegisterActivity.this, nameCheck1, ToastUtil.LENGTH_LONG);
 				return;
 			}else{
 				controller.getContext().addBusinessData("regisrerName",et_register_name.getText().toString());

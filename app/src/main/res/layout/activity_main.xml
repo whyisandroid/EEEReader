@@ -1,23 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:glview="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    glview:layout_width="match_parent"
-    glview:layout_height="match_parent"
-    glview:orientation="vertical" >
-
-    <include layout="@layout/head" />
-    
-    <com.ereader.reader.view.BookGridView
-        glview:id="@+id/book_grid"
-        glview:layout_width="match_parent"
-        glview:layout_height="match_parent"
-        glview:columnWidth="90.0dip"
-        glview:clipChildren="true"
-        glview:fadingEdge="none"
-        glview:listSelector="@android:color/transparent"
-        glview:numColumns="3"
-        glview:scrollbars="none" />
-    
+    android:background="@drawable/first"
+    >
 </LinearLayout>
