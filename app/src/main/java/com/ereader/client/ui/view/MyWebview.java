@@ -1,4 +1,4 @@
-package com.ereader.client.ui.more;
+package com.ereader.client.ui.view;
 
 import android.content.Context;
 import android.util.AttributeSet;

@@ -15,14 +15,14 @@ public class Notice {
     private String id;
     private String title;
     private String updated_at;
-    private String content = "";
+    private String url = "";
 
-    public String getContent() {
-        return content;
+    public String getUrl() {
+        return url;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getId() {

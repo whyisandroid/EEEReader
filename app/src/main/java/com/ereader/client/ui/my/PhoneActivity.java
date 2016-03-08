@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.ereader.client.EReaderApplication;
 import com.ereader.client.R;
-import com.ereader.client.entities.Login;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.BaseActivity;
 import com.ereader.common.util.ProgressDialogUtil;
@@ -24,7 +23,6 @@ public class PhoneActivity extends BaseActivity implements OnClickListener {
 	private AppController controller;
 	private Button main_top_right;
 	private TextView tv_pwd_get_code;
-	private EditText et_account_phone;
 	private EditText mNewPhone;
 	private EditText mCode;
 	private RegisterCountDownTimer timer;
@@ -64,8 +62,7 @@ public class PhoneActivity extends BaseActivity implements OnClickListener {
 	private void findView() {
 		main_top_right = (Button)findViewById(R.id.main_top_right);
 		tv_pwd_get_code = (TextView)findViewById(R.id.tv_pwd_get_code);
-		et_account_phone = (EditText)findViewById(R.id.et_account_phone);
-		mNewPhone = (EditText)findViewById(R.id.phone_et_new_phone);
+		mNewPhone = (EditText)findViewById(R.id.et_phone);
 		mCode = (EditText)findViewById(R.id.phone_et_code);
 	}
 	
@@ -79,10 +76,6 @@ public class PhoneActivity extends BaseActivity implements OnClickListener {
 	private void initView() {
 		((TextView) findViewById(R.id.tv_main_top_title)).setText("手机号");
 		main_top_right.setText("保存");
-		Login login = EReaderApplication.getInstance().getLogin();
-		if(login != null){
-			et_account_phone.setText("手机号： "+login.getPhone());
-		}
 		main_top_right.setOnClickListener(this);
 		tv_pwd_get_code.setOnClickListener(this);
 	}

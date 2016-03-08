@@ -63,17 +63,13 @@ public class NoticeActivity extends BaseActivity implements OnClickListener {
 	
 	private OnItemClickListener noticeItemListener = new OnItemClickListener() {
 		@Override
-		public void onItemClick(AdapterView<?> arg0, View arg1,final int arg2,
+		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
-			
-				ProgressDialogUtil.showProgressDialog(NoticeActivity.this, "", false);
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						controller.getArticleDetail(mList.get(arg2).getArticle_id());
-						ProgressDialogUtil.closeProgressDialog();
-					}
-				}).start();
+			Article article = mList.get(arg2);
+			Bundle bundle = new Bundle();
+			bundle.putString("title", article.getTitle());
+			bundle.putString("url",article.getUrl());
+			IntentUtil.intent(NoticeActivity.this,bundle,WebActivity.class,false);
 		}
 	};
 

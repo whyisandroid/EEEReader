@@ -77,7 +77,7 @@ public class HelpActivity extends BaseActivity implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.rl_help_info:
-				ProgressDialogUtil.showProgressDialog(this, "", false);
+				/*ProgressDialogUtil.showProgressDialog(this, "", false);
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
@@ -85,8 +85,9 @@ public class HelpActivity extends BaseActivity implements OnClickListener {
 						controller.getNotice(page);
 						ProgressDialogUtil.closeProgressDialog();
 					}
-				}).start();
+				}).start();*/
 
+				IntentUtil.intent(HelpActivity.this, Notice2Activity.class);
 				break;
 		default:
 			break;

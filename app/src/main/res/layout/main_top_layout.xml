@@ -23,6 +23,10 @@
         android:gravity="center"
         android:singleLine="true"
         android:ellipsize="end"
+        android:layout_toRightOf="@+id/main_top_left"
+        android:layout_toLeftOf="@+id/main_top_right"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
         android:text="@string/app_name"
         android:textColor="@color/new_color_6"
         android:textSize="@dimen/new_size_6" />

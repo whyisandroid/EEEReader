@@ -20,9 +20,7 @@ import com.ereader.common.util.ToastUtil;
 public class EmailActivity extends BaseActivity implements OnClickListener {
 	private AppController controller;
 	private Button main_top_right;
-	private EditText et_account_email;
 	private EditText mNewEmail;
-	private EditText mNewEmail2;
 	private EditText mPwd;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +38,8 @@ public class EmailActivity extends BaseActivity implements OnClickListener {
 	 */
 	private void findView() {
 		main_top_right = (Button)findViewById(R.id.main_top_right);
-		et_account_email = (EditText)findViewById(R.id.et_account_email);
+		mNewEmail = (EditText)findViewById(R.id.et_account_email);
 		mPwd = (EditText)findViewById(R.id.email_et_pwd);
-		mNewEmail2 = (EditText)findViewById(R.id.email_et_new2);
-		mNewEmail = (EditText)findViewById(R.id.email_et_new);
 	}
 	
 
@@ -56,10 +52,6 @@ public class EmailActivity extends BaseActivity implements OnClickListener {
 	private void initView() {
 		((TextView) findViewById(R.id.tv_main_top_title)).setText("邮箱");
 		main_top_right.setText("保存");
-		Login login = EReaderApplication.getInstance().getLogin();
-		if(login != null){
-			et_account_email.setText("邮箱: "+login.getEmail());
-		}
 		main_top_right.setOnClickListener(this);
 	}
 
@@ -72,20 +64,6 @@ public class EmailActivity extends BaseActivity implements OnClickListener {
 			String email1Value = StringUtil.email(email1);
 			if(!TextUtils.isEmpty(email1Value)){
 				ToastUtil.showToast(EmailActivity.this, email1Value, ToastUtil.LENGTH_LONG);
-				return;
-			}
-			String email2 = mNewEmail2.getText().toString();
-			if(TextUtils.isEmpty(email2)){
-				ToastUtil.showToast(EmailActivity.this,"请确认新邮箱",ToastUtil.LENGTH_LONG);
-				return;
-			}
-			String email2Value = StringUtil.email(email2);
-			if(!TextUtils.isEmpty(email2Value)){
-				ToastUtil.showToast(EmailActivity.this,email2Value,ToastUtil.LENGTH_LONG);
-				return;
-			}
-			if(!email1.equals(email2)){
-				ToastUtil.showToast(EmailActivity.this, "两次输入邮箱不一置", ToastUtil.LENGTH_LONG);
 				return;
 			}
 			final String mPwdValue = mPwd.getText().toString();

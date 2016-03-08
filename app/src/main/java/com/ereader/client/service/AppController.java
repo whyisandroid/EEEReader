@@ -22,6 +22,7 @@ import com.ereader.client.ui.login.FindPwdActivity;
 import com.ereader.client.ui.login.LoginActivity;
 import com.ereader.client.ui.login.RegisterActivity;
 import com.ereader.client.ui.more.HelpActivity;
+import com.ereader.client.ui.more.Notice2Activity;
 import com.ereader.client.ui.more.NoticeActivity;
 import com.ereader.client.ui.more.NoticeDetailActivity;
 import com.ereader.client.ui.my.CouponsFragment;
@@ -461,14 +462,23 @@ public class AppController {
 	public void getNotice(PageRq pageRq) {
 		try {
 			service.notice(pageRq);
-			IntentUtil.intent(currentActivity, NoticeActivity.class);
+			IntentUtil.intent(currentActivity, Notice2Activity.class);
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}catch (Exception e) {
 		}
 	}
 
-
+	public void getNotice(Handler mHandler,PageRq pageRq) {
+		try {
+			service.notice(pageRq);
+			mHandler.obtainMessage(Notice2Activity.BOOK).sendToTarget();
+		} catch (BusinessException e) {
+			mHandler.obtainMessage(BookActivity.REFRESH_ERROR).sendToTarget();
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}catch (Exception e) {
+		}
+	}
 	public void getNoticeDetail(String article_id) {
 		try {
 			service.noticeDetail(article_id);
