@@ -41,11 +41,30 @@ public class Book implements Serializable {
 	private String created_at;
 	private String updated_at;
 	private String comment_star;
+	private Integer comment_score;
+	private String comment_num;
 	private BookExtra extra;
 	private BookInfo info;
 	private String image_url;
 	
 	private boolean select; // 购物车用
+
+
+	public Integer getComment_score() {
+		return comment_score;
+	}
+
+	public void setComment_score(Integer comment_score) {
+		this.comment_score = comment_score;
+	}
+
+	public String getComment_num() {
+		return comment_num;
+	}
+
+	public void setComment_num(String comment_num) {
+		this.comment_num = comment_num;
+	}
 
 	public static long getSerialVersionUID() {
 		return serialVersionUID;

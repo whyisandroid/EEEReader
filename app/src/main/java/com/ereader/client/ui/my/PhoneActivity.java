@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.ereader.client.EReaderApplication;
 import com.ereader.client.R;
+import com.ereader.client.entities.Login;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.BaseActivity;
 import com.ereader.common.util.ProgressDialogUtil;
@@ -76,6 +77,11 @@ public class PhoneActivity extends BaseActivity implements OnClickListener {
 	private void initView() {
 		((TextView) findViewById(R.id.tv_main_top_title)).setText("手机号");
 		main_top_right.setText("保存");
+		Login login = EReaderApplication.getInstance().getLogin();
+		if(login != null){
+			mNewPhone.setText(login.getPhone());
+		}
+
 		main_top_right.setOnClickListener(this);
 		tv_pwd_get_code.setOnClickListener(this);
 	}

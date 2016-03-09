@@ -52,6 +52,10 @@ public class EmailActivity extends BaseActivity implements OnClickListener {
 	private void initView() {
 		((TextView) findViewById(R.id.tv_main_top_title)).setText("邮箱");
 		main_top_right.setText("保存");
+		Login login = EReaderApplication.getInstance().getLogin();
+		if(login != null){
+			mNewEmail.setText(login.getEmail());
+		}
 		main_top_right.setOnClickListener(this);
 	}
 

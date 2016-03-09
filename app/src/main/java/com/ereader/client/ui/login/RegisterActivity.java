@@ -202,7 +202,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 				return;
 			}
 			
-				ProgressDialogUtil.showProgressDialog(this, "通信中…", false);
+				ProgressDialogUtil.showProgressDialog(this, "", false);
 				new Thread(new Runnable() {
 					@Override
 					public void run() {

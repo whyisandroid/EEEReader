@@ -19,7 +19,6 @@
         android:textColorHint="@color/new_color_4"
         android:textSize="@dimen/new_size_3"
         android:hint="邮箱"
-        android:enabled="false"
         android:ems="10" >
 
         <requestFocus />

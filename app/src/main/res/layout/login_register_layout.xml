@@ -9,24 +9,34 @@
 
     <RadioGroup
         android:id="@+id/rg_register"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dimen_xnormal"
-        android:layout_marginTop="15dp"
         android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/rb_register_phone"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="手机号" />
+            android:layout_weight="1"
+            android:background="@drawable/rb_register"
+            android:button="@null"
+            android:padding="10dp"
+            android:gravity="center"
+            android:textColor="@color/tabs_tv_color_select"
+            android:text="手机号注册" />
 
         <RadioButton
             android:id="@+id/rb_register_email"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="邮箱" />
+            android:layout_weight="1"
+            android:button="@null"
+            android:padding="10dp"
+            android:gravity="center"
+            android:textColor="@color/tabs_tv_color_select"
+            android:background="@drawable/rb_register"
+            android:text="邮箱注册" />
     </RadioGroup>
 
     <EditText

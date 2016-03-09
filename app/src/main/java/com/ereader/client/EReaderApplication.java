@@ -58,6 +58,12 @@ public class EReaderApplication extends Application {
     private void init() {
         instance = this;
         appSocket = new XUtilsSocketImpl();
+        // 判断是否登录
+        Login login = this.getLogin();
+        if(login != null){
+            this.login = true;
+        }
+
         getCurrentVersion();
         this.imageLoader = ImageLoader.getInstance();
         getImageOptions();

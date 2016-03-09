@@ -1,6 +1,8 @@
 package com.ereader.client.ui.bookstore;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import android.os.Bundle;
@@ -42,6 +44,7 @@ public class BookActivity extends BaseActivity implements OnClickListener,
     private BookAdapter adapter;
     private Page page;
     private String title;// 类别
+    private boolean goodBookFlag = false;// 好评榜区分
 
     public static final int BOOK = 0; // 更新页面数据 书本
     public static final int BOOK_CATE = 10; // 更新页面数据 书本
@@ -68,6 +71,12 @@ public class BookActivity extends BaseActivity implements OnClickListener,
                         }
                     }
                     page = bookResp.getData().getPage();
+
+                    if(goodBookFlag){ // 如果是好评请求
+                        // 排序 按照好评处理
+                        goodBookList();
+                        goodBookFlag = false;
+                    }
                     adapter.notifyDataSetChanged();
                     pull_refresh_book.onHeaderRefreshComplete();
                     pull_refresh_book.onFooterRefreshComplete();
@@ -113,6 +122,14 @@ public class BookActivity extends BaseActivity implements OnClickListener,
 
         ;
     };
+    // 好评排序
+    private void goodBookList() {
+        Collections.sort(mList, new Comparator<Book>() {
+            public int compare(Book arg0, Book arg1) {
+                return arg1.getComment_score().compareTo(arg0.getComment_score());
+            }
+        });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,6 +198,7 @@ public class BookActivity extends BaseActivity implements OnClickListener,
             recommend(pageRq);
         } else if ("好评榜".equals(title)) {
             //缺失
+            goodBookFlag = true;
             recommend(pageRq);
         } else if ("热销榜".equals(title)) {
             //缺失
