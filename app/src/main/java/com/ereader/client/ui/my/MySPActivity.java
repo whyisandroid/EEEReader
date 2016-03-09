@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.ereader.client.R;
 import com.ereader.client.entities.Page;
+import com.ereader.client.entities.PageRq;
 import com.ereader.client.entities.SpComment;
 import com.ereader.client.entities.json.OrderData;
 import com.ereader.client.entities.json.SPResp;
@@ -19,6 +20,7 @@ import com.ereader.client.ui.view.PullToRefreshView;
 import com.ereader.common.util.ProgressDialogUtil;
 import com.ereader.client.ui.view.PullToRefreshView.OnFooterRefreshListener;
 import com.ereader.client.ui.view.PullToRefreshView.OnHeaderRefreshListener;
+import com.ereader.common.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +45,18 @@ public class MySPActivity extends BaseActivity implements OnClickListener,
 				case REFRESH_DOWN_OK:
 					mList.clear();
 					SPResp sp = (SPResp)controller.getContext().getBusinessData("SPResp");
-					mList.addAll(sp.getData().getData());
+					for (int i = 0; i < sp.getData().getData().size(); i++) {
+						boolean flag = true;
+
+						for (int j = 0; j < mList.size(); j++) {
+							if(sp.getData().getData().get(i).getComment_id().equals(mList.get(j).getComment_id())) {
+								flag = false;
+							}
+						}
+						if(flag){
+							mList.add(sp.getData().getData().get(i));
+						}
+					}
 					page = sp.getData().getPage();
 					adapter.notifyDataSetChanged();
 					pull_refresh_sp.onHeaderRefreshComplete();
@@ -68,6 +81,7 @@ public class MySPActivity extends BaseActivity implements OnClickListener,
 		controller = AppController.getController(this);
 		findView();
 		initView();
+		onHeaderRefresh(pull_refresh_sp);
 	}
 	/**
 	 * 
@@ -94,14 +108,13 @@ public class MySPActivity extends BaseActivity implements OnClickListener,
 		((TextView) findViewById(R.id.tv_main_top_title)).setText("我的书评");
 		adapter = new SPAdapter(this, mList);
 		 lv_sp.setAdapter(adapter);
-		getSP();
 	}
 	
-	private void getSP() {
+	private void getSP(final PageRq mPageRq ) {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				controller.getSP(mHandler);
+				controller.getSP(mHandler,mPageRq);
 			}
 		}).start();
 	}
@@ -118,10 +131,19 @@ public class MySPActivity extends BaseActivity implements OnClickListener,
 
 	@Override
 	public void onFooterRefresh(PullToRefreshView view) {
-		mHandler.sendEmptyMessageDelayed(REFRESH_DOWN_OK, 3000);
+		PageRq mPageRq = new PageRq();
+		if(page.getCurrent_page() == page.getLast_page()){
+			ToastUtil.showToast(MySPActivity.this, "没有更多了", ToastUtil.LENGTH_LONG);
+			pull_refresh_sp.onFooterRefreshComplete();
+			return;
+		}
+		mPageRq.setPage(page.getCurrent_page() + 1);
+		getSP(mPageRq);
 	}
+
 	@Override
 	public void onHeaderRefresh(PullToRefreshView view) {
-		getSP();
+		PageRq mPageRq = new PageRq();
+		getSP(mPageRq);
 	}
 }

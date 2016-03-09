@@ -16,6 +16,8 @@ import android.widget.ListView;
 
 import com.ereader.client.R;
 import com.ereader.client.entities.Bill;
+import com.ereader.client.entities.Page;
+import com.ereader.client.entities.PageRq;
 import com.ereader.client.entities.json.OrderData;
 import com.ereader.client.entities.json.PointData;
 import com.ereader.client.service.AppController;
@@ -36,22 +38,35 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	private List<Bill> mList = new ArrayList<Bill>();
 	private PointsAdapter adapter;
 	private String balance;
+	private Page page;
 	
-	public static final int REFRESH_DOWN_OK = 1; // 向下刷新
-	public static final int REFRESH_UP_OK = 2;  //向上拉
+	public static final int REFRESH_DOWN_OK = 1; // 刷新
+	public static final int REFRESH_ERROR = 3;
 	private Handler mhandler = new Handler(){
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
 			case REFRESH_DOWN_OK:
 
 				PointData pointData = (PointData)controller.getContext().getBusinessData("PointResp"+balance+"point");
-				mList.clear();
-				mList.addAll(pointData.getData());
+				for (int i = 0; i < pointData.getData().size(); i++) {
+					boolean flag = true;
+
+					for (int j = 0; j < mList.size(); j++) {
+						if(pointData.getData().get(i).getId().equals(mList.get(j).getId())) {
+							flag = false;
+						}
+					}
+					if(flag){
+						mList.add(pointData.getData().get(i));
+					}
+				}
+				page = pointData.getPage();
+				adapter.notifyDataSetChanged();
 				pull_refresh_points.onHeaderRefreshComplete();
-				adapter.notifyDataSetChanged();
+				pull_refresh_points.onFooterRefreshComplete();
 				break;
-			case REFRESH_UP_OK:
-				adapter.notifyDataSetChanged();
+			case REFRESH_ERROR:
+				pull_refresh_points.onHeaderRefreshComplete();
 				pull_refresh_points.onFooterRefreshComplete();
 				break;
 
@@ -91,14 +106,14 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	@Override
 	public void onResume() {
 		super.onResume();
-		getPointList();
+		onHeaderRefresh(pull_refresh_points);
 	}
 
-	public void getPointList() {
+	public void getPointList(final PageRq pageRq) {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				controller.getPointList(mhandler, balance,"point");
+				controller.getPointList(mhandler, balance,"point",pageRq);
 			}
 		}).start();
 	}
@@ -109,10 +124,19 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	}
 	@Override
 	public void onFooterRefresh(PullToRefreshView view) {
-		getPointList();
+		PageRq mPageRq = new PageRq();
+		if(page.getCurrent_page() == page.getLast_page()){
+			ToastUtil.showToast(getActivity(), "没有更多了", ToastUtil.LENGTH_LONG);
+			pull_refresh_points.onFooterRefreshComplete();
+			return;
+		}
+		mPageRq.setPage(page.getCurrent_page() + 1);
+		getPointList(mPageRq);
 	}
+
 	@Override
 	public void onHeaderRefresh(PullToRefreshView view) {
-		mhandler.sendEmptyMessageDelayed(REFRESH_DOWN_OK, 3000);
+		PageRq mPageRq = new PageRq();
+		getPointList(mPageRq);
 	}
 }

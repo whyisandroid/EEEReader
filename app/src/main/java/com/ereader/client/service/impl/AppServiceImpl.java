@@ -363,13 +363,13 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void getSP() throws BusinessException {
+	public void getSP(PageRq pageRq) throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		Request<SPResp> request = new Request<SPResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("_token_", token));
-		nameValuePairs.add(new BasicNameValuePair("page", "1"));
-		nameValuePairs.add(new BasicNameValuePair("per_page", "30"));
+		nameValuePairs.add(new BasicNameValuePair("page", pageRq.getPage()+""));
+		nameValuePairs.add(new BasicNameValuePair("per_page", pageRq.getPer_page()+""));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 		request.setUrl(Config.HTTP_MY_SP);
 		request.setR_calzz(SPResp.class);
@@ -443,8 +443,6 @@ public class AppServiceImpl implements AppService {
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("product_id", id));
 		nameValuePairs.add(new BasicNameValuePair("rank", "ALL"));
-		nameValuePairs.add(new BasicNameValuePair("page", "1"));
-		nameValuePairs.add(new BasicNameValuePair("per_page", "10"));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 		request.setUrl(Config.HTTP_BOOK_COMMENT);
 		request.setR_calzz(CommentResp.class);
@@ -474,13 +472,13 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void myRecommend() throws BusinessException {
+	public void myRecommend(PageRq pageRq) throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		Request<RecommendResp> request = new Request<RecommendResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("_token_", token));
-		nameValuePairs.add(new BasicNameValuePair("page", "1"));
-		nameValuePairs.add(new BasicNameValuePair("per_page", "50"));
+		nameValuePairs.add(new BasicNameValuePair("page", pageRq.getPage()+""));
+		nameValuePairs.add(new BasicNameValuePair("per_page", pageRq.getPer_page()+""));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 		request.setUrl(Config.HTTP_MY_RECOMMEND);
 		request.setR_calzz(RecommendResp.class);
@@ -576,15 +574,15 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void getPointList(String balance,String type) throws BusinessException {
+	public void getPointList(String balance,String type,PageRq pageRq) throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		Request<PointResp> request = new Request<PointResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("_token_", token));
 		nameValuePairs.add(new BasicNameValuePair("type", type));
 		nameValuePairs.add(new BasicNameValuePair("balance", balance));
-		nameValuePairs.add(new BasicNameValuePair("page", "1"));
-		nameValuePairs.add(new BasicNameValuePair("per_page", "50"));
+		nameValuePairs.add(new BasicNameValuePair("page", pageRq.getPage()+""));
+		nameValuePairs.add(new BasicNameValuePair("per_page", pageRq.getPer_page()+""));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 		request.setUrl(Config.HTTP_USER_POINT_LIST);
 		request.setR_calzz(PointResp.class);

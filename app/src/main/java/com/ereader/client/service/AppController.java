@@ -31,6 +31,7 @@ import com.ereader.client.ui.my.MessageFriendApplyFragment;
 import com.ereader.client.ui.my.MessageSystemFragment;
 import com.ereader.client.ui.my.MySPActivity;
 import com.ereader.client.ui.my.OrderFragment;
+import com.ereader.client.ui.my.PointsFragment;
 import com.ereader.client.ui.my.RecommendActivity;
 import com.ereader.client.ui.pay.PayActivity;
 import com.ereader.client.ui.pay.RechargeActivity;
@@ -332,10 +333,10 @@ public class AppController {
 	
 	}
 
-	public void getSP(Handler mHandler) {
+	public void getSP(Handler mHandler,PageRq pageRq) {
 
 		try {
-			service.getSP();
+			service.getSP(pageRq);
 			mHandler.obtainMessage(MySPActivity.REFRESH_DOWN_OK).sendToTarget();
 		} catch (BusinessException e) {
 			mHandler.obtainMessage(MySPActivity.REFRESH_ERROR).sendToTarget();
@@ -743,18 +744,19 @@ public class AppController {
 		return service.getDownUrl();
 	}
 
-	public void getPointList(Handler mHandler, String balance,String type) {
+	public void getPointList(Handler mHandler, String balance,String type,PageRq pageRq) {
 		try {
-			service.getPointList(balance,type);
+			service.getPointList(balance,type,pageRq);
 			mHandler.obtainMessage(OrderFragment.REFRESH_DOWN_OK).sendToTarget();
 		} catch (BusinessException e) {
+			mHandler.obtainMessage(PointsFragment.REFRESH_ERROR).sendToTarget();
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}
 	}
 
-	public void myRecommend(Handler mHandler) {
+	public void myRecommend(Handler mHandler,PageRq pageRq) {
 		try {
-			service.myRecommend();
+			service.myRecommend(pageRq);
 			mHandler.obtainMessage(RecommendActivity.SUCCESS).sendToTarget();
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();

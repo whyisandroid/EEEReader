@@ -44,7 +44,7 @@ public interface AppService {
 	/**添加到收藏夹**/
 	public void addCollection(String id)throws BusinessException;
 	/**添我的书评**/
-	public void getSP()throws BusinessException;
+	public void getSP(PageRq pageRq)throws BusinessException;
 	/**我的购物车**/
 	public void buyCar()throws BusinessException;
 	/**添加购物车**/
@@ -56,7 +56,7 @@ public interface AppService {
 	/**我的好友**/
 	public void getFriends()throws BusinessException;
 	/**我的推荐**/
-	public void myRecommend()throws BusinessException;
+	public void myRecommend(PageRq pageRq)throws BusinessException;
 	/**添加好友**/
 	public void addFriends(String id)throws BusinessException;
 	/**同意好友**/
@@ -75,7 +75,7 @@ public interface AppService {
 	/***我的账单列表*/
 	public void bill() throws BusinessException;
 	/***我的积分列表*/
-	public void getPointList(String balance, String type) throws BusinessException;
+	public void getPointList(String balance, String type,PageRq pageRq) throws BusinessException;
 	/***我的订单列表*/
 	public void orderList(String type) throws BusinessException;
 	/***取消订单*/

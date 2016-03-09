@@ -17,6 +17,8 @@ import android.widget.ListView;
 import com.ereader.client.R;
 import com.ereader.client.entities.Bill;
 import com.ereader.client.entities.Category;
+import com.ereader.client.entities.Page;
+import com.ereader.client.entities.PageRq;
 import com.ereader.client.entities.json.PointData;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.adapter.BillAdapter;
@@ -35,21 +37,35 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	private List<Bill> mList = new ArrayList<Bill>();
 	private BillAdapter adapter;
 	private Category mCate;
+
+	private Page page;
 	
 	public static final int REFRESH_DOWN_OK = 1; // 向下刷新
-	public static final int REFRESH_UP_OK = 2;  //向上拉
+	public static final int REFRESH_ERROR = 3;
 	private Handler mhandler = new Handler(){
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
 			case REFRESH_DOWN_OK:
 				PointData pointData = (PointData)controller.getContext().getBusinessData("PointResp"+mCate.getCategory_id()+"ecoin");
-				mList.clear();
-				mList.addAll(pointData.getData());
+				for (int i = 0; i < pointData.getData().size(); i++) {
+					boolean flag = true;
+
+					for (int j = 0; j < mList.size(); j++) {
+						if(pointData.getData().get(i).getId().equals(mList.get(j).getId())) {
+							flag = false;
+						}
+					}
+					if(flag){
+						mList.add(pointData.getData().get(i));
+					}
+				}
+				page = pointData.getPage();
+				adapter.notifyDataSetChanged();
 				pull_refresh_bill.onHeaderRefreshComplete();
-				adapter.notifyDataSetChanged();
-			case REFRESH_UP_OK:
-				adapter.notifyDataSetChanged();
 				pull_refresh_bill.onFooterRefreshComplete();
+				case REFRESH_ERROR:
+					pull_refresh_bill.onHeaderRefreshComplete();
+					pull_refresh_bill.onFooterRefreshComplete();
 				break;
 
 			default:
@@ -86,14 +102,14 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	@Override
 	public void onResume() {
 		super.onResume();
-		getPointList();
+		onHeaderRefresh(pull_refresh_bill);
 	}
 
-	public void getPointList() {
+	public void getPointList(final PageRq pageRq) {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				controller.getPointList(mhandler, mCate.getCategory_id(),"ecoin");
+				controller.getPointList(mhandler, mCate.getCategory_id(),"ecoin",pageRq);
 			}
 		}).start();
 	}
@@ -104,10 +120,19 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	}
 	@Override
 	public void onFooterRefresh(PullToRefreshView view) {
-		mhandler.sendEmptyMessageDelayed(REFRESH_UP_OK, 3000);
+		PageRq mPageRq = new PageRq();
+		if(page.getCurrent_page() == page.getLast_page()){
+			ToastUtil.showToast(getActivity(), "没有更多了", ToastUtil.LENGTH_LONG);
+			pull_refresh_bill.onFooterRefreshComplete();
+			return;
+		}
+		mPageRq.setPage(page.getCurrent_page() + 1);
+		getPointList(mPageRq);
 	}
+
 	@Override
 	public void onHeaderRefresh(PullToRefreshView view) {
-		getPointList();
+		PageRq mPageRq = new PageRq();
+		getPointList(mPageRq);
 	}
 }
