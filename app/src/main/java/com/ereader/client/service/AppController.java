@@ -145,8 +145,10 @@ public class AppController {
 				break;
 			case HANDLER_TOAST:
 				if (null != msg.obj && !TextUtils.isEmpty(msg.obj.toString())) {
-					ToastUtil.showToast(currentActivity, msg.obj.toString(),
-							ToastUtil.LENGTH_LONG);
+					ToastUtil.showToast(currentActivity, msg.obj.toString(), ToastUtil.LENGTH_LONG);
+					if(msg.obj.toString().startsWith("用户未登录")){
+						IntentUtil.intent(currentActivity,LoginActivity.class);
+					}
 				} else {
 					ToastUtil.showToast(currentActivity, "服务器未知错误！",
 							ToastUtil.LENGTH_LONG);
@@ -193,6 +195,26 @@ public class AppController {
 	public void recommend(Handler mHandler,PageRq pageRq) {
 		try {
 			service.recommend(pageRq);
+			mHandler.obtainMessage(BookActivity.BOOK).sendToTarget();
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}catch (Exception e) {
+		}
+	}
+
+	public void bestComment(Handler mHandler,PageRq pageRq) {
+		try {
+			service.bestCommend(pageRq);
+			mHandler.obtainMessage(BookActivity.BOOK).sendToTarget();
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}catch (Exception e) {
+		}
+	}
+
+	public void sale(Handler mHandler,PageRq pageRq) {
+		try {
+			service.sale(pageRq);
 			mHandler.obtainMessage(BookActivity.BOOK).sendToTarget();
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();

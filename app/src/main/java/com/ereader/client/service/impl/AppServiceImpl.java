@@ -190,6 +190,43 @@ public class AppServiceImpl implements AppService {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
 	}
+
+	@Override
+	public void bestCommend(PageRq pageRq) throws BusinessException {
+		Request<BookResp> request = new Request<BookResp>();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("page", pageRq.getPage()+""));
+		nameValuePairs.add(new BasicNameValuePair("per_page", pageRq.getPer_page()+""));
+		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+		request.setUrl(Config.HTTP_BOOK_BEST_COMMENT);
+		request.setR_calzz(BookResp.class);
+		BookResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+			context.addBusinessData("BookFeaturedResp", resp);
+		} else {
+			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+		}
+	}
+
+	@Override
+	public void sale(PageRq pageRq) throws BusinessException {
+		Request<BookResp> request = new Request<BookResp>();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("page", pageRq.getPage()+""));
+		nameValuePairs.add(new BasicNameValuePair("per_page", pageRq.getPer_page()+""));
+		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+		request.setUrl(Config.HTTP_BOOK_SALE);
+		request.setR_calzz(BookResp.class);
+		BookResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+			context.addBusinessData("BookFeaturedResp", resp);
+		} else {
+			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+		}
+	}
+
+
+
 	@Override
 	public void latest() throws BusinessException {
 		Request<CategoryResp> request = new Request<CategoryResp>();

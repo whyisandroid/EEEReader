@@ -74,7 +74,7 @@ public class BookActivity extends BaseActivity implements OnClickListener,
 
                     if(goodBookFlag){ // 如果是好评请求
                         // 排序 按照好评处理
-                        goodBookList();
+                       // goodBookList();
                         goodBookFlag = false;
                     }
                     adapter.notifyDataSetChanged();
@@ -199,10 +199,10 @@ public class BookActivity extends BaseActivity implements OnClickListener,
         } else if ("好评榜".equals(title)) {
             //缺失
             goodBookFlag = true;
-            recommend(pageRq);
+            bestComment(pageRq);
         } else if ("热销榜".equals(title)) {
             //缺失
-            recommend(pageRq);
+            sale(pageRq);
         } else {
             // 分类列表
             String id = getIntent().getExtras().getString("categroyItem_id");
@@ -223,7 +223,7 @@ public class BookActivity extends BaseActivity implements OnClickListener,
         new Thread(new Runnable() {
             @Override
             public void run() {
-                controller.featuredList(mhandler,pageRq);
+                controller.featuredList(mhandler, pageRq);
             }
         }).start();
     }
@@ -232,10 +232,31 @@ public class BookActivity extends BaseActivity implements OnClickListener,
         new Thread(new Runnable() {
             @Override
             public void run() {
-                controller.recommend(mhandler,pageRq);
+                controller.recommend(mhandler, pageRq);
             }
         }).start();
     }
+
+
+    private void bestComment(final PageRq pageRq) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                controller.bestComment(mhandler, pageRq);
+            }
+        }).start();
+    }
+
+    private void sale(final PageRq pageRq) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                controller.sale(mhandler, pageRq);
+            }
+        }).start();
+    }
+
+
 
     private OnItemClickListener bookItemListener = new OnItemClickListener() {
         @Override

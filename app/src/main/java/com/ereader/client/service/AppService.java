@@ -17,6 +17,10 @@ public interface AppService {
 	public void featuredList(PageRq pageRq)throws BusinessException;
 	/**推荐阅读**/
 	public void recommend(PageRq pageRq)throws BusinessException ;
+	/**好评**/
+	public void bestCommend(PageRq pageRq)throws BusinessException ;
+	/**热销**/
+	public void sale(PageRq pageRq)throws BusinessException ;
 	/**注册**/
 	public void register()throws BusinessException ;
 	/**最新上架类别**/
