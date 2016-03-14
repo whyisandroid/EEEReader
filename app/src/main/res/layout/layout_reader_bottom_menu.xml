@@ -142,10 +142,12 @@
             glview:layout_width="match_parent"
             glview:scaleType="fitXY"
             glview:src="@drawable/line_h" />
+
         <!--阅读设置：目录／亮度／翻页／背景-->
         <LinearLayout
             glview:gravity="center"
             glview:layout_height="match_parent"
+            glview:visibility="gone"
             glview:layout_width="match_parent"
             glview:orientation="horizontal">
 
