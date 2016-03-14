@@ -154,7 +154,10 @@ public class MyBookFragment extends Fragment implements OnClickListener {
 			IntentUtil.intent(mContext, MoreActivity.class);
 			break;
 		case R.id.tv_main_top_title:
-			IntentUtil.intent(mContext, LoginActivity.class);
+			if("未登录".equals(tv_main_top_title.getText().toString())){
+				IntentUtil.intent(mContext, LoginActivity.class);
+			}
+
 			break;
 		case R.id.main_top_right:
 			if(!EReaderApplication.getInstance().isLogin()){
