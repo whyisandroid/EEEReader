@@ -29,6 +29,8 @@ import com.ereader.client.ui.buycar.BuyCarActivity;
 import com.ereader.client.ui.login.LoginActivity;
 import com.ereader.client.ui.my.FriendsActivity;
 import com.ereader.client.ui.pay.PayActivity;
+import com.ereader.client.ui.share.ShareActivity;
+import com.ereader.client.ui.share.ShareParams;
 import com.ereader.client.ui.view.TabsView;
 import com.ereader.common.exception.BusinessException;
 import com.ereader.common.util.IntentUtil;
@@ -53,6 +55,7 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 	private RatingBar rb_book_star;
 	private TextView tv_book_price;
 	private ImageView iv_book;
+	private ImageView main_top_image;
 	private int buyNum = 0;
 
 	private Book mBook;
@@ -137,6 +140,7 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 		tv_book_price = (TextView)findViewById(R.id.tv_book_price);
 		rb_book_star = (RatingBar)findViewById(R.id.rb_book_star);
 		iv_book = (ImageView)findViewById(R.id.iv_book);
+		main_top_image = (ImageView)findViewById(R.id.main_top_image);
 	}
 	
 
@@ -160,12 +164,10 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 			buyNum = resp.getData().size();
 			main_top_right.setText("购物车("+buyNum+")");
 		}
-		Drawable drawable= getResources().getDrawable(R.drawable.b5_03);
-		/// 这一步必须要做,否则不会显示.
-		drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-		main_top_right.setCompoundDrawables(drawable,null,null,null);
 		main_top_right.setTextColor(getResources().getColor(R.color.white));
 		main_top_right.setOnClickListener(this);
+		main_top_image.setVisibility(View.VISIBLE);
+		main_top_image.setOnClickListener(this);
 		tv_book_collection.setOnClickListener(this);
 		bt_book_add_buy.setOnClickListener(this);
 		bt_book_add_friends.setOnClickListener(this);
@@ -222,6 +224,14 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 	public void onClick(View v) {
 
 		switch (v.getId()) {
+			case R.id.main_top_image:
+				ShareParams shareParams=new ShareParams();
+				shareParams.setTitle(mBook.getInfo().getName());
+				shareParams.setContent(mBook.getInfo().getDescription());
+				shareParams.setShareUrl("www.baidu.com");
+				shareParams.setImageUrl(mBook.getImage_url());
+				ShareActivity.share(BookDetailActivity.this,shareParams);
+				break;
             case R.id.book_detail_bt_buy:
                 if(!EReaderApplication.getInstance().isLogin()){
                     IntentUtil.intent(BookDetailActivity.this, LoginActivity.class);

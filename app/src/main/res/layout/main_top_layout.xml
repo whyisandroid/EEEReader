@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/main_top_height"
-    android:background="@color/main_bar" >
+    android:background="@color/main_bar">
 
     <ImageButton
         android:id="@+id/main_top_left"
@@ -30,6 +31,18 @@
         android:text="@string/app_name"
         android:textColor="@color/new_color_6"
         android:textSize="@dimen/new_size_6" />
+
+
+    <ImageView
+        android:id="@+id/main_top_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/b5_03"
+        android:layout_centerVertical="true"
+        android:padding="8dp"
+        android:visibility="gone"
+        android:layout_toLeftOf="@+id/main_top_right"
+        />
 
     <Button
         android:id="@+id/main_top_right"
