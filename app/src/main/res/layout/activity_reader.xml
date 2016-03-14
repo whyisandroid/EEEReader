@@ -11,8 +11,6 @@
         glview:layout_height="match_parent"
         glview:layout_width="match_parent">
 
-
-
    </com.ereader.reader.view.BookReadView>
 
     <include layout="@layout/layout_reader_top_menu" />

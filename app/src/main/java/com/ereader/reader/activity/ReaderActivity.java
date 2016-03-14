@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.WindowManager;
 
 import com.ereader.client.R;
+import com.ereader.client.ui.share.ShareActivity;
 import com.ereader.common.util.IntentUtil;
 import com.ereader.reader.Constant;
 import com.ereader.reader.db.BookDBHelper;
@@ -235,11 +236,12 @@ public class ReaderActivity extends BaseActivity implements OnClickListener{
 		}else if( v ==read_share ){
 			String title = storeBook.name;
 			String textToShare = "快来阅读《"+title+"》,来自"+ getResources().getString(R.string.app_name);
-			Intent intent = new Intent(Intent.ACTION_SEND);
-			intent.setType("text/plain");
-			intent.putExtra(Intent.EXTRA_SUBJECT, "Trecho do livro \"" + title + "\"");
-			intent.putExtra(Intent.EXTRA_TEXT, textToShare);
-			startActivity(intent);
+//			Intent intent = new Intent(Intent.ACTION_SEND);
+//			intent.setType("text/plain");
+//			intent.putExtra(Intent.EXTRA_SUBJECT, "Trecho do livro \"" + title + "\"");
+//			intent.putExtra(Intent.EXTRA_TEXT, textToShare);
+//			startActivity(intent);
+			ShareActivity.share(ReaderActivity.this,title,textToShare,"http://www.baidu.com","");
 		}
 	}
 }

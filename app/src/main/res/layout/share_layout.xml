@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+  <!--  <include
+        layout="@layout/main_top_layout" />-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_top_height"
+        android:background="@color/main_bar" >
+
+        <TextView
+            android:id="@+id/share_top_title"
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:text="@string/app_name"
+            android:textColor="@color/new_color_6"
+            android:textSize="@dimen/new_size_6" />
+
+        <ImageView
+            android:id="@+id/share_top_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dimen_normal"
+            android:src="@drawable/delete"
+            android:textColor="@color/white"
+            android:textSize="@dimen/new_size_4"
+            />
+    </RelativeLayout>
+
+    <TextView
+        android:padding="@dimen/dimen_middle"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:id="@+id/share_wechant"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/new_color_2"
+        android:text="微信好友"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/dark_grey"/>
+
+    <TextView
+        android:id="@+id/share_wechant_c"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dimen_middle"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:textColor="@color/new_color_2"
+        android:text="微信朋友圈"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/dark_grey"/>
+    <TextView
+        android:id="@+id/share_qq"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dimen_middle"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:textColor="@color/new_color_2"
+        android:text="qq"/>
+    <TextView
+        android:id="@+id/share_qq_c"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dimen_middle"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:textColor="@color/new_color_2"
+        android:text="qq空间"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/dark_grey"/>
+    <TextView
+        android:id="@+id/share_sina"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dimen_middle"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:textColor="@color/new_color_2"
+        android:text="新浪微博"/>
+
+</LinearLayout>

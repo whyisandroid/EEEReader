@@ -238,7 +238,7 @@ public class BookReadView extends View implements PageSwitchListener, OnGestureL
 			resetPageStyle();
 		}
 	}
-//长按事件的按钮处理
+	//长按事件的按钮处理
 	private boolean isMenuShown=false;
 	private void showContentMenu(){
 		isMenuShown=true;
