@@ -74,7 +74,7 @@ public class MyBookFragment extends Fragment implements OnClickListener {
 	}
 
 	private void initView() {
-		tv_main_top_title.setText("用户名");
+		tv_main_top_title.setText("个人中心");
 		main_top_right.setText("充值");
 		main_top_left.setText("更多");
 		String[] mList = getResources().getStringArray(R.array.myBook);
@@ -94,7 +94,7 @@ public class MyBookFragment extends Fragment implements OnClickListener {
 		if(EReaderApplication.getInstance().isLogin()){
 			tv_main_top_title.setText(EReaderApplication.getInstance().getLogin().getNickname());
 		}else{
-			tv_main_top_title.setText("未登录");
+			tv_main_top_title.setText("个人中心");
 		}
 	}
 	
@@ -154,10 +154,6 @@ public class MyBookFragment extends Fragment implements OnClickListener {
 			IntentUtil.intent(mContext, MoreActivity.class);
 			break;
 		case R.id.tv_main_top_title:
-			if("未登录".equals(tv_main_top_title.getText().toString())){
-				IntentUtil.intent(mContext, LoginActivity.class);
-			}
-
 			break;
 		case R.id.main_top_right:
 			if(!EReaderApplication.getInstance().isLogin()){
