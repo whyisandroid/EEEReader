@@ -91,11 +91,6 @@ public class MyBookFragment extends Fragment implements OnClickListener {
 	@Override
 	public void onResume() {
 		super.onResume();
-		if(EReaderApplication.getInstance().isLogin()){
-			tv_main_top_title.setText(EReaderApplication.getInstance().getLogin().getNickname());
-		}else{
-			tv_main_top_title.setText("个人中心");
-		}
 	}
 	
 	

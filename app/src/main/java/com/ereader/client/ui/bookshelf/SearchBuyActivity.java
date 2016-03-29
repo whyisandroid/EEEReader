@@ -103,6 +103,7 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
         gridv_book_search.setOnItemClickListener(this);
 //        gridv_book_search.setOnItemLongClickListener(this);
         getshelfBuyBooks();
+        setupData();
     }
 
     private void setupData() {
@@ -155,12 +156,10 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
 
 
     private void getshelfBuyBooks() {
-        ProgressDialogUtil.showProgressDialog(SearchBuyActivity.this, "获取中...", false);
         new Thread(new Runnable() {
             @Override
             public void run() {
                 controller.shelfBuyBooks(mHandler);
-                ProgressDialogUtil.closeProgressDialog();
             }
         }).start();
 

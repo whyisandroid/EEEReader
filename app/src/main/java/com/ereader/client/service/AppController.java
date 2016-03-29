@@ -345,12 +345,12 @@ public class AppController {
 	
 	}
 
-	public void search(String value,Handler mHandler) {
+	public void search(PageRq mPageRq,String value,Handler mHandler) {
 		try {
-			service.search(value);
+			service.search(mPageRq,value);
 			mHandler.obtainMessage(0).sendToTarget();
 		} catch (BusinessException e) {
-		}catch (Exception e) {
+			mHandler.obtainMessage(3).sendToTarget();
 		}
 	
 	}
@@ -722,11 +722,12 @@ public class AppController {
 		}
 	}
 
-	public void getOrderList(Handler mHandler, String mOrderType) {
+	public void getOrderList(PageRq mPageRq,Handler mHandler, String mOrderType) {
 		try {
-			service.orderList(mOrderType);
+			service.orderList(mPageRq,mOrderType);
 			mHandler.obtainMessage(OrderFragment.REFRESH_DOWN_OK).sendToTarget();
 		} catch (BusinessException e) {
+			mHandler.obtainMessage(OrderFragment.REFRESH_ERROR).sendToTarget();
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}
 	}
