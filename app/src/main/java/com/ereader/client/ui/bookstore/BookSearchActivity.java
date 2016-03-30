@@ -18,6 +18,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import com.ereader.client.R;
 import com.ereader.client.entities.Book;
 import com.ereader.client.entities.BookSearch;
+import com.ereader.client.entities.Page;
+import com.ereader.client.entities.PageRq;
 import com.ereader.client.entities.SubCategory;
 import com.ereader.client.entities.json.BookData;
 import com.ereader.client.entities.json.BookSearchData;
@@ -25,27 +27,55 @@ import com.ereader.client.service.AppController;
 import com.ereader.client.ui.BaseActivity;
 import com.ereader.client.ui.adapter.BookAdapter;
 import com.ereader.client.ui.adapter.BookSearchAdapter;
+import com.ereader.client.ui.view.PullToRefreshView;
 import com.ereader.common.util.IntentUtil;
 import com.ereader.common.util.ProgressDialogUtil;
+import com.ereader.common.util.ToastUtil;
 
 // 搜索 
 public class BookSearchActivity extends BaseActivity implements
-		OnClickListener {
+		OnClickListener, PullToRefreshView.OnHeaderRefreshListener, PullToRefreshView.OnFooterRefreshListener {
 	private AppController controller;
 	private ListView lv_book_search;
 	private List<Book> mList = new ArrayList<Book>();
 	private BookSearchAdapter adapter;
 	private EditText et_book_search;
+	private Page page;
+	private PullToRefreshView pull_refresh_book;
+	private String mSearch;
+	private boolean mClear = false;
 
+	public static final int REFRESH_ERROR = 3; // 刷新失败
 	private Handler mHandler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
 			case 0:
-				mList.clear();
-				BookSearchData data = (BookSearchData) controller.getContext().getBusinessData("SearchBookResp");
-				mList.addAll(data.getData());
+				if(mClear){
+					mList.clear();
+				}
+
+				BookSearchData bookResp = (BookSearchData) controller.getContext().getBusinessData("SearchBookResp"+mSearch);
+				for (int i = 0; i < bookResp.getData().size(); i++) {
+					boolean flag = true;
+
+					for (int j = 0; j < mList.size(); j++) {
+						if(bookResp.getData().get(i).getInfo().getProduct_id().equals(mList.get(j).getInfo().getProduct_id())){
+							flag = false;
+						}
+					}
+					if(flag){
+						mList.add(bookResp.getData().get(i));
+					}
+				}
+				page = bookResp.getPage();
 				adapter.notifyDataSetChanged();
+				pull_refresh_book.onHeaderRefreshComplete();
+				pull_refresh_book.onFooterRefreshComplete();
 				break;
+				case REFRESH_ERROR:
+					pull_refresh_book.onHeaderRefreshComplete();
+					pull_refresh_book.onFooterRefreshComplete();
+					break;
 			default:
 				break;
 			}
@@ -71,6 +101,7 @@ public class BookSearchActivity extends BaseActivity implements
 	private void findView() {
 		lv_book_search = (ListView)findViewById(R.id.lv_book_search);
 		et_book_search = (EditText)findViewById(R.id.et_book_search);
+		pull_refresh_book = (PullToRefreshView) findViewById(R.id.pull_refresh_book);
 	}
 
 	/**
@@ -84,31 +115,35 @@ public class BookSearchActivity extends BaseActivity implements
 		adapter = new BookSearchAdapter(BookSearchActivity.this, mList);
 		lv_book_search.setAdapter(adapter);
 		lv_book_search.setOnItemClickListener(bookItemListener);
+		pull_refresh_book.setOnHeaderRefreshListener(this);
+		pull_refresh_book.setOnFooterRefreshListener(this);
 		et_book_search.addTextChangedListener(new TextWatcher() {
-			
+
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				
+
 			}
-			
+
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {
-				
+										  int after) {
+
 			}
-			
+
 			@Override
 			public void afterTextChanged(Editable s) {
-				search(s.toString());
+				mSearch = s.toString();
+				mClear = true;
+				search(new PageRq());
 			}
 		});
 	}
 	
-	private void search(final String value) {
+	private void search(final PageRq mPageRq) {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				controller.search(value,mHandler);
+				controller.search(mPageRq,mSearch,mHandler);
 			}
 		}).start();
 	}
@@ -131,5 +166,25 @@ public class BookSearchActivity extends BaseActivity implements
 		default:
 			break;
 		}
+	}
+
+	@Override
+	public void onFooterRefresh(PullToRefreshView view) {
+		PageRq mPageRq = new PageRq();
+		if(page.getCurrent_page() == page.getLast_page()){
+			ToastUtil.showToast(BookSearchActivity.this, "没有更多了", ToastUtil.LENGTH_LONG);
+			pull_refresh_book.onFooterRefreshComplete();
+			return;
+		}
+		mPageRq.setPage(page.getCurrent_page() + 1);
+		mClear = false;
+		search(mPageRq);
+	}
+
+	@Override
+	public void onHeaderRefresh(PullToRefreshView view) {
+		mClear = false;
+		PageRq mPageRq = new PageRq();
+		search(mPageRq);
 	}
 }

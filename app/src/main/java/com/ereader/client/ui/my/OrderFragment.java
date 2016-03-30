@@ -22,6 +22,9 @@ import android.widget.ListView;
 import com.ereader.client.R;
 import com.ereader.client.entities.Order;
 import com.ereader.client.entities.OrderList;
+import com.ereader.client.entities.Page;
+import com.ereader.client.entities.PageRq;
+import com.ereader.client.entities.json.BookResp;
 import com.ereader.client.entities.json.OrderData;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.adapter.BookAdapter;
@@ -48,31 +51,44 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	private List<OrderList> mOrderList = new ArrayList<OrderList>();
 	private OrderAdapter adapter;
 	private String mOrderType = "";
-
+	private Page page;
 	public static final int REFRESH_DOWN_OK = 1; // 向下刷新
 	public static final int REFRESH_UP_OK = 2;  //向上拉
 	public static final int CANCEL= 3;  //取消订单
 	public static final int PAY_OK = 4;  //支付订单
+	public static final int REFRESH_ERROR = 5; // 刷新失败
 	private Handler mhandler = new Handler(){
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
 			case REFRESH_DOWN_OK:
 				OrderData orderData = (OrderData)controller.getContext().getBusinessData("OrderListResp"+mOrderType);
-				mOrderList.clear();
-				mOrderList.addAll(orderData.getData());
-				//ToastUtil.showToast(mContext, "刷新成功！", ToastUtil.LENGTH_LONG);
+				for (int i = 0; i < orderData.getData().size(); i++) {
+					boolean flag = true;
+
+					for (int j = 0; j < mOrderList.size(); j++) {
+						if(orderData.getData().get(i).getOrder_id().equals(mOrderList.get(j).getOrder_id())) {
+							flag = false;
+						}
+					}
+					if(flag){
+						mOrderList.add(orderData.getData().get(i));
+					}
+				}
+				page = orderData.getPage();
+				adapter.notifyDataSetChanged();
 				pull_refresh_order.onHeaderRefreshComplete();
-				adapter.notifyDataSetChanged();
-				break;
-			case REFRESH_UP_OK:
-				adapter.notifyDataSetChanged();
 				pull_refresh_order.onFooterRefreshComplete();
+
 				break;
 				case CANCEL:
 					int position = Integer.valueOf(msg.obj.toString());
 					mOrderList.remove(position);
 					adapter.notifyDataSetChanged();
 				break;
+				case  REFRESH_ERROR:
+					pull_refresh_order.onHeaderRefreshComplete();
+					pull_refresh_order.onFooterRefreshComplete();
+					break;
 				case  11:
 					IntentUtil.intent(mContext, PayActivity.class);
 					break;
@@ -113,7 +129,7 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 	@Override
 	public void onResume() {
 		super.onResume();
-		getOrderList();
+		onHeaderRefresh(pull_refresh_order);
 	}
 
 	@Override
@@ -123,13 +139,11 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 		}
 	}
 
-	public void getOrderList() {
-		//ProgressDialogUtil.showProgressDialog(mContext, "", false);
+	public void getOrderList(final PageRq mPageRq) {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				controller.getOrderList(mhandler,mOrderType);
-				//ProgressDialogUtil.closeProgressDialog();
+				controller.getOrderList(mPageRq,mhandler,mOrderType);
 			}
 		}).start();
 	}
@@ -141,21 +155,27 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 			IntentUtil.intent(mContext, BookDetailActivity.class);
 		}
 	};
-	
-	
-	
-	
+
 	@Override
 	public void onClick(View v) {
 	}
+
+
 	@Override
 	public void onFooterRefresh(PullToRefreshView view) {
-
-		mhandler.sendEmptyMessageDelayed(REFRESH_UP_OK, 3000);
+		PageRq mPageRq = new PageRq();
+		if(page.getCurrent_page() == page.getLast_page()){
+			ToastUtil.showToast(getActivity(),"没有更多了",ToastUtil.LENGTH_LONG);
+			pull_refresh_order.onFooterRefreshComplete();
+			return;
+		}
+		mPageRq.setPage(page.getCurrent_page() + 1);
+		getOrderList(mPageRq);
 	}
+
 	@Override
 	public void onHeaderRefresh(PullToRefreshView view) {
-		getOrderList();
-		//mhandler.sendEmptyMessageDelayed(REFRESH_DOWN_OK, 3000);
+		PageRq mPageRq = new PageRq();
+		getOrderList(mPageRq);
 	}
 }

@@ -365,16 +365,18 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void search(String value) throws BusinessException {
+	public void search(PageRq pageRq,String value) throws BusinessException {
 		Request<BookSearchResp> request = new Request<BookSearchResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("keyword", value));
+		nameValuePairs.add(new BasicNameValuePair("page", pageRq.getPage()+""));
+		nameValuePairs.add(new BasicNameValuePair("per_page", pageRq.getPer_page()+""));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 		request.setUrl(Config.HTTP_BOOK_SEARCH);
 		request.setR_calzz(BookSearchResp.class);
 		BookSearchResp resp = EReaderApplication.getAppSocket().shortConnect(request);
 		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
-			context.addBusinessData("SearchBookResp", resp.getData());
+			context.addBusinessData("SearchBookResp"+value, resp.getData());
 		} else {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}
@@ -632,14 +634,14 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void orderList(String type) throws BusinessException {
+	public void orderList(PageRq mPageRq,String type) throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		Request<OrderListResp> request = new Request<OrderListResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("_token_", token));
 		nameValuePairs.add(new BasicNameValuePair("pay_status", type));
-		nameValuePairs.add(new BasicNameValuePair("page", "1"));
-		nameValuePairs.add(new BasicNameValuePair("per_page", "50"));
+		nameValuePairs.add(new BasicNameValuePair("page", mPageRq.getPage()+""));
+		nameValuePairs.add(new BasicNameValuePair("per_page", mPageRq.getPer_page()+""));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 		request.setUrl(Config.HTTP_USER_ORDER_LIST);
 		request.setR_calzz(OrderListResp.class);

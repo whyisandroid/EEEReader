@@ -104,6 +104,7 @@ public class OrderItemAdapter extends BaseAdapter {
 		if(mOrderList.getTo_user() != null && !TextUtils.isEmpty(mOrderList.getTo_user().getNickname())){
 			holder.tv_book_friend.setVisibility(View.VISIBLE);
 			holder.tv_book_friend.setText("送给好友："+mOrderList.getTo_user().getNickname());
+			holder.tv_order_left.setVisibility(View.GONE);
 		}
 
 

@@ -7,10 +7,17 @@
 
     <include layout="@layout/main_top_edit_layout" />
 
-    <ListView
-        android:id="@+id/lv_book_search"
+    <com.ereader.client.ui.view.PullToRefreshView
+        android:id="@+id/pull_refresh_book"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:divider="@color/window_bg"
-        android:dividerHeight="2dp"></ListView>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/lv_book_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/window_bg"
+            android:dividerHeight="2dp"></ListView>
+    </com.ereader.client.ui.view.PullToRefreshView>
 </LinearLayout>

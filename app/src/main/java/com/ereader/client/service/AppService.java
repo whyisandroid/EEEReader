@@ -40,7 +40,7 @@ public interface AppService {
 	/**2.2.1.	商品分类 books**/
 	public void categroyItem(String id,PageRq pageRq)throws BusinessException;
 	/**2.2.1搜索列表**/
-	public void search(String value)throws BusinessException;
+	public void search(PageRq mPageRq,String value)throws BusinessException;
 	/**获取验证码**/
 	public void getCode(String phone, String type)throws BusinessException;
 	/**验证验证码**/
@@ -81,7 +81,7 @@ public interface AppService {
 	/***我的积分列表*/
 	public void getPointList(String balance, String type,PageRq pageRq) throws BusinessException;
 	/***我的订单列表*/
-	public void orderList(String type) throws BusinessException;
+	public void orderList(PageRq mPageRq,String type) throws BusinessException;
 	/***取消订单*/
 	public void cancelOrder(String id) throws BusinessException;
 	/***我的充值劵*/
