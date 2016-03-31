@@ -5,14 +5,18 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageView;
 
 import com.ereader.client.R;
 import com.ereader.client.entities.BookShow;
 import com.ereader.client.entities.BookShowInfo;
 import com.ereader.client.entities.BookShowWithDownloadInfo;
+import com.ereader.client.entities.Page;
+import com.ereader.client.entities.PageRq;
 import com.ereader.client.service.AppController;
 import com.ereader.client.service.download.DownloadInfo;
 import com.ereader.client.service.download.DownloadManager;
@@ -20,6 +24,7 @@ import com.ereader.client.service.download.DownloadService;
 import com.ereader.client.ui.BaseActivity;
 import com.ereader.client.ui.adapter.ShelfSearchAdapter;
 import com.ereader.client.ui.dialog.DialogUtil;
+import com.ereader.client.ui.view.PullToRefreshView;
 import com.ereader.common.constant.Constant;
 import com.ereader.common.util.LogUtil;
 import com.ereader.common.util.ProgressDialogUtil;
@@ -34,14 +39,20 @@ import com.lidroid.xutils.http.HttpHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchBuyActivity extends BaseActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
+public class SearchBuyActivity extends BaseActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener ,View.OnClickListener
+        ,PullToRefreshView.OnHeaderRefreshListener, PullToRefreshView.OnFooterRefreshListener {
     private AppController controller;
     private GridView gridv_book_search;
     private EditText main_top_title;
     private ShelfSearchAdapter adapter;
     private DownloadManager downloadManager;
 
-//    private EReaderApplication app;
+    private ImageView iv_book_up;
+    private PullToRefreshView pull_refresh_book;
+    private Page page;
+
+    List<BookShowWithDownloadInfo> datas=new ArrayList<BookShowWithDownloadInfo>();
+
     public final static int _OK = 1000;
     public final static int _DELETE = 1001;
 
@@ -59,6 +70,8 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
                 case _OK:
                     LogUtil.LogError("_OK=","获取列表成功");
                     setupData();
+                    pull_refresh_book.onHeaderRefreshComplete();
+                    pull_refresh_book.onFooterRefreshComplete();
                     break;
                 case _DELETE:
                     delshelfBuyBooks();
@@ -94,32 +107,52 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
     private void findView() {
         main_top_title = (EditText) findViewById(R.id.et_book_search);
         gridv_book_search = (GridView) findViewById(R.id.gridv_book_search);
+
+        pull_refresh_book = (PullToRefreshView) findViewById(R.id.pull_refresh_book);
+        iv_book_up = (ImageView) findViewById(R.id.iv_book_up);
     }
 
     private void initView() {
 
         main_top_title.setHint("请输入你要搜索的关键词");
-
+        iv_book_up.setOnClickListener(this);
         gridv_book_search.setOnItemClickListener(this);
 //        gridv_book_search.setOnItemLongClickListener(this);
-        getshelfBuyBooks();
-        setupData();
+        //
+        gridv_book_search.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (firstVisibleItem != 0) {
+                    iv_book_up.setVisibility(View.VISIBLE);
+                } else {
+                    iv_book_up.setVisibility(View.GONE);
+                }
+            }
+        });
+        onHeaderRefresh(pull_refresh_book);
+        pull_refresh_book.setOnHeaderRefreshListener(this);
+        pull_refresh_book.setOnFooterRefreshListener(this);
     }
 
     private void setupData() {
         BookShowInfo booksGet = (BookShowInfo) controller.getContext().getBusinessData("BookShowResp");
         List<BookShow> list = null;
-        List<BookShowWithDownloadInfo> datas = null;
+//        List<BookShowWithDownloadInfo> datas = null;
         //获取下载数据库里的内容
         int downinfoCount = downloadManager.getDownloadInfoListCount();
         LogUtil.LogError("downinfoCount=", downinfoCount + "");
         if (null != booksGet && null != booksGet.getData()) {
             list = booksGet.getData();
             //=============================
-            datas=new ArrayList<BookShowWithDownloadInfo>();
             BookShowWithDownloadInfo data=null;
             DownloadInfo downinfo = null;
             for (int i = 0; i <list.size() ; i++) {
+                boolean flag = true;
                 data=new BookShowWithDownloadInfo(list.get(i));
                 for (int j = 0; j < downinfoCount; j++) {
                     downinfo = downloadManager.getDownloadInfo(j);
@@ -135,12 +168,22 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
                         }
                     }
                 }
-                datas.add(data);
+                for(int k=0;k<datas.size();k++){
+                    if(datas.get(k).getBook_id().equals(data.book_id)){
+                        flag = false;
+                    }
+                }
+                if(flag){
+                    datas.add(data);
+                }
             }
         }
+        page = booksGet.getPage();
+        LogUtil.LogError("page=",page.toString());
         if (null == datas) {
             datas = new ArrayList<BookShowWithDownloadInfo>();
         }
+
         if (null == adapter) {
             adapter = new ShelfSearchAdapter(SearchBuyActivity.this, datas,downloadManager);
             gridv_book_search.setAdapter(adapter);
@@ -155,11 +198,13 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
     }
 
 
-    private void getshelfBuyBooks() {
+    private void getshelfBuyBooks(final PageRq mPageRq) {
+        ProgressDialogUtil.showProgressDialog(SearchBuyActivity.this, "获取中...", false);
         new Thread(new Runnable() {
             @Override
             public void run() {
-                controller.shelfBuyBooks(mHandler);
+                controller.shelfBuyBooks(mHandler,mPageRq);
+                ProgressDialogUtil.closeProgressDialog();
             }
         }).start();
 
@@ -230,8 +275,61 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
 
     }
 
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        BookShowWithDownloadInfo book = adapter.getItem(position);
+        if (null != book && !book.isDownloading()) {
+            adapter.setIsShowDelete(!adapter.isShowDelete());
+        }
+        return false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (null != db) {
+            db.close();
+            db = null;
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.iv_book_up:
+                gridv_book_search.setSelection(0);
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onFooterRefresh(PullToRefreshView view) {
+        LogUtil.LogError("onFooterRefresh","上拉刷新");
+        PageRq mPageRq = new PageRq();
+        if(page.getCurrent_page() == page.getLast_page()){
+            ToastUtil.showToast(SearchBuyActivity.this,"没有更多了",ToastUtil.LENGTH_LONG);
+            pull_refresh_book.onFooterRefreshComplete();
+            return;
+        }
+        mPageRq.setPage(page.getCurrent_page() + 1);
+        getshelfBuyBooks(mPageRq);
+    }
+
+    @Override
+    public void onHeaderRefresh(PullToRefreshView view) {
+        LogUtil.LogError("onHeaderRefresh","下拉刷新");
+        PageRq mPageRq = new PageRq();
+        getshelfBuyBooks(mPageRq);
+    }
+
+
+
+
     private void openBook(BookShowWithDownloadInfo book){
-        //TODO 只是demo
+        //TODO 
         String downfile="";
         DownloadInfo down=book.getDownloadInfo();
         if(null!=down){
@@ -253,24 +351,5 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
         intent.putExtra("storeBook", bookSample);
         startActivity(intent);
     }
-
-    @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        BookShowWithDownloadInfo book = adapter.getItem(position);
-        if (null != book && !book.isDownloading()) {
-            adapter.setIsShowDelete(!adapter.isShowDelete());
-        }
-        return false;
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (null != db) {
-            db.close();
-            db = null;
-        }
-    }
-
 }
 
