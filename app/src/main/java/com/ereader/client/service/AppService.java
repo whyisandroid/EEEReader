@@ -131,7 +131,7 @@ public interface AppService {
 
 
 	/**已经购买的图书***/
-	public void shelfBuyBooks()throws BusinessException;
+	public void shelfBuyBooks(PageRq mPageRq)throws BusinessException;
 
 	/**删除已经购买的图书***/
 	public void shelfDelBuyBooks()throws BusinessException;

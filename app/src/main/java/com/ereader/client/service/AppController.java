@@ -23,7 +23,6 @@ import com.ereader.client.ui.login.LoginActivity;
 import com.ereader.client.ui.login.RegisterActivity;
 import com.ereader.client.ui.more.HelpActivity;
 import com.ereader.client.ui.more.Notice2Activity;
-import com.ereader.client.ui.more.NoticeActivity;
 import com.ereader.client.ui.more.NoticeDetailActivity;
 import com.ereader.client.ui.my.CouponsFragment;
 import com.ereader.client.ui.my.MessageFragment;
@@ -688,10 +687,10 @@ public class AppController {
 		}
 	}
 
-	public void shelfBuyBooks(Handler mHandler){
+	public void shelfBuyBooks(Handler mHandler, PageRq mPageRq){
 
 		try {
-			service.shelfBuyBooks();
+			service.shelfBuyBooks(mPageRq);
 			mHandler.obtainMessage(SearchBuyActivity._OK).sendToTarget();
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();

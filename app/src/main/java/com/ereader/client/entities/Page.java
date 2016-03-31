@@ -82,4 +82,18 @@ public class Page {
 	public void setTo(int to) {
 		this.to = to;
 	}
+
+	@Override
+	public String toString() {
+		return "Page{" +
+				"current_page=" + current_page +
+				", total=" + total +
+				", per_page='" + per_page + '\'' +
+				", last_page=" + last_page +
+				", next_page_url='" + next_page_url + '\'' +
+				", prev_page_url='" + prev_page_url + '\'' +
+				", from=" + from +
+				", to=" + to +
+				'}';
+	}
 }

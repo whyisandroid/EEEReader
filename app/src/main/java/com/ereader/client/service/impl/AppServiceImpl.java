@@ -22,7 +22,6 @@ import com.ereader.client.entities.json.GiftResp;
 import com.ereader.client.entities.json.LoginResp;
 import com.ereader.client.entities.json.MessageResp;
 import com.ereader.client.entities.json.MessageSystemResp;
-import com.ereader.client.entities.json.NoticeDetailResp;
 import com.ereader.client.entities.json.NoticeResp;
 import com.ereader.client.entities.json.OrderListResp;
 import com.ereader.client.entities.json.OrderRechargeResp;
@@ -39,12 +38,10 @@ import com.ereader.common.exception.ErrorMessage;
 import com.ereader.common.net.Request;
 import com.ereader.common.net.XUtilsSocketImpl;
 import com.ereader.common.util.Config;
+import com.ereader.common.util.LogUtil;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import com.ereader.common.exception.BusinessException;
-import com.ereader.common.util.LogUtil;
-import com.lidroid.xutils.util.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -1075,13 +1072,13 @@ public class AppServiceImpl implements AppService {
 	* 已经购买的图书
 	* */
 	@Override
-	public void shelfBuyBooks() throws BusinessException {
+	public void shelfBuyBooks(PageRq mPageRq) throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		Request<BookShowResp> request = new Request<BookShowResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("_token_", token));
-//		nameValuePairs.add(new BasicNameValuePair("per_page", "20"));
-//		nameValuePairs.add(new BasicNameValuePair("page", "20"));
+		nameValuePairs.add(new BasicNameValuePair("per_page", mPageRq.getPer_page()+""));
+		nameValuePairs.add(new BasicNameValuePair("page", mPageRq.getPage()+""));//mPageRq.getPage()+""
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 		request.setUrl(Config.HTTP_MY_SHELF_BOOKS);
 		request.setR_calzz(BookShowResp.class);
