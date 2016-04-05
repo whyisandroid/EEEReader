@@ -174,7 +174,7 @@ public class BookActivity extends BaseActivity implements OnClickListener,
         lv_book.setOnItemClickListener(bookItemListener);
 
         iv_book_up.setOnClickListener(this);
-        lv_book.setOnScrollListener(new AbsListView.OnScrollListener() {
+       /* lv_book.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
 
@@ -188,7 +188,7 @@ public class BookActivity extends BaseActivity implements OnClickListener,
                     iv_book_up.setVisibility(View.GONE);
                 }
             }
-        });
+        });*/
     }
 
     private void getDate(PageRq pageRq) {

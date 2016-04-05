@@ -157,7 +157,7 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 		lv_book.setAdapter(adapter);
 		lv_book.setOnItemClickListener(bookItemListener);
 		iv_book_up.setOnClickListener(this);
-		lv_book.setOnScrollListener(new AbsListView.OnScrollListener() {
+		/*lv_book.setOnScrollListener(new AbsListView.OnScrollListener() {
 			@Override
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
 
@@ -171,7 +171,7 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 					iv_book_up.setVisibility(View.GONE);
 				}
 			}
-		});
+		});*/
 	}
 	
 	private OnItemClickListener bookItemListener = new OnItemClickListener() {

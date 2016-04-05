@@ -86,6 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_alignRight="@+id/tv_book_content"
             android:layout_alignTop="@+id/tv_sp_name"
+            android:layout_alignParentRight="true"
             android:src="@drawable/b10_03" />
 
     </RelativeLayout>

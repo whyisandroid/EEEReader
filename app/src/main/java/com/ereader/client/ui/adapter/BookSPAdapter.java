@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.ereader.client.R;
 import com.ereader.client.entities.Comment;
+import com.ereader.client.entities.SpComment;
 import com.ereader.client.ui.my.MySPDetailActivity;
 import com.ereader.common.util.IntentUtil;
 
@@ -45,7 +46,8 @@ public class BookSPAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		Comment comment = mList.get(position);
+		final Comment comment = mList.get(position);
+
 		final ViewHolder holder;
 		if(convertView == null){
 			convertView =inflater.inflate(R.layout.book_sp_item, null);
@@ -58,7 +60,6 @@ public class BookSPAdapter extends BaseAdapter {
 		holder.rb_book_star.setRating(Float.valueOf(comment.getScore()));
 		holder.tv_mybook_cate.setText(comment.getNickname());
 		holder.tv_mybook_title.setText(comment.getTitle());
-		final String sp = comment.getContent();
 		holder.tv_book_sp_content.setText(comment.getContent());
 
 
@@ -73,6 +74,11 @@ public class BookSPAdapter extends BaseAdapter {
 					holder.tv_book_sp_more.setOnClickListener(new View.OnClickListener() {
 						@Override
 						public void onClick(View v) {
+							SpComment sp  = new SpComment();
+							sp.setTitle(comment.getTitle());
+							sp.setContent(comment.getContent());
+							sp.setCreated_at(comment.getCreated_at());
+							sp.setScore(comment.getScore());
 							Bundle bundle = new Bundle();
 							bundle.putSerializable("sp",sp);
 							IntentUtil.intent(mContext, bundle, MySPDetailActivity.class, false);
