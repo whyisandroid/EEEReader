@@ -15,6 +15,7 @@ import com.glview.view.GestureDetector.OnGestureListener;
 import com.glview.view.View;
 import com.glview.widget.FrameLayout;
 import com.glview.widget.ImageButton;
+import com.glview.widget.Toast;
 
 import java.lang.reflect.Field;
 
@@ -172,6 +173,7 @@ public class ReaderLayout extends FrameLayout implements OnGestureListener {
 
 	@Override
 	public boolean onSingleTapUp(MotionEvent e) {
+		Toast.showShortToast(getContext(), "单击事件3");
 		if (mIsMenuShown) {
 			hideMenu();
 			return true;

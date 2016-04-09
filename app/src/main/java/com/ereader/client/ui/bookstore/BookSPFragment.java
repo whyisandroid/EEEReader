@@ -23,86 +23,81 @@ import com.ereader.client.entities.json.CommentData;
 import com.ereader.client.entities.json.CommentResp;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.adapter.BookSPAdapter;
+import com.ereader.common.util.StringUtil;
+import com.ereader.common.util.UIUtils;
+
 // 书评
 @SuppressLint("ValidFragment")
-public class BookSPFragment extends Fragment implements OnClickListener{
-	private View view;
-	private Context mContext;
-	private AppController controller;
-	private ListView lv_book_sp;
-	private List<Comment> mList = new ArrayList<Comment>();
-	private Book book;
-	private BookSPAdapter adapter;
-	
-	private Handler mHandler = new Handler(){
-		
-		public void handleMessage(android.os.Message msg) {
-			switch (msg.what) {
-			case 0:
-				mList.clear();
-				CommentData resp = (CommentData)controller.getContext().getBusinessData("CommentResp");
-				mList.addAll(resp.getData());
-				adapter.notifyDataSetChanged();
-				break;
+public class BookSPFragment extends Fragment implements OnClickListener {
+    private View view;
+    private Context mContext;
+    private AppController controller;
+    private ListView lv_book_sp;
+    private List<Comment> mList = new ArrayList<Comment>();
+    private Book book;
+    private BookSPAdapter adapter;
 
-			default:
-				break;
-			}
-		};
-	};
-	public BookSPFragment(Book book) {
-		this.book = book;
-	}
-	
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		view = inflater.inflate(R.layout.book_sp_fragment, container, false);
-		controller = AppController.getController(getActivity());
-		mContext = getActivity();
-		findView();
-		initView();
-		return view;
-	}
+    private Handler mHandler = new Handler() {
 
-	@Override
-	public void onResume() {
-		super.onResume();
-		getComment();
-	}
+        public void handleMessage(android.os.Message msg) {
+            switch (msg.what) {
+                case 0:
+                    mList.clear();
+                    CommentData resp = (CommentData) controller.getContext().getBusinessData("CommentResp");
+                    mList.addAll(resp.getData());
+                    UIUtils.setListViewHeight(lv_book_sp, adapter);
+                    adapter.notifyDataSetChanged();
+                    break;
+                default:
+                    break;
+            }
+        }
 
-	private void getComment() {
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				controller.getComment(mHandler,book.getInfo().getProduct_id());
-			}
-		}).start();
-	
-	}
+        ;
+    };
 
-	private void findView() {
-		lv_book_sp = (ListView)view.findViewById(R.id.lv_book_sp);
-	}
-	private void initView() {
-		adapter = new BookSPAdapter(mContext, mList);
-		lv_book_sp.setAdapter(adapter);
-		lv_book_sp.setOnItemClickListener(bookItemListener);
-		
-	}
-	
-	private OnItemClickListener bookItemListener = new OnItemClickListener() {
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
-		}
-	};
-	
-	
-	
-	
-	@Override
-	public void onClick(View v) {
-		
-	}
+    public BookSPFragment(Book book) {
+        this.book = book;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.book_sp_fragment, container, false);
+        controller = AppController.getController(getActivity());
+        mContext = getActivity();
+        findView();
+        initView();
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getComment();
+    }
+
+    private void getComment() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                controller.getComment(mHandler, book.getInfo().getProduct_id());
+            }
+        }).start();
+
+    }
+
+    private void findView() {
+        lv_book_sp = (ListView) view.findViewById(R.id.lv_book_sp);
+    }
+
+    private void initView() {
+        adapter = new BookSPAdapter(mContext, mList);
+        lv_book_sp.setAdapter(adapter);
+        UIUtils.setListViewHeight(lv_book_sp, adapter);
+    }
+    @Override
+    public void onClick(View v) {
+
+    }
 }

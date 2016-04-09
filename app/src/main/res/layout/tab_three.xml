@@ -4,10 +4,12 @@
     android:layout_height="wrap_content"
     android:background="@drawable/tab_holo"
     android:gravity="center"
+    android:layout_gravity="center"
     android:layout_weight="1"
     android:paddingBottom="8dp"
-    android:paddingLeft="@dimen/dimen_other_large"
-    android:paddingRight="@dimen/dimen_other_large"
+    android:paddingLeft="@dimen/dimen_large"
+    android:paddingRight="@dimen/dimen_large"
     android:paddingTop="8dp"
+    android:singleLine="true"
     android:textColor="@color/tabs_title_color"
-    android:textSize="16sp" />
+    android:textSize="15sp" />
