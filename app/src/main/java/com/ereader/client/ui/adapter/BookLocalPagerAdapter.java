@@ -97,8 +97,8 @@ public class BookLocalPagerAdapter extends PagerAdapter {
 			final RelativeLayout rl_index1=(RelativeLayout)imageLayout.findViewById(R.id.rl_index1);
 			RelativeLayout rl_index2=(RelativeLayout)imageLayout.findViewById(R.id.rl_index2);
 
-			imageLayout.findViewById(R.id.tv_recommend_read1).setVisibility(View.VISIBLE);
-			imageLayout.findViewById(R.id.tv_recommend_read2).setVisibility(View.VISIBLE);
+//			imageLayout.findViewById(R.id.tv_recommend_read1).setVisibility(View.VISIBLE);
+//			imageLayout.findViewById(R.id.tv_recommend_read2).setVisibility(View.VISIBLE);
 			LogUtil.LogError("",list.get(0).getImage_url()+";;"+list.get(1).getImage_url());
 			imageLoader.displayImage(list.get(0).getImage_url(), imageView1, options);
 			imageLoader.displayImage(list.get(1).getImage_url(), imageView2, options);
