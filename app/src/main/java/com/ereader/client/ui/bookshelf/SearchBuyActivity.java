@@ -170,6 +170,7 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
                 }
                 for(int k=0;k<datas.size();k++){
                     if(datas.get(k).getBook_id().equals(data.book_id)){
+                        datas.set(k,data);
                         flag = false;
                     }
                 }

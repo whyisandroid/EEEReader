@@ -10,15 +10,6 @@
         android:background="@drawable/book_edging">
 
         <ImageView
-            android:id="@+id/book_delete"
-            android:visibility="gone"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/delete" />
-
-        <ImageView
             android:id="@+id/iv_book_shelf"
             android:layout_width="100dp"
             android:layout_height="160dp"
@@ -33,6 +24,14 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             android:src="@drawable/book_bought" />
+        <ImageView
+            android:id="@+id/book_delete"
+            android:visibility="gone"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/delete" />
 
     </RelativeLayout>
 

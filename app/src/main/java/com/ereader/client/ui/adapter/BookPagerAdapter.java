@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.ereader.client.R;
 import com.ereader.common.util.LogUtil;
@@ -95,7 +94,6 @@ public class BookPagerAdapter extends PagerAdapter {
 		LogUtil.LogError("", "position=" + position + ";total_size=" + list.size() + ";index_right=" + index_right);
 		//1
 		final StoreBook book_left=list.get(index_left);
-		final TextView textView1= (TextView) imageLayout.findViewById(R.id.textView1);
 		if(!TextUtils.isEmpty(book_left.cover)){
 			LogUtil.LogError("book_left.cover",book_left.cover );
 			final ImageView imageView1= (ImageView) imageLayout.findViewById(R.id.imageView1);

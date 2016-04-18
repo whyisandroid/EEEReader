@@ -73,11 +73,12 @@ public class BookShelfAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public boolean isShowDelete() {
-        return isShowDelete;
+    public boolean isShowDelete(int position) {
+        return mList.get(position).delete;
     }
-    public void setIsShowDelete(boolean isShowDelete) {
-        this.isShowDelete = isShowDelete;
+    public void setIsShowDelete(boolean isShowDelete,int position) {
+//        this.isShowDelete = isShowDelete;
+        mList.get(position).delete=isShowDelete;
         notifyDataSetChanged();
     }
 
@@ -148,7 +149,7 @@ public class BookShelfAdapter extends BaseAdapter {
                 }
             }*/
             imageLoader.displayImage(book.cover, holder.iv_book_shelf, options);
-            if (isShowDelete) {
+            if (book.delete) {
                 holder.iv_book_delete.setVisibility(View.VISIBLE);
             } else {
                 holder.iv_book_delete.setVisibility(View.GONE);

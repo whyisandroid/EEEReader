@@ -6,6 +6,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 
 import com.ereader.client.entities.Login;
 import com.ereader.client.entities.json.BookOnlyResp;
+import com.ereader.client.entities.json.BookResp;
 import com.ereader.client.entities.json.SubCategoryResp;
 import com.ereader.common.net.AppSocketInterface;
 import com.ereader.common.net.XUtilsSocketImpl;
@@ -191,4 +192,12 @@ public class EReaderApplication extends Application {
         return AppSharedPref.getInstance(this).getBuyCar();
     }
 
+
+    public void saveRecommend(BookResp data) {
+        AppSharedPref.getInstance(this).saveRecommend(data);
+    }
+
+    public BookResp getRecommend() {
+        return AppSharedPref.getInstance(this).getRecommend();
+    }
 }

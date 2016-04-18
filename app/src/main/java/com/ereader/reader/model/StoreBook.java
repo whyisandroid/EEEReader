@@ -26,6 +26,8 @@ public class StoreBook implements Serializable {
 	
 	public long fileSign;
 
+	public boolean delete=false;
+
 	public StoreBook(){
 	}
 	public StoreBook(BookShowWithDownloadInfo book){

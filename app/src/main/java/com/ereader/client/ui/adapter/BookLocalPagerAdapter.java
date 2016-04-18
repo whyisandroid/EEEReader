@@ -7,12 +7,14 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.ereader.client.EReaderApplication;
 import com.ereader.client.R;
+import com.ereader.client.entities.Book;
 import com.ereader.common.constant.Constant;
+import com.ereader.common.util.LogUtil;
 import com.ereader.reader.activity.ReaderActivity;
 import com.ereader.reader.model.StoreBook;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
@@ -25,14 +27,14 @@ import java.util.List;
 public class BookLocalPagerAdapter extends PagerAdapter {
 
 	private Context context;
-	private List<String> list;
+	private List<Book> list;
 	private LayoutInflater inflater;
 	private ImageLoader imageLoader = null;
 	private ImageLoaderConfiguration configuration = null;
 
 	private EReaderApplication app;
 	private DisplayImageOptions options;
-	public BookLocalPagerAdapter(Context context, List<String> list) {
+	public BookLocalPagerAdapter(Context context, List<Book> list) {
 		this.context = context;
 		this.list = list;
 		this.inflater = LayoutInflater.from(context);
@@ -72,7 +74,7 @@ public class BookLocalPagerAdapter extends PagerAdapter {
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return list.size();
+		return (list.size()+1)/2;
 	}
 
 	@Override
@@ -89,26 +91,33 @@ public class BookLocalPagerAdapter extends PagerAdapter {
 	@Override
 	public Object instantiateItem(ViewGroup view, final int position) {
 		View imageLayout = inflater.inflate(R.layout.book_shelf_pager_item, view,false);
-		final TextView textView1= (TextView) imageLayout.findViewById(R.id.textView1);
-		final RelativeLayout rl_index1=(RelativeLayout)imageLayout.findViewById(R.id.rl_index1);
-		RelativeLayout rl_index2=(RelativeLayout)imageLayout.findViewById(R.id.rl_index2);
 
-		imageLayout.findViewById(R.id.tv_recommend_read1).setVisibility(View.VISIBLE);
-		imageLayout.findViewById(R.id.tv_recommend_read2).setVisibility(View.VISIBLE);
+			final ImageView imageView1= (ImageView) imageLayout.findViewById(R.id.imageView1);
+			final ImageView imageView2= (ImageView) imageLayout.findViewById(R.id.imageView2);
+			final RelativeLayout rl_index1=(RelativeLayout)imageLayout.findViewById(R.id.rl_index1);
+			RelativeLayout rl_index2=(RelativeLayout)imageLayout.findViewById(R.id.rl_index2);
 
-				rl_index1.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						openBook(position);
-					}
-				});
-		rl_index2.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				openBook(position);
-			}
-		});
-		((ViewPager) view).addView(imageLayout, 0);
+			imageLayout.findViewById(R.id.tv_recommend_read1).setVisibility(View.VISIBLE);
+			imageLayout.findViewById(R.id.tv_recommend_read2).setVisibility(View.VISIBLE);
+			LogUtil.LogError("",list.get(0).getImage_url()+";;"+list.get(1).getImage_url());
+			imageLoader.displayImage(list.get(0).getImage_url(), imageView1, options);
+			imageLoader.displayImage(list.get(1).getImage_url(), imageView2, options);
+			rl_index1.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					openBook(position);
+				}
+			});
+			rl_index2.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					openBook(position);
+				}
+			});
+		if(list.size()%2==0){
+			((ViewPager) view).addView(imageLayout, 0);
+		}
+
 		return imageLayout;
 	}
 

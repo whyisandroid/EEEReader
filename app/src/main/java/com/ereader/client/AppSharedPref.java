@@ -1,22 +1,17 @@
 package com.ereader.client;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import com.ereader.client.entities.Login;
-import com.ereader.client.entities.SubCategory;
-import com.ereader.client.entities.json.BookOnlyResp;
-import com.ereader.client.entities.json.SubCategoryResp;
-import com.ereader.common.exception.BusinessException;
-import com.ereader.common.util.Json_U;
-import com.ereader.common.util.LogUtil;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.text.TextUtils;
+
+import com.ereader.client.entities.Login;
+import com.ereader.client.entities.json.BookOnlyResp;
+import com.ereader.client.entities.json.BookResp;
+import com.ereader.client.entities.json.SubCategoryResp;
+import com.ereader.common.exception.BusinessException;
+import com.ereader.common.util.Json_U;
+import com.ereader.common.util.LogUtil;
 
 /**
  * ****************************************
@@ -102,7 +97,7 @@ public class AppSharedPref {
     /**
      * 方法描述：TODO
      *
-     * @param resp
+     * @param key
      * @author: ghf
      * @time: 2015-6-8 下午7:27:14
      */
@@ -116,7 +111,7 @@ public class AppSharedPref {
     /**
      * 方法描述：TODO
      *
-     * @param resp
+     * @param key
      * @author: ghf
      * @time: 2015-6-8 下午7:27:14
      */
@@ -213,6 +208,33 @@ public class AppSharedPref {
                 return null;
             } else {
                 return Json_U.parseJsonToObj((jsonStr), BookOnlyResp.class);
+            }
+        } catch (BusinessException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void saveRecommend(BookResp data) {
+
+
+        Editor e = sharedPreferences.edit();
+        try {
+            e.putString("Book.RecommendResp", Json_U.objToJsonStr(data));
+        } catch (BusinessException e1) {
+            e1.printStackTrace();
+        }
+        e.commit();
+    }
+
+
+    public BookResp getRecommend() {
+        String jsonStr = sharedPreferences.getString("Book.RecommendResp", "");
+        try {
+            if (TextUtils.isEmpty(jsonStr)) {
+                return null;
+            } else {
+                return Json_U.parseJsonToObj(jsonStr, BookResp.class);
             }
         } catch (BusinessException e) {
             e.printStackTrace();

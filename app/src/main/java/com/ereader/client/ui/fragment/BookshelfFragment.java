@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
@@ -22,12 +23,16 @@ import android.widget.TextView;
 
 import com.ereader.client.EReaderApplication;
 import com.ereader.client.R;
+import com.ereader.client.entities.Book;
 import com.ereader.client.entities.BookShow;
+import com.ereader.client.entities.PageRq;
+import com.ereader.client.entities.json.BookResp;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.adapter.BookLocalPagerAdapter;
 import com.ereader.client.ui.adapter.BookPagerAdapter;
 import com.ereader.client.ui.adapter.BookShelfAdapter;
 import com.ereader.client.ui.bookshelf.SearchBuyActivity;
+import com.ereader.client.ui.bookstore.BookActivity;
 import com.ereader.client.ui.login.LoginActivity;
 import com.ereader.client.ui.view.LoopViewPager;
 import com.ereader.client.ui.view.PointView;
@@ -76,6 +81,25 @@ public class BookshelfFragment extends Fragment {
 
     private List<StoreBook> list = new ArrayList<StoreBook>();
 
+    private Handler mhandler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            switch (msg.what) {
+                case BookActivity.BOOK:
+                    //推荐阅读
+                    BookResp bookResp = (BookResp) controller.getContext().getBusinessData("BookFeaturedResp");
+//                    EReaderApplication.
+//                    if(null!=bookResp&&null!=bookResp.getData()){
+                    EReaderApplication.getInstance().saveRecommend(bookResp);
+                    setupRecommend();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        ;
+    };
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -103,20 +127,6 @@ public class BookshelfFragment extends Fragment {
 //        Setting.prepare();
 
     }
-
-//    public void reload() {
-//
-//    }
-//
-//    public void registerFonts() {
-//        this.registerCustomFont("Underwood", "uwch.ttf");
-//        this.registerCustomFont("Mayflower", "Mayflower Antique.ttf");
-//    }
-//
-//    public void registerCustomFont(String fontFaceName, String fontFileName) {
-//        st.copyFontToDevice(fontFileName);
-////        app.customFonts.add(new CustomFont(fontFaceName, fontFileName));
-//    }
 
     private void initRead() {
         //阅读的设置
@@ -162,24 +172,6 @@ public class BookshelfFragment extends Fragment {
     private void initBannerPager() {
         // 最近阅读的信息
         List<StoreBook> listPager=  BookDBHelper.get(mContext).queryAllBooks();
-
-
-//        ArrayList<BookInformation> listPager = app.bis;
-//        LogUtil.LogError("listPager",listPager.size()+"");
-//        if (null != listPager && listPager.size() > 0) {
-//            BookPagerAdapter pageAdapter = new BookPagerAdapter(mContext, listPager,app);
-//            viewpager.setAdapter(pageAdapter);
-//            viewpager.setCurrentItem(0);
-//            viewpager.setOnPageChangeListener(viewpagerListener);
-//
-//            pointView = new PointView(getActivity(), (listPager.size()+1)/2);
-//            pointlayout.removeAllViews();
-//            pointlayout.addView(pointView);
-//            pointView.setPosition(0);
-//            pointlayout.postInvalidate();
-//        } else {//最近阅读－没有数据：
-
-
         if (null != listPager && listPager.size() > 0&&EReaderApplication.getInstance().isLogin()) {
             //限制
             if(listPager.size()>6){
@@ -197,7 +189,8 @@ public class BookshelfFragment extends Fragment {
             pointView.setPosition(0);
             pointlayout.postInvalidate();
         } else {//最近阅读－没有数据：
-            List<String> localListPager = new ArrayList<String>();
+            initRecommend();
+            /*List<String> localListPager = new ArrayList<String>();
             localListPager.add("");
             BookLocalPagerAdapter pageAdapter = new BookLocalPagerAdapter(mContext, localListPager);
             viewpager.setAdapter(pageAdapter);
@@ -208,11 +201,44 @@ public class BookshelfFragment extends Fragment {
             pointlayout.removeAllViews();
             pointlayout.addView(pointView);
             pointView.setPosition(0);
-            pointlayout.postInvalidate();
+            pointlayout.postInvalidate();*/
+
         }
 
     }
+    private void initRecommend(){
+        BookResp recommend =EReaderApplication.getInstance().getRecommend();
+        if(null!=recommend&&null!=recommend.getData()&&recommend.getData().getData().size()>0){
+            setupRecommend();
+        }else{
+            recommend();
+        }
+    }
+    //推荐书籍
+    private void setupRecommend(){
+        List<Book> recommendList=new ArrayList<Book>();
 
+        BookResp recommend =EReaderApplication.getInstance().getRecommend();
+        if(null!=recommend){
+            recommendList=recommend.getData().getData();
+        }
+        if(recommendList.size()>0){
+            recommendList=recommendList.subList(0,2);
+            LogUtil.LogError("推荐的大小", recommendList.size()+"");
+            BookLocalPagerAdapter pageAdapter = new BookLocalPagerAdapter(mContext, recommendList);
+            viewpager.setAdapter(pageAdapter);
+            viewpager.setCurrentItem(0);
+            viewpager.setOnPageChangeListener(viewpagerListener);
+
+            pointView = new PointView(getActivity(), 1);
+            pointlayout.removeAllViews();
+            pointlayout.addView(pointView);
+            pointView.setPosition(0);
+            pointlayout.postInvalidate();
+        }
+
+
+    }
     @Override
     public void onResume() {
         super.onResume();
@@ -261,7 +287,7 @@ public class BookshelfFragment extends Fragment {
                     //TODO 无效的显示
                     return;
                 }
-                if (adapter.isShowDelete()) {//删除
+                if (book.delete) {//删除
                     //TODO:删除数据库／本地文件
                     adapter.deleteByPostion(position);
                     ToastUtil.showToast(getActivity(), "删除《" + book.name + "》成功！", ToastUtil.LENGTH_SHORT);
@@ -302,7 +328,7 @@ public class BookshelfFragment extends Fragment {
             } else {
                 StoreBook book = (StoreBook) parent.getAdapter().getItem(position);
                 if (null != book ) {
-                    adapter.setIsShowDelete(!adapter.isShowDelete());
+                    adapter.setIsShowDelete(!book.delete,position);
                 }
             }
             return true;
@@ -481,5 +507,19 @@ public class BookshelfFragment extends Fragment {
             db.close();
             db = null;
         }
+    }
+
+    //推荐阅读
+    private void recommend() {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                PageRq pageRq=new PageRq();
+                pageRq.setPage(1);
+                pageRq.setPer_page(2);
+                controller.recommend(mhandler, pageRq);
+            }
+        }).start();
     }
 }
