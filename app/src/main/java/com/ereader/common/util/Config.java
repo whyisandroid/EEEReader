@@ -1,8 +1,8 @@
 package com.ereader.common.util;
 
-import java.io.File;
-
 import android.os.Environment;
+
+import java.io.File;
 
 /**
  * **************************************** 类描述： 配置信息类 类名称：Config
@@ -117,5 +117,8 @@ public class Config {
 
     //download
     public final static String HTTP_MY_SHELF_BOOKS_DOWNLOAD = MY_SERVICE + "/api/ebook/down"; // 下载已购图书
+
+    //书架推荐
+    public final static String HTTP_MY_SHELF_BOOKS_RECOMMEND = MY_SERVICE + "/api/product/recommend"; // 刷架推荐图书
 
 }

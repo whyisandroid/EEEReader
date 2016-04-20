@@ -32,7 +32,6 @@ import com.ereader.client.ui.adapter.BookLocalPagerAdapter;
 import com.ereader.client.ui.adapter.BookPagerAdapter;
 import com.ereader.client.ui.adapter.BookShelfAdapter;
 import com.ereader.client.ui.bookshelf.SearchBuyActivity;
-import com.ereader.client.ui.bookstore.BookActivity;
 import com.ereader.client.ui.login.LoginActivity;
 import com.ereader.client.ui.view.LoopViewPager;
 import com.ereader.client.ui.view.PointView;
@@ -81,15 +80,15 @@ public class BookshelfFragment extends Fragment {
 
     private List<StoreBook> list = new ArrayList<StoreBook>();
 
+    public static final int RECOMMEND_BOOK = 1100;
+
     private Handler mhandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
-                case BookActivity.BOOK:
+                case RECOMMEND_BOOK:
                     //推荐阅读
-                    BookResp bookResp = (BookResp) controller.getContext().getBusinessData("BookFeaturedResp");
-//                    EReaderApplication.
-//                    if(null!=bookResp&&null!=bookResp.getData()){
-                    EReaderApplication.getInstance().saveRecommend(bookResp);
+                    BookResp bookResp = (BookResp) controller.getContext().getBusinessData("shelf.RecommendBookResp");
+                    EReaderApplication.getInstance().saveRecommend(bookResp);//本地存储
                     setupRecommend();
                     break;
                 default:
@@ -113,24 +112,9 @@ public class BookshelfFragment extends Fragment {
         return view;
     }
 
-    //初始化阅读设置
-    private void init() {
-
-//        if (SkySetting.getStorageDirectory() == null) {
-//
-//            SkySetting.setStorageDirectory(Constant.ROOT_OUTPATH, Constant.FOLDER_NAME);
-//        }
-//        st = new SkyUtility(mContext);
-//        st.makeSetup();
-//        this.registerFonts();
-//        this.reload();
-//        Setting.prepare();
-
-    }
 
     private void initRead() {
         //阅读的设置
-//        init();
         sp = mContext.getSharedPreferences("reader", Context.MODE_PRIVATE);
         isInit=sp.getBoolean("isInit", false);
         //sample图书
@@ -138,16 +122,6 @@ public class BookshelfFragment extends Fragment {
             showLoading();
             new AsyncSetApprove().execute("");
         }
-
-
-    /*    // 读取名为"mark"的sharedpreferences
-        sp = mContext.getSharedPreferences("mark", mContext.MODE_PRIVATE);
-//        localbook = new LocalBook(mContext, "localbook");
-        map2 = new HashMap<String, Integer[]>();
-        String[] bookids = getResources().getStringArray(R.array.bookid);
-        for (int i = 0; i < bookids.length; i++) {
-            map2.put(bookids[i], new Integer[]{R.drawable.book0 + i});
-        }*/
 
     }
 
@@ -172,9 +146,10 @@ public class BookshelfFragment extends Fragment {
     private void initBannerPager() {
         // 最近阅读的信息
         List<StoreBook> listPager=  BookDBHelper.get(mContext).queryAllBooks();
-        if (null != listPager && listPager.size() > 0&&EReaderApplication.getInstance().isLogin()) {
+        int size=listPager.size();
+        if (null != listPager && size > 0&&EReaderApplication.getInstance().isLogin()) {
             //限制
-            if(listPager.size()>6){
+            if(size>6){
                 listPager=listPager.subList(0,5);
             }
 
@@ -190,19 +165,6 @@ public class BookshelfFragment extends Fragment {
             pointlayout.postInvalidate();
         } else {//最近阅读－没有数据：
             initRecommend();
-            /*List<String> localListPager = new ArrayList<String>();
-            localListPager.add("");
-            BookLocalPagerAdapter pageAdapter = new BookLocalPagerAdapter(mContext, localListPager);
-            viewpager.setAdapter(pageAdapter);
-            viewpager.setCurrentItem(0);
-            viewpager.setOnPageChangeListener(viewpagerListener);
-
-            pointView = new PointView(getActivity(), localListPager.size());
-            pointlayout.removeAllViews();
-            pointlayout.addView(pointView);
-            pointView.setPosition(0);
-            pointlayout.postInvalidate();*/
-
         }
 
     }
@@ -223,7 +185,7 @@ public class BookshelfFragment extends Fragment {
             recommendList=recommend.getData().getData();
         }
         if(recommendList.size()>0){
-            recommendList=recommendList.subList(0,2);
+//            recommendList=recommendList.subList(0,2);
             LogUtil.LogError("推荐的大小", recommendList.size()+"");
             BookLocalPagerAdapter pageAdapter = new BookLocalPagerAdapter(mContext, recommendList);
             viewpager.setAdapter(pageAdapter);
@@ -518,7 +480,7 @@ public class BookshelfFragment extends Fragment {
                 PageRq pageRq=new PageRq();
                 pageRq.setPage(1);
                 pageRq.setPer_page(2);
-                controller.recommend(mhandler, pageRq);
+                controller.shelfRecommend(mhandler, pageRq);
             }
         }).start();
     }

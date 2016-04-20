@@ -5,6 +5,7 @@ import com.ereader.client.entities.BookShowWithDownloadInfo;
 import com.ereader.reader.utils.MimeType;
 import com.lidroid.xutils.db.annotation.Id;
 import com.lidroid.xutils.db.annotation.NoAutoIncrement;
+import com.lidroid.xutils.db.annotation.Transient;
 
 import java.io.Serializable;
 
@@ -25,7 +26,7 @@ public class StoreBook implements Serializable {
 	public double readPosition;
 	
 	public long fileSign;
-
+	@Transient
 	public boolean delete=false;
 
 	public StoreBook(){

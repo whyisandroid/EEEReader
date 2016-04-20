@@ -145,5 +145,7 @@ public interface AppService {
 	public void updateEmail(String emali, String pwd)throws BusinessException;
 
 	public String getDownUrl();
+	/**书架推荐阅读***/
+	public void shelfRecommend(PageRq pageRq)throws BusinessException;
 
 }

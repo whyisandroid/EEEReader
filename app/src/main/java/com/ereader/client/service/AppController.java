@@ -18,6 +18,7 @@ import com.ereader.client.ui.bookstore.BookTitleActivity;
 import com.ereader.client.ui.buycar.AddCarSuccessActivity;
 import com.ereader.client.ui.buycar.BuyCarActivity;
 import com.ereader.client.ui.dialog.DialogUtil;
+import com.ereader.client.ui.fragment.BookshelfFragment;
 import com.ereader.client.ui.login.FindPwdActivity;
 import com.ereader.client.ui.login.LoginActivity;
 import com.ereader.client.ui.login.RegisterActivity;
@@ -346,7 +347,7 @@ public class AppController {
 
 	public void search(PageRq mPageRq,String value,Handler mHandler) {
 		try {
-			service.search(mPageRq,value);
+			service.search(mPageRq, value);
 			mHandler.obtainMessage(0).sendToTarget();
 		} catch (BusinessException e) {
 			mHandler.obtainMessage(3).sendToTarget();
@@ -723,7 +724,7 @@ public class AppController {
 
 	public void getOrderList(PageRq mPageRq,Handler mHandler, String mOrderType) {
 		try {
-			service.orderList(mPageRq,mOrderType);
+			service.orderList(mPageRq, mOrderType);
 			mHandler.obtainMessage(OrderFragment.REFRESH_DOWN_OK).sendToTarget();
 		} catch (BusinessException e) {
 			mHandler.obtainMessage(OrderFragment.REFRESH_ERROR).sendToTarget();
@@ -791,6 +792,17 @@ public class AppController {
 			mHandler.obtainMessage(RechargeActivity.SUCCESS).sendToTarget();
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}
+	}
+
+	public void shelfRecommend(Handler mHandler,PageRq pageRq) {
+		try {
+			service.shelfRecommend(pageRq);
+			mHandler.obtainMessage(BookshelfFragment.RECOMMEND_BOOK).sendToTarget();
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}catch (Exception e) {
+			appHandler.obtainMessage(HANDLER_TOAST,"网络异常！").sendToTarget();
 		}
 	}
 }

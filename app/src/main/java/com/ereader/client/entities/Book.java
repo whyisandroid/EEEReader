@@ -1,7 +1,6 @@
 package com.ereader.client.entities;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class Book implements Serializable {
 	/**
@@ -294,5 +293,33 @@ public class Book implements Serializable {
 	 */
 	public void setInfo(BookInfo info) {
 		this.info = info;
+	}
+
+	@Override
+	public String toString() {
+		return "Book{" +
+				"available_at='" + available_at + '\'' +
+				", product_id='" + product_id + '\'' +
+				", sku='" + sku + '\'' +
+				", quantity='" + quantity + '\'' +
+				", upc='" + upc + '\'' +
+				", ean='" + ean + '\'' +
+				", isbn='" + isbn + '\'' +
+				", mpn='" + mpn + '\'' +
+				", manufacturer_id='" + manufacturer_id + '\'' +
+				", price='" + price + '\'' +
+				", cost='" + cost + '\'' +
+				", onsale_status='" + onsale_status + '\'' +
+				", stock_status='" + stock_status + '\'' +
+				", created_at='" + created_at + '\'' +
+				", updated_at='" + updated_at + '\'' +
+				", comment_star='" + comment_star + '\'' +
+				", comment_score=" + comment_score +
+				", comment_num='" + comment_num + '\'' +
+				", extra=" + extra +
+				", info=" + info +
+				", image_url='" + image_url + '\'' +
+				", select=" + select +
+				'}';
 	}
 }

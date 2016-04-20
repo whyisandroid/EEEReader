@@ -14,7 +14,6 @@ import com.ereader.client.EReaderApplication;
 import com.ereader.client.R;
 import com.ereader.client.entities.Book;
 import com.ereader.common.constant.Constant;
-import com.ereader.common.util.LogUtil;
 import com.ereader.reader.activity.ReaderActivity;
 import com.ereader.reader.model.StoreBook;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
@@ -43,7 +42,6 @@ public class BookLocalPagerAdapter extends PagerAdapter {
 		if (!this.imageLoader.isInited()) {
 			this.imageLoader.init(configuration);
 		}
-		app=EReaderApplication.getInstance();
 	}
 
 	/**
@@ -73,13 +71,11 @@ public class BookLocalPagerAdapter extends PagerAdapter {
 
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
 		return (list.size()+1)/2;
 	}
 
 	@Override
 	public boolean isViewFromObject(View arg0, Object arg1) {
-		// TODO Auto-generated method stub
 		return arg0 == arg1;
 	}
 
@@ -99,9 +95,9 @@ public class BookLocalPagerAdapter extends PagerAdapter {
 
 //			imageLayout.findViewById(R.id.tv_recommend_read1).setVisibility(View.VISIBLE);
 //			imageLayout.findViewById(R.id.tv_recommend_read2).setVisibility(View.VISIBLE);
-			LogUtil.LogError("",list.get(0).getImage_url()+";;"+list.get(1).getImage_url());
-			imageLoader.displayImage(list.get(0).getImage_url(), imageView1, options);
-			imageLoader.displayImage(list.get(1).getImage_url(), imageView2, options);
+//			LogUtil.LogError("图片地址"+position,list.get(0).getInfo().getImage_url()+";;"+list.get(1).getInfo().getImage_url());
+			imageLoader.displayImage(list.get(position*2).getInfo().getImage_url(), imageView1, options);
+			imageLoader.displayImage(list.get(position*2+1).getInfo().getImage_url(), imageView2, options);
 			rl_index1.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
