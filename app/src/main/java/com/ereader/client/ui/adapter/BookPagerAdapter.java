@@ -14,7 +14,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.ereader.client.EReaderApplication;
 import com.ereader.client.R;
+import com.ereader.client.ui.bookshelf.SearchBuyActivity;
+import com.ereader.client.ui.login.LoginActivity;
+import com.ereader.common.util.IntentUtil;
 import com.ereader.common.util.LogUtil;
 import com.ereader.reader.activity.ReaderActivity;
 import com.ereader.reader.model.StoreBook;
@@ -34,6 +38,7 @@ public class BookPagerAdapter extends PagerAdapter {
 	WeakHashMap<Object, Bitmap> mCovers = new WeakHashMap<Object, Bitmap>();
 	private ImageLoader imageLoader = null;
 	private ImageLoaderConfiguration configuration = null;
+	int size =0;
 
 	private DisplayImageOptions options;
 	public BookPagerAdapter(Context context, List<StoreBook> list) {
@@ -45,6 +50,7 @@ public class BookPagerAdapter extends PagerAdapter {
 		if (!this.imageLoader.isInited()) {
 			this.imageLoader.init(configuration);
 		}
+		size=list.size();
 	}
 
 	/**
@@ -117,10 +123,11 @@ public class BookPagerAdapter extends PagerAdapter {
 		//2
 
 		RelativeLayout rl_index2=(RelativeLayout)imageLayout.findViewById(R.id.rl_index2);
-		if(index_right<=list.size()){
+		final ImageView imageView2= (ImageView) imageLayout.findViewById(R.id.imageView2);
+		if(index_right<list.size()){
 			final StoreBook book_right=list.get(index_left);
-			if(!TextUtils.isEmpty(book_left.cover)){
-				final ImageView imageView2= (ImageView) imageLayout.findViewById(R.id.imageView2);
+			if(!TextUtils.isEmpty(book_right.cover)){
+
 				imageLoader.displayImage(book_right.cover, imageView2, options);
 //				setCover(imageView2,book_right.cover);
 			}
@@ -133,7 +140,19 @@ public class BookPagerAdapter extends PagerAdapter {
 				}
 			});
 		}else{
-			rl_index2.setVisibility(View.INVISIBLE);
+//			rl_index2.setVisibility(View.INVISIBLE);添加
+			imageView2.setImageResource(R.drawable.add);
+			rl_index2.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (EReaderApplication.getInstance().isLogin()) {
+						SearchBuyActivity.setOperation(SearchBuyActivity.OPERATION_CUSTOM);
+						IntentUtil.intent(context, SearchBuyActivity.class);
+					} else {
+						IntentUtil.intent(context, LoginActivity.class);
+					}
+				}
+			});
 		}
 
 		((ViewPager) view).addView(imageLayout, 0);
