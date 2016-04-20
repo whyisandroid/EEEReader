@@ -2,6 +2,7 @@ package com.ereader.client.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -13,7 +14,9 @@ import android.widget.RelativeLayout;
 import com.ereader.client.EReaderApplication;
 import com.ereader.client.R;
 import com.ereader.client.entities.Book;
+import com.ereader.client.ui.bookstore.BookDetailActivity;
 import com.ereader.common.constant.Constant;
+import com.ereader.common.util.IntentUtil;
 import com.ereader.reader.activity.ReaderActivity;
 import com.ereader.reader.model.StoreBook;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
@@ -33,6 +36,8 @@ public class BookLocalPagerAdapter extends PagerAdapter {
 
 	private EReaderApplication app;
 	private DisplayImageOptions options;
+
+	private int size=0;
 	public BookLocalPagerAdapter(Context context, List<Book> list) {
 		this.context = context;
 		this.list = list;
@@ -42,6 +47,7 @@ public class BookLocalPagerAdapter extends PagerAdapter {
 		if (!this.imageLoader.isInited()) {
 			this.imageLoader.init(configuration);
 		}
+		size=list.size();
 	}
 
 	/**
@@ -96,18 +102,38 @@ public class BookLocalPagerAdapter extends PagerAdapter {
 //			imageLayout.findViewById(R.id.tv_recommend_read1).setVisibility(View.VISIBLE);
 //			imageLayout.findViewById(R.id.tv_recommend_read2).setVisibility(View.VISIBLE);
 //			LogUtil.LogError("图片地址"+position,list.get(0).getInfo().getImage_url()+";;"+list.get(1).getInfo().getImage_url());
-			imageLoader.displayImage(list.get(position*2).getInfo().getImage_url(), imageView1, options);
-			imageLoader.displayImage(list.get(position*2+1).getInfo().getImage_url(), imageView2, options);
+			final Book bookLeft=position*2<size?list.get(position*2):null;
+			final Book bookRight=position*2+1<size?list.get(position*2+1):null;
+			if(null!=bookLeft){
+				imageLoader.displayImage(bookLeft.getInfo().getImage_url(), imageView1, options);
+			}else{
+				imageView1.setImageResource(R.drawable.b1_03);
+			}
 			rl_index1.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					openBook(position);
+					if (null != bookLeft) {
+						Bundle bundle = new Bundle();
+						bundle.putSerializable("detailBook", bookLeft);
+						IntentUtil.intent(context, bundle, BookDetailActivity.class, false);
+					}
+
 				}
 			});
+			if(null!=bookRight){
+				imageLoader.displayImage(bookRight.getInfo().getImage_url(), imageView2, options);
+			}else{
+				imageView2.setImageResource(R.drawable.b1_03);
+			}
 			rl_index2.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					openBook(position);
+
+					if(null!=bookRight){
+						Bundle bundle = new Bundle();
+						bundle.putSerializable("detailBook", bookRight);
+						IntentUtil.intent(context, bundle, BookDetailActivity.class, false);
+					}
 				}
 			});
 		if(list.size()%2==0){

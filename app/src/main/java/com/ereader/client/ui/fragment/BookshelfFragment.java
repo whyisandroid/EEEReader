@@ -246,36 +246,14 @@ public class BookshelfFragment extends Fragment {
             } else {
                 StoreBook book = adapter.getItem(position);
                 if (null == book) {
-                    //TODO 无效的显示
                     return;
                 }
                 if (book.delete) {//删除
-                    //TODO:删除数据库／本地文件
+                    //删除数据库不删除本地文件
                     adapter.deleteByPostion(position);
                     ToastUtil.showToast(getActivity(), "删除《" + book.name + "》成功！", ToastUtil.LENGTH_SHORT);
-//                    if (DbDeleteBook(book)) {
-//                        if (book.isDownloaded() && null != book.getDownloadInfo()) {//已经下载
-//                            new File(book.getDownloadInfo().getFileSavePath()).delete();
-//                        }
-//                        adapter.deleteByPostion(position);
-//                        ToastUtil.showToast(getActivity(), "删除《" + book.getName() + "》成功！", ToastUtil.LENGTH_SHORT);
-//                    } else {
-//                        ToastUtil.showToast(getActivity(), "删除《" + book.getName() + "》失败！", ToastUtil.LENGTH_SHORT);
-//                    }
-
                 } else {
                     adapter.open(position);
-//                    if (book.isDownloaded()) {//已经下载
-//                        adapter.open(position);
-//                    } else {//未下载
-//
-//                        if (book.isDownloading()) {//正在下载之取消下载
-//                            adapter.setDownloadStatusNById(position, false);
-//                        } else {//正在下载之开始下载
-//                            adapter.setDownloadStatusNById(position, true);
-//                        }
-//                    }
-
                 }
             }
         }
@@ -378,7 +356,6 @@ public class BookshelfFragment extends Fragment {
     }
 
     private boolean DbDeleteBook(BookShow book) {
-
 
         try {
             db = DbUtils.create(getActivity(), Constant.OUTPATH, Constant.DBNAME);
