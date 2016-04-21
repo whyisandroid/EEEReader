@@ -56,12 +56,12 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 				pull_refresh_message_friends.onFooterRefreshComplete();
 				break;
 				case AGREE:
-					int positon = (int)msg.obj;
+					int positon = (Integer)msg.obj;
 					mList.get(positon).setStatus("2");
 					adapter.notifyDataSetChanged();
 					break;
 				case REFUSE:
-					int positon2 = (int)msg.obj;
+					int positon2 = (Integer)msg.obj;
 					mList.get(positon2).setStatus("3");
 					adapter.notifyDataSetChanged();
 					break;

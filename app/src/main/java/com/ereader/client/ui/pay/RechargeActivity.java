@@ -21,6 +21,7 @@ import com.ereader.client.entities.RechargeOrder;
 import com.ereader.client.entities.json.WalletData;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.BaseActivity;
+import com.ereader.client.ui.my.CouponsFragment;
 import com.ereader.common.util.IntentUtil;
 import com.ereader.common.util.ProgressDialogUtil;
 import com.ereader.common.util.StringUtil;
@@ -53,8 +54,8 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 					WalletData wallet = (WalletData)controller.getContext().getBusinessData("WalletResp");
 					String sumMoney = StringUtil.addMoney(wallet.getEcoin().toString(),mRechMoney.getText().toString());
 					wallet.setEcoin(sumMoney);
-					controller.getContext().addBusinessData("WalletResp",wallet);
-					//mEcoin.setText("当前余额：￥" + sumMoney);
+					controller.getContext().addBusinessData("WalletResp", wallet);
+					mEcoin.setText("当前余额：￥" + sumMoney);
 					break;
 				case ORDER_SUCCESS:
 					RechargeOrder order = (RechargeOrder)controller.getContext().getBusinessData("OrderRechargeResp");
@@ -76,9 +77,13 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 					CardInfo cardInfo = (CardInfo)controller.getContext().getBusinessData("CardInfoResp");
 					recharge_tv_money.setText("￥" + cardInfo.total);
 					break;
-				case FAILE:
-
-
+				case CouponsFragment.INPUT_OK:  // 充值卡 充值成功 修改余额
+					CardInfo cardInfo1 = (CardInfo)controller.getContext().getBusinessData("CardInfoResp");
+					WalletData wallet1 = (WalletData)controller.getContext().getBusinessData("WalletResp");
+					String sumMoney1 = StringUtil.addMoney(wallet1.getEcoin().toString(),cardInfo1.total);
+					wallet1.setEcoin(sumMoney1);
+					controller.getContext().addBusinessData("WalletResp", wallet1);
+					mEcoin.setText("当前余额：￥" + sumMoney1);
 					break;
 				default:
 					break;
@@ -222,7 +227,7 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 					new Thread(new Runnable() {
 						@Override
 						public void run() {
-							controller.useCard(card,null,-1,"C");
+							controller.useCard(card,mHander,-1,"C");
 							ProgressDialogUtil.closeProgressDialog();
 						}
 					}).start();

@@ -37,7 +37,7 @@ public class CollectionActivity extends BaseActivity implements OnClickListener 
 				adapter.notifyDataSetChanged();
 				break;
 			case 100: // 删除
-				mList.remove(mList.get((int)msg.obj));
+				mList.remove(mList.get((Integer)msg.obj));
 				adapter.notifyDataSetChanged();
 				//ToastUtil.showToast(CollectionActivity.this, "删除成功", ToastUtil.LENGTH_LONG);
 				break;
