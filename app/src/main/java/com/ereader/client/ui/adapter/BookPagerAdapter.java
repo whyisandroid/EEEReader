@@ -19,7 +19,6 @@ import com.ereader.client.R;
 import com.ereader.client.ui.bookshelf.SearchBuyActivity;
 import com.ereader.client.ui.login.LoginActivity;
 import com.ereader.common.util.IntentUtil;
-import com.ereader.common.util.LogUtil;
 import com.ereader.reader.activity.ReaderActivity;
 import com.ereader.reader.model.StoreBook;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
@@ -100,17 +99,15 @@ public class BookPagerAdapter extends PagerAdapter {
 		View imageLayout = inflater.inflate(R.layout.book_shelf_pager_item, view,false);
 		int index_left=position*2;
 		int index_right=position*2+1;
-		LogUtil.LogError("", "position=" + position + ";total_size=" + list.size() + ";index_right=" + index_right);
-		//1
+//		LogUtil.LogError("", "position=" + position + ";total_size=" + list.size() + ";index_right=" + index_right);
+		//左
 		final StoreBook book_left=list.get(index_left);
 		if(!TextUtils.isEmpty(book_left.cover)){
-			LogUtil.LogError("book_left.cover",book_left.cover );
+//			LogUtil.LogError("book_left.cover", book_left.cover);
 			final ImageView imageView1= (ImageView) imageLayout.findViewById(R.id.imageView1);
-			imageLoader.displayImage(book_left.cover, imageView1, options);
-//			setCover(imageView1,book_left.cover);
+
+			setCover(imageView1,book_left.cover);
 		}
-
-
 		final RelativeLayout rl_index1=(RelativeLayout)imageLayout.findViewById(R.id.rl_index1);
 		rl_index1.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -119,17 +116,14 @@ public class BookPagerAdapter extends PagerAdapter {
 			}
 		});
 
-
-		//2
-
+		//右
 		RelativeLayout rl_index2=(RelativeLayout)imageLayout.findViewById(R.id.rl_index2);
 		final ImageView imageView2= (ImageView) imageLayout.findViewById(R.id.imageView2);
 		if(index_right<list.size()){
 			final StoreBook book_right=list.get(index_right);
 			if(!TextUtils.isEmpty(book_right.cover)){
 
-				imageLoader.displayImage(book_right.cover, imageView2, options);
-//				setCover(imageView2,book_right.cover);
+				setCover(imageView2,book_right.cover);
 			}
 
 			rl_index2.setOnClickListener(new View.OnClickListener() {
@@ -139,7 +133,6 @@ public class BookPagerAdapter extends PagerAdapter {
 				}
 			});
 		}else{
-//			rl_index2.setVisibility(View.INVISIBLE);添加
 			imageView2.setImageResource(R.drawable.add);
 			rl_index2.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -178,7 +171,8 @@ public class BookPagerAdapter extends PagerAdapter {
 			view.setImageBitmap(bmp);
 
 		} else {
-			view.setImageResource(R.drawable.b1_03);
+			imageLoader.displayImage(cover, view, options);
+//			view.setImageResource(R.drawable.b1_03);
 		}
 
 
