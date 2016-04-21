@@ -125,14 +125,13 @@ public class BookPagerAdapter extends PagerAdapter {
 		RelativeLayout rl_index2=(RelativeLayout)imageLayout.findViewById(R.id.rl_index2);
 		final ImageView imageView2= (ImageView) imageLayout.findViewById(R.id.imageView2);
 		if(index_right<list.size()){
-			final StoreBook book_right=list.get(index_left);
+			final StoreBook book_right=list.get(index_right);
 			if(!TextUtils.isEmpty(book_right.cover)){
 
 				imageLoader.displayImage(book_right.cover, imageView2, options);
 //				setCover(imageView2,book_right.cover);
 			}
 
-			rl_index2.setVisibility(View.VISIBLE);
 			rl_index2.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
