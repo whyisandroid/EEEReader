@@ -71,7 +71,7 @@ public class CouponsActivity extends BaseFragmentActivity implements OnClickList
 		vpager_coupons.setPageMargin(4);
 
 
-		List<String> mlist = new ArrayList<>();
+		List<String> mlist = new ArrayList<String>();
 		mlist.add("全部");
 		mlist.add("可用");
 		mlist.add("已使用");

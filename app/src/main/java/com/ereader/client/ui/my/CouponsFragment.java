@@ -56,10 +56,10 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 				break;
 				case INPUT_OK:
 					if("0".equals(cate.getCategory_id())){
-						int position = (int)msg.obj;
+						int position = (Integer)msg.obj;
 						mList.get(position).setStatus("2");
 					}else if("1".equals(cate.getCategory_id())){
-					int position = (int)msg.obj;
+					int position = (Integer)msg.obj;
 					mList.remove(position);
 					}
 					adapter.notifyDataSetChanged();

@@ -70,7 +70,7 @@ public class OrderActivity extends BaseFragmentActivity implements OnClickListen
 		vp_order.setCurrentItem(0);
 		vp_order.setPageMargin(4);
 
-		List<String> mlist = new ArrayList<>();
+		List<String> mlist = new ArrayList<String>();
 		mlist.add("全部");
 		mlist.add("已完成");
 		mlist.add("未支付");

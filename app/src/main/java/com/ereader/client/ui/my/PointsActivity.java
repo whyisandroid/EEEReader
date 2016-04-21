@@ -69,7 +69,7 @@ public class PointsActivity extends BaseFragmentActivity implements OnClickListe
 		vpager_points.setCurrentItem(0);
 		vpager_points.setPageMargin(4);
 
-		List<String> mlist = new ArrayList<>();
+		List<String> mlist = new ArrayList<String>();
 		mlist.add("全部");
 		mlist.add("积分收入");
 		mlist.add("积分支出");

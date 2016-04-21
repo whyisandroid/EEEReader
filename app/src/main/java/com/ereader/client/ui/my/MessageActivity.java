@@ -95,7 +95,7 @@ public class MessageActivity extends BaseFragmentActivity implements OnClickList
 		vpager_message.setPageMargin(4);
 
 
-		List<String> mlist = new ArrayList<>();
+		List<String> mlist = new ArrayList<String>();
 		mlist.add("好友消息");
 		mlist.add("好友推荐");
 		mlist.add("系统消息");

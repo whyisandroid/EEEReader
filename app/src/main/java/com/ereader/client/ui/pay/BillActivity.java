@@ -71,7 +71,7 @@ public class BillActivity extends BaseFragmentActivity implements OnClickListene
 		vpager_bill.setCurrentItem(0);
 		vpager_bill.setPageMargin(4);
 
-		List<String> mlist = new ArrayList<>();
+		List<String> mlist = new ArrayList<String>();
 		mlist.add("全部");
 		mlist.add("购书");
 		mlist.add("充值");
