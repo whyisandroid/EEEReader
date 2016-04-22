@@ -150,9 +150,9 @@ public class BookshelfFragment extends Fragment {
         if (null != listPager && size > 0&&EReaderApplication.getInstance().isLogin()) {
             //限制
             if(size>6){
-                listPager=listPager.subList(0,5);
+                listPager=listPager.subList(0,6);//左闭右开
             }
-
+            LogUtil.LogError("banner:",listPager.size()+"");
             BookPagerAdapter pageAdapter = new BookPagerAdapter(mContext, listPager);
             viewpager.setAdapter(pageAdapter);
             viewpager.setCurrentItem(0);
