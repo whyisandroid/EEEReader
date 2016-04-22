@@ -89,15 +89,7 @@ public class MoreActivity  extends BaseActivity implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case  R.id.rl_more_help:
-
-			ProgressDialogUtil.showProgressDialog(this, "", false);
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					controller.getArticle();
-					ProgressDialogUtil.closeProgressDialog();
-				}
-			}).start();
+			IntentUtil.intent(this, HelpActivity.class);
 			break;
 		case R.id.rl_more_exit:
 			DialogUtil.exit(MoreActivity.this,mHandler);

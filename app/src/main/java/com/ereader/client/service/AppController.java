@@ -462,10 +462,10 @@ public class AppController {
 		}
 	}
 
-	public void getArticle() {
+	public void getArticle(Handler mHandler) {
 		try {
 			service.helpType();
-			IntentUtil.intent(currentActivity, HelpActivity.class);
+			mHandler.obtainMessage(0).sendToTarget();
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
 		}catch (Exception e) {

@@ -9,6 +9,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ereader.client.EReaderApplication;
 import com.ereader.client.R;
 import com.ereader.client.entities.Page;
 import com.ereader.client.entities.PageRq;
@@ -17,16 +18,33 @@ import com.ereader.client.entities.json.ArticleList;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.BaseActivity;
 import com.ereader.client.ui.adapter.HelpAdapter;
+import com.ereader.client.ui.login.LoginActivity;
 import com.ereader.common.util.IntentUtil;
 import com.ereader.common.util.ProgressDialogUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HelpActivity extends BaseActivity implements OnClickListener {
 	private AppController controller;
 	private RelativeLayout rl_help_info;
 	private ListView lv_help;
+	private List<ArticleList> dataList = new ArrayList<ArticleList>();
+	private HelpAdapter adapter;
 
+	private Handler mHandler = new Handler(){
+		public void handleMessage(android.os.Message msg) {
+			switch (msg.what) {
+				case 0:
+					dataList.clear();
+					dataList.addAll((List<ArticleList>)controller.getContext().getBusinessData("ArticleResp"));
+					adapter.notifyDataSetChanged();
+					break;
+				default:
+					break;
+			}
+		};
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +53,15 @@ public class HelpActivity extends BaseActivity implements OnClickListener {
 		controller = AppController.getController(this);
 		findView();
 		initView();
+
+		ProgressDialogUtil.showProgressDialog(this, "", false);
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				controller.getArticle(mHandler);
+				ProgressDialogUtil.closeProgressDialog();
+			}
+		}).start();
 	}
 
 	/**
@@ -48,8 +75,7 @@ public class HelpActivity extends BaseActivity implements OnClickListener {
 		rl_help_info = (RelativeLayout) findViewById(R.id.rl_help_info);
 		lv_help = (ListView)findViewById(R.id.lv_help);
 
-		final List<ArticleList> dataList  = (List<ArticleList>)controller.getContext().getBusinessData("ArticleResp");
-		HelpAdapter adapter = new HelpAdapter(this,dataList);
+		adapter = new HelpAdapter(this,dataList);
 		lv_help.setAdapter(adapter);
 		lv_help.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
