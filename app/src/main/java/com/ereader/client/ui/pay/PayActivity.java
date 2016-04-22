@@ -173,6 +173,8 @@ public class PayActivity extends BaseActivity implements OnClickListener {
 
     // 处理分数
     private void point(String s){
+
+
         WalletData wallet = (WalletData) controller.getContext().getBusinessData("WalletResp");
         if(TextUtils.isEmpty(s)){
             pointPay = "0.00";
@@ -183,6 +185,13 @@ public class PayActivity extends BaseActivity implements OnClickListener {
                 pointPay = StringUtil.div(wallet.getPoint(), wallet.getP2e_exchange_rate(), 2);
             } else {
                 pointPay = StringUtil.div(s.toString(), wallet.getP2e_exchange_rate(), 2);
+
+                if(Double.valueOf(StringUtil.subtractionMoney(order.getPay_total(),pointPay)) < 0){
+                    ToastUtil.showToast(PayActivity.this, "所填积分已经超过购买书本价格！", ToastUtil.LENGTH_LONG);
+                    pointPay = order.getPay_total();
+                   String point = StringUtil.mul(order.getPay_total(),"100");
+                    et_pay_point.setText(point.split(".")[0]);
+                }
             }
         }
         tv_pay_point_sum.setText("-¥" + pointPay);
