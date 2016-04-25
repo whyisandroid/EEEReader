@@ -49,7 +49,7 @@ public class MySPActivity extends BaseActivity implements OnClickListener,
 						boolean flag = true;
 
 						for (int j = 0; j < mList.size(); j++) {
-							if(sp.getData().getData().get(i).getComment_id().equals(mList.get(j).getComment_id())) {
+							if(sp.getData().getData().get(i).getProduct_id().equals(mList.get(j).getProduct_id())) {
 								flag = false;
 							}
 						}

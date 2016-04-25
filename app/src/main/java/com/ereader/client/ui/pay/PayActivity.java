@@ -189,8 +189,8 @@ public class PayActivity extends BaseActivity implements OnClickListener {
                 if(Double.valueOf(StringUtil.subtractionMoney(order.getPay_total(),pointPay)) < 0){
                     ToastUtil.showToast(PayActivity.this, "所填积分已经超过购买书本价格！", ToastUtil.LENGTH_LONG);
                     pointPay = order.getPay_total();
-                   String point = StringUtil.mul(order.getPay_total(),"100");
-                    et_pay_point.setText(point.split(".")[0]);
+                   //String point = StringUtil.mul(order.getPay_total(),"100");
+                    et_pay_point.setText("0");
                 }
             }
         }
