@@ -244,7 +244,7 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            controller.getOrderId(mHandler, orderData);
+                            controller.getOrderId(mHandler, orderData,"0");
                             ProgressDialogUtil.closeProgressDialog();
                         }
                     }).start();

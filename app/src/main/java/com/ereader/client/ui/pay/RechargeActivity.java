@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
@@ -44,6 +46,9 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 	public static final int FAILE = 4;
 
 	private  Alipay pay;
+
+	/** 输入框小数的位数*/
+	private static final int DECIMAL_DIGITS = 2;
 
 	private Handler mHander = new Handler(){
 		@Override
@@ -152,7 +157,7 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 		bt_recharge.setOnClickListener(this);
 
 
-
+		mRechMoney.setFilters(new InputFilter[]{lengthfilter});
 		mRechMoney.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -166,9 +171,21 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 
 			@Override
 			public void afterTextChanged(Editable s) {
+				if(s.toString().startsWith("00")){
+					mRechMoney.setText("0");
+					return;
+				}
+
+				if(s.toString().startsWith(".")){
+					mRechMoney.setText("");
+					return;
+				}
+
+
 				recharge_tv_money.setText("￥" + s);
 			}
 		});
+
 
 		mRechCard.addTextChangedListener(new TextWatcher() {
 			@Override
@@ -189,6 +206,31 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 			}
 		});
 	}
+
+
+	/**
+	 *  设置小数位数控制
+	 */
+	InputFilter lengthfilter = new InputFilter() {
+		public CharSequence filter(CharSequence source, int start, int end,
+								   Spanned dest, int dstart, int dend) {
+			// 删除等特殊字符，直接返回
+			if ("".equals(source.toString())) {
+				return null;
+			}
+			String dValue = dest.toString();
+			String[] splitArray = dValue.split("//.");
+			if (splitArray.length > 1) {
+				String dotValue = splitArray[1];
+				int diff = dotValue.length() + 1 - DECIMAL_DIGITS;
+				if (diff > 0) {
+					return source.subSequence(start, end - diff);
+				}
+			}
+			return null;
+		}
+	};
+
 
 	private void getRechCard(final String card){
 		new Thread(new Runnable() {
@@ -212,6 +254,14 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 					if(TextUtils.isEmpty(money)){
 						ToastUtil.showToast(RechargeActivity.this, "充值金额不能为空", ToastUtil.LENGTH_LONG);
 						return;
+					}
+
+					String[] moneyArr = money.split("\\.");
+					if(moneyArr.length > 1){
+						if(moneyArr[1].length()>2){
+							ToastUtil.showToast(RechargeActivity.this, "充值金额不能多余两位小数", ToastUtil.LENGTH_LONG);
+							return;
+						}
 					}
 					// 检测 支付环境
 					pay.check(Alipay.SDK_CHECK_FLAG);

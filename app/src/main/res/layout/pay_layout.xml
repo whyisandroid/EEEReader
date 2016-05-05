@@ -52,6 +52,8 @@
             android:layout_centerVertical="true"
             android:layout_marginTop="10dp"
             android:text="积分"
+            android:enabled="false"
+            android:visibility="gone"
             android:textColor="@color/new_color_2"
             android:textSize="@dimen/new_size_3" />
 
@@ -59,21 +61,9 @@
             android:id="@+id/rl_pay_point"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:visibility="visible"
+            android:layout_marginTop="10dp"
             android:layout_gravity="bottom" >
-
-            <EditText
-                android:id="@+id/et_pay_point"
-                style="@style/EText_basic"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:numeric="integer"
-                android:textColor="@color/new_color_2"
-                android:textSize="@dimen/new_size_3" >
-
-                <requestFocus />
-            </EditText>
 
             <TextView
                 android:id="@+id/tv_pay_point"
@@ -81,7 +71,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/et_pay_point"
                 android:layout_alignBottom="@+id/et_pay_point"
-                android:layout_centerHorizontal="true"
                 android:text="TextView"
                 android:textColor="@color/new_color_2"
                 android:textSize="@dimen/new_size_3" />

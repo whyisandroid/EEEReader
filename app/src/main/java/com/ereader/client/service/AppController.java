@@ -678,9 +678,9 @@ public class AppController {
 		}
 	}
 
-	public void getOrderId(Handler mHandler, String orderData) {
+	public void getOrderId(Handler mHandler, String orderData,String point) {
 		try {
-			service.createOrder(orderData);
+			service.createOrder(orderData,point);
 			mHandler.obtainMessage(BuyCarActivity.ORDER_SUCCESS).sendToTarget();
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
@@ -732,9 +732,9 @@ public class AppController {
 		}
 	}
 
-	public void pay(Handler mHandler,String orderId,String money,String point,String frinedName) {
+	public void pay(Handler mHandler,String orderId, String need, String point, String frinedName) {
 		try {
-			service.pay(orderId, money, point, frinedName);
+			service.pay(orderId,need, point,frinedName);
 			mHandler.obtainMessage(PayActivity.SUCCESS).sendToTarget();
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();

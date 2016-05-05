@@ -150,7 +150,7 @@ public class Alipay {
             return;
         }*/
         // 订单
-        String orderInfo = getOrderInfo("测试的商品", "该测试商品的详细描述", "0.01");
+        String orderInfo = getOrderInfo("充值", "商品的详细描述");
 
         // 对订单做RSA 签名
         String sign = sign(orderInfo);
@@ -224,7 +224,7 @@ public class Alipay {
     /**
      * create the order info. 创建订单信息
      */
-    public String getOrderInfo(String subject, String body, String price) {
+    public String getOrderInfo(String subject, String body) {
 
         // 签约合作者身份ID
         String orderInfo = "partner=" + "\"" + PARTNER + "\"";

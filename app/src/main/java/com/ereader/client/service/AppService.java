@@ -95,14 +95,14 @@ public interface AppService {
 	public void addComment(float rating, String orderId, String id, String title, String comment) throws BusinessException;
 
 	/***创建支付订单*/
-	public void createOrder(String value) throws BusinessException;
+	public void createOrder(String value,String point) throws BusinessException;
 	/***创建充值订单*/
 	public void getRechargeOrder(String money) throws BusinessException;
 
 	/***2.4.2.	设置订单支付方式*/
 	public void payType() throws BusinessException;
 	/***使用电子币支付*/
-	public void pay(String orderId, String money, String point, String frinedName) throws BusinessException;
+	public void pay(String orderId, String need, String point, String frinedName) throws BusinessException;
 	
 	//other
 	/**帮助中心***/

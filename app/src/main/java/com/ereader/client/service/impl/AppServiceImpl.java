@@ -1,6 +1,8 @@
 package com.ereader.client.service.impl;
 
 
+import android.text.TextUtils;
+
 import com.ereader.client.EReaderApplication;
 import com.ereader.client.entities.DisCategory;
 import com.ereader.client.entities.Login;
@@ -747,12 +749,16 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void createOrder(String orderMessage) throws BusinessException {
+	public void createOrder(String orderMessage,String point) throws BusinessException {
 			String token = EReaderApplication.getInstance().getLogin().getToken();
 			Request<OrderResp> request = new Request<OrderResp>();
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 			nameValuePairs.add(new BasicNameValuePair("_token_", token));
 			nameValuePairs.add(new BasicNameValuePair("jsondata", orderMessage));
+			if(TextUtils.isEmpty(point)){
+				point = "0";
+			}
+			nameValuePairs.add(new BasicNameValuePair("pay_point", point));
 			request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 			request.setUrl(Config.HTTP_PAY_OREDER);
 			request.setR_calzz(OrderResp.class);
@@ -788,13 +794,13 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void pay(String orderId,String money,String point,String frinedName) throws BusinessException {
+	public void pay(String orderId,String need, String point, String frinedName) throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		Request<BaseResp> request = new Request<BaseResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("_token_", token));
 		nameValuePairs.add(new BasicNameValuePair("out_trade_no", orderId));
-		nameValuePairs.add(new BasicNameValuePair("total_fee", money));
+		nameValuePairs.add(new BasicNameValuePair("total_fee", need));
 		nameValuePairs.add(new BasicNameValuePair("total_point", point));
 		nameValuePairs.add(new BasicNameValuePair("to_user_id", frinedName));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
