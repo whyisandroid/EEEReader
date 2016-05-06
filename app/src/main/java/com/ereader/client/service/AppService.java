@@ -32,7 +32,7 @@ public interface AppService {
 	/**特价专区类书**/
 	public void discountBook(DisCategory mDisCate,PageRq mPageRq)throws BusinessException;
 	/**获取收藏夹**/
-	public void getCollection()throws BusinessException;
+	public void getCollection(PageRq mPageRq)throws BusinessException;
 	/**删除收藏夹**/
 	public void deleteCollection(String id)throws BusinessException;
 	/**2.2.1.	商品分类**/

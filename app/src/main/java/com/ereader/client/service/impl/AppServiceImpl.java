@@ -295,17 +295,19 @@ public class AppServiceImpl implements AppService {
 	}
 
 	@Override
-	public void getCollection() throws BusinessException {
+	public void getCollection(PageRq mPageRq) throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		Request<BookResp> request = new Request<BookResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("_token_", token));
+		nameValuePairs.add(new BasicNameValuePair("page", mPageRq.getPage()+""));
+		nameValuePairs.add(new BasicNameValuePair("per_page", mPageRq.getPer_page()+""));
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
 		request.setUrl(Config.HTTP_BOOK_COLLECTION);
 		request.setR_calzz(BookResp.class);
 		BookResp resp = EReaderApplication.getAppSocket().shortConnect(request);
 		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
-			context.addBusinessData("CollectionResp", resp.getData().getData());
+			context.addBusinessData("CollectionResp", resp.getData());
 		} else {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}

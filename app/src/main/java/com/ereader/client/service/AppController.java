@@ -25,6 +25,7 @@ import com.ereader.client.ui.login.RegisterActivity;
 import com.ereader.client.ui.more.HelpActivity;
 import com.ereader.client.ui.more.Notice2Activity;
 import com.ereader.client.ui.more.NoticeDetailActivity;
+import com.ereader.client.ui.my.CollectionActivity;
 import com.ereader.client.ui.my.CouponsFragment;
 import com.ereader.client.ui.my.MessageFragment;
 import com.ereader.client.ui.my.MessageFriendApplyFragment;
@@ -314,14 +315,13 @@ public class AppController {
 		}
 	}
 
-	public void getCollection(Handler mHandler) {
+	public void getCollection(Handler mHandler,PageRq mPageRq) {
 		try {
-			service.getCollection();
-			mHandler.obtainMessage(0).sendToTarget();
+			service.getCollection(mPageRq);
+			mHandler.obtainMessage(CollectionActivity.REFRESH_DOWN_OK).sendToTarget();
 		} catch (BusinessException e) {
+			mHandler.obtainMessage(CollectionActivity.REFRESH_ERROR).sendToTarget();
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
-		}catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 
