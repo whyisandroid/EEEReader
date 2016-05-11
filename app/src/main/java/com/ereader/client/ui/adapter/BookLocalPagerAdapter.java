@@ -2,7 +2,6 @@ package com.ereader.client.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -10,13 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.ereader.client.EReaderApplication;
 import com.ereader.client.R;
 import com.ereader.client.entities.Book;
-import com.ereader.client.ui.bookstore.BookDetailActivity;
 import com.ereader.common.constant.Constant;
-import com.ereader.common.util.IntentUtil;
+import com.ereader.common.util.ToastUtil;
 import com.ereader.reader.activity.ReaderActivity;
 import com.ereader.reader.model.StoreBook;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
@@ -113,9 +112,10 @@ public class BookLocalPagerAdapter extends PagerAdapter {
 				@Override
 				public void onClick(View v) {
 					if (null != bookLeft) {
-						Bundle bundle = new Bundle();
-						bundle.putSerializable("detailBook", bookLeft);
-						IntentUtil.intent(context, bundle, BookDetailActivity.class, false);
+//						Bundle bundle = new Bundle();
+//						bundle.putSerializable("detailBook", bookLeft);
+//						IntentUtil.intent(context, bundle, BookDetailActivity.class, false);
+						ToastUtil.showToast(context,"推荐试读～", Toast.LENGTH_SHORT);
 					}
 
 				}
@@ -130,9 +130,10 @@ public class BookLocalPagerAdapter extends PagerAdapter {
 				public void onClick(View v) {
 
 					if(null!=bookRight){
-						Bundle bundle = new Bundle();
-						bundle.putSerializable("detailBook", bookRight);
-						IntentUtil.intent(context, bundle, BookDetailActivity.class, false);
+//						Bundle bundle = new Bundle();
+//						bundle.putSerializable("detailBook", bookRight);
+//						IntentUtil.intent(context, bundle, BookDetailActivity.class, false);
+						ToastUtil.showToast(context,"推荐试读～", Toast.LENGTH_SHORT);
 					}
 				}
 			});
