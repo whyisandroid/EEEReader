@@ -147,5 +147,9 @@ public interface AppService {
 	public String getDownUrl();
 	/**书架推荐阅读***/
 	public void shelfRecommend(PageRq pageRq)throws BusinessException;
+	/**获取收藏状态***/
+	public void getCollectionState(String product_id)throws BusinessException;
+	/**获取书本详细信息***/
+	public void getBookDetail(String product_id)throws BusinessException;
 
 }

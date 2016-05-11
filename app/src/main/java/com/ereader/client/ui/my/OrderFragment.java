@@ -1,8 +1,5 @@
 package com.ereader.client.ui.my;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -13,21 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.ereader.client.R;
-import com.ereader.client.entities.Order;
 import com.ereader.client.entities.OrderList;
 import com.ereader.client.entities.Page;
 import com.ereader.client.entities.PageRq;
-import com.ereader.client.entities.json.BookResp;
 import com.ereader.client.entities.json.OrderData;
 import com.ereader.client.service.AppController;
-import com.ereader.client.ui.adapter.BookAdapter;
 import com.ereader.client.ui.adapter.OrderAdapter;
 import com.ereader.client.ui.bookstore.BookDetailActivity;
 import com.ereader.client.ui.pay.PayActivity;
@@ -35,9 +27,10 @@ import com.ereader.client.ui.view.PullToRefreshView;
 import com.ereader.client.ui.view.PullToRefreshView.OnFooterRefreshListener;
 import com.ereader.client.ui.view.PullToRefreshView.OnHeaderRefreshListener;
 import com.ereader.common.util.IntentUtil;
-import com.ereader.common.util.ProgressDialogUtil;
 import com.ereader.common.util.ToastUtil;
-import com.glview.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressLint("ValidFragment")
 public class OrderFragment extends Fragment implements OnClickListener,
@@ -152,7 +145,7 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
-			IntentUtil.intent(mContext, BookDetailActivity.class);
+
 		}
 	};
 

@@ -20,8 +20,11 @@ import com.ereader.client.EReaderApplication;
 import com.ereader.client.R;
 import com.ereader.client.entities.OrderBook;
 import com.ereader.client.entities.OrderList;
+import com.ereader.client.service.AppController;
 import com.ereader.client.ui.my.SPActivity;
 import com.ereader.common.util.LogUtil;
+import com.ereader.common.util.ProgressDialogUtil;
+import com.ereader.common.util.ToastUtil;
 
 public class OrderItemAdapter extends BaseAdapter {
 	private LayoutInflater inflater;
@@ -120,6 +123,20 @@ public class OrderItemAdapter extends BaseAdapter {
 				bundle.putString("orderId", mOrderList.getOrder_id());
 				intent.putExtras(bundle);
 				((Activity)mContext).startActivityForResult(intent, -1);
+			}
+		});
+
+		convertView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				ProgressDialogUtil.showProgressDialog(mContext, "", false);
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						AppController.getController().getBookDetail(orderBook.getProduct_id());
+						ProgressDialogUtil.closeProgressDialog();
+					}
+				}).start();
 			}
 		});
 		

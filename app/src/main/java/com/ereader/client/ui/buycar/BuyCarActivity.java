@@ -75,8 +75,7 @@ public class BuyCarActivity extends BaseActivity implements OnClickListener {
 					break;
 			case 0:
 				mList.clear();
-				mList.addAll((List<Book>) controller.getContext()
-						.getBusinessData("BuyCarResp"));
+				mList.addAll((List<Book>) controller.getContext().getBusinessData("BuyCarResp"));
 				adapter.notifyDataSetChanged();
 				// 更改金额 和结算数量
 				checkMoney();
@@ -114,6 +113,9 @@ public class BuyCarActivity extends BaseActivity implements OnClickListener {
 				adapter.notifyDataSetChanged();
 				break;
 				case ORDER_SUCCESS:
+					// 清理购物车 数量
+					EReaderApplication.getInstance().saveBuyCar(null);
+					// 跳转到支付页面
 					IntentUtil.intent(BuyCarActivity.this, PayActivity.class);
 					break;
 				case  11: //获取 point 成功

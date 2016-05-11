@@ -21,8 +21,10 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/iv_book"
-            android:text="永远不要找别人要安全感"
+            android:text="永远不要找别人要安全感永远不要找别人要安全感永远不要找别人要安全感永远不要找别人要安全感永远不要找别人要安全感"
             android:textColor="@color/new_color_2"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:textSize="@dimen/new_size_4" />
 
         <TextView

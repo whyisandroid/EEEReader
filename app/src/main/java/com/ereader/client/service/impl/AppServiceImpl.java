@@ -11,6 +11,7 @@ import com.ereader.client.entities.json.AddBuyResp;
 import com.ereader.client.entities.json.ArticleDetailResp;
 import com.ereader.client.entities.json.ArticleResp;
 import com.ereader.client.entities.json.BaseResp;
+import com.ereader.client.entities.json.BookDetailResp;
 import com.ereader.client.entities.json.BookOnlyResp;
 import com.ereader.client.entities.json.BookResp;
 import com.ereader.client.entities.json.BookSearchResp;
@@ -19,6 +20,7 @@ import com.ereader.client.entities.json.CardInfoResp;
 import com.ereader.client.entities.json.CategoryResp;
 import com.ereader.client.entities.json.CommentResp;
 import com.ereader.client.entities.json.DisCategoryResp;
+import com.ereader.client.entities.json.FavouriteResp;
 import com.ereader.client.entities.json.FriendsResp;
 import com.ereader.client.entities.json.GiftResp;
 import com.ereader.client.entities.json.LoginResp;
@@ -1151,6 +1153,44 @@ public class AppServiceImpl implements AppService {
 		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
 			//
 			context.addBusinessData("shelf.RecommendBookResp", resp);
+		} else {
+			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+		}
+	}
+
+	@Override
+	public void getCollectionState(String product_id) throws BusinessException {
+		String token = EReaderApplication.getInstance().getLogin().getToken();
+		Request<FavouriteResp> request = new Request<FavouriteResp>();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("_token_", token));
+		nameValuePairs.add(new BasicNameValuePair("product_id", product_id));
+		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+		request.setUrl(Config.HTTP_MY_BOOK_COLLECTION_STATE);
+		request.setR_calzz(FavouriteResp.class);
+		FavouriteResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+			context.addBusinessData("FavouriteResp", resp.getData());
+		} else {
+			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+		}
+	}
+
+
+
+	@Override
+	public void getBookDetail(String product_id) throws BusinessException {
+		String token = EReaderApplication.getInstance().getLogin().getToken();
+		Request<BookDetailResp> request = new Request<BookDetailResp>();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("_token_", token));
+		nameValuePairs.add(new BasicNameValuePair("product_id", product_id));
+		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+		request.setUrl(Config.HTTP_MY_BOOK_DETAIL);
+		request.setR_calzz(BookDetailResp.class);
+		BookDetailResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+			context.addBusinessData("BookDetailResp", resp.getData());
 		} else {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}

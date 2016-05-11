@@ -22,6 +22,8 @@
             android:layout_toRightOf="@+id/iv_recommend"
             android:text="永远不要找别人要安全感"
             android:textColor="@color/new_color_2"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:textSize="@dimen/new_size_4" />
 
         <TextView

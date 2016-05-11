@@ -120,5 +120,8 @@ public class Config {
 
     //书架推荐
     public final static String HTTP_MY_SHELF_BOOKS_RECOMMEND = MY_SERVICE + "/api/product/recommend"; // 刷架推荐图书
+    //收藏状态
+    public final static String HTTP_MY_BOOK_COLLECTION_STATE= MY_SERVICE + "/api/product/isUserFavourite";  //收藏状态
+    public final static String HTTP_MY_BOOK_DETAIL= MY_SERVICE + "/api/product/item";  // 书本 商品详情
 
 }
