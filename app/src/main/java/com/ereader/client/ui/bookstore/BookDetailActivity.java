@@ -1,9 +1,5 @@
 package com.ereader.client.ui.bookstore;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
@@ -38,6 +34,9 @@ import com.ereader.common.util.Json_U;
 import com.ereader.common.util.ProgressDialogUtil;
 import com.ereader.common.util.RegExpUtil;
 import com.ereader.common.util.ToastUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BookDetailActivity extends BaseFragmentActivity implements OnClickListener {
 	private TabsView st_book_detail;
@@ -228,7 +227,7 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 				ShareParams shareParams=new ShareParams();
 				shareParams.setTitle(mBook.getInfo().getName());
 				shareParams.setContent(mBook.getInfo().getDescription());
-				shareParams.setShareUrl("www.baidu.com");
+				shareParams.setShareUrl("http://www.rreadeg.com/index.php?s=/Home/Book/share/id/"+mBook.getPrice()+".html");
 				shareParams.setImageUrl(mBook.getImage_url());
 				ShareActivity.share(BookDetailActivity.this,shareParams);
 				break;
