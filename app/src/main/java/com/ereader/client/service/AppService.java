@@ -32,7 +32,7 @@ public interface AppService {
 	/**特价专区类书**/
 	public void discountBook(DisCategory mDisCate,PageRq mPageRq)throws BusinessException;
 	/**获取收藏夹**/
-	public void getCollection()throws BusinessException;
+	public void getCollection(PageRq mPageRq)throws BusinessException;
 	/**删除收藏夹**/
 	public void deleteCollection(String id)throws BusinessException;
 	/**2.2.1.	商品分类**/
@@ -95,14 +95,14 @@ public interface AppService {
 	public void addComment(float rating, String orderId, String id, String title, String comment) throws BusinessException;
 
 	/***创建支付订单*/
-	public void createOrder(String value) throws BusinessException;
+	public void createOrder(String value,String point) throws BusinessException;
 	/***创建充值订单*/
 	public void getRechargeOrder(String money) throws BusinessException;
 
 	/***2.4.2.	设置订单支付方式*/
 	public void payType() throws BusinessException;
 	/***使用电子币支付*/
-	public void pay(String orderId, String money, String point, String frinedName) throws BusinessException;
+	public void pay(String orderId, String need, String point, String frinedName) throws BusinessException;
 	
 	//other
 	/**帮助中心***/

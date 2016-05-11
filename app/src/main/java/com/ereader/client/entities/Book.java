@@ -45,9 +45,17 @@ public class Book implements Serializable {
 	private BookExtra extra;
 	private BookInfo info;
 	private String image_url;
-	
+	private String is_favourite;
+
 	private boolean select; // 购物车用
 
+	public void setIs_favourite(String is_favourite) {
+		this.is_favourite = is_favourite;
+	}
+
+	public String getIs_favourite() {
+		return is_favourite;
+	}
 
 	public Integer getComment_score() {
 		return comment_score;

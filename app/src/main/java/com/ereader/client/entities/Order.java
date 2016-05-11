@@ -10,9 +10,27 @@ public class Order {
     private String user_id;
     private String pay_total;
     private String pay_need;
+    private String pay_point;
+    private String pay_point_money;
     private String updated_at;
     private String created_at;
     private String order_id;
+
+    public void setPay_point_money(String pay_point_money) {
+        this.pay_point_money = pay_point_money;
+    }
+
+    public String getPay_point_money() {
+        return pay_point_money;
+    }
+
+    public void setPay_point(String pay_point) {
+        this.pay_point = pay_point;
+    }
+
+    public String getPay_point() {
+        return pay_point;
+    }
 
     public String getUser_id() {
         return user_id;

@@ -59,7 +59,7 @@
                 android:layout_toRightOf="@+id/rb_pay_bao"
                 android:ems="10"
                 android:layout_centerVertical="true"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:hint="请输入充值金额"
                 android:textSize="@dimen/new_size_3">
 

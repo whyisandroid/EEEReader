@@ -25,6 +25,7 @@ import com.ereader.client.ui.login.RegisterActivity;
 import com.ereader.client.ui.more.HelpActivity;
 import com.ereader.client.ui.more.Notice2Activity;
 import com.ereader.client.ui.more.NoticeDetailActivity;
+import com.ereader.client.ui.my.CollectionActivity;
 import com.ereader.client.ui.my.CouponsFragment;
 import com.ereader.client.ui.my.MessageFragment;
 import com.ereader.client.ui.my.MessageFriendApplyFragment;
@@ -314,14 +315,13 @@ public class AppController {
 		}
 	}
 
-	public void getCollection(Handler mHandler) {
+	public void getCollection(Handler mHandler,PageRq mPageRq) {
 		try {
-			service.getCollection();
-			mHandler.obtainMessage(0).sendToTarget();
+			service.getCollection(mPageRq);
+			mHandler.obtainMessage(CollectionActivity.REFRESH_DOWN_OK).sendToTarget();
 		} catch (BusinessException e) {
+			mHandler.obtainMessage(CollectionActivity.REFRESH_ERROR).sendToTarget();
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
-		}catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -678,9 +678,9 @@ public class AppController {
 		}
 	}
 
-	public void getOrderId(Handler mHandler, String orderData) {
+	public void getOrderId(Handler mHandler, String orderData,String point) {
 		try {
-			service.createOrder(orderData);
+			service.createOrder(orderData,point);
 			mHandler.obtainMessage(BuyCarActivity.ORDER_SUCCESS).sendToTarget();
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
@@ -732,9 +732,9 @@ public class AppController {
 		}
 	}
 
-	public void pay(Handler mHandler,String orderId,String money,String point,String frinedName) {
+	public void pay(Handler mHandler,String orderId, String need, String point, String frinedName) {
 		try {
-			service.pay(orderId, money, point, frinedName);
+			service.pay(orderId,need, point,frinedName);
 			mHandler.obtainMessage(PayActivity.SUCCESS).sendToTarget();
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();

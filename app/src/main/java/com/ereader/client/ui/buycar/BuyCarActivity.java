@@ -5,15 +5,18 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.ereader.client.EReaderApplication;
@@ -22,6 +25,7 @@ import com.ereader.client.entities.Book;
 import com.ereader.client.entities.PayCar;
 import com.ereader.client.entities.PayCarList;
 import com.ereader.client.entities.json.BookOnlyResp;
+import com.ereader.client.entities.json.WalletData;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.BaseActivity;
 import com.ereader.client.ui.adapter.BuyCarAdapter;
@@ -33,7 +37,6 @@ import com.ereader.common.util.Json_U;
 import com.ereader.common.util.ProgressDialogUtil;
 import com.ereader.common.util.StringUtil;
 import com.ereader.common.util.ToastUtil;
-import com.google.gson.Gson;
 
 // 购物车
 public class BuyCarActivity extends BaseActivity implements OnClickListener {
@@ -47,6 +50,14 @@ public class BuyCarActivity extends BaseActivity implements OnClickListener {
 	private int buyNum = 0;
 	private String money = "0";
 	private TextView tv_buycar_delete;
+
+	private EditText et_pay_point;
+	private CheckBox ck_pay_point;
+	private TextView tv_pay_point_sum;
+	private LinearLayout ll_pay_point;
+
+	private String pointPay;
+
 
 	public static final int  ORDER_SUCCESS = 4 ;
 
@@ -103,17 +114,11 @@ public class BuyCarActivity extends BaseActivity implements OnClickListener {
 				adapter.notifyDataSetChanged();
 				break;
 				case ORDER_SUCCESS:
-					ProgressDialogUtil.showProgressDialog(BuyCarActivity.this, "", false);
-					new Thread(new Runnable() {
-						@Override
-						public void run() {
-							controller.wallet(mHandler);
-							ProgressDialogUtil.closeProgressDialog();
-						}
-					}).start();
-					break;
-				case  11:
 					IntentUtil.intent(BuyCarActivity.this, PayActivity.class);
+					break;
+				case  11: //获取 point 成功
+					WalletData wallet = (WalletData) controller.getContext().getBusinessData("WalletResp");
+					ck_pay_point.setText("积分("+wallet.getPoint()+"点)");
 					break;
 			default:
 				break;
@@ -128,6 +133,7 @@ public class BuyCarActivity extends BaseActivity implements OnClickListener {
 		controller = AppController.getController(this);
 		findView();
 		initView();
+		getPoint();
 	}
 
 	@Override
@@ -157,6 +163,17 @@ public class BuyCarActivity extends BaseActivity implements OnClickListener {
 		}
 	}
 
+	private void  getPoint(){
+		ProgressDialogUtil.showProgressDialog(BuyCarActivity.this, "", false);
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				controller.wallet(mHandler);
+				ProgressDialogUtil.closeProgressDialog();
+			}
+		}).start();
+	}
+
 	/**
 	 * 
 	 * 方法描述：FindView
@@ -170,6 +187,11 @@ public class BuyCarActivity extends BaseActivity implements OnClickListener {
 		tv_buy_money = (TextView) findViewById(R.id.tv_buy_money);
 		tv_buycar_delete = (TextView) findViewById(R.id.tv_buycar_delete);
 		rb_car_all = (CheckBox) findViewById(R.id.rb_car_all);
+
+		tv_pay_point_sum = (TextView) findViewById(R.id.tv_pay_point_sum);
+		ck_pay_point = (CheckBox) findViewById(R.id.ck_pay_point);
+		et_pay_point = (EditText) findViewById(R.id.et_pay_point);
+		ll_pay_point = (LinearLayout) findViewById(R.id.ll_pay_point);
 	}
 
 	/**
@@ -226,6 +248,67 @@ public class BuyCarActivity extends BaseActivity implements OnClickListener {
 			}
 		});
 		tv_buycar_delete.setOnClickListener(this);
+
+
+
+		ck_pay_point.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if (isChecked) {
+					ll_pay_point.setVisibility(View.VISIBLE);
+				} else {
+					et_pay_point.setText("");
+					ll_pay_point.setVisibility(View.INVISIBLE);
+				}
+			}
+		});
+
+
+		et_pay_point.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				if(s.toString().startsWith("0")){
+					et_pay_point.setText("");
+					return;
+				}
+				point(s.toString());
+			}
+		});
+	}
+
+
+	// 处理分数
+	private void point(String s){
+		WalletData wallet = (WalletData) controller.getContext().getBusinessData("WalletResp");
+		if(TextUtils.isEmpty(s)){
+			pointPay = "0.00";
+		}else {
+			if (Double.valueOf(StringUtil.subtractionMoney(wallet.getPoint(), s.toString())) < 0) {
+				ToastUtil.showToast(BuyCarActivity.this, "没有这么多积分", ToastUtil.LENGTH_LONG);
+				et_pay_point.setText(wallet.getPoint());
+				pointPay = StringUtil.div(wallet.getPoint(), wallet.getP2e_exchange_rate(), 2);
+			} else {
+				pointPay = StringUtil.div(s.toString(), wallet.getP2e_exchange_rate(), 2);
+
+				if(Double.valueOf(StringUtil.subtractionMoney(money,pointPay)) < 0){
+					ToastUtil.showToast(BuyCarActivity.this, "所填积分已经超过购买书本价格！", ToastUtil.LENGTH_LONG);
+					pointPay = "0";
+					//String point = StringUtil.mul(order.getPay_total(),"100");
+					et_pay_point.setText("");
+				}
+			}
+		}
+		tv_pay_point_sum.setText("-¥" + pointPay);
 	}
 
 
@@ -253,7 +336,7 @@ public class BuyCarActivity extends BaseActivity implements OnClickListener {
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
-						controller.getOrderId(mHandler, orderData);
+						controller.getOrderId(mHandler, orderData,et_pay_point.getText().toString());
 						ProgressDialogUtil.closeProgressDialog();
 					}
 				}).start();

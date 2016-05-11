@@ -33,9 +33,7 @@ public class PayActivity extends BaseActivity implements OnClickListener {
     private AppController controller;
     private TextView tv_pay_money;
     private TextView tv_pay_all_money;// 实际付款
-    private CheckBox ck_pay_point;
     private CheckBox ck_pay_friend;
-    private EditText et_pay_point;
     private EditText et_pay_friend;
     private TextView tv_pay_point;
     private TextView tv_pay_point_sum;
@@ -85,9 +83,7 @@ public class PayActivity extends BaseActivity implements OnClickListener {
     private void findView() {
         tv_pay_money = (TextView) findViewById(R.id.tv_pay_money);
         tv_pay_all_money = (TextView) findViewById(R.id.tv_pay_all_money);
-        ck_pay_point = (CheckBox) findViewById(R.id.ck_pay_point);
         ck_pay_friend = (CheckBox) findViewById(R.id.ck_pay_friend);
-        et_pay_point = (EditText) findViewById(R.id.et_pay_point);
         et_pay_friend = (EditText) findViewById(R.id.et_pay_friend);
         tv_pay_point = (TextView) findViewById(R.id.tv_pay_point);
         tv_pay_point_sum = (TextView) findViewById(R.id.tv_pay_point_sum);
@@ -105,17 +101,22 @@ public class PayActivity extends BaseActivity implements OnClickListener {
      * @time: 2015-2-10 下午1:37:06
      */
     private void initView() {
-        final WalletData wallet = (WalletData) controller.getContext().getBusinessData("WalletResp");
         ((TextView) findViewById(R.id.tv_main_top_title)).setText("支付");
         main_top_right.setOnClickListener(this);
         main_top_left.setOnClickListener(this);
         bt_pay_go.setOnClickListener(this);
         main_top_right.setText("充值");
         order = (Order) controller.getContext().getBusinessData("OrderResp");
-        money = order.getPay_total();
+        money = order.getPay_need();
         tv_pay_all_money.setText("¥ " + money);
-        tv_pay_point.setText("(可用" + wallet.getPoint() + "点)");
-        tv_pay_point_sum.setText("-¥ 0.00");
+        if(Double.valueOf(order.getPay_point()) == 0){
+            rl_pay_point.setVisibility(View.GONE);
+        }else{
+            rl_pay_point.setVisibility(View.VISIBLE);
+            tv_pay_point.setText("使用" + order.getPay_point() + "点积分");
+            tv_pay_point_sum.setText("-¥ "+ order.getPay_point_money());
+        }
+
 
         ck_pay_friend.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -139,63 +140,6 @@ public class PayActivity extends BaseActivity implements OnClickListener {
                  startActivityForResult(intent, 0);
              }
         });
-
-        ck_pay_point.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    point(et_pay_point.getText().toString());
-                    rl_pay_point.setVisibility(View.VISIBLE);
-                } else {
-                    tv_pay_all_money.setText("¥ " + money);
-                    rl_pay_point.setVisibility(View.GONE);
-                }
-            }
-        });
-
-        et_pay_point.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                point(s.toString());
-            }
-        });
-    }
-
-    // 处理分数
-    private void point(String s){
-
-
-        WalletData wallet = (WalletData) controller.getContext().getBusinessData("WalletResp");
-        if(TextUtils.isEmpty(s)){
-            pointPay = "0.00";
-        }else {
-            if (Double.valueOf(StringUtil.subtractionMoney(wallet.getPoint(), s.toString())) < 0) {
-                ToastUtil.showToast(PayActivity.this, "没有这么多积分", ToastUtil.LENGTH_LONG);
-                et_pay_point.setText(wallet.getPoint());
-                pointPay = StringUtil.div(wallet.getPoint(), wallet.getP2e_exchange_rate(), 2);
-            } else {
-                pointPay = StringUtil.div(s.toString(), wallet.getP2e_exchange_rate(), 2);
-
-                if(Double.valueOf(StringUtil.subtractionMoney(order.getPay_total(),pointPay)) < 0){
-                    ToastUtil.showToast(PayActivity.this, "所填积分已经超过购买书本价格！", ToastUtil.LENGTH_LONG);
-                    pointPay = order.getPay_total();
-                   String point = StringUtil.mul(order.getPay_total(),"100");
-                    et_pay_point.setText(point.split(".")[0]);
-                }
-            }
-        }
-        tv_pay_point_sum.setText("-¥" + pointPay);
-        tv_pay_all_money.setText("¥ " + StringUtil.subtractionMoney(order.getPay_total(), pointPay));
     }
 
     @Override
@@ -212,10 +156,6 @@ public class PayActivity extends BaseActivity implements OnClickListener {
             et_pay_friend.setTag(data.getExtras().getString("friendId"));
         }
     }
-
-    String point = "0";
-    String payMoney = "0";
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -226,18 +166,7 @@ public class PayActivity extends BaseActivity implements OnClickListener {
                 IntentUtil.intent(PayActivity.this, RechargeActivity.class);
                 break;
             case R.id.bt_pay_go:
-                if (ck_pay_point.isChecked()&&!TextUtils.isEmpty(et_pay_point.getText().toString())) {
-                    point = et_pay_point.getText().toString();
-                } else {
-                    point = "0";
-                }
-                WalletData wallet = (WalletData) controller.getContext().getBusinessData("WalletResp");
-                String pointPay = StringUtil.div(point, wallet.getP2e_exchange_rate(), 2);
-                if(Double.valueOf(pointPay) >= Double.valueOf(order.getPay_total())){
-                    payMoney = "0";
-                }else{
-                    payMoney = StringUtil.subtractionMoney(order.getPay_total(),pointPay);
-                }
+
                 if(ck_pay_friend.isChecked()){
                     payFriendID = TextUtils.isEmpty(et_pay_friend.getText().toString())?"":et_pay_friend.getTag().toString();
                 }else {
@@ -248,7 +177,7 @@ public class PayActivity extends BaseActivity implements OnClickListener {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        controller.pay(mHandler, order.getOrder_id(), payMoney, point, payFriendID);
+                        controller.pay(mHandler, order.getOrder_id(),order.getPay_need(), order.getPay_point(),payFriendID);
                         ProgressDialogUtil.closeProgressDialog();
                     }
                 }).start();

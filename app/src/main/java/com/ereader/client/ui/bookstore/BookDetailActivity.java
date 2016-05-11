@@ -158,6 +158,12 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 		((TextView) findViewById(R.id.tv_main_top_title)).setText("书城");
 		BookOnlyResp resp  = (BookOnlyResp)EReaderApplication.getInstance().getBuyCar();
 		main_top_right.setText("购物车");
+
+		if("1".equals(mBook.getIs_favourite())){
+			tv_book_collection.setText("已收藏");
+		}else{
+			tv_book_collection.setText("收藏");
+		}
 		
 		if(resp != null){
 			buyNum = resp.getData().size();
@@ -243,7 +249,7 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            controller.getOrderId(mHandler, orderData);
+                            controller.getOrderId(mHandler, orderData,"0");
                             ProgressDialogUtil.closeProgressDialog();
                         }
                     }).start();

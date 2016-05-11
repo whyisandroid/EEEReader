@@ -3,40 +3,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/window_bg"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
-    <include layout="@layout/main_top_layout"
+    <include
         android:id="@+id/title"
-         />
+        layout="@layout/main_top_layout" />
 
     <RelativeLayout
         android:id="@+id/rl_select"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" 
-        android:paddingLeft="@dimen/dimen_xnormal"
-        android:layout_below="@+id/title">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:paddingLeft="@dimen/dimen_xnormal">
 
         <CheckBox
             android:id="@+id/rb_car_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-             android:textColor="@color/new_color_2"
-             android:layout_centerVertical="true"
-            android:textSize="@dimen/new_size_3"
-            android:text="全选" />
+            android:layout_centerVertical="true"
+            android:text="全选"
+            android:textColor="@color/new_color_2"
+            android:textSize="@dimen/new_size_3" />
 
         <TextView
             android:id="@+id/tv_buycar_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/rb_car_all"
-            android:text="删除"
             android:layout_marginLeft="10dp"
-            android:textColor="@color/main_bar"
-            android:textSize="@dimen/new_size_3"
+            android:layout_toRightOf="@+id/rb_car_all"
             android:padding="10dp"
-             />
+            android:text="删除"
+            android:textColor="@color/main_bar"
+            android:textSize="@dimen/new_size_3" />
 
     </RelativeLayout>
 
@@ -44,11 +43,10 @@
         android:id="@+id/lv_buy_car"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@color/window_bg"
-        android:layout_below="@+id/rl_select"
         android:layout_above="@+id/ll_buy_car_total"
-        android:dividerHeight="5dp" >
-    </ListView>
+        android:layout_below="@+id/rl_select"
+        android:divider="@color/window_bg"
+        android:dividerHeight="5dp"></ListView>
 
     <LinearLayout
         android:id="@+id/ll_buy_car_total"
@@ -56,40 +54,127 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
-        android:orientation="horizontal" 
-        android:weightSum="3"
-        >
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="总计金额：" 
-            android:paddingLeft="15dp"
-            android:textColor="@color/new_color_2"
-            android:textSize="@dimen/new_size_3"
-            />
+            android:background="@color/white"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tv_buy_money"
-            android:layout_width="0dp"
+            <CheckBox
+                android:id="@+id/ck_pay_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="积分(--)"
+                android:textColor="@color/new_color_2"
+                android:textSize="@dimen/new_size_3" />
+
+            <LinearLayout
+                android:id="@+id/ll_pay_point"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="3dp"
+                    android:text="使用"
+                    android:textColor="@color/new_color_2"
+                    android:textSize="@dimen/new_size_3" />
+
+                <EditText
+                    android:id="@+id/et_pay_point"
+                    style="@style/EText_basic"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:inputType="number"
+                    android:singleLine="true"
+                    android:textColor="@color/new_color_2"
+                    android:textSize="@dimen/new_size_3">
+                    <requestFocus />
+                </EditText>
+
+                <TextView
+                    android:id="@+id/tv_pay_point"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="3dp"
+                    android:text="积分"
+                    android:textColor="@color/new_color_2"
+                    android:textSize="@dimen/new_size_3" />
+
+                <TextView
+                    android:id="@+id/tv_pay_point_sum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="-$0.00"
+                    android:textColor="@color/main_bar"
+                    android:textSize="@dimen/new_size_3" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/main_bar"
-            android:textSize="@dimen/new_size_3"
-            android:text="$125.00" />
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:weightSum="3">
 
-        <Button
-            android:id="@+id/bt_buy_go"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/main_bar"
-            android:textColor="@color/white"
-            android:textSize="@dimen/new_size_3"
-            android:text="结算" />
+            <RelativeLayout
+                android:id="@+id/rl_pay_point"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="2">
 
+                <LinearLayout
+                    android:id="@+id/ll_buy_car_money"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:id="@+id/textView1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingLeft="15dp"
+                        android:text="总计金额："
+                        android:textColor="@color/new_color_2"
+                        android:textSize="@dimen/new_size_3" />
+
+                    <TextView
+                        android:id="@+id/tv_buy_money"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="$125.00"
+                        android:textColor="@color/main_bar"
+                        android:textSize="@dimen/new_size_3" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/bt_buy_go"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/main_bar"
+                android:text="结算"
+                android:textColor="@color/white"
+                android:textSize="@dimen/new_size_3" />
+        </LinearLayout>
     </LinearLayout>
-
 </RelativeLayout>
