@@ -14,6 +14,7 @@ import com.ereader.client.entities.PageRq;
 import com.ereader.client.service.impl.AppServiceImpl;
 import com.ereader.client.ui.bookshelf.SearchBuyActivity;
 import com.ereader.client.ui.bookstore.BookActivity;
+import com.ereader.client.ui.bookstore.BookDetailActivity;
 import com.ereader.client.ui.bookstore.BookTitleActivity;
 import com.ereader.client.ui.buycar.AddCarSuccessActivity;
 import com.ereader.client.ui.buycar.BuyCarActivity;
@@ -804,5 +805,34 @@ public class AppController {
 		}catch (Exception e) {
 			appHandler.obtainMessage(HANDLER_TOAST,"网络异常！").sendToTarget();
 		}
+	}
+
+	public void getCollectionState(Handler mHandler, String product_id) {
+		try {
+			service.getCollectionState(product_id);
+			mHandler.obtainMessage(BookDetailActivity.COLLECTION_OK).sendToTarget();
+			mHandler.obtainMessage(BookshelfFragment.RECOMMEND_BOOK).sendToTarget();
+		} catch (BusinessException e) {
+		}catch (Exception e) {
+		}
+	}
+
+	public void getBookDetail(String product_id) {
+		try {
+			service.getBookDetail(product_id);
+			Book mBook = (Book)getContext().getBusinessData("BookDetailResp");
+			if("0".equals(mBook.getOnsale_status())){
+				appHandler.obtainMessage(HANDLER_TOAST,"该书已下架").sendToTarget();
+			}else{
+				Bundle bundle = new Bundle();
+				bundle.putSerializable("detailBook",mBook);
+				IntentUtil.intent(currentActivity,bundle,BookDetailActivity.class,false);
+			}
+
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}catch (Exception e) {
+		}
+
 	}
 }

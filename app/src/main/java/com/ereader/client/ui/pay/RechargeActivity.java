@@ -60,7 +60,7 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 					String sumMoney = StringUtil.addMoney(wallet.getEcoin().toString(),mRechMoney.getText().toString());
 					wallet.setEcoin(sumMoney);
 					controller.getContext().addBusinessData("WalletResp", wallet);
-					mEcoin.setText("当前余额：￥" + sumMoney);
+					mEcoin.setText("￥" + sumMoney);
 					break;
 				case ORDER_SUCCESS:
 					RechargeOrder order = (RechargeOrder)controller.getContext().getBusinessData("OrderRechargeResp");
@@ -88,7 +88,7 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 					String sumMoney1 = StringUtil.addMoney(wallet1.getEcoin().toString(),cardInfo1.total);
 					wallet1.setEcoin(sumMoney1);
 					controller.getContext().addBusinessData("WalletResp", wallet1);
-					mEcoin.setText("当前余额：￥" + sumMoney1);
+					mEcoin.setText("￥" + sumMoney1);
 					break;
 				default:
 					break;
@@ -133,7 +133,7 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 		main_top_right.setText("账单");
 		main_top_right.setOnClickListener(this);
 		WalletData wallet = (WalletData)controller.getContext().getBusinessData("WalletResp");
-		mEcoin.setText("当前余额：￥" + wallet.getEcoin());
+		mEcoin.setText("￥" + wallet.getEcoin());
 		mPaybao.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -107,6 +108,20 @@ public class RecommendActivity extends BaseActivity implements OnClickListener ,
 		pull_refresh_book.setOnFooterRefreshListener(this);
 		adapter = new RecommendAdapter(this, mList);
 		lv_my_recommend.setAdapter(adapter);
+
+		lv_my_recommend.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+				ProgressDialogUtil.showProgressDialog(RecommendActivity.this, "", false);
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						AppController.getController().getBookDetail(mList.get(position).getProduct_id());
+						ProgressDialogUtil.closeProgressDialog();
+					}
+				}).start();
+			}
+		});
 	}
 
 

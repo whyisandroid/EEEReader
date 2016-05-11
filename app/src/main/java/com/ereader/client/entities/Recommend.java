@@ -44,10 +44,19 @@ public class Recommend {
             "created_at": "2015-10-25 23:24:09"*/
 
     private String  to_user_id;
+    private String  product_id;
     private String  product_name;
     private String  user_nickname;
     private String  created_at;
     private String image_url;
+
+    public String getProduct_id() {
+        return product_id;
+    }
+
+    public void setProduct_id(String product_id) {
+        this.product_id = product_id;
+    }
 
     public void setImage_url(String image_url) {
         this.image_url = image_url;

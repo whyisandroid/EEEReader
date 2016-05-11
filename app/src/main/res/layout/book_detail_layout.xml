@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <include layout="@layout/main_top_layout" />
 
@@ -13,15 +13,15 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp" >
+        android:layout_marginTop="15dp">
 
         <TextView
             android:id="@+id/tv_book_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="永远不要找别人要安全感"
-            android:layout_toLeftOf="@+id/tv_book_collection"
             android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/tv_book_collection"
+            android:text="永远不要找别人要安全感"
             android:textColor="@color/new_color_2"
             android:textSize="@dimen/new_size_4" />
 
@@ -39,7 +39,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="15dp" >
+        android:padding="15dp">
 
         <ImageView
             android:id="@+id/iv_book"
@@ -69,14 +69,14 @@
         <RatingBar
             android:id="@+id/rb_book_star"
             style="@style/myRatingBar"
-            android:isIndicator="true"
-            android:stepSize="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_book_publish"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
-            android:layout_toRightOf="@+id/iv_book" />
+            android:layout_toRightOf="@+id/iv_book"
+            android:isIndicator="true"
+            android:stepSize="1" />
 
         <TextView
             android:id="@+id/tv_book_price"
@@ -91,11 +91,25 @@
             android:textSize="@dimen/new_size_2" />
     </RelativeLayout>
 
+
+    <TextView
+        android:id="@+id/tv_book_detail_sale_0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="15dp"
+        android:text="已下架"
+        android:visibility="gone"
+        android:textColor="@color/new_color_3"
+        android:textSize="@dimen/new_size_5" />
+
+
     <LinearLayout
+        android:id="@+id/ll_book_detail_sale_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
-        android:weightSum="4" >
+        android:weightSum="4">
 
         <Button
             android:id="@+id/book_detail_bt_buy"
