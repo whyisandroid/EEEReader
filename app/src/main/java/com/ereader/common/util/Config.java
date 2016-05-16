@@ -123,5 +123,6 @@ public class Config {
     //收藏状态
     public final static String HTTP_MY_BOOK_COLLECTION_STATE= MY_SERVICE + "/api/product/isUserFavourite";  //收藏状态
     public final static String HTTP_MY_BOOK_DETAIL= MY_SERVICE + "/api/product/item";  // 书本 商品详情
+    public final static String HTTP_MY_BOOK_TRY_READ= MY_SERVICE + "/api/ebook/tryReadBodyJson";  // 试读
 
 }

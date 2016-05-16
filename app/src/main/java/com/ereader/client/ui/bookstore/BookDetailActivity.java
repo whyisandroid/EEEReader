@@ -49,6 +49,7 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
     private Button bt_book_add_buy;
     private Button bt_book_add_friends;
     private Button book_detail_bt_buy;
+    private Button bt_book_add_try_read;
     private List<String> mListTitle;
     private TextView tv_book_collection;
     private TextView tv_book_name;
@@ -142,6 +143,7 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
      */
     private void findView() {
         main_top_right = (Button) findViewById(R.id.main_top_right);
+        bt_book_add_try_read = (Button) findViewById(R.id.bt_book_add_try_read);
         book_detail_bt_buy = (Button) findViewById(R.id.book_detail_bt_buy);
         bt_book_add_buy = (Button) findViewById(R.id.bt_book_add_buy);
         bt_book_add_friends = (Button) findViewById(R.id.bt_book_add_friends);
@@ -191,6 +193,7 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
         tv_book_collection.setOnClickListener(this);
         bt_book_add_buy.setOnClickListener(this);
         bt_book_add_friends.setOnClickListener(this);
+        bt_book_add_try_read.setOnClickListener(this);
         mListTitle = new ArrayList<String>();
         mListTitle.add("目录");
         mListTitle.add("内容简介");
@@ -290,8 +293,8 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 				ShareParams shareParams=new ShareParams();
 				shareParams.setTitle(mBook.getInfo().getName());
 				shareParams.setContent(mBook.getInfo().getDescription());
-				shareParams.setShareUrl("http://www.rreadeg.com/index.php?s=/Home/Book/share/id/"+mBook.getPrice()+".html");
-				shareParams.setImageUrl(mBook.getImage_url());
+				shareParams.setShareUrl("http://www.rreadeg.com/index.php?s=/Home/Book/share/id/"+mBook.getExtra().getBook_id()+".html");
+				shareParams.setImageUrl(mBook.getInfo().getImage_url());
 				ShareActivity.share(BookDetailActivity.this,shareParams);
 				break;
             case R.id.book_detail_bt_buy:
@@ -351,7 +354,7 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            AppController.getController().deleteCollection(mHandler, -1, tv_book_collection.getTag().toString());
+                            controller.deleteCollection(mHandler, -1, tv_book_collection.getTag().toString());
                             ProgressDialogUtil.closeProgressDialog();
                         }
                     }).start();
@@ -366,6 +369,17 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
                 controller.getContext().addBusinessData("bookSendId", bt_book_add_friends.getTag().toString());
                 FriendsActivity.mFriendsSend = 1;
                 IntentUtil.intent(BookDetailActivity.this, FriendsActivity.class);
+                break;
+            case R.id.bt_book_add_try_read:
+                ProgressDialogUtil.showProgressDialog(this, "", false);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        controller.tryRead(mHandler,mBook);
+                        ProgressDialogUtil.closeProgressDialog();
+                    }
+                }).start();
+
                 break;
             default:
                 break;

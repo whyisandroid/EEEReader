@@ -346,7 +346,7 @@ public class ShelfSearchAdapter extends BaseAdapter {
 
         @Override
         public void onStart() {
-//            ToastUtil.showToast(mContext, "开始下载", ToastUtil.LENGTH_SHORT);
+           ToastUtil.showToast(mContext, "开始下载", ToastUtil.LENGTH_SHORT);
             refreshListItem();
         }
 
@@ -358,7 +358,7 @@ public class ShelfSearchAdapter extends BaseAdapter {
 
         @Override
         public void onSuccess(ResponseInfo<File> responseInfo) {
-            ToastUtil.showToast(mContext, "debug:下载成功", ToastUtil.LENGTH_SHORT);
+            //ToastUtil.showToast(mContext, "debug:下载成功", ToastUtil.LENGTH_SHORT);
             refreshListItem();
         }
 

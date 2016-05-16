@@ -131,7 +131,7 @@ public interface AppService {
 
 
 	/**已经购买的图书***/
-	public void shelfBuyBooks(PageRq mPageRq)throws BusinessException;
+	public void shelfBuyBooks(PageRq mPageRq,String keyword)throws BusinessException;
 
 	/**删除已经购买的图书***/
 	public void shelfDelBuyBooks()throws BusinessException;
@@ -151,5 +151,8 @@ public interface AppService {
 	public void getCollectionState(String product_id)throws BusinessException;
 	/**获取书本详细信息***/
 	public void getBookDetail(String product_id)throws BusinessException;
-
+	/**试读**/
+	public void tryRead(String try_read_id,String bookid)throws BusinessException;
+	/**查找已经买过的书**/
+	public void searhByBook(String searh)throws BusinessException;
 }

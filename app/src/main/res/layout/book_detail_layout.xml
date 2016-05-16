@@ -134,7 +134,7 @@
             android:textSize="@dimen/new_size_2" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/bt_book_add_try_read"
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_marginLeft="15dp"
