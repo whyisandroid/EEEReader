@@ -60,13 +60,11 @@
         android:padding="@dimen/dimen_middle"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
-        android:visibility="gone"
         android:textColor="@color/new_color_2"
         android:text="微信朋友圈"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:visibility="gone"
         android:background="@color/dark_grey"/>
     <TextView
         android:id="@+id/share_qq"
