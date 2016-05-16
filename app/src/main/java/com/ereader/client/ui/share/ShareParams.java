@@ -12,6 +12,8 @@ public class ShareParams implements Serializable{
     private String imageUrl;
     private String shareUrl;
 
+    private boolean isLocalImage=false;
+
     public String getTitle() {
         return title;
     }
@@ -42,6 +44,14 @@ public class ShareParams implements Serializable{
 
     public void setShareUrl(String shareUrl) {
         this.shareUrl = shareUrl;
+    }
+
+    public boolean isLocalImage() {
+        return isLocalImage;
+    }
+
+    public void setIsLocalImage(boolean isLocalImage) {
+        this.isLocalImage = isLocalImage;
     }
 
     @Override
