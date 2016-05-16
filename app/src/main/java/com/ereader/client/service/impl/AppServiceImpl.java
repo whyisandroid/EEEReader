@@ -16,6 +16,7 @@ import com.ereader.client.entities.json.BookOnlyResp;
 import com.ereader.client.entities.json.BookResp;
 import com.ereader.client.entities.json.BookSearchResp;
 import com.ereader.client.entities.json.BookShowResp;
+import com.ereader.client.entities.json.BookTryReadResp;
 import com.ereader.client.entities.json.CardInfoResp;
 import com.ereader.client.entities.json.CategoryResp;
 import com.ereader.client.entities.json.CommentResp;
@@ -1082,11 +1083,14 @@ public class AppServiceImpl implements AppService {
 	* 已经购买的图书
 	* */
 	@Override
-	public void shelfBuyBooks(PageRq mPageRq) throws BusinessException {
+	public void shelfBuyBooks(PageRq mPageRq,String earch) throws BusinessException {
 		String token = EReaderApplication.getInstance().getLogin().getToken();
 		Request<BookShowResp> request = new Request<BookShowResp>();
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 		nameValuePairs.add(new BasicNameValuePair("_token_", token));
+		if(!TextUtils.isEmpty(earch)){
+			nameValuePairs.add(new BasicNameValuePair("keyword", earch));
+		}
 		nameValuePairs.add(new BasicNameValuePair("per_page", mPageRq.getPer_page()+""));
 		nameValuePairs.add(new BasicNameValuePair("page", mPageRq.getPage()+""));//mPageRq.getPage()+""
 		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
@@ -1191,6 +1195,41 @@ public class AppServiceImpl implements AppService {
 		BookDetailResp resp = EReaderApplication.getAppSocket().shortConnect(request);
 		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
 			context.addBusinessData("BookDetailResp", resp.getData());
+		} else {
+			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+		}
+	}
+	@Override
+	public void tryRead(String product_id,String bookid) throws BusinessException {
+		String token = EReaderApplication.getInstance().getLogin().getToken();
+		Request<BookTryReadResp> request = new Request<BookTryReadResp>();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("_token_", token));
+		nameValuePairs.add(new BasicNameValuePair("page_id", product_id));
+		nameValuePairs.add(new BasicNameValuePair("book_id", bookid));
+		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+		request.setUrl(Config.HTTP_MY_BOOK_TRY_READ);
+		request.setR_calzz(BookTryReadResp.class);
+		BookTryReadResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+			context.addBusinessData("BookTryReadResp", resp.getData());
+		} else {
+			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
+		}
+	}
+	@Override
+	public void searhByBook(String search) throws BusinessException {
+		String token = EReaderApplication.getInstance().getLogin().getToken();
+		Request<BookTryReadResp> request = new Request<BookTryReadResp>();
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+		nameValuePairs.add(new BasicNameValuePair("_token_", token));
+		nameValuePairs.add(new BasicNameValuePair("page_id", search));
+		request.addParameter(Request.AJAXPARAMS, nameValuePairs);
+		request.setUrl(Config.HTTP_MY_BOOK_TRY_READ);
+		request.setR_calzz(BookTryReadResp.class);
+		BookTryReadResp resp = EReaderApplication.getAppSocket().shortConnect(request);
+		if (BaseResp.SUCCESS.equals(resp.getStatus())) {
+			context.addBusinessData("BookTryReadResp", resp.getData());
 		} else {
 			throw new BusinessException(new ErrorMessage(resp.getStatus(), resp.getMessage()));
 		}

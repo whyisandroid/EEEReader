@@ -36,6 +36,8 @@ import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
 import com.lidroid.xutils.http.HttpHandler;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,11 +45,12 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
         ,PullToRefreshView.OnHeaderRefreshListener, PullToRefreshView.OnFooterRefreshListener {
     private AppController controller;
     private GridView gridv_book_search;
-    private EditText main_top_title;
     private ShelfSearchAdapter adapter;
     private DownloadManager downloadManager;
 
     private ImageView iv_book_up;
+    private ImageView iv_book_search; // 查找
+    private EditText et_book_search;//  查找书名
     private PullToRefreshView pull_refresh_book;
     private Page page;
 
@@ -105,18 +108,20 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
 
     }
     private void findView() {
-        main_top_title = (EditText) findViewById(R.id.et_book_search);
+        et_book_search = (EditText) findViewById(R.id.et_book_search);
         gridv_book_search = (GridView) findViewById(R.id.gridv_book_search);
 
         pull_refresh_book = (PullToRefreshView) findViewById(R.id.pull_refresh_book);
         iv_book_up = (ImageView) findViewById(R.id.iv_book_up);
+        iv_book_search = (ImageView) findViewById(R.id.iv_book_search);
     }
 
     private void initView() {
 
-        main_top_title.setHint("请输入你要搜索的关键词");
+        et_book_search.setHint("请输入你要搜索的关键词");
         iv_book_up.setOnClickListener(this);
         gridv_book_search.setOnItemClickListener(this);
+        iv_book_search.setOnClickListener(this);
 //        gridv_book_search.setOnItemLongClickListener(this);
         //
         gridv_book_search.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -141,6 +146,10 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
 
     private void setupData() {
         BookShowInfo booksGet = (BookShowInfo) controller.getContext().getBusinessData("BookShowResp");
+        page = booksGet.getPage();
+        if(page.getCurrent_page() == 1){
+            datas.clear();
+        }
         List<BookShow> list = null;
 //        List<BookShowWithDownloadInfo> datas = null;
         //获取下载数据库里的内容
@@ -179,7 +188,7 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
                 }
             }
         }
-        page = booksGet.getPage();
+
         LogUtil.LogError("page=",page.toString());
         if (null == datas) {
             datas = new ArrayList<BookShowWithDownloadInfo>();
@@ -199,12 +208,12 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
     }
 
 
-    private void getshelfBuyBooks(final PageRq mPageRq) {
+    private void getshelfBuyBooks(final PageRq mPageRq,final String search) {
         ProgressDialogUtil.showProgressDialog(SearchBuyActivity.this, "获取中...", false);
         new Thread(new Runnable() {
             @Override
             public void run() {
-                controller.shelfBuyBooks(mHandler,mPageRq);
+                controller.shelfBuyBooks(mHandler,mPageRq,search);
                 ProgressDialogUtil.closeProgressDialog();
             }
         }).start();
@@ -301,6 +310,16 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
             case R.id.iv_book_up:
                 gridv_book_search.setSelection(0);
                 break;
+            case R.id.iv_book_search:
+                final String searh = et_book_search.getText().toString();
+                if(TextUtils.isEmpty(searh)){
+                    ToastUtil.showLongToast(SearchBuyActivity.this,"要查找的内容为空");
+                    return;
+                }
+                PageRq mPageRq = new PageRq();
+                getshelfBuyBooks(mPageRq,searh);
+
+                break;
             default:
                 break;
         }
@@ -316,14 +335,14 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
             return;
         }
         mPageRq.setPage(page.getCurrent_page() + 1);
-        getshelfBuyBooks(mPageRq);
+        getshelfBuyBooks(mPageRq,et_book_search.getText().toString());
     }
 
     @Override
     public void onHeaderRefresh(PullToRefreshView view) {
         LogUtil.LogError("onHeaderRefresh","下拉刷新");
         PageRq mPageRq = new PageRq();
-        getshelfBuyBooks(mPageRq);
+        getshelfBuyBooks(mPageRq,et_book_search.getText().toString());
     }
 
 
