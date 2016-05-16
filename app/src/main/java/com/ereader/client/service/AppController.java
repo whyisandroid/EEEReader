@@ -689,10 +689,10 @@ public class AppController {
 		}
 	}
 
-	public void shelfBuyBooks(Handler mHandler, PageRq mPageRq){
+	public void shelfBuyBooks(Handler mHandler, PageRq mPageRq,String earch){
 
 		try {
-			service.shelfBuyBooks(mPageRq);
+			service.shelfBuyBooks(mPageRq,earch);
 			mHandler.obtainMessage(SearchBuyActivity._OK).sendToTarget();
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
@@ -834,5 +834,30 @@ public class AppController {
 		}catch (Exception e) {
 		}
 
+	}
+
+	public void tryRead(Handler mHandler, Book book) {
+		try {
+			String bookId = book.getExtra().getBook_id();
+			String try_read_id = "";
+			if(book.getExtra().getTry_read_pages() != null && book.getExtra().getTry_read_pages().size() != 0){
+				try_read_id = book.getExtra().getTry_read_pages().get(0);
+			}else{
+				appHandler.obtainMessage(HANDLER_TOAST,"没有试读章节").sendToTarget();
+				return;
+			}
+			service.tryRead(try_read_id,bookId);
+			//IntentUtil.intent(currentActivity,BookDetailActivity.class);
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}
+	}
+
+	public void searhByBook(Handler mHandler, String searh) {
+		try {
+			service.searhByBook(searh);
+		} catch (BusinessException e) {
+			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();
+		}
 	}
 }

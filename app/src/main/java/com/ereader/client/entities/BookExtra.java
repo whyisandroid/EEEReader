@@ -1,6 +1,7 @@
 package com.ereader.client.entities;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class BookExtra implements Serializable {
 	/**
@@ -25,6 +26,29 @@ public class BookExtra implements Serializable {
 	private String pubdate;
 	private String summary;
 	private String wordcount;
+	private String book_id;
+	private List<String> try_read_pages;
+
+	public static long getSerialVersionUID() {
+		return serialVersionUID;
+	}
+
+	public String getBook_id() {
+		return book_id;
+	}
+
+	public void setBook_id(String book_id) {
+		this.book_id = book_id;
+	}
+
+	public List<String> getTry_read_pages() {
+		return try_read_pages;
+	}
+
+	public void setTry_read_pages(List<String> try_read_pages) {
+		this.try_read_pages = try_read_pages;
+	}
+
 	/**
 	 * @return the author
 	 */
