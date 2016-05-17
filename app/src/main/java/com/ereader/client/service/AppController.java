@@ -841,7 +841,7 @@ public class AppController {
 			String bookId = book.getExtra().getBook_id();
 			String try_read_id = "";
 			if(book.getExtra().getTry_read_pages() != null && book.getExtra().getTry_read_pages().size() != 0){
-				try_read_id = book.getExtra().getTry_read_pages().get(0);
+				try_read_id = book.getExtra().getTry_read_pages().get(2);
 			}else{
 				appHandler.obtainMessage(HANDLER_TOAST,"没有试读章节").sendToTarget();
 				return;

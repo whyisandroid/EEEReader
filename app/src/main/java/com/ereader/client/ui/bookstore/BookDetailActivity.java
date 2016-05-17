@@ -371,6 +371,10 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
                 IntentUtil.intent(BookDetailActivity.this, FriendsActivity.class);
                 break;
             case R.id.bt_book_add_try_read:
+                if (!EReaderApplication.getInstance().isLogin()) {
+                    IntentUtil.intent(BookDetailActivity.this, LoginActivity.class);
+                    return;
+                }
                 ProgressDialogUtil.showProgressDialog(this, "", false);
                 new Thread(new Runnable() {
                     @Override
