@@ -236,8 +236,9 @@ public class ReaderActivity extends BaseActivity implements OnClickListener{
 		}else if( v ==read_share ){
 			String title = storeBook.name;
 			String textToShare = "快来阅读《"+title+"》,来自"+ getResources().getString(R.string.app_name);
+			Log.e("share.product_id",storeBook.toString()+"");
 			ShareActivity.share(ReaderActivity.this,title,textToShare,
-					"http://www.rreadeg.com/index.php?s=/Home/Book/share/id/"+storeBook.book_id+".html",storeBook.cover,true);
+					"http://www.rreadeg.com/index.php?s=/Home/Book/share/id/"+storeBook.product_id+".html",storeBook.cover,true);
 		}
 	}
 }

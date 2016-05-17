@@ -13,7 +13,8 @@ import java.io.Serializable;
 public class BookShow implements Serializable {
     @Id(column = "book_id")
     public String book_id;
-
+    @Column(column = "product_id")
+    public String product_id;
     @Column(column = "name")
     public String name;
     @Column(column = "author")
@@ -104,14 +105,25 @@ public class BookShow implements Serializable {
         this.isDownloading = isDownloading;
     }
 
+    public String getProduct_id() {
+        return product_id;
+    }
+
+    public void setProduct_id(String product_id) {
+        this.product_id = product_id;
+    }
+
     @Override
     public String toString() {
         return "BookShow{" +
-                "author='" + author + '\'' +
-                ", book_id='" + book_id + '\'' +
+                "book_id='" + book_id + '\'' +
+                ", product_id='" + product_id + '\'' +
                 ", name='" + name + '\'' +
+                ", author='" + author + '\'' +
                 ", version='" + version + '\'' +
                 ", cover_front_url='" + cover_front_url + '\'' +
+                ", isDownloading=" + isDownloading +
+                ", isDownloaded=" + isDownloaded +
                 '}';
     }
 }

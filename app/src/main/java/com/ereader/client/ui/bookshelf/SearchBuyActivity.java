@@ -367,6 +367,7 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
         bookSample.file=downfile;
         bookSample.cover=book.getCover_front_url();
         bookSample.presetFile=Constant.BOOKS+"book.epub";
+        bookSample.product_id=book.getProduct_id();
         LogUtil.LogError("presetFile",bookSample.presetFile);
         intent.putExtra("storeBook", bookSample);
         startActivity(intent);

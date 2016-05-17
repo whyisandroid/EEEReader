@@ -26,6 +26,8 @@ public class StoreBook implements Serializable {
 	public double readPosition;
 	
 	public long fileSign;
+
+	public String product_id;
 	@Transient
 	public boolean delete=false;
 
@@ -65,7 +67,7 @@ public class StoreBook implements Serializable {
 	
 	@Override
 	public String toString() {
-		return String.format("book(name=%s; file=%s, type=%s)", name, file, type);
+		return String.format("book(name=%s; file=%s, type=%s, product_id=%s)", name, file, type ,product_id);
 	}
 
 }
