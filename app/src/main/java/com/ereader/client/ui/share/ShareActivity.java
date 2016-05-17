@@ -63,6 +63,23 @@ public class ShareActivity extends Activity implements View.OnClickListener{
         IntentUtil.intent(c, b, ShareActivity.class, false);
 
     }
+    //分享
+    /**
+     * @param isLocalFlag 图片链接是否为本地？：true是；false否
+     * */
+    public static void share(Context c,String title,String content,String shareUrl,String imageUrl,Boolean isLocalFlag){
+
+        ShareParams shareParams=new ShareParams();
+        shareParams.setTitle(title);
+        shareParams.setContent(content);
+        shareParams.setShareUrl(shareUrl);
+        shareParams.setImageUrl(imageUrl);
+        shareParams.setIsLocalImage(isLocalFlag);
+        Bundle b=new Bundle();
+        b.putSerializable(SHARE_KEY,shareParams);
+        IntentUtil.intent(c, b, ShareActivity.class, false);
+
+    }
 
     private void getExtentIntentData() {
 
@@ -73,7 +90,17 @@ public class ShareActivity extends Activity implements View.OnClickListener{
             LogUtil.LogError("shareParam","null:无数据");
         }
         if(null!=shareParam&& !TextUtils.isEmpty(shareParam.getImageUrl())){
-            image = new UMImage(ShareActivity.this, shareParam.getImageUrl());
+            if(shareParam.isLocalImage()){
+                Bitmap bitmap = BitmapFactory.decodeFile(shareParam.getImageUrl());
+                if(null==bitmap){
+                    bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+                }
+                image = new UMImage(ShareActivity.this, bitmap);
+//                image = new UMImage(ShareActivity.this, shareParam.getImageUrl());
+            }else{
+                image = new UMImage(ShareActivity.this, shareParam.getImageUrl());
+            }
+
         }else{
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
             image = new UMImage(ShareActivity.this, bitmap);
