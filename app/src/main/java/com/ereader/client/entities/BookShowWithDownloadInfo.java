@@ -17,6 +17,7 @@ public class BookShowWithDownloadInfo extends BookShow{
         setCover_front_url(book.getCover_front_url());
         setName(book.getName());
         setVersion(book.getVersion());
+        setProduct_id(book.getProduct_id());
         setIsDownloading(book.isDownloading());
         setIsDownloaded(book.isDownloaded());
     }

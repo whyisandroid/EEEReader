@@ -198,8 +198,6 @@ public class BookshelfFragment extends Fragment {
             pointView.setPosition(0);
             pointlayout.postInvalidate();
         }
-
-
     }
     @Override
     public void onResume() {

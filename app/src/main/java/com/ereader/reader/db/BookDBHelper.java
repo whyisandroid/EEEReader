@@ -52,6 +52,7 @@ public class BookDBHelper extends SQLiteOpenHelper {
 	private final static String TABLE_BOOK_BOOK_COVER = "book_cover";
 	private final static String TABLE_BOOK_READ_POSITION = "read_position";
 	private final static String TABLE_BOOK_FILE_SIGN = "file_sign";
+	private final static String TABLE_BOOK_PRODUCT_ID = "product_id";
 	private final static String TABLE_BOOK_ADD_TIME = "add_time";
 	private final static String TABLE_BOOK_READ_TIME = "read_time";
 	
@@ -90,8 +91,9 @@ public class BookDBHelper extends SQLiteOpenHelper {
 					TABLE_BOOK_BOOK_TYPE + " TEXT NOT NULL," + 
 					TABLE_BOOK_BOOK_COVER + " TEXT," +
 					TABLE_BOOK_READ_POSITION + " DOUBLE NOT NULL," + 
-					TABLE_BOOK_FILE_SIGN + " INTEGER NOT NULL," + 
-					TABLE_BOOK_ADD_TIME + " INTEGER NOT NULL," + 
+					TABLE_BOOK_FILE_SIGN + " INTEGER NOT NULL," +
+					TABLE_BOOK_PRODUCT_ID+" INTEGER NOT NULL," +
+					TABLE_BOOK_ADD_TIME + " INTEGER NOT NULL," +
 					TABLE_BOOK_READ_TIME + " INTEGER NOT NULL" + ")");
 		
 		db.execSQL(
@@ -117,6 +119,7 @@ public class BookDBHelper extends SQLiteOpenHelper {
 			values.put(TABLE_BOOK_BOOK_COVER, storeBook.cover);
 			values.put(TABLE_BOOK_READ_POSITION, storeBook.readPosition);
 			values.put(TABLE_BOOK_FILE_SIGN, storeBook.fileSign);
+			values.put(TABLE_BOOK_PRODUCT_ID, storeBook.product_id);
 			long time = System.currentTimeMillis();
 			values.put(TABLE_BOOK_ADD_TIME, time);
 			values.put(TABLE_BOOK_READ_TIME, time);
@@ -131,7 +134,7 @@ public class BookDBHelper extends SQLiteOpenHelper {
 	public StoreBook queryBook(String file) {
 		Log.d(TAG, "query the book form database");
 		Log.d(TAG, "query the book file:" + file);
-		String[] col = new String[] {TABLE_BOOK_BOOK_ID, TABLE_BOOK_BOOK_FILE, TABLE_BOOK_BOOK_PRESET_FILE, TABLE_BOOK_BOOK_TITLE, TABLE_BOOK_BOOK_TYPE, TABLE_BOOK_BOOK_COVER, TABLE_BOOK_READ_POSITION, TABLE_BOOK_FILE_SIGN};
+		String[] col = new String[] {TABLE_BOOK_BOOK_ID, TABLE_BOOK_BOOK_FILE, TABLE_BOOK_BOOK_PRESET_FILE, TABLE_BOOK_BOOK_TITLE, TABLE_BOOK_BOOK_TYPE, TABLE_BOOK_BOOK_COVER, TABLE_BOOK_READ_POSITION, TABLE_BOOK_FILE_SIGN,TABLE_BOOK_PRODUCT_ID};
 		Cursor cur = getDatabase().query(TABLE_BOOK_TABLE, col, TABLE_BOOK_BOOK_FILE + "=?", new String[]{file}, null, null, null);
 		if (cur.moveToFirst()) {
 			StoreBook storeBook = new StoreBook();
@@ -143,6 +146,7 @@ public class BookDBHelper extends SQLiteOpenHelper {
 			storeBook.cover = cur.getString(5);
 			storeBook.readPosition = cur.getDouble(6);
 			storeBook.fileSign = cur.getLong(7);
+			storeBook.product_id=cur.getString(8);
 			cur.close();
 			return storeBook;
 		}
@@ -151,7 +155,7 @@ public class BookDBHelper extends SQLiteOpenHelper {
 	public StoreBook queryBookById(int book_id) {
 		Log.d(TAG, "query the book form database");
 		Log.d(TAG, "query the book file:" + book_id);
-		String[] col = new String[] {TABLE_BOOK_BOOK_ID, TABLE_BOOK_BOOK_FILE, TABLE_BOOK_BOOK_PRESET_FILE, TABLE_BOOK_BOOK_TITLE, TABLE_BOOK_BOOK_TYPE, TABLE_BOOK_BOOK_COVER, TABLE_BOOK_READ_POSITION, TABLE_BOOK_FILE_SIGN};
+		String[] col = new String[] {TABLE_BOOK_BOOK_ID, TABLE_BOOK_BOOK_FILE, TABLE_BOOK_BOOK_PRESET_FILE, TABLE_BOOK_BOOK_TITLE, TABLE_BOOK_BOOK_TYPE, TABLE_BOOK_BOOK_COVER, TABLE_BOOK_READ_POSITION, TABLE_BOOK_FILE_SIGN,TABLE_BOOK_PRODUCT_ID};
 		Cursor cur = getDatabase().query(TABLE_BOOK_TABLE, col, TABLE_BOOK_BOOK_ID + "=?", new String[]{book_id+""}, null, null, null);
 		if (cur.moveToFirst()) {
 			StoreBook storeBook = new StoreBook();
@@ -163,6 +167,7 @@ public class BookDBHelper extends SQLiteOpenHelper {
 			storeBook.cover = cur.getString(5);
 			storeBook.readPosition = cur.getDouble(6);
 			storeBook.fileSign = cur.getLong(7);
+			storeBook.product_id=cur.getString(8);
 			cur.close();
 			return storeBook;
 		}
@@ -177,6 +182,7 @@ public class BookDBHelper extends SQLiteOpenHelper {
 		values.put(TABLE_BOOK_BOOK_COVER, storeBook.cover);
 		values.put(TABLE_BOOK_READ_POSITION, storeBook.readPosition);
 		values.put(TABLE_BOOK_FILE_SIGN, storeBook.fileSign);
+		values.put(TABLE_BOOK_PRODUCT_ID, storeBook.product_id);
 		return getDatabase().update(TABLE_BOOK_TABLE, values, TABLE_BOOK_BOOK_ID + "=?", new String[]{String.valueOf(storeBook.book_id)});
 	}
 	
@@ -189,7 +195,7 @@ public class BookDBHelper extends SQLiteOpenHelper {
 	public List<StoreBook> queryAllBooks() {
 		List<StoreBook> list = new ArrayList<StoreBook>();
 		Log.d(TAG, "query all books form database");
-		String[] col = new String[] {TABLE_BOOK_BOOK_ID, TABLE_BOOK_BOOK_FILE, TABLE_BOOK_BOOK_PRESET_FILE, TABLE_BOOK_BOOK_TITLE, TABLE_BOOK_BOOK_TYPE, TABLE_BOOK_BOOK_COVER, TABLE_BOOK_READ_POSITION, TABLE_BOOK_FILE_SIGN};
+		String[] col = new String[] {TABLE_BOOK_BOOK_ID, TABLE_BOOK_BOOK_FILE, TABLE_BOOK_BOOK_PRESET_FILE, TABLE_BOOK_BOOK_TITLE, TABLE_BOOK_BOOK_TYPE, TABLE_BOOK_BOOK_COVER, TABLE_BOOK_READ_POSITION, TABLE_BOOK_FILE_SIGN,TABLE_BOOK_PRODUCT_ID};
 		Cursor cur = getDatabase().query(TABLE_BOOK_TABLE, col, null, null, null, null, TABLE_BOOK_READ_TIME + " desc");
 		while (cur.moveToNext()) {
 			StoreBook storeBook = new StoreBook();
@@ -201,6 +207,7 @@ public class BookDBHelper extends SQLiteOpenHelper {
 			storeBook.cover = cur.getString(5);
 			storeBook.readPosition = cur.getDouble(6);
 			storeBook.fileSign = cur.getLong(7);
+			storeBook.product_id=cur.getString(8);
 			list.add(storeBook);
 		}
 		cur.close();
@@ -210,7 +217,7 @@ public class BookDBHelper extends SQLiteOpenHelper {
 	public List<StoreBook> queryAllPresetBooks() {
 		List<StoreBook> list = new ArrayList<StoreBook>();
 		Log.d(TAG, "query all preset books form database");
-		String[] col = new String[] {TABLE_BOOK_BOOK_ID, TABLE_BOOK_BOOK_FILE, TABLE_BOOK_BOOK_PRESET_FILE, TABLE_BOOK_BOOK_TITLE, TABLE_BOOK_BOOK_TYPE, TABLE_BOOK_BOOK_COVER, TABLE_BOOK_READ_POSITION, TABLE_BOOK_FILE_SIGN};
+		String[] col = new String[] {TABLE_BOOK_BOOK_ID, TABLE_BOOK_BOOK_FILE, TABLE_BOOK_BOOK_PRESET_FILE, TABLE_BOOK_BOOK_TITLE, TABLE_BOOK_BOOK_TYPE, TABLE_BOOK_BOOK_COVER, TABLE_BOOK_READ_POSITION, TABLE_BOOK_FILE_SIGN,TABLE_BOOK_PRODUCT_ID};
 		Cursor cur = getDatabase().query(TABLE_BOOK_TABLE, col, TABLE_BOOK_BOOK_PRESET_FILE + " is not null", null, null, null, TABLE_BOOK_READ_TIME + " desc");
 		while (cur.moveToNext()) {
 			StoreBook storeBook = new StoreBook();
@@ -222,6 +229,7 @@ public class BookDBHelper extends SQLiteOpenHelper {
 			storeBook.cover = cur.getString(5);
 			storeBook.readPosition = cur.getDouble(6);
 			storeBook.fileSign = cur.getLong(7);
+			storeBook.product_id=cur.getString(8);
 			list.add(storeBook);
 		}
 		cur.close();
