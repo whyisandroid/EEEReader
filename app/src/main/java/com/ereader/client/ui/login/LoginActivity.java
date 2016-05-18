@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.ereader.client.R;
@@ -23,6 +24,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     private TextView tv_login_findpwd;
     private EditText et_login_username;
     private EditText et_login_password;
+    private ImageButton main_top_left;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
         et_login_username = (EditText) findViewById(R.id.et_login_username);
         et_login_password = (EditText) findViewById(R.id.et_login_password);
+        main_top_left = (ImageButton) findViewById(R.id.main_top_left);
 
     }
 
@@ -62,7 +65,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         bt_login.setOnClickListener(this);
         tv_login_findpwd.setOnClickListener(this);
         tv_login_register.setOnClickListener(this);
-
+        main_top_left.setOnClickListener(this);
         et_login_username.setText("18307210059");
         et_login_password.setText("123456");
 
@@ -73,6 +76,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     public void onClick(View v) {
 
         switch (v.getId()) {
+            case R.id.main_top_left:
+                this.finish();
+                IntentUtil.popFromLeft(this);
+                break;
             case R.id.bt_login:
                 if (invaild()) {
                     login();

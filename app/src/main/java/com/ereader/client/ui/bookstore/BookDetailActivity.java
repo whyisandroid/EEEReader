@@ -19,7 +19,6 @@ import com.ereader.client.entities.Favourite;
 import com.ereader.client.entities.PayCar;
 import com.ereader.client.entities.PayCarList;
 import com.ereader.client.entities.json.BookOnlyResp;
-import com.ereader.client.entities.json.FavouriteResp;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.BaseFragmentActivity;
 import com.ereader.client.ui.adapter.BookDetailFragsAdapter;
@@ -293,7 +292,7 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
 				ShareParams shareParams=new ShareParams();
 				shareParams.setTitle(mBook.getInfo().getName());
 				shareParams.setContent(mBook.getInfo().getDescription());
-				shareParams.setShareUrl("http://www.rreadeg.com/index.php?s=/Home/Book/share/id/"+mBook.getExtra().getBook_id()+".html");
+				shareParams.setShareUrl("http://www.rreadeg.com/index.php?s=/Home/Book/share/id/"+mBook.getProduct_id()+".html");
 				shareParams.setImageUrl(mBook.getInfo().getImage_url());
 				ShareActivity.share(BookDetailActivity.this,shareParams);
 				break;

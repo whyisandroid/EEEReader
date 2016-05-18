@@ -204,6 +204,7 @@ public class BuyCarActivity extends BaseActivity implements OnClickListener {
 	 * @time: 2015-2-10 下午1:37:06
 	 */
 	private void initView() {
+		rb_car_all.setTag("true");
 		((TextView) findViewById(R.id.tv_main_top_title)).setText("购物车");
 		bt_buy_go.setOnClickListener(this);
 		BookOnlyResp resp = (BookOnlyResp) EReaderApplication.getInstance()
@@ -238,12 +239,16 @@ public class BuyCarActivity extends BaseActivity implements OnClickListener {
 						mList.get(i).setSelect(true);
 					}
 				} else {
-					money = "0";
-					buyNum = 0;
-					for (int i = 0; i < mList.size(); i++) {
-						mList.get(i).setSelect(false);
+					String clickItem = rb_car_all.getTag().toString();
+					if("true".equals(clickItem)){
+						money = "0";
+						buyNum = 0;
+						for (int i = 0; i < mList.size(); i++) {
+							mList.get(i).setSelect(false);
+						}
 					}
 				}
+				rb_car_all.setTag("true");
 				checkMoney();
 				saveData();
 				adapter.notifyDataSetChanged();
@@ -402,6 +407,9 @@ public class BuyCarActivity extends BaseActivity implements OnClickListener {
 			if (mList.get(i).isSelect()) {
 				buyNum++;
 				money = StringUtil.addMoney(money, mList.get(i).getPrice());
+			}else{
+				rb_car_all.setTag("false");
+				rb_car_all.setChecked(false);
 			}
 		}
 		tv_buy_money.setText("¥ " + money);

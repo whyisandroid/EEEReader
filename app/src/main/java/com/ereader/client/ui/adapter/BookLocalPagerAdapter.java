@@ -157,4 +157,17 @@ public class BookLocalPagerAdapter extends PagerAdapter {
 		intent.putExtra("storeBook", book);
 		context.startActivity(intent);
 	}
+
+	private void openBookId(int position){
+		//TODO 只是demo
+		Intent intent = new Intent(context, ReaderActivity.class);
+		StoreBook book=new StoreBook();
+		book.book_id=position+10000;
+		book.name="test"+position;
+		book.type="epub";
+		book.file=Constant.BOOKS+"book.epub";
+		book.presetFile=Constant.BOOKS+"book.epub";
+		intent.putExtra("storeBook", book);
+		context.startActivity(intent);
+	}
 }
