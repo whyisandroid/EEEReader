@@ -66,14 +66,23 @@ public class ShelfSearchAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(downUrl)) {
             try {
                 DownloadRequestCallBack callback =new DownloadRequestCallBack();
-
-                downloadManager.addNewDownload(Integer.parseInt(book.getBook_id()),//book_id
+                int bookiId=Integer.parseInt(book.getBook_id());
+                downloadManager.addNewDownload(bookiId,//book_id
                         downUrl,//下载的URL
                         book.getName(),//文件名字
                         target,
                         true, // 如果目标文件存在，接着未完成的部分继续下载。服务器不支持RANGE时将从新下载。
                         false, //如果从请求返回信息中获取到文件名，下载完成后自动重命名。
                         callback);
+                DownloadInfo info=downloadManager.getDownloadInfobyBookId(bookiId);
+
+                if(null!=info){
+                    book.setDownloadInfo(info);
+                    notifyDataSetChanged();
+                }else{
+                    LogUtil.LogError("下载数据","下载未访问到数据");
+                }
+
 //                HttpHandler<File> handler = downloadInfo.getHandler();
 //                if (handler != null) {
 //                    RequestCallBack callBack = handler.getRequestCallBack();
@@ -88,6 +97,8 @@ public class ShelfSearchAdapter extends BaseAdapter {
 
             } catch (DbException e) {
                 LogUtil.LogError("下载－DbException", e.toString());
+            } catch (Exception ee){
+                LogUtil.LogError("下载－ee", ee.toString());
             }
         }
     }
