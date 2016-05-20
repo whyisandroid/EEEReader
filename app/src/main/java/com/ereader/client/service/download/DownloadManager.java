@@ -58,11 +58,22 @@ public class DownloadManager {
         return downloadInfoList.get(index);
     }
 
+    public DownloadInfo getDownloadInfobyBookId(int book_id) {
+
+        for (DownloadInfo info: downloadInfoList) {
+            if(info.book_id == book_id){
+                return info;
+            }
+
+        }
+        return null;
+    }
+
     public void addNewDownload(int bookid,String url, String fileName, String target,
                                boolean autoResume, boolean autoRename,
                                final RequestCallBack<File> callback) throws DbException {
         final DownloadInfo downloadInfo = new DownloadInfo();
-        LogUtil.LogError("下载","bookid="+bookid+";downUrl="+url);
+        LogUtil.LogError("下载", "bookid=" + bookid + ";downUrl=" + url);
         downloadInfo.setBook_id(bookid);
         downloadInfo.setDownloadUrl(url);
         downloadInfo.setAutoRename(autoRename);

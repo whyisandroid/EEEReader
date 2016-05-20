@@ -144,4 +144,21 @@ public class DownloadInfo {//extends BookShow
     public int hashCode() {
         return (int) (book_id ^ (book_id >>> 32));
     }
+
+    @Override
+    public String toString() {
+        return "DownloadInfo{" +
+                "autoRename=" + autoRename +
+                ", id=" + id +
+                ", book_id=" + book_id +
+                ", handler=" + handler +
+                ", state=" + state +
+                ", downloadUrl='" + downloadUrl + '\'' +
+                ", fileName='" + fileName + '\'' +
+                ", fileSavePath='" + fileSavePath + '\'' +
+                ", progress=" + progress +
+                ", fileLength=" + fileLength +
+                ", autoResume=" + autoResume +
+                '}';
+    }
 }
