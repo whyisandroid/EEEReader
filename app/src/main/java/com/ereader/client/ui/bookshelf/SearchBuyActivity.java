@@ -312,10 +312,6 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
                 break;
             case R.id.iv_book_search:
                 final String searh = et_book_search.getText().toString();
-                if(TextUtils.isEmpty(searh)){
-                    ToastUtil.showLongToast(SearchBuyActivity.this,"要查找的内容为空");
-                    return;
-                }
                 PageRq mPageRq = new PageRq();
                 getshelfBuyBooks(mPageRq,searh);
 

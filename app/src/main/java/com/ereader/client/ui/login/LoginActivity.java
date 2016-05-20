@@ -77,8 +77,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
         switch (v.getId()) {
             case R.id.main_top_left:
-                this.finish();
-                IntentUtil.popFromLeft(this);
+                onBackPressed();
                 break;
             case R.id.bt_login:
                 if (invaild()) {
@@ -96,6 +95,12 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        this.finish();
+        IntentUtil.popFromLeft(this);
+    }
 
     /**
      * 方法描述：TODO
