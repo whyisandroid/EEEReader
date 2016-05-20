@@ -36,8 +36,6 @@ import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
 import com.lidroid.xutils.http.HttpHandler;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -261,7 +259,8 @@ public class SearchBuyActivity extends BaseActivity implements AdapterView.OnIte
                     SearchBuyActivity.this.finish();
                 }else if(book.isDownloading()){
                     ToastUtil.showToast(SearchBuyActivity.this,"正在下载...", Toast.LENGTH_SHORT);
-                } else {//正在下载之开始下载
+                } else {
+                //正在下载之开始下载
                 adapter.startDown(controller, position);
                 adapter.setDownloadStatusNById(position, true);
                 }

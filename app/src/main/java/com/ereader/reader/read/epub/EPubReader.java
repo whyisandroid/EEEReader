@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.ereader.reader.Constant;
 import com.ereader.reader.model.StoreBook;
+import com.ereader.reader.read.Chapter;
 import com.ereader.reader.read.cache.LocalCache;
 import com.ereader.reader.read.txt.TxtBlock;
 import com.ereader.reader.read.txt.TxtChapter;
@@ -157,7 +158,12 @@ public class EPubReader extends TxtReader {
 			mCurrentChapter = mCurrentBlock.chapters.get(0);
 		}
 	}
-	
+
+	@Override
+	public Chapter getCurrentChapter() {
+		return mCurrentChapter;
+	}
+
 	@Override
 	protected double calculateProgress(TxtPage page) {
 		return calculateOffset(page.chapter.block, page.chapter, page);

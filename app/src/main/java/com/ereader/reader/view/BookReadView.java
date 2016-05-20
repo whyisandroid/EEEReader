@@ -161,7 +161,7 @@ public class BookReadView extends View implements PageSwitchListener, OnGestureL
 
 	@Override
 	public void onSwitchFinished(SwitchState state, FlingState flingState) {
-		Toast.showShortToast(getContext(), "单击事件");
+//		Toast.showShortToast(getContext(), "单击事件");
 		if (flingState == FlingState.BACKWARD) {
 			mBookPageManager.invalidate();
 			invalidate();
@@ -186,7 +186,7 @@ public class BookReadView extends View implements PageSwitchListener, OnGestureL
 
 	@Override
 	public void onShowPress(MotionEvent e) {
-		Toast.showShortToast(getContext(), "单击事件1");
+//		Toast.showShortToast(getContext(), "单击事件1");
 		mPageSwitchEffect.onShowPress(e);
 	}
 

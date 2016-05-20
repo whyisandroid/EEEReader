@@ -173,7 +173,7 @@ public class ReaderLayout extends FrameLayout implements OnGestureListener {
 
 	@Override
 	public boolean onSingleTapUp(MotionEvent e) {
-		Toast.showShortToast(getContext(), "单击事件3");
+//		Toast.showShortToast(getContext(), "单击事件3");
 		if (mIsMenuShown) {
 			hideMenu();
 			return true;
