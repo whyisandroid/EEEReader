@@ -75,6 +75,21 @@
                 glview:paddingTop="@dimen/dimen_small"
                 glview:text="@string/menu_share" />
 
+
+            <TextView
+                style="@style/ChapterJumpText"
+                glview:clickable="true"
+                glview:id="@+id/read_position"
+                glview:layout_centerHorizontal="true"
+                glview:layout_height="wrap_content"
+                glview:layout_width="wrap_content"
+                glview:paddingLeft="@dimen/dimen_large"
+                glview:paddingRight="@dimen/dimen_large"
+                glview:paddingTop="@dimen/dimen_small"
+                glview:text="位置:"
+               />
+
+
             <TextView
                 style="@style/ChapterJumpText"
                 glview:clickable="true"

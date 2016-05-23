@@ -171,6 +171,7 @@ public class ReaderActivity extends BaseActivity implements OnClickListener{
 		read_note=(TextView)content.findViewById(R.id.read_note);
 		read_share.setOnClickListener(this);
 		read_note.setOnClickListener(this);
+
 //		setting_reading=(ImageButton)content.findViewById(R.id.setting_reading);
 //		setting_reading.setOnClickListener(this);
 //		.setOnClickListener(new OnClickListener() {
