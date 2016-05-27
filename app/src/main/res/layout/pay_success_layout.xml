@@ -7,6 +7,7 @@
     <include layout="@layout/main_top_layout" />
 
         <TextView
+            android:id="@+id/tv_success_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -14,7 +15,6 @@
             android:drawableLeft="@drawable/m9_03"
             android:drawablePadding="5dp"
             android:gravity="center"
-
             android:text="您已经成功购买！可进入“书架”进行阅读"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/new_color_2"

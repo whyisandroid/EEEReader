@@ -56,7 +56,9 @@ public class PayActivity extends BaseActivity implements OnClickListener {
             switch (msg.what) {
                 case SUCCESS:
                    // ToastUtil.showToast(PayActivity.this, "购买成功", ToastUtil.LENGTH_LONG);
-                    IntentUtil.intent(PayActivity.this, PaySuccessActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("payFriendID",payFriendID);
+                    IntentUtil.intent(PayActivity.this, bundle, PaySuccessActivity.class,false);
                     break;
                 default:
                     break;

@@ -3,6 +3,7 @@ package com.ereader.client.ui.pay;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ public class PaySuccessActivity extends BaseActivity implements View.OnClickList
     private AppController controller;
     private Button pay_success_bt_buy;
     private Button pay_success_bt_read;
+    private TextView tv_success_info;
 
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
@@ -56,7 +58,7 @@ public class PaySuccessActivity extends BaseActivity implements View.OnClickList
      * @time: 2015-2-10 下午1:37:06
      */
     private void findView() {
-
+        tv_success_info = (TextView)findViewById(R.id.tv_success_info);
         pay_success_bt_buy = (Button) findViewById(R.id.pay_success_bt_buy);
         pay_success_bt_read = (Button) findViewById(R.id.pay_success_bt_read);
     }
@@ -71,6 +73,10 @@ public class PaySuccessActivity extends BaseActivity implements View.OnClickList
         ((TextView) findViewById(R.id.tv_main_top_title)).setText("加入购物车");
         pay_success_bt_buy.setOnClickListener(this);
         pay_success_bt_read.setOnClickListener(this);
+        String payFriendID = getIntent().getExtras().getString("payFriendID");
+        if(TextUtils.isEmpty(payFriendID)){
+            tv_success_info.setText("您已经成功购买！");
+        }
     }
 
     @Override

@@ -200,12 +200,6 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         mWebSettings.setLoadWithOverviewMode(true);
         // 缓存模式
         mWebSettings.setCacheMode(mCacheMode);
-        // if(NetWorkHelper.isNetworkAvailable(ApplyMainFragment.this.getActivity())){
-        // mWebSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
-        // }else{
-        // mWebSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-        // }
-        // mWebSettings.setUseWideViewPort(true);
 
         //chrome browser
         webView.setWebChromeClient(new WebChromeClient());
