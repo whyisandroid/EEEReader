@@ -44,7 +44,7 @@ public class BookDetailFragment extends Fragment implements OnClickListener{
 	}
 	
 	private void initView() {
-		tv_book_detail.setText(value);
+		tv_book_detail.setText(value.trim());
 	}
 	
 	

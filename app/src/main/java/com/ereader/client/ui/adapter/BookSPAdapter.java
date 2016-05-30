@@ -60,7 +60,7 @@ public class BookSPAdapter extends BaseAdapter {
 		holder.rb_book_star.setRating(Float.valueOf(comment.getScore()));
 		holder.tv_mybook_cate.setText(comment.getNickname());
 		holder.tv_mybook_title.setText(comment.getTitle());
-		holder.tv_book_sp_content.setText(comment.getContent());
+		holder.tv_book_sp_content.setText(comment.getContent().trim());
 
 
 		ViewTreeObserver vto = holder.tv_book_sp_content.getViewTreeObserver();

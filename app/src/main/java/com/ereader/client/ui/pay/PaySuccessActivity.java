@@ -74,7 +74,7 @@ public class PaySuccessActivity extends BaseActivity implements View.OnClickList
         pay_success_bt_buy.setOnClickListener(this);
         pay_success_bt_read.setOnClickListener(this);
         String payFriendID = getIntent().getExtras().getString("payFriendID");
-        if(TextUtils.isEmpty(payFriendID)){
+        if(!TextUtils.isEmpty(payFriendID)){
             tv_success_info.setText("您已经成功购买！");
         }
     }

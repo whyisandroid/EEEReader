@@ -28,7 +28,7 @@
             android:layout_alignParentRight="true"
             android:text="将会"
             android:textColor="@color/new_color_2"
-            android:textSize="@dimen/new_size_5" />
+            android:textSize="@dimen/new_size_4" />
 
 
     </RelativeLayout>
@@ -44,7 +44,7 @@
         android:paddingRight="15dp"
         android:text="值得购买的书1"
         android:textColor="@color/new_color_2"
-        android:textSize="@dimen/new_size_5" />
+        android:textSize="@dimen/new_size_4" />
 
     <TextView
         android:id="@+id/tv_book_sp_content"
