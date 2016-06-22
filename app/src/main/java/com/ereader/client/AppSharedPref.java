@@ -173,6 +173,11 @@ public class AppSharedPref {
         }
         e.commit();
     }
+    public void clearLogin() {
+        Editor e = sharedPreferences.edit();
+        e.remove("LoginData");
+        e.commit();
+    }
 
 
     public Login getLogin() {

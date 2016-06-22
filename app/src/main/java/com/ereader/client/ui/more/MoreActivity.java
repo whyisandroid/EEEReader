@@ -81,7 +81,6 @@ public class MoreActivity  extends BaseActivity implements OnClickListener {
 			rl_more_exit.setVisibility(View.VISIBLE);
 		}else{
 			rl_more_exit.setVisibility(View.GONE);
-			
 		}
 	}
 

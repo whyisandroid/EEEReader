@@ -139,39 +139,40 @@ public class BookshelfFragment extends Fragment {
         main_top_right.setOnClickListener(rightListener);
         gridv_book.setOnItemClickListener(gridItemListener);
         gridv_book.setOnItemLongClickListener(longListener);
-
-//        initBannerPager();
     }
 
     private void initBannerPager() {
-        // 最近阅读的信息
-        List<StoreBook> listPager=  BookDBHelper.get(mContext).queryAllBooks();
-        int size=listPager.size();
-        if (null != listPager && size > 0&&EReaderApplication.getInstance().isLogin()) {
-            //限制
-            if(size>6){
-                listPager=listPager.subList(0,6);//左闭右开
+        if (EReaderApplication.getInstance().isLogin()) {
+            // 最近阅读的信息
+            List<StoreBook> listPager=  BookDBHelper.get(mContext).queryAllBooks();
+            int size=listPager.size();
+            if (null != listPager && size > 0&&EReaderApplication.getInstance().isLogin()) {
+                //限制
+                if(size>6){
+                    listPager=listPager.subList(0,6);//左闭右开
+                }
+                LogUtil.LogError("banner:",listPager.size()+"");
+                BookPagerAdapter pageAdapter = new BookPagerAdapter(mContext, listPager);
+                viewpager.setAdapter(pageAdapter);
+                viewpager.setCurrentItem(0);
+                viewpager.setOnPageChangeListener(viewpagerListener);
+
+                pointView = new PointView(getActivity(), (listPager.size()+1)/2);
+                pointlayout.removeAllViews();
+                pointlayout.addView(pointView);
+                pointView.setPosition(0);
+                pointlayout.postInvalidate();
+            } else {//最近阅读－没有数据：
+                recommend();
             }
-            LogUtil.LogError("banner:",listPager.size()+"");
-            BookPagerAdapter pageAdapter = new BookPagerAdapter(mContext, listPager);
-            viewpager.setAdapter(pageAdapter);
-            viewpager.setCurrentItem(0);
-            viewpager.setOnPageChangeListener(viewpagerListener);
-
-            pointView = new PointView(getActivity(), (listPager.size()+1)/2);
-            pointlayout.removeAllViews();
-            pointlayout.addView(pointView);
-            pointView.setPosition(0);
-            pointlayout.postInvalidate();
-        } else {//最近阅读－没有数据：
-            initRecommend();
+        } else {
+            recommend();
         }
-
     }
     private void initRecommend(){
         BookResp recommend =EReaderApplication.getInstance().getRecommend();
         if(null!=recommend&&null!=recommend.getData()&&recommend.getData().getData().size()>0){
-            setupRecommend();
+            //setupRecommend();
         }else{
             recommend();
         }
@@ -202,8 +203,8 @@ public class BookshelfFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        localCustom();
         initBannerPager();
+        localCustom();
 
     }
 
@@ -374,6 +375,7 @@ public class BookshelfFragment extends Fragment {
 
     private void localCustom() {
         if (!EReaderApplication.getInstance().isLogin()) {
+            list.clear();
             setupData(list);
         } else {
             LogUtil.LogError("path", Constant.OUTPATH + Constant.DBNAME);

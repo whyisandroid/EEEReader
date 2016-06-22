@@ -8,6 +8,7 @@ import com.ereader.client.entities.Login;
 import com.ereader.client.entities.json.BookOnlyResp;
 import com.ereader.client.entities.json.BookResp;
 import com.ereader.client.entities.json.SubCategoryResp;
+import com.ereader.client.service.AppController;
 import com.ereader.common.net.AppSocketInterface;
 import com.ereader.common.net.XUtilsSocketImpl;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
@@ -104,7 +105,7 @@ public class EReaderApplication extends Application {
     public void setLogin(boolean login) {
         this.login = login;
         if (!login) {
-            //AppController.getController().getContext().clearBusinessData();
+            clearLogin();
         }
     }
 
@@ -178,7 +179,9 @@ public class EReaderApplication extends Application {
     public void saveLogin(Login data) {
         AppSharedPref.getInstance(this).saveLogin(data);
     }
-
+    private void clearLogin() {
+        AppSharedPref.getInstance(this).clearLogin();
+    }
     public Login getLogin() {
         return AppSharedPref.getInstance(this).getLogin();
     }

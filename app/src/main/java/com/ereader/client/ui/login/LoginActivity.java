@@ -77,7 +77,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
         switch (v.getId()) {
             case R.id.main_top_left:
-                onBackPressed();
+                this.finish();
+                IntentUtil.popFromLeft(this);
                 break;
             case R.id.bt_login:
                 if (invaild()) {

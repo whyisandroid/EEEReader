@@ -29,6 +29,9 @@ import com.glview.widget.Toast;
 
 import java.io.File;
 
+/**
+ *  阅读
+ */
 public class ReaderActivity extends BaseActivity implements OnClickListener{
 	
 	final static String TAG = Constant.TAG;
@@ -82,6 +85,7 @@ public class ReaderActivity extends BaseActivity implements OnClickListener{
 		try {
 			storeBook = (StoreBook) intent.getSerializableExtra("storeBook");
 		} catch (Exception e) {}
+
 		if (storeBook == null) {
 			String file = intent.getStringExtra("file");
 			if (file == null) {

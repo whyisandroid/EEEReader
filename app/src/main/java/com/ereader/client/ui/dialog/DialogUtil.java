@@ -72,7 +72,6 @@ public class DialogUtil {
                 EReaderApplication.getInstance().setLogin(false);
                 mHandler.obtainMessage(0).sendToTarget();
                 dialog.closeDialog();
-
             }
         });
         dialog.setLeft("取消", new OnClickListener() {

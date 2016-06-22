@@ -27,7 +27,7 @@
                 android:layout_marginBottom="25dp"
                 android:text="TextView"
                 android:textColor="@color/new_color_3"
-                android:textSize="@dimen/new_size_3" />
+                android:textSize="@dimen/new_size_2" />
         </LinearLayout>
     </ScrollView>
 

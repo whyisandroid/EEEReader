@@ -41,5 +41,4 @@ public class AppContext {
     public String getStringData(String str) {
         return (String) getBusinessData(str);
     }
-
 }
