@@ -82,19 +82,6 @@ public class ShelfSearchAdapter extends BaseAdapter {
                 }else{
                     LogUtil.LogError("下载数据","下载未访问到数据");
                 }
-
-//                HttpHandler<File> handler = downloadInfo.getHandler();
-//                if (handler != null) {
-//                    RequestCallBack callBack = handler.getRequestCallBack();
-//                    if (callBack instanceof DownloadManager.ManagerCallBack) {
-//                        DownloadManager.ManagerCallBack managerCallBack = (DownloadManager.ManagerCallBack) callBack;
-//                        if (managerCallBack.getBaseCallBack() == null) {
-//                            managerCallBack.setBaseCallBack(new DownloadRequestCallBack());
-//                        }
-//                    }
-//                    callBack.setUserTag(new WeakReference<ViewHolder>(holder));
-//                }
-
             } catch (DbException e) {
                 LogUtil.LogError("下载－DbException", e.toString());
             } catch (Exception ee){

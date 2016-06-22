@@ -41,6 +41,7 @@ public class StoreBook implements Serializable {
 			this.presetFile=book.getDownloadInfo().getFileSavePath();
 			this.fileSign=book.getDownloadInfo().getFileLength();
 		}
+		this.product_id=book.getProduct_id();
 		this.cover=book.getCover_front_url();
 		this.type= "epub";
 
