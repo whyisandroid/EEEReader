@@ -884,9 +884,9 @@ public class TxtReader extends Reader {
 			chapter.pages = new ArrayList<TxtPage>();
 		}
 		int offset = 0;
-		boolean title = false;
+		boolean title = false; // 用来控制每一章节的标题信息 处理
 		if (chapter.title.length() > 0) {
-			title = true;
+			//title = true;
 			if (content.startsWith(chapter.title)) {
 				content = content.substring(chapter.title.length());
 			}
