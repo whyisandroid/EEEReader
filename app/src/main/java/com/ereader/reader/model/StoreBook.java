@@ -1,6 +1,7 @@
 package com.ereader.reader.model;
 
 import com.ereader.client.R;
+import com.ereader.client.entities.Book;
 import com.ereader.client.entities.BookShowWithDownloadInfo;
 import com.ereader.reader.utils.MimeType;
 import com.lidroid.xutils.db.annotation.Id;
@@ -31,6 +32,8 @@ public class StoreBook implements Serializable {
 	@Transient
 	public boolean delete=false;
 
+
+	public boolean tryRead = false; //  是否试读
 	public StoreBook(){
 	}
 	public StoreBook(BookShowWithDownloadInfo book){
@@ -46,6 +49,16 @@ public class StoreBook implements Serializable {
 		this.type= "epub";
 
 	}
+
+
+	public StoreBook(Book mBook){
+		this.book_id = Integer.parseInt(mBook.getExtra().getBook_id());
+		this.name = mBook.getInfo().getName();
+		this.product_id =mBook.getProduct_id();
+		this.type = "epub";
+	}
+
+
 
 	public int getIconRes()
 	{

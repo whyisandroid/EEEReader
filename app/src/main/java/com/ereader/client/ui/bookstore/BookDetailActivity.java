@@ -1,8 +1,10 @@
 package com.ereader.client.ui.bookstore;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -18,6 +20,7 @@ import com.ereader.client.entities.Book;
 import com.ereader.client.entities.Favourite;
 import com.ereader.client.entities.PayCar;
 import com.ereader.client.entities.PayCarList;
+import com.ereader.client.entities.TryRead;
 import com.ereader.client.entities.json.BookOnlyResp;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.BaseFragmentActivity;
@@ -36,7 +39,11 @@ import com.ereader.common.util.Json_U;
 import com.ereader.common.util.ProgressDialogUtil;
 import com.ereader.common.util.RegExpUtil;
 import com.ereader.common.util.ToastUtil;
+import com.ereader.reader.activity.ReaderActivity;
+import com.ereader.reader.model.StoreBook;
+import com.glview.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,6 +73,7 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
     private Book mBook;
 
     public static final int COLLECTION_OK = 10; // 获取收藏状态成功
+    public static final int TRY_READ_OK = 111; // 试读内容获取成功
 
     private Handler mHandler = new Handler() {
 
@@ -117,12 +125,17 @@ public class BookDetailActivity extends BaseFragmentActivity implements OnClickL
                     Favourite favourite = (Favourite) controller.getContext().getBusinessData("FavouriteResp");
                     setCollectionState(favourite.is_favourite);
                     break;
+                case TRY_READ_OK:
+                    TryRead tryRead = (TryRead)controller.getContext().getBusinessData("BookTryReadResp");
+                   StoreBook storeBook = new StoreBook(mBook);
+                    storeBook.tryRead = true;
+                    Intent intent = new Intent(BookDetailActivity.this, ReaderActivity.class);
+                    intent.putExtra("storeBook", storeBook);
+                    BookDetailActivity.this.startActivity(intent);
                 default:
                     break;
             }
         }
-
-        ;
     };
 
     @Override

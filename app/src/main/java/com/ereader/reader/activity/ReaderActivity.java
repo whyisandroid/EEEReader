@@ -11,6 +11,7 @@ import android.view.WindowManager;
 
 import com.ereader.client.R;
 import com.ereader.client.ui.share.ShareActivity;
+import com.ereader.client.ui.share.ShareParams;
 import com.ereader.common.util.IntentUtil;
 import com.ereader.reader.Constant;
 import com.ereader.reader.db.BookDBHelper;
@@ -241,9 +242,16 @@ public class ReaderActivity extends BaseActivity implements OnClickListener{
 		}else if( v ==read_share ){
 			String title = storeBook.name;
 			String textToShare = "快来阅读《"+title+"》,来自"+ getResources().getString(R.string.app_name);
-			Log.e("share.product_id",storeBook.toString()+"");
+		/*	Log.e("share.product_id",storeBook.toString()+"");
 			ShareActivity.share(ReaderActivity.this,title,textToShare,
-					"http://www.rreadeg.com/index.php?s=/Home/Book/share/id/"+storeBook.product_id+".html",storeBook.cover,true);
+					"http://www.rreadeg.com/index.php?s=/Home/Book/share/id/"+storeBook.product_id+".html",storeBook.cover,true);*/
+
+			ShareParams shareParams=new ShareParams();
+			shareParams.setTitle(storeBook.name);
+			shareParams.setContent(textToShare);
+			shareParams.setShareUrl("http://www.rreadeg.com/index.php?s=/Home/Book/share/id/"+storeBook.product_id+".html");
+			shareParams.setImageUrl(storeBook.cover);
+			ShareActivity.share(ReaderActivity.this,shareParams);
 		}
 	}
 }

@@ -841,12 +841,13 @@ public class AppController {
 			String bookId = book.getExtra().getBook_id();
 			String try_read_id = "";
 			if(book.getExtra().getTry_read_pages() != null && book.getExtra().getTry_read_pages().size() != 0){
-				try_read_id = book.getExtra().getTry_read_pages().get(2);
+				try_read_id = book.getExtra().getTry_read_pages().get(3);
 			}else{
 				appHandler.obtainMessage(HANDLER_TOAST,"没有试读章节").sendToTarget();
 				return;
 			}
 			service.tryRead(try_read_id,bookId);
+			mHandler.obtainMessage(BookDetailActivity.TRY_READ_OK).sendToTarget();
 			//IntentUtil.intent(currentActivity,BookDetailActivity.class);
 		} catch (BusinessException e) {
 			appHandler.obtainMessage(HANDLER_TOAST,e.getErrorMessage().getMessage()).sendToTarget();

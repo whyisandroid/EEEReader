@@ -7,6 +7,9 @@ import android.graphics.BitmapFactory;
 import android.text.Html;
 import android.util.Log;
 
+import com.ereader.client.entities.TryRead;
+import com.ereader.client.service.AppController;
+import com.ereader.common.util.LogUtil;
 import com.ereader.reader.Constant;
 import com.ereader.reader.model.StoreBook;
 import com.ereader.reader.read.Chapter;
@@ -17,10 +20,13 @@ import com.ereader.reader.read.txt.TxtPage;
 import com.ereader.reader.read.txt.TxtReader;
 import com.ereader.reader.utils.FileUtils;
 
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 
 import nl.siegmann.epublib.domain.Resource;
@@ -53,8 +59,10 @@ public class EPubReader extends TxtReader {
 			if (mEPubBook.getTitle() != null && mEPubBook.getTitle().length() > 0) {
 				storeBook.name = mEPubBook.getTitle();
 			}
-			if (mEPubBook != null && !"error".equals(storeBook.cover) && (storeBook.cover == null || !new File(storeBook.cover).exists())) {
-				saveCover(storeBook, mEPubBook);
+			if (mEPubBook != null && !"error".equals(storeBook.cover)) {
+				if(storeBook.cover == null || !new File(storeBook.cover).exists()) {
+					saveCover(storeBook, mEPubBook);
+				}
 			}
 			loadChapters();
 			loadBuffer();
@@ -85,6 +93,7 @@ public class EPubReader extends TxtReader {
 				if (r != null) {
 					Bitmap bitmap = BitmapFactory.decodeStream(r.getInputStream());
 					if (bitmap != null) {
+						//saveBitmapFile(bitmap);
 						String path = LocalCache.instance(mContext).getCachePath(FileUtils.getCoverCacheFile(storeBook));
 						File file = new File(path);
 						file.getParentFile().mkdirs();
@@ -110,6 +119,20 @@ public class EPubReader extends TxtReader {
 		}
 		if (storeBook.cover == null) {
 			storeBook.cover = "error";
+		}
+	}
+
+	public void saveBitmapFile(Bitmap bitmap){
+		String path = com.ereader.common.constant.Constant.DOWNLOAD + "/" + bitmap.getConfig().name() + ".jpg";
+		File file=new File(path);//将要保存图片的路径
+		file.getParentFile().mkdirs();
+		try {
+			BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+			bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+			bos.flush();
+			bos.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	

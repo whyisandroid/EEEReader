@@ -437,7 +437,8 @@ public class TxtReader extends Reader {
 			}
 		}
 	}
-	
+
+	// 计算偏移量  位置
 	protected double calculateOffset(TxtBlock block, TxtChapter chapter, TxtPage page) {
 		return (block != null ? block.stringOffset : 0) + (chapter != null ? chapter.offset : 0) + (page != null ? page.offset : 0);
 	}
@@ -876,6 +877,7 @@ public class TxtReader extends Reader {
 	}
 	
 	int mLineBreaderByteCount = -1;
+	// 分配章节  到页
 	protected boolean loadChapterPages(TxtChapter chapter, String content) {
 		if (content == null) {
 			return false;
@@ -884,7 +886,7 @@ public class TxtReader extends Reader {
 			chapter.pages = new ArrayList<TxtPage>();
 		}
 		int offset = 0;
-		boolean title = false; // 用来控制每一章节的标题信息 处理
+		boolean title = false; // 用来控制每一章节的标题信息
 		if (chapter.title.length() > 0) {
 			//title = true;
 			if (content.startsWith(chapter.title)) {

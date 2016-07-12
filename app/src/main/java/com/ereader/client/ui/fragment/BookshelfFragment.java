@@ -203,7 +203,9 @@ public class BookshelfFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        // 加载书架上边
         initBannerPager();
+        // 加载书架下边
         localCustom();
 
     }

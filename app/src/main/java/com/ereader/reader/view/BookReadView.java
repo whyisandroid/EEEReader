@@ -225,7 +225,7 @@ public class BookReadView extends View implements PageSwitchListener, OnGestureL
 
 	@Override
 	public void onLongPress(MotionEvent e) {
-		Toast.showShortToast(getContext(), "长按事件");
+		//Toast.showShortToast(getContext(), "长按事件");
 		mPageSwitchEffect.onLongPress(e);
 	}
 
@@ -250,8 +250,5 @@ public class BookReadView extends View implements PageSwitchListener, OnGestureL
 	}
 	private void hideContentMenu(){
 		isMenuShown=false;
-
 	}
-
-
 }
