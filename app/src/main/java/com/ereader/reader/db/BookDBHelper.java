@@ -243,6 +243,12 @@ public class BookDBHelper extends SQLiteOpenHelper {
 	public int deleteBook(int book_id) {
 		return getDatabase().delete(TABLE_BOOK_TABLE, TABLE_BOOK_BOOK_ID + "=?", new String[]{String.valueOf(book_id)});
 	}
+	public void deleteAllBook() {
+		List<StoreBook> list = queryAllBooks();
+		for (int i = 0; i < list.size(); i++) {
+			deleteBook(list.get(i));
+		}
+	}
 	
 	public String getSettingsValue(String key) {
 		String value = null;
@@ -270,5 +276,4 @@ public class BookDBHelper extends SQLiteOpenHelper {
 			getDatabase().insert(TABLE_SETTINGS_TABLE, null, values);
 		}
 	}
-
 }

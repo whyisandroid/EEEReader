@@ -56,5 +56,4 @@
         android:textSize="@dimen/new_size_4"
         android:onClick="deleteClick"
          />
-
 </RelativeLayout>

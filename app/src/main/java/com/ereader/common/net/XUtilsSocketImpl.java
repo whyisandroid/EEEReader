@@ -103,6 +103,7 @@ public class XUtilsSocketImpl implements AppSocketInterface {
             httpUtils = new HttpUtils();
             httpUtils.configResponseTextCharset(CHARSET);
             httpUtils.configTimeout(TIMEOUT_SOCKET);
+            httpUtils.configSoTimeout(TIMEOUT_SOCKET);
             httpUtils.configRequestRetryCount(RETRY_TIME);
             httpUtils.configCookieStore(preferencesCookieStore);
         }

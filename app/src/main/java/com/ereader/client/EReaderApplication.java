@@ -11,6 +11,7 @@ import com.ereader.client.entities.json.SubCategoryResp;
 import com.ereader.client.service.AppController;
 import com.ereader.common.net.AppSocketInterface;
 import com.ereader.common.net.XUtilsSocketImpl;
+import com.ereader.common.util.StringUtil;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -61,9 +62,11 @@ public class EReaderApplication extends Application {
         instance = this;
         appSocket = new XUtilsSocketImpl();
         // 判断是否登录
-        Login login = this.getLogin();
-        if(login != null){
+        String loginState = getLocalInfoByKeyValue("loginState");
+        if("true".equals(loginState)){
             this.login = true;
+        }else{
+            this.login = false;
         }
 
         getCurrentVersion();
@@ -104,9 +107,7 @@ public class EReaderApplication extends Application {
      */
     public void setLogin(boolean login) {
         this.login = login;
-        if (!login) {
-            clearLogin();
-        }
+        saveLocalInfoByKeyValue("loginState", String.valueOf(login));
     }
 
     /**
