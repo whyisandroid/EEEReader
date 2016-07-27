@@ -88,10 +88,15 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 		pull_refresh_message.setOnFooterRefreshListener(this);
 		adapter = new MessageAdapter(mContext, mList);
 		lv_message.setAdapter(adapter);
+
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
 		message();
 	}
-	
-	
+
 	@Override
 	public void onClick(View v) {
 		

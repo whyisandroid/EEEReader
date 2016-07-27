@@ -89,7 +89,6 @@ public class CollectionActivity extends BaseActivity implements OnClickListener,
 		controller = AppController.getController(this);
 		findView();
 		initView();
-		onHeaderRefresh(pull_refresh_collection);
 	}
 
 	private void getCollection(final PageRq mPageRq) {
@@ -124,6 +123,12 @@ public class CollectionActivity extends BaseActivity implements OnClickListener,
 		adapter = new CollectionAdapter(this,mHandler,mList);
 		lv_my_collection.setAdapter(adapter);
 		lv_my_collection.setOnItemClickListener(bookItemListener);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		onHeaderRefresh(pull_refresh_collection);
 	}
 
 	private AdapterView.OnItemClickListener bookItemListener = new AdapterView.OnItemClickListener() {

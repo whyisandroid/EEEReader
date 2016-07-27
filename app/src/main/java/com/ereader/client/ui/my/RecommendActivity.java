@@ -82,7 +82,6 @@ public class RecommendActivity extends BaseActivity implements OnClickListener ,
 		controller = AppController.getController(this);
 		findView();
 		initView();
-		onHeaderRefresh(pull_refresh_book);
 	}
 	/**
 	 * 
@@ -124,7 +123,11 @@ public class RecommendActivity extends BaseActivity implements OnClickListener ,
 		});
 	}
 
-
+	@Override
+	protected void onResume() {
+		super.onResume();
+		onHeaderRefresh(pull_refresh_book);
+	}
 
 	@Override
 	public void onClick(View v) {

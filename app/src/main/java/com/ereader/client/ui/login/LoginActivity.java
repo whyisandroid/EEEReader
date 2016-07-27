@@ -32,6 +32,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         setContentView(R.layout.login_layout);
         controller = AppController.getController(this);
         findView();
+
+
         initView();
         // test
     }

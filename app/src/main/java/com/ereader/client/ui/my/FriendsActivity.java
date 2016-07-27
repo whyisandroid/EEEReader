@@ -69,7 +69,7 @@ public class FriendsActivity extends BaseActivity implements OnClickListener {
         controller = AppController.getController(this);
         findView();
         initView();
-        getFriends();
+
     }
 
     private void getFriends() {
@@ -82,6 +82,12 @@ public class FriendsActivity extends BaseActivity implements OnClickListener {
             }
         }).start();
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getFriends();
     }
 
     /**

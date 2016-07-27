@@ -81,7 +81,6 @@ public class MySPActivity extends BaseActivity implements OnClickListener,
 		controller = AppController.getController(this);
 		findView();
 		initView();
-		onHeaderRefresh(pull_refresh_sp);
 	}
 	/**
 	 * 
@@ -93,8 +92,12 @@ public class MySPActivity extends BaseActivity implements OnClickListener,
 		lv_sp = (ListView)findViewById(R.id.lv_sp);
 		pull_refresh_sp = (PullToRefreshView)findViewById(R.id.pull_refresh_sp);
 	}
-	
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		onHeaderRefresh(pull_refresh_sp);
+	}
 	/**
 	 * 
 	  * 方法描述：初始化 View

@@ -1,5 +1,7 @@
 package com.ereader.common.net;
 
+import com.ereader.client.EReaderApplication;
+import com.ereader.client.entities.Login;
 import com.ereader.client.service.AppController;
 import com.ereader.common.exception.BusinessException;
 import com.ereader.common.exception.ErrorMessage;
@@ -58,6 +60,16 @@ public class XUtilsSocketImpl implements AppSocketInterface {
 
             for (int i = 0; i < nameValuePairs.size(); i++) {
                 BasicNameValuePair pair = (BasicNameValuePair) nameValuePairs.get(i);
+                if ("_token_".equals(pair.getName())) {
+                    nameValuePairs.remove(pair);
+                    Login login = EReaderApplication.getInstance().getLogin();
+                    if ("222".equals(login.getToken())){
+                        login.setToken("333");
+                        EReaderApplication.getInstance().saveLogin(login);
+                    }
+                    nameValuePairs.add(new BasicNameValuePair("_token_", EReaderApplication.getInstance().getLogin().getToken()));
+                }
+
                 if ("signature".equals(pair.getName())) {
                     nameValuePairs.remove(i);
                 }
@@ -75,7 +87,7 @@ public class XUtilsSocketImpl implements AppSocketInterface {
                     request.getUrl(), params);
 
             value = responseStream.readString();
-            LogUtil.Log("XUtilsSocketImpl"+request.getUrl(), value);
+            LogUtil.Log("XUtilsSocketImpl" + request.getUrl(), value);
         } catch (com.lidroid.xutils.exception.HttpException e) {
             e.printStackTrace();
             throw new BusinessException(new ErrorMessage("服务器连接错误(1001)"));
@@ -110,7 +122,7 @@ public class XUtilsSocketImpl implements AppSocketInterface {
         return httpUtils;
     }
 
-    public  static String getDownURL(Request request) throws  Exception{
+    public static String getDownURL(Request request) throws Exception {
         RequestParams params = new RequestParams();
         List<NameValuePair> nameValuePairs = (List<NameValuePair>) request
                 .getParameter(Request.AJAXPARAMS);
@@ -135,9 +147,9 @@ public class XUtilsSocketImpl implements AppSocketInterface {
 
         for (int i = 1; i < nameValuePairs.size(); i++) {
             BasicNameValuePair pair = (BasicNameValuePair) nameValuePairs.get(i);
-            basestring.append(pair.getName()).append("=").append(URLEncoder.encode(pair.getValue() == null ?"":pair.getValue(),"UTF-8")).append("&");
+            basestring.append(pair.getName()).append("=").append(URLEncoder.encode(pair.getValue() == null ? "" : pair.getValue(), "UTF-8")).append("&");
         }
-        basestring.deleteCharAt(basestring.length()-1);
+        basestring.deleteCharAt(basestring.length() - 1);
         return basestring.toString();
     }
 

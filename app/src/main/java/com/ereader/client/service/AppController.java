@@ -149,7 +149,15 @@ public class AppController {
 				if (null != msg.obj && !TextUtils.isEmpty(msg.obj.toString())) {
 					ToastUtil.showToast(currentActivity, msg.obj.toString(), ToastUtil.LENGTH_LONG);
 					if(msg.obj.toString().startsWith("用户未登录")){
-						IntentUtil.intent(currentActivity,LoginActivity.class);
+						String token = EReaderApplication.getInstance().getLogin().getToken();
+						if("222".equals(token)){
+							currentActivity.finish();
+						}else {
+							Login login = EReaderApplication.getInstance().getLogin();
+							login.setToken("222");
+							EReaderApplication.getInstance().saveLogin(login);
+							IntentUtil.intent(currentActivity,LoginActivity.class);
+						}
 					}
 				} else {
 					ToastUtil.showToast(currentActivity, "服务器未知错误！",
