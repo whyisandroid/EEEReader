@@ -26,6 +26,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     private EditText et_login_password;
     private ImageButton main_top_left;
 
+    public static boolean  isBack = false; // 是否返回
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +103,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     public void onBackPressed() {
         super.onBackPressed();
         this.finish();
+        isBack = true;
         IntentUtil.popFromLeft(this);
     }
 

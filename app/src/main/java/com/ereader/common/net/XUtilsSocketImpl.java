@@ -60,16 +60,6 @@ public class XUtilsSocketImpl implements AppSocketInterface {
 
             for (int i = 0; i < nameValuePairs.size(); i++) {
                 BasicNameValuePair pair = (BasicNameValuePair) nameValuePairs.get(i);
-                if ("_token_".equals(pair.getName())) {
-                    nameValuePairs.remove(pair);
-                    Login login = EReaderApplication.getInstance().getLogin();
-                    if ("222".equals(login.getToken())){
-                        login.setToken("333");
-                        EReaderApplication.getInstance().saveLogin(login);
-                    }
-                    nameValuePairs.add(new BasicNameValuePair("_token_", EReaderApplication.getInstance().getLogin().getToken()));
-                }
-
                 if ("signature".equals(pair.getName())) {
                     nameValuePairs.remove(i);
                 }

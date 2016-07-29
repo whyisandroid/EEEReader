@@ -20,6 +20,7 @@ import com.ereader.client.entities.json.MessageSystemData;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.adapter.MessageAdapter;
 import com.ereader.client.ui.adapter.MessageSystemAdapter;
+import com.ereader.client.ui.login.LoginActivity;
 import com.ereader.client.ui.view.PullToRefreshView;
 import com.ereader.client.ui.view.PullToRefreshView.OnFooterRefreshListener;
 import com.ereader.client.ui.view.PullToRefreshView.OnHeaderRefreshListener;

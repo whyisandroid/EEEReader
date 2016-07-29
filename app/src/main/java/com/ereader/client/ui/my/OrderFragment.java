@@ -22,6 +22,7 @@ import com.ereader.client.entities.json.OrderData;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.adapter.OrderAdapter;
 import com.ereader.client.ui.bookstore.BookDetailActivity;
+import com.ereader.client.ui.login.LoginActivity;
 import com.ereader.client.ui.pay.PayActivity;
 import com.ereader.client.ui.view.PullToRefreshView;
 import com.ereader.client.ui.view.PullToRefreshView.OnFooterRefreshListener;

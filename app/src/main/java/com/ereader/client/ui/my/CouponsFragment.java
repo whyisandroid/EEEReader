@@ -20,6 +20,7 @@ import com.ereader.client.entities.Gift;
 import com.ereader.client.entities.json.GiftData;
 import com.ereader.client.service.AppController;
 import com.ereader.client.ui.adapter.CouponsAdapter;
+import com.ereader.client.ui.login.LoginActivity;
 import com.ereader.client.ui.view.PullToRefreshView;
 import com.ereader.client.ui.view.PullToRefreshView.OnFooterRefreshListener;
 import com.ereader.client.ui.view.PullToRefreshView.OnHeaderRefreshListener;
@@ -123,4 +124,5 @@ OnHeaderRefreshListener, OnFooterRefreshListener{
 			}
 		}).start();
 	}
+
 }
